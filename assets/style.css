@@ -1047,7 +1047,7 @@ textarea:focus {
 
 .shell {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 292px 1fr;
   min-height: 100vh;
   max-width: 1800px;
   margin-inline: auto;
