@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Choose the Right Battery Size for a Security Panel — GaugeCalc</title>
+<meta name="description" content="A working technician's guide to sizing backup batteries correctly: how to calculate exact Ah needed, when to wire batteries in series vs parallel, and why lithium is usually the better choice now.">
+<link rel="canonical" href="https://gaugecalc.com/blog/battery-sizing-guide.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="How to Choose the Right Battery Size for a Security Panel">
+<meta property="og:description" content="A working technician's guide to sizing backup batteries correctly: exact Ah calculation, series vs parallel wiring, and why lithium is usually the better choice now.">
+<meta property="og:url" content="https://gaugecalc.com/blog/battery-sizing-guide.html">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Choose the Right Battery Size for a Security Panel">
+<meta name="twitter:description" content="A working technician's guide to sizing backup batteries correctly: exact Ah calculation, series vs parallel wiring, and why lithium is usually the better choice now.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Choose the Right Battery Size for a Security Panel",
+  "description": "A working technician's guide to sizing backup batteries correctly: exact Ah calculation, series vs parallel wiring, and why lithium is usually the better choice now.",
+  "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
+  "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
+  "datePublished": "2026-09-13",
+  "dateModified": "2026-09-13",
+  "mainEntityOfPage": "https://gaugecalc.com/blog/battery-sizing-guide.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://gaugecalc.com/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "How to Choose the Right Battery Size for a Security Panel", "item": "https://gaugecalc.com/blog/battery-sizing-guide.html" }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">G</span>
+      GaugeCalc
+    </a>
+    <div class="header-right">
+      <nav class="site-nav">
+      <a href="../index.html#cctv-tools">CCTV Tools</a>
+      <a href="../index.html#electrical-tools">Electrical Tools</a>
+      <a href="../blog/">Guides</a>
+    </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="thumb">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../index.html">Home</a> / <a href="./">Guides</a> / Battery Sizing Guide</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <span class="eyebrow">Field guide · Electrical &amp; battery</span>
+      <h1>How to Choose the Right Battery Size for a Security Panel</h1>
+      <p class="lead">
+        Written from the field, not a spec sheet: how to calculate the exact capacity you need, how to wire
+        batteries together when one battery isn't enough, and why most new installs today should be lithium.
+      </p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Engineer Ali Zafar &middot; 10+ years field experience in CCTV &amp; electrical installation</p>
+    </section>
+
+    <article class="article" style="margin-top:8px;">
+
+      <h2>Don't estimate — calculate the exact size</h2>
+      <p>
+        The single most common battery-sizing mistake isn't picking the wrong chemistry — it's guessing the
+        capacity instead of calculating it. If you size a battery on a rough guess and it comes up short,
+        you won't find out until the power actually goes out and the panel drops before backup time is up.
+        The fix is simple but often skipped on site: work out the exact amp-hour (Ah) rating your load and
+        required runtime actually demand, then buy to that number — not to whatever's on the shelf.
+      </p>
+      <div class="note-box">
+        <strong>Rule of thumb:</strong> always calculate first, then buy. A battery sized "close enough" only
+        gives you the backup time you need by accident — use the
+        <a href="../tools/amp-hour-calculator.html">Amp Hour Calculator</a> or the
+        <a href="../tools/battery-backup-calculator.html">Battery Backup Calculator</a> to get the real number
+        before you order anything.
+      </div>
+
+      <h2>Match the battery voltage to what the system actually supports</h2>
+      <p>
+        Before capacity, check voltage. Every panel, NVR, or inverter is built to run at a specific voltage —
+        commonly 12V, 24V, or 48V — and the battery bank has to supply exactly that, not something close to it.
+        This is where a lot of new technicians get tripped up in the field: they have the right total Ah on
+        paper, but wire the batteries together the wrong way and either don't reach the voltage the system
+        needs, or reach it but lose the capacity they were counting on.
+      </p>
+      <p>
+        There are only two ways to combine batteries, and they do different jobs:
+      </p>
+      <table>
+        <thead><tr><th>Goal</th><th>Wiring</th><th>What changes</th></tr></thead>
+        <tbody>
+          <tr><td>Increase voltage</td><td>Series</td><td>Voltages add up; amp-hour (Ah) capacity stays the same as one battery</td></tr>
+          <tr><td>Increase capacity (Ah)</td><td>Parallel</td><td>Voltage stays the same; amp-hour (Ah) capacity adds up</td></tr>
+        </tbody>
+      </table>
+      <p>
+        For example: if the system needs 48V and you're working with standard 12V batteries, four of them
+        wired in series gets you to 48V (12V + 12V + 12V + 12V). If instead you need more runtime — more
+        amp-hours — at the same voltage the system already uses, you wire batteries in parallel instead;
+        the voltage stays exactly where it was, but the total Ah capacity adds together. Series for voltage,
+        parallel for capacity — mixing that up is one of the most common battery-wiring mistakes technicians
+        make early in the field, and it's worth double-checking on every install rather than assuming.
+      </p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+
+      <h2>Why lithium (LiFePO4) is usually the better choice now</h2>
+      <p>
+        For most new installs today, lithium (LiFePO4) is the stronger option over lead-acid or AGM. It's
+        effectively maintenance-free — no periodic watering or equalizing charges to manage — and it tolerates
+        a much deeper discharge without the shortened lifespan that punishes lead-acid batteries. The one
+        thing worth keeping in mind is temperature: keep lithium batteries at roughly room temperature where
+        possible, since extreme heat or cold has a bigger effect on lithium performance and long-term health
+        than it does on lead-acid. Outside of that, it's a straightforward upgrade for backup power that gets
+        cycled regularly.
+      </p>
+
+      <h2>Putting it together</h2>
+      <p>
+        The reliable order of operations on any backup-power job: calculate the exact Ah your load and runtime
+        require, confirm the voltage the system needs and plan your series/parallel wiring to hit it without
+        losing capacity, and then choose lithium where the budget allows for the lower maintenance and deeper
+        safe discharge. Skip the calculation step and every decision after it is built on a guess.
+      </p>
+
+      <h2>Related tools</h2>
+      <p>
+        Sizing a battery from a watts/amps load and target runtime? Start with the
+        <a href="../tools/amp-hour-calculator.html">Amp Hour Calculator</a>. Sizing backup specifically for an
+        alarm panel, NVR, or PoE switch with standby-plus-alarm current? Use the
+        <a href="../tools/battery-backup-calculator.html">Battery Backup Calculator</a>. Already have a battery
+        and want to know how long it'll actually run your load? Try the
+        <a href="../tools/battery-amp-hour-calculator.html">Battery Amp Hour Calculator</a> instead.
+      </p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Field guidance only — always confirm against your equipment's manual and local code.</span>
+    <span><a href="../privacy-policy.html">Privacy Policy</a> · <a href="../contact.html">Contact</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

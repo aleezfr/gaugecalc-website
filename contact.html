@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — GaugeCalc</title>
+<meta name="description" content="Get in touch with GaugeCalc — questions, tool requests, or corrections from the field.">
+<link rel="canonical" href="https://gaugecalc.com/contact.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="./" class="brand">
+      <span class="brand-mark">G</span>
+      GaugeCalc
+    </a>
+    <div class="header-right">
+      <nav class="site-nav">
+      <a href="./#cctv-tools">CCTV Tools</a>
+      <a href="./#electrical-tools">Electrical Tools</a>
+      <a href="blog/">Guides</a>
+      <a href="./#about">About</a>
+    </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="thumb">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="crumb"><a href="./">Home</a> / Contact</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <span class="eyebrow">Get in touch</span>
+      <h1>Contact GaugeCalc</h1>
+      <p class="lead">
+        Found a formula that doesn't match what you see in the field? Want a calculator that doesn't exist
+        yet? Send it over — this site is maintained by one working technician, not a support team, so replies
+        take a little time, but every message gets read.
+      </p>
+    </section>
+
+    <article class="article" style="max-width:820px;">
+      <div class="note-box">
+        <strong>Email:</strong> <a href="mailto:hello@gaugecalc.com">hello@gaugecalc.com</a> — or use the
+        <a href="feedback.html">feedback form</a> to report a specific calculator issue.
+      </div>
+
+      <h2>What to include</h2>
+      <p>
+        For tool corrections: which calculator, what input values you used, and what you expected vs. what
+        you got. For new tool requests: what it should calculate and why it'd be useful on a real job.
+      </p>
+
+      <h2>Before you write in</h2>
+      <p>
+        Every calculator's guide section (below the results) explains the formula and assumptions used —
+        worth a quick check in case the answer is already there. All figures on this site are estimates for
+        planning purposes; always confirm critical specs against your equipment's own datasheet before
+        ordering hardware.
+      </p>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc.</span>
+    <span><a href="privacy-policy.html">Privacy Policy</a> · <a href="contact.html">Contact</a> · <a href="./">Home</a></span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="assets/theme.js"></script>
+</body>
+</html>

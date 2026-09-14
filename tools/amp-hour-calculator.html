@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amp Hour Calculator (Free) — GaugeCalc</title>
+<meta name="description" content="Free amp-hour calculator. Convert your load in watts or amps, runtime, and battery chemistry into the exact battery capacity (Ah) you need.">
+<link rel="canonical" href="https://gaugecalc.com/tools/amp-hour-calculator.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Amp Hour Calculator (Free) — GaugeCalc">
+<meta property="og:description" content="Free amp-hour calculator. Convert your load in watts or amps, runtime, and battery chemistry into the exact battery capacity (Ah) you need.">
+<meta property="og:url" content="https://gaugecalc.com/tools/amp-hour-calculator.html">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Amp Hour Calculator (Free) — GaugeCalc">
+<meta name="twitter:description" content="Free amp-hour calculator. Convert your load in watts or amps, runtime, and battery chemistry into the exact battery capacity (Ah) you need.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Amp Hour Calculator",
+  "url": "https://gaugecalc.com/tools/amp-hour-calculator.html",
+  "description": "Calculates required battery capacity in amp-hours from load (watts or amps), runtime, system voltage, losses, and battery chemistry depth of discharge.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Amp Hour Calculator", "item": "https://gaugecalc.com/tools/amp-hour-calculator.html" }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">G</span>
+      GaugeCalc
+    </a>
+    <div class="header-right">
+      <nav class="site-nav">
+      <a href="../index.html#cctv-tools">CCTV Tools</a>
+      <a href="../index.html#electrical-tools">Electrical Tools</a>
+      <a href="../blog/">Guides</a>
+    </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="thumb">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../index.html">Home</a> / Amp Hour Calculator</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>Amp Hour Calculator</h1>
+      <p class="lead">
+        Work out exactly how many amp-hours (Ah) of battery capacity your load needs — for solar setups, RVs,
+        backup power, or any 12V/24V/48V system. Accounts for battery chemistry and depth of discharge, not
+        just a raw watts-to-amps conversion.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <div class="panel">
+        <h2>Your load</h2>
+
+        <div class="field" style="margin-bottom:16px;">
+          <label>Load given as</label>
+          <div class="toggle-row" id="loadTypeToggle">
+            <button type="button" class="toggle-btn active" data-value="watts">Watts</button>
+            <button type="button" class="toggle-btn" data-value="amps">Amps</button>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="loadValue" id="loadValueLabel">Load (Watts)</label>
+            <input type="number" id="loadValue" min="0" step="0.1" value="150">
+          </div>
+          <div class="field">
+            <label for="voltage">System voltage</label>
+            <select id="voltage">
+              <option value="12" selected>12V</option>
+              <option value="24">24V</option>
+              <option value="48">48V</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row" id="customVoltRow" style="display:none;">
+          <div class="field">
+            <label for="customVolt">Custom voltage (V)</label>
+            <input type="number" id="customVolt" min="1" step="0.1" value="12">
+          </div>
+          <div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="runtime">Runtime needed (hours)</label>
+            <input type="number" id="runtime" min="0.1" step="0.1" value="8">
+          </div>
+          <div class="field">
+            <label for="losses">System losses (%) <span class="hint">wiring/inverter</span></label>
+            <input type="number" id="losses" min="0" max="90" value="15">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:6px;">
+          <label>Battery chemistry (sets safe depth of discharge)</label>
+          <div class="toggle-row" id="chemToggle">
+            <button type="button" class="toggle-btn active" data-value="50">Lead-acid / AGM (50% DoD)</button>
+            <button type="button" class="toggle-btn" data-value="80">Lithium LiFePO4 (80% DoD)</button>
+            <button type="button" class="toggle-btn" data-value="100">Custom / 100%</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel result-panel">
+        <h2>Battery capacity needed</h2>
+
+        <div class="result-hero">
+          <span class="value" id="resultAh">—</span><span class="unit">Ah</span>
+          <div class="caption">rated capacity to buy, at your system voltage</div>
+        </div>
+
+        <div class="result-list">
+          <div class="result-row"><span class="k">Load current</span><span class="v" id="rAmps">—</span></div>
+          <div class="result-row"><span class="k">Raw Ah needed (before DoD)</span><span class="v" id="rRawAh">—</span></div>
+          <div class="result-row"><span class="k">Total energy</span><span class="v" id="rWh">—</span></div>
+          <div class="result-row"><span class="k">Usable capacity (after DoD)</span><span class="v" id="rUsable">—</span></div>
+        </div>
+
+        <div class="recommend-box">
+          Nearest standard battery: <strong id="rBattery">—</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">
+      <span class="ad-slot__label">Advertisement</span>
+    </div>
+
+    <article class="article">
+      <h2>How this calculator works</h2>
+      <div class="note-box">
+        <strong>Formula:</strong> Amps = Watts ÷ Voltage. Raw Ah = Amps × runtime hours. Rated Ah needed =
+        Raw Ah ÷ (Depth of Discharge %) × (1 + system losses %).
+      </div>
+      <p>
+        A common mistake is buying a battery whose rated capacity exactly matches the raw Ah calculation —
+        that only works if you plan to fully drain the battery every cycle, which drastically shortens its
+        life (especially for lead-acid and AGM). This calculator divides by your chemistry's safe depth of
+        discharge so the number you get is what to actually buy, not just what you'll consume.
+      </p>
+
+      <h2>Why depth of discharge (DoD) matters</h2>
+      <table>
+        <thead><tr><th>Battery type</th><th>Safe DoD</th><th>Typical cycle life</th></tr></thead>
+        <tbody>
+          <tr><td>Flooded lead-acid</td><td>~50%</td><td>300–500 cycles at 50% DoD</td></tr>
+          <tr><td>AGM</td><td>~50%</td><td>400–600 cycles at 50% DoD</td></tr>
+          <tr><td>Lithium (LiFePO4)</td><td>~80% (some rated to 100%)</td><td>2,000–5,000+ cycles</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Discharging lead-acid or AGM batteries deeper than 50% regularly cuts their usable lifespan sharply —
+        it's the single biggest reason backup batteries "die early" on job sites. Lithium (LiFePO4) tolerates
+        much deeper discharge without the same penalty, which is why it needs a smaller rated capacity for the
+        same job — worth the higher upfront cost on systems that cycle daily (solar, daily-use equipment).
+      </p>
+
+      <h2>Don't forget system losses</h2>
+      <p>
+        If you're running AC loads through an inverter, expect 10–15% loss from inverter inefficiency alone.
+        Add wiring resistance over longer cable runs and connector losses, and a 15–20% overall loss factor is
+        a realistic default for most real-world installs — pure DC loads wired directly (like a 12V camera or
+        alarm panel) can use a lower figure, closer to 5–10%.
+      </p>
+
+      <h2>Related tools</h2>
+      <p>
+        Sizing backup power specifically for an alarm panel, NVR, or PoE switch with a standby + alarm current
+        spec? Use the <a href="battery-backup-calculator.html">Battery Backup Calculator</a> instead —
+        it's built around the standby-hours-plus-alarm-minutes method used in fire and security code compliance.
+      </p>
+      <p>
+        Already own a battery and want to know how long it'll run your load instead of what size to buy? Use
+        the <a href="battery-amp-hour-calculator.html">Battery Amp Hour Calculator</a> — it works in the
+        opposite direction from this tool.
+      </p>
+      <p>
+        Not sure whether to wire batteries in series or parallel once you've got your Ah figure, or which
+        chemistry to pick? See our guide:
+        <a href="../blog/battery-sizing-guide.html">How to Choose the Right Battery Size for a Security Panel</a>.
+      </p>
+    
+      <p style="margin-top:24px;"><a href="../feedback.html?tool=Amp%20Hour%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Estimates only — always check your battery manufacturer's own DoD and derating guidance.</span>
+    <span><a href="../privacy-policy.html">Privacy Policy</a> · <a href="../contact.html">Contact</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const loadTypeToggle = document.getElementById('loadTypeToggle');
+const loadValueLabel = document.getElementById('loadValueLabel');
+const loadValueInput = document.getElementById('loadValue');
+const voltageSelect = document.getElementById('voltage');
+const customVoltRow = document.getElementById('customVoltRow');
+const customVolt = document.getElementById('customVolt');
+const runtimeInput = document.getElementById('runtime');
+const lossesInput = document.getElementById('losses');
+const chemToggle = document.getElementById('chemToggle');
+
+let loadType = 'watts';
+let dod = 50;
+
+loadTypeToggle.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    loadTypeToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    loadType = btn.dataset.value;
+    loadValueLabel.textContent = loadType === 'watts' ? 'Load (Watts)' : 'Load (Amps)';
+    calculate();
+  });
+});
+
+chemToggle.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    chemToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    dod = parseFloat(btn.dataset.value);
+    calculate();
+  });
+});
+
+voltageSelect.addEventListener('change', () => {
+  customVoltRow.style.display = (voltageSelect.value === 'custom') ? 'grid' : 'none';
+  calculate();
+});
+
+[loadValueInput, customVolt, runtimeInput, lossesInput].forEach(el => {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+function fmtNum(n, decimals = 2) {
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
+}
+
+function nearestBattery(ah) {
+  const sizes = [7, 9, 12, 18, 20, 26, 33, 35, 50, 55, 75, 100, 120, 150, 200, 230, 300, 400];
+  for (const s of sizes) if (ah <= s) return s + ' Ah';
+  return Math.ceil(ah / 50) * 50 + ' Ah (or bank multiple batteries in parallel)';
+}
+
+function calculate() {
+  const voltage = voltageSelect.value === 'custom' ? (parseFloat(customVolt.value) || 12) : parseFloat(voltageSelect.value);
+  const loadValue = Math.max(0, parseFloat(loadValueInput.value) || 0);
+  const runtime = Math.max(0, parseFloat(runtimeInput.value) || 0);
+  const losses = Math.max(0, parseFloat(lossesInput.value) || 0) / 100;
+
+  const amps = loadType === 'watts' ? (loadValue / voltage) : loadValue;
+  const rawAh = amps * runtime;
+  const ratedAh = (rawAh / (dod / 100)) * (1 + losses);
+  const wh = rawAh * voltage;
+  const usableAh = ratedAh * (dod / 100);
+
+  document.getElementById('resultAh').textContent = fmtNum(ratedAh, ratedAh < 10 ? 2 : 1);
+  document.getElementById('rAmps').textContent = fmtNum(amps, 2) + ' A';
+  document.getElementById('rRawAh').textContent = fmtNum(rawAh, 2) + ' Ah';
+  document.getElementById('rWh').textContent = fmtNum(wh, 1) + ' Wh';
+  document.getElementById('rUsable').textContent = fmtNum(usableAh, 1) + ' Ah';
+  document.getElementById('rBattery').textContent = nearestBattery(ratedAh) + ' @ ' + voltage + 'V';
+}
+
+calculate();
+</script>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

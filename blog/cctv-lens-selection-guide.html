@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choosing the Right CCTV Lens: Coverage vs. Identification Distance — GaugeCalc</title>
+<meta name="description" content="A working technician's guide to CCTV lens selection: why a wider field of view often means you can't identify anyone in it, and how to actually match focal length to the distance you need.">
+<link rel="canonical" href="https://gaugecalc.com/blog/cctv-lens-selection-guide.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Choosing the Right CCTV Lens: Coverage vs. Identification Distance">
+<meta property="og:description" content="A working technician's guide to CCTV lens selection: why a wider field of view often means you can't identify anyone in it, and how to match focal length to the distance you need.">
+<meta property="og:url" content="https://gaugecalc.com/blog/cctv-lens-selection-guide.html">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Choosing the Right CCTV Lens: Coverage vs. Identification Distance">
+<meta name="twitter:description" content="A working technician's guide to CCTV lens selection: why a wider field of view often means you can't identify anyone in it, and how to match focal length to the distance you need.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Choosing the Right CCTV Lens: Coverage vs. Identification Distance",
+  "description": "A working technician's guide to CCTV lens selection: why a wider field of view often means you can't identify anyone in it, and how to match focal length to the distance you need.",
+  "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
+  "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
+  "datePublished": "2026-09-14",
+  "dateModified": "2026-09-14",
+  "mainEntityOfPage": "https://gaugecalc.com/blog/cctv-lens-selection-guide.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://gaugecalc.com/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "Choosing the Right CCTV Lens: Coverage vs. Identification Distance", "item": "https://gaugecalc.com/blog/cctv-lens-selection-guide.html" }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">G</span>
+      GaugeCalc
+    </a>
+    <div class="header-right">
+      <nav class="site-nav">
+      <a href="../index.html#cctv-tools">CCTV Tools</a>
+      <a href="../index.html#electrical-tools">Electrical Tools</a>
+      <a href="../blog/">Guides</a>
+    </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="thumb">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../index.html">Home</a> / <a href="./">Guides</a> / CCTV Lens Selection Guide</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <span class="eyebrow">Field guide · CCTV &amp; security</span>
+      <h1>Choosing the Right CCTV Lens: Coverage vs. Identification Distance</h1>
+      <p class="lead">
+        The most common lens mistake isn't a wrong formula — it's picking a wide lens because it "covers more,"
+        then finding out during an actual incident that nobody in the footage can be identified.
+      </p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Engineer Ali Zafar &middot; 10+ years field experience in CCTV &amp; electrical installation</p>
+    </section>
+
+    <article class="article" style="margin-top:8px;">
+
+      <h2>Coverage and detail are opposite trade-offs</h2>
+      <p>
+        A wider lens (shorter focal length) spreads the same sensor resolution across a bigger scene — more
+        area covered, fewer pixels per meter of that area. A narrower lens (longer focal length) does the
+        opposite: less area, but every object in frame gets more pixels. Neither is "better" — they're suited
+        to different jobs, and the mistake is picking one without checking what the resulting pixel density
+        actually gives you at the distance that matters.
+      </p>
+      <div class="note-box">
+        <strong>Formula:</strong> Horizontal field of view = 2 × atan(sensor width ÷ (2 × focal length)).
+        Pixel density at a distance = horizontal resolution ÷ scene width at that distance.
+      </div>
+      <p>
+        Run those two together and you get the number that actually matters on site: how many pixels per
+        meter fall on a person standing at your entrance, your gate, or the far end of your parking lot. The
+        <a href="../tools/field-of-view-calculator.html">Camera Field of View Calculator</a> does this
+        automatically from sensor size, focal length, resolution, and distance.
+      </p>
+
+      <h2>Johnson's Criteria: the industry's own yardstick</h2>
+      <p>
+        Every major manufacturer's own lens-selection tool (Axis, Bosch, Hikvision, Dahua) works off the same
+        three thresholds, because they come from established resolution-target research, not marketing:
+      </p>
+      <table>
+        <thead><tr><th>Classification</th><th>Pixel density</th><th>What you can actually do with it</th></tr></thead>
+        <tbody>
+          <tr><td>Identification</td><td>≥ 125 px/m</td><td>Confirm exactly who a person is, or read a plate</td></tr>
+          <tr><td>Recognition</td><td>≥ 63 px/m</td><td>Recognize someone you already know, or a vehicle type/color</td></tr>
+          <tr><td>Detection</td><td>≥ 25 px/m</td><td>Notice that a person or vehicle is present at all</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Below 25 px/m, the footage is only good for general scene awareness — motion happened, but you can't
+        say who or what caused it. This is the gap that catches technicians most often: a camera spec sheet's
+        megapixel count says nothing about which of these three tiers you're actually getting at your specific
+        install distance.
+      </p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+
+      <h2>The mistake: sizing the lens for the room, not the job</h2>
+      <p>
+        A common install pattern: pick a 2.8mm lens because it "gets the whole room in frame," mount it, and
+        move on. That lens might genuinely cover the whole space — and still leave every face in it below
+        detection grade the moment someone is more than a few meters from the camera. The lens did its job of
+        showing the area; it never had enough resolution per meter to show who was in it.
+      </p>
+      <p>
+        The fix isn't a longer lens everywhere — a narrow lens at a doorway loses the wide coverage you need to
+        see someone approaching. It's matching the lens to the job at each specific mounting point: wide
+        coverage where general awareness is the goal (a parking lot overview), longer focal length where
+        identification is the goal (an entrance, a till, a gate).
+      </p>
+
+      <div class="warn-box">
+        <strong>Rule for the field:</strong> before finalizing a lens, calculate the pixel density at the
+        farthest point where identification actually needs to happen — not the farthest point the lens can
+        physically see. Those are rarely the same distance.
+      </div>
+
+      <h2>Sensor size matters as much as focal length</h2>
+      <p>
+        Two cameras with the same focal length but different sensor sizes have different fields of view — a
+        larger sensor behind the same lens sees a wider angle, not a narrower one. When comparing lens specs
+        across camera models, focal length alone is not comparable unless the sensor size is the same; this is
+        why the field of view calculator asks for both.
+      </p>
+
+      <h2>Putting it together</h2>
+      <p>
+        Identify the distance where each camera actually needs to deliver identification, recognition, or just
+        detection. Run sensor size, focal length, resolution, and that distance through the
+        <a href="../tools/field-of-view-calculator.html">Camera Field of View Calculator</a> to see which tier
+        you land in — and, if it's short, whether a longer lens or a higher-resolution sensor closes the gap
+        more cheaply. Treat the result as a best case: lens distortion, compression, and low light all eat into
+        it in the field.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback.html?tool=CCTV%20Lens%20Selection%20Guide">Found something wrong on this page? Send feedback →</a></p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Field guidance only — always confirm against your camera and lens manufacturer's own datasheets.</span>
+    <span><a href="../privacy-policy.html">Privacy Policy</a> · <a href="../contact.html">Contact</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

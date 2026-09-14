@@ -1,0 +1,1039 @@
+/* ============================================
+   GaugeCalc — shared styles
+   "Panel & Trace" identity: cool instrument-grey
+   ground (not paper), an electric signal-blue
+   accent like a multimeter/oscilloscope trace, and
+   a saturated safety-amber for warnings and secondary
+   emphasis — the two colors printed on wiring
+   diagrams and hazard labels. Viewfinder corner
+   brackets (a literal CCTV reference) mark hero and
+   card focal points. Archivo for display type
+   (industrial grotesk, not another serif), IBM Plex
+   Sans for body, IBM Plex Mono for every number and
+   label — the whole site reads like it was built by
+   someone who reads datasheets all day, because it
+   was. Explicit light/dark toggle via [data-theme]
+   on <html>, set instantly by assets/theme.js to
+   avoid FOUC.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* --- surfaces & text (light): cool instrument grey, not warm paper --- */
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --surface-alt: #e2e8ed;
+  --border: #d6dee5;
+  --border-strong: #bcc7d1;
+  --text: #101820;
+  --text-muted: #4c5b69;
+  --text-faint: #76858f;
+
+  /* --- brand: electric signal-blue trace --- */
+  --brand: #0a6ecf;
+  --brand-dark: #094f96;
+  --brand-light: #dfebfa;
+
+  /* --- accent: saturated hazard-tape amber --- */
+  --accent: #d9790a;
+  --accent-dark: #a95f08;
+  --accent-light: #fce9cc;
+
+  /* --- instrument-readout panel (used inside result cards): LCD-like --- */
+  --panel-dark: #0c1620;
+  --panel-dark-2: #142230;
+  --panel-line: rgba(150, 200, 255, 0.1);
+  --panel-text: #e8f3ff;
+
+  --warn-bg: #fdf0da;
+  --warn-border: #e3a53f;
+  --warn-text: #714b03;
+
+  /* --- shape: sharper, instrument-panel corners --- */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+
+  /* --- elevation (3-tier) --- */
+  --shadow-1: 0 1px 2px rgba(30, 26, 14, 0.05), 0 1px 1px rgba(30, 26, 14, 0.04);
+  --shadow-2: 0 4px 12px -4px rgba(30, 26, 14, 0.14), 0 2px 4px -2px rgba(30, 26, 14, 0.08);
+  --shadow-3: 0 16px 40px -12px rgba(30, 26, 14, 0.22), 0 4px 10px -4px rgba(30, 26, 14, 0.1);
+  --shadow-sm: var(--shadow-1);
+  --shadow: var(--shadow-2);
+
+  /* --- motion --- */
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  --max-width: 1080px;
+  font-size: 16px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a0e13;
+    --surface: #121920;
+    --surface-alt: #1a232c;
+    --border: #253039;
+    --border-strong: #33404b;
+    --text: #edf3f7;
+    --text-muted: #a7b6c2;
+    --text-faint: #76858f;
+
+    --brand: #4aa8ff;
+    --brand-dark: #2f86e0;
+    --brand-light: #142943;
+
+    --accent: #ffb020;
+    --accent-dark: #e89400;
+    --accent-light: #2e2210;
+
+    --panel-dark: #060b10;
+    --panel-dark-2: #0e1620;
+    --panel-line: rgba(150, 200, 255, 0.08);
+    --panel-text: #e8f3ff;
+
+    --warn-bg: #2c2308;
+    --warn-border: #6b551a;
+    --warn-text: #f2d789;
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-2: 0 6px 16px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -2px rgba(0, 0, 0, 0.35);
+    --shadow-3: 0 20px 48px -14px rgba(0, 0, 0, 0.6), 0 6px 14px -4px rgba(0, 0, 0, 0.4);
+    --shadow-sm: var(--shadow-1);
+    --shadow: var(--shadow-2);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a0e13;
+  --surface: #121920;
+  --surface-alt: #1a232c;
+  --border: #253039;
+  --border-strong: #33404b;
+  --text: #edf3f7;
+  --text-muted: #a7b6c2;
+  --text-faint: #76858f;
+
+  --brand: #4aa8ff;
+  --brand-dark: #2f86e0;
+  --brand-light: #142943;
+
+  --accent: #ffb020;
+  --accent-dark: #e89400;
+  --accent-light: #2e2210;
+
+  --panel-dark: #060b10;
+  --panel-dark-2: #0e1620;
+  --panel-line: rgba(150, 200, 255, 0.08);
+  --panel-text: #e8f3ff;
+
+  --warn-bg: #2c2308;
+  --warn-border: #6b551a;
+  --warn-text: #f2d789;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 6px 16px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -2px rgba(0, 0, 0, 0.35);
+  --shadow-3: 0 20px 48px -14px rgba(0, 0, 0, 0.6), 0 6px 14px -4px rgba(0, 0, 0, 0.4);
+  --shadow-sm: var(--shadow-1);
+  --shadow: var(--shadow-2);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+img { max-width: 100%; }
+
+a { color: var(--brand-dark); text-decoration: none; transition: color var(--dur-fast) var(--ease); }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+/* Accessible, visible focus ring everywhere — never remove, only restyle */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) a { color: var(--brand); }
+}
+:root[data-theme="dark"] a { color: var(--brand); }
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+
+h1, h2, h3 {
+  font-family: "Archivo", "Arial Narrow", Arial, sans-serif;
+  font-weight: 700;
+  color: var(--text);
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+.num, .tabular,
+input[type="number"], select,
+.result-hero .value, .result-row .v, .readout-value {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: var(--shadow-1);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 14px;
+  gap: 12px;
+}
+
+.brand { flex-shrink: 0; }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text);
+  font-family: "Archivo", "Arial Narrow", Arial, sans-serif;
+}
+
+.brand:hover { text-decoration: none; }
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.92rem;
+  flex-shrink: 0;
+  font-family: "IBM Plex Mono", monospace;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.15);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  min-width: 0;
+  flex-shrink: 1;
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 14px), transparent 100%);
+  mask-image: linear-gradient(to right, black calc(100% - 14px), transparent 100%);
+}
+.site-nav::-webkit-scrollbar { display: none; }
+
+.site-nav a {
+  color: var(--text-muted);
+  padding: 10px 10px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.site-nav a:hover { color: var(--brand-dark); text-decoration: none; background: var(--surface-alt); }
+:root[data-theme="dark"] .site-nav a:hover { color: var(--brand); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .site-nav a:hover { color: var(--brand); }
+}
+
+/* ---------- Theme toggle ---------- */
+
+.theme-toggle {
+  --w: 52px;
+  --h: 28px;
+  width: var(--w);
+  height: var(--h);
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-alt);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.theme-toggle:hover { border-color: var(--brand); }
+
+.theme-toggle .thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-dark);
+  transform: translateX(0);
+  transition: transform var(--dur) var(--ease), color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+:root[data-theme="dark"] .theme-toggle .thumb {
+  transform: translateX(24px);
+  color: var(--brand);
+  background: var(--panel-dark-2);
+}
+
+.theme-toggle .thumb svg { width: 13px; height: 13px; }
+.theme-toggle .thumb .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .thumb .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .thumb .icon-moon { display: block; }
+
+/* ---------- Breadcrumb ---------- */
+
+.crumb {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  padding-top: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.crumb a { color: var(--text-faint); }
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding-block: 52px 30px;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -20px -20px auto -20px;
+  height: 220px;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero > * { position: relative; z-index: 1; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 14px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 800;
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+  max-width: 15ch;
+}
+
+.hero p.lead {
+  color: var(--text-muted);
+  font-size: 1.08rem;
+  max-width: 640px;
+  margin: 0;
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--brand-dark);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 6px 13px;
+  box-shadow: var(--shadow-1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .badge { color: var(--brand); }
+}
+:root[data-theme="dark"] .badge { color: var(--brand); }
+
+/* ---------- Tool grid (homepage) ---------- */
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  padding-block: 8px 48px;
+}
+
+.tool-card {
+  display: block;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 24px 24px 26px;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--brand);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--dur) var(--ease);
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-3);
+  text-decoration: none;
+}
+
+.tool-card:active { transform: translateY(-1px); }
+
+.tool-card:hover::before { transform: scaleY(1); }
+
+.tool-card .code {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  opacity: 0.7;
+}
+
+.tool-card .icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(150deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 10px -4px color-mix(in srgb, var(--brand) 55%, transparent);
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.tool-card:hover .icon {
+  transform: scale(1.06) rotate(-2deg);
+  box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--brand) 65%, transparent);
+}
+
+.tool-card .icon svg { width: 21px; height: 21px; }
+
+.tool-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.tool-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.tool-card .soon {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  background: var(--surface-alt);
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.category-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 52px 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ---------- Calculator layout ---------- */
+
+.calc-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 350px);
+  gap: 22px;
+  padding-block: 30px 10px;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .calc-layout { grid-template-columns: 1fr; }
+}
+
+/* Container-query fallback: .calc-layout also collapses when the space
+   ITS PARENT actually has is tight — e.g. when the right ad sidebar is
+   squeezing the content column on a medium-width screen — even though
+   the viewport itself is still wide. This is what a plain max-width
+   media query above can't see. 980px matches the widest input panel
+   content on any tool page (the 3-button battery-chemistry toggle row
+   on Amp Hour Calculator needs ~600px+ to stay on one line, and the
+   result column + gap eats ~372px of the row). */
+@container page-content (max-width: 980px) {
+  .calc-layout { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  padding: 26px;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.panel h2 {
+  font-size: 1.02rem;
+  margin: 0 0 20px;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 480px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.field .hint {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+
+input[type="number"],
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  font-size: 0.95rem;
+  padding: 11px 12px;
+  min-height: 42px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  width: 100%;
+  font-family: inherit;
+  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+textarea { resize: vertical; min-height: 110px; }
+
+input[type="number"]:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+select:hover,
+textarea:hover { border-color: var(--text-faint); }
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 16%, transparent);
+}
+
+.toggle-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toggle-btn {
+  font: inherit;
+  font-size: 0.83rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  min-height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+
+.toggle-btn:hover { border-color: var(--brand); color: var(--text); }
+.toggle-btn:active { transform: scale(0.97); }
+
+.toggle-btn.active {
+  background: linear-gradient(155deg, var(--brand) 0%, var(--brand-dark) 100%);
+  border-color: var(--brand);
+  color: #fff;
+  box-shadow: 0 3px 10px -4px color-mix(in srgb, var(--brand) 55%, transparent);
+}
+
+/* ---------- Results panel (instrument readout) ---------- */
+
+.result-panel {
+  position: sticky;
+  top: 76px;
+}
+
+.result-panel h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.result-hero {
+  position: relative;
+  text-align: left;
+  padding: 24px 24px 22px;
+  background: linear-gradient(155deg, var(--brand-light) 0%, var(--surface) 62%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px rgba(30, 26, 14, 0.03), 0 16px 36px -16px rgba(29, 78, 120, 0.32);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.result-hero::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29, 78, 120, 0.14), transparent 70%);
+}
+
+.result-hero .caption {
+  display: block;
+  position: relative;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-family: "IBM Plex Sans", sans-serif;
+  letter-spacing: 0;
+}
+
+.result-hero .value {
+  position: relative;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .result-hero .value { color: var(--brand); }
+}
+:root[data-theme="dark"] .result-hero .value { color: var(--brand); }
+
+.result-hero .unit {
+  position: relative;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 5px;
+  color: var(--text-faint);
+}
+
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.88rem;
+  padding-block: 9px;
+  border-bottom: 1px solid var(--border);
+}
+
+.result-row:last-child { border-bottom: none; }
+
+.result-row .k { color: var(--text-muted); }
+.result-row .v { font-weight: 600; }
+
+.recommend-box {
+  margin-top: 16px;
+  background: var(--accent-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13px 15px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.recommend-box strong { color: var(--text); }
+
+/* ---------- Article / guide content ---------- */
+
+.article {
+  padding-block: 8px 40px;
+  max-width: 760px;
+}
+
+.article h2 {
+  font-size: 1.3rem;
+  margin-top: 2.3em;
+  font-weight: 600;
+}
+
+.article h3 {
+  font-size: 1.06rem;
+  margin-top: 1.6em;
+  font-weight: 600;
+}
+
+.article p, .article li {
+  color: var(--text-muted);
+  font-size: 0.98rem;
+}
+
+.article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 16px;
+  font-size: 0.87rem;
+}
+
+.article th, .article td {
+  text-align: left;
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article td { font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; }
+.article td:last-child { font-family: inherit; font-size: 0.87rem; }
+
+.article th {
+  color: var(--text-faint);
+  font-weight: 700;
+  font-size: 0.74rem;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.note-box {
+  background: var(--brand-light);
+  border-left: 3px solid var(--brand);
+  border-radius: 6px;
+  padding: 13px 16px;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-block: 18px;
+}
+
+.note-box strong { font-family: "IBM Plex Mono", monospace; }
+
+.warn-box {
+  background: var(--warn-bg);
+  border-left: 3px solid var(--warn-border);
+  border-radius: 6px;
+  padding: 13px 16px;
+  font-size: 0.9rem;
+  color: var(--warn-text);
+  margin-block: 18px;
+}
+
+/* ---------- Ad slots (AdSense-ready reserved space) ---------- */
+/* Reserves layout space now so the page doesn't jump once real
+   AdSense units are pasted in after account approval. */
+
+.ad-slot {
+  margin: 30px auto;
+  max-width: 728px;
+  min-height: 90px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.ad-slot__label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  opacity: 0.55;
+}
+
+.ad-slot--rect {
+  max-width: 336px;
+  min-height: 280px;
+}
+
+@media (max-width: 640px) {
+  .ad-slot {
+    min-height: 100px;
+  }
+  .ad-slot--rect {
+    min-height: 250px;
+  }
+}
+
+/* ---------- Right ad sidebar (wide screens only) ---------- */
+/* On tool + guide pages: a sticky right rail with 2 ad boxes, shown
+   alongside the existing in-content ad once the screen is wide enough
+   to fit a 280px rail without cramping the reading column. Below the
+   breakpoint, .ad-sidebar is hidden and the page falls back to its
+   normal single-column .wrap width. */
+
+.ad-sidebar {
+  display: none;
+}
+
+@media (min-width: 980px) {
+  .wrap--sidebar {
+    max-width: 1800px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .wrap--sidebar > .page-content {
+    min-width: 0;
+    /* Named container so .calc-layout (and anything else in the content
+       column) can query ITS OWN available width, not the viewport's —
+       see the @container rule near .calc-layout. */
+    container-type: inline-size;
+    container-name: page-content;
+  }
+
+  .ad-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Center the ad stack in the viewport height instead of pinning it
+       to the top, so it doesn't look stranded above a tall column of
+       empty space on long pages. Sticky + top:50% + a -50% translate is
+       the standard trick: as the page scrolls, the stack tracks the
+       vertical center of the viewport (clamped to the header end and
+       the bottom of the content column, same as any sticky element). */
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .ad-sidebar .ad-slot {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.site-footer .wrap {
+  padding-block: 26px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.site-footer a { color: var(--text-faint); }
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 11px 18px;
+  min-height: 42px;
+  border-radius: 9px;
+  border: 1px solid var(--brand);
+  background: linear-gradient(155deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 14px -6px color-mix(in srgb, var(--brand) 60%, transparent);
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), filter var(--dur-fast) var(--ease);
+}
+
+.btn:hover { filter: brightness(1.08); text-decoration: none; box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--brand) 70%, transparent); }
+.btn:active { transform: scale(0.97); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+  box-shadow: none;
+}
+
+.btn-ghost:hover { color: var(--text); background: var(--surface-alt); }
+
+/* ---------- Responsive: header at phone widths ---------- */
+
+@media (max-width: 560px) {
+  .site-header .wrap { padding-block: 10px; gap: 10px; }
+  .header-right { gap: 10px; }
+  .site-nav { gap: 2px; }
+  .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+}

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camera Field of View Calculator (Free) — GaugeCalc</title>
+<meta name="description" content="Free CCTV field of view calculator. Enter sensor size, focal length, resolution, and distance to get horizontal FOV, scene width, and Johnson's Criteria pixel density (Detection/Recognition/Identification).">
+<link rel="canonical" href="https://gaugecalc.com/tools/field-of-view-calculator.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Camera Field of View Calculator (Free) — GaugeCalc">
+<meta property="og:description" content="Free CCTV field of view calculator. Enter sensor size, focal length, resolution, and distance to get horizontal FOV, scene width, and Johnson's Criteria pixel density.">
+<meta property="og:url" content="https://gaugecalc.com/tools/field-of-view-calculator.html">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Camera Field of View Calculator (Free) — GaugeCalc">
+<meta name="twitter:description" content="Free CCTV field of view calculator. Enter sensor size, focal length, resolution, and distance to get horizontal FOV, scene width, and Johnson's Criteria pixel density.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Camera Field of View Calculator",
+  "url": "https://gaugecalc.com/tools/field-of-view-calculator.html",
+  "description": "Calculates horizontal and vertical field of view, scene width at distance, and Johnson's Criteria pixel density (Detection/Recognition/Identification) from sensor size, focal length, resolution, and distance to subject.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Camera Field of View Calculator", "item": "https://gaugecalc.com/tools/field-of-view-calculator.html" }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">G</span>
+      GaugeCalc
+    </a>
+    <div class="header-right">
+      <nav class="site-nav">
+      <a href="../index.html#cctv-tools">CCTV Tools</a>
+      <a href="../index.html#electrical-tools">Electrical Tools</a>
+      <a href="../blog/">Guides</a>
+    </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="thumb">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../index.html">Home</a> / Camera Field of View Calculator</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>Camera Field of View Calculator</h1>
+      <p class="lead">
+        Work out a camera's horizontal field of view, the scene width at a given distance, and whether the
+        resulting pixel density is enough to identify a face or read a plate — using the same Johnson's
+        Criteria thresholds manufacturers publish on their own lens calculators.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <div class="panel">
+        <h2>Camera &amp; lens</h2>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="sensorFormat">Sensor format</label>
+            <select id="sensorFormat">
+              <option value="3.68,2.76">1/4"</option>
+              <option value="5.76,4.29">1/2.5"</option>
+              <option value="5.37,3.84">1/2.7"</option>
+              <option value="5.14,3.86">1/2.8"</option>
+              <option value="4.8,3.6" selected>1/3"</option>
+              <option value="7.18,5.32">1/1.8"</option>
+              <option value="13.2,8.8">1" </option>
+              <option value="custom">Custom (mm)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="focalLength">Focal length (mm)</label>
+            <input type="number" id="focalLength" min="0.1" step="0.1" value="4">
+          </div>
+        </div>
+
+        <div class="field-row" id="customSensorRow" style="display:none;">
+          <div class="field">
+            <label for="customSensorW">Sensor width (mm)</label>
+            <input type="number" id="customSensorW" min="0.1" step="0.01" value="4.8">
+          </div>
+          <div class="field">
+            <label for="customSensorH">Sensor height (mm)</label>
+            <input type="number" id="customSensorH" min="0.1" step="0.01" value="3.6">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="resolution">Camera resolution</label>
+            <select id="resolution">
+              <option value="1920">2MP (1920×1080)</option>
+              <option value="2560">4MP (2560×1440)</option>
+              <option value="2592" selected>5MP (2592×1944)</option>
+              <option value="3840">8MP / 4K (3840×2160)</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div class="field" id="customResRow" style="display:none;">
+            <label for="customRes">Horizontal pixels</label>
+            <input type="number" id="customRes" min="1" step="1" value="2592">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:16px;">
+          <label>Distance unit</label>
+          <div class="toggle-row" id="unitToggle">
+            <button type="button" class="toggle-btn active" data-value="m">Meters</button>
+            <button type="button" class="toggle-btn" data-value="ft">Feet</button>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="distance" id="distanceLabel">Distance to subject (m)</label>
+            <input type="number" id="distance" min="0.1" step="0.1" value="15">
+          </div>
+          <div></div>
+        </div>
+      </div>
+
+      <div class="panel result-panel">
+        <h2>Field of view</h2>
+
+        <div class="result-hero">
+          <span class="value" id="resultHfov">—</span><span class="unit">° HFOV</span>
+          <div class="caption">horizontal angle of view at this focal length</div>
+        </div>
+
+        <div class="result-list">
+          <div class="result-row"><span class="k">Vertical field of view</span><span class="v" id="rVfov">—</span></div>
+          <div class="result-row"><span class="k">Scene width at distance</span><span class="v" id="rSceneWidth">—</span></div>
+          <div class="result-row"><span class="k">Pixel density at distance</span><span class="v" id="rDensity">—</span></div>
+        </div>
+
+        <div class="recommend-box">
+          At this distance: <strong id="rClassify">—</strong>
+        </div>
+
+        <div class="result-list" style="margin-top:14px;">
+          <div class="result-row"><span class="k">Max distance — Identification (125 px/m)</span><span class="v" id="rMaxId">—</span></div>
+          <div class="result-row"><span class="k">Max distance — Recognition (63 px/m)</span><span class="v" id="rMaxRec">—</span></div>
+          <div class="result-row"><span class="k">Max distance — Detection (25 px/m)</span><span class="v" id="rMaxDet">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">
+      <span class="ad-slot__label">Advertisement</span>
+    </div>
+
+    <article class="article">
+      <h2>How this calculator works</h2>
+      <div class="note-box">
+        <strong>Formula:</strong> HFOV = 2 × atan(sensor width ÷ (2 × focal length)). Scene width at distance
+        = 2 × distance × tan(HFOV ÷ 2). Pixel density = horizontal resolution ÷ scene width (in pixels per
+        meter).
+      </div>
+      <p>
+        Focal length and sensor size alone only tell you the angle of view — they don't tell you whether the
+        camera is actually useful at the distance you're placing it. A wide lens covering a whole parking lot
+        is worthless for identification if every face is compressed into a handful of pixels. That's why this
+        calculator carries the field of view all the way through to pixel density at your chosen distance, not
+        just the angle.
+      </p>
+
+      <h2>Johnson's Criteria: what the pixel density actually means</h2>
+      <p>
+        Johnson's Criteria is the standard used across the security industry — including by Axis, Bosch,
+        Hikvision, and Dahua's own lens calculators — to translate a raw pixel-density number into a real-world
+        capability. It defines three practical thresholds:
+      </p>
+      <table>
+        <thead><tr><th>Classification</th><th>Pixel density</th><th>What it means in practice</th></tr></thead>
+        <tbody>
+          <tr><td>Identification</td><td>≥ 125 px/m</td><td>Enough detail to confirm who a person is, or read a plate</td></tr>
+          <tr><td>Recognition</td><td>≥ 63 px/m</td><td>Enough to recognize a familiar face or vehicle type</td></tr>
+          <tr><td>Detection</td><td>≥ 25 px/m</td><td>Enough to notice that a person or vehicle is present</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Below 25 px/m, footage is generally only good for general scene monitoring — not for picking out detail
+        after the fact. These thresholds are why a camera spec sheet's megapixel count means very little on its
+        own: the same sensor and lens gives identification-grade detail at the doorway and barely detection-grade
+        detail at the far end of a parking lot.
+      </p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+
+      <h2>Real-world caveats</h2>
+      <p>
+        This calculator gives the geometric ideal — it doesn't account for lens distortion (especially at the
+        edges of wide-angle lenses), video compression artifacts, low light or backlight conditions, or a
+        subject that isn't facing the camera. Treat the pixel-density numbers as a best-case ceiling, and add
+        margin for anything mission-critical like a license-plate-capture point or a controlled entry.
+      </p>
+
+      <h2>Related tools &amp; guides</h2>
+      <p>
+        Not sure how to pick the lens in the first place, or why a wider field of view can leave everyone in
+        it unidentifiable? See
+        <a href="../blog/cctv-lens-selection-guide.html">Choosing the Right CCTV Lens: Coverage vs. Identification
+        Distance</a>.
+      </p>
+      <p>
+        Once you've confirmed the coverage a camera gives you, check whether your network can carry it — use
+        the <a href="ip-camera-bandwidth-calculator.html">IP Camera Bandwidth Calculator</a> to size the total
+        bitrate and uplink, and see
+        <a href="../blog/ip-camera-bandwidth-mistakes.html">IP Camera Bandwidth: Why the Switch (and PoE Budget)
+        Fail Before the Network Does</a> for the two mistakes that break installs even when bandwidth looks fine.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback.html?tool=Camera%20Field%20of%20View%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Estimates only — real-world results vary with lens distortion, compression, and lighting.</span>
+    <span><a href="../privacy-policy.html">Privacy Policy</a> · <a href="../contact.html">Contact</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const sensorFormatSelect = document.getElementById('sensorFormat');
+const customSensorRow = document.getElementById('customSensorRow');
+const customSensorW = document.getElementById('customSensorW');
+const customSensorH = document.getElementById('customSensorH');
+const focalLengthInput = document.getElementById('focalLength');
+const resolutionSelect = document.getElementById('resolution');
+const customResRow = document.getElementById('customResRow');
+const customRes = document.getElementById('customRes');
+const unitToggle = document.getElementById('unitToggle');
+const distanceLabel = document.getElementById('distanceLabel');
+const distanceInput = document.getElementById('distance');
+
+let unit = 'm';
+
+sensorFormatSelect.addEventListener('change', () => {
+  customSensorRow.style.display = (sensorFormatSelect.value === 'custom') ? 'grid' : 'none';
+  calculate();
+});
+
+resolutionSelect.addEventListener('change', () => {
+  customResRow.style.display = (resolutionSelect.value === 'custom') ? 'block' : 'none';
+  calculate();
+});
+
+unitToggle.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    unitToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    unit = btn.dataset.value;
+    distanceLabel.textContent = 'Distance to subject (' + unit + ')';
+    calculate();
+  });
+});
+
+[focalLengthInput, customSensorW, customSensorH, customRes, distanceInput].forEach(el => {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+function fmtNum(n, decimals = 2) {
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
+}
+
+function getSensorSize() {
+  if (sensorFormatSelect.value === 'custom') {
+    return {
+      w: Math.max(0.01, parseFloat(customSensorW.value) || 4.8),
+      h: Math.max(0.01, parseFloat(customSensorH.value) || 3.6)
+    };
+  }
+  const [w, h] = sensorFormatSelect.value.split(',').map(Number);
+  return { w, h };
+}
+
+function getHorizontalPx() {
+  if (resolutionSelect.value === 'custom') {
+    return Math.max(1, parseFloat(customRes.value) || 1920);
+  }
+  return parseFloat(resolutionSelect.value);
+}
+
+function classify(density) {
+  if (density >= 125) return 'Identification-grade (can confirm who/what)';
+  if (density >= 63) return 'Recognition-grade (can recognize a known face/vehicle)';
+  if (density >= 25) return 'Detection-grade (can tell something is there)';
+  return 'Below detection grade (general monitoring only)';
+}
+
+function calculate() {
+  const sensor = getSensorSize();
+  const focalLength = Math.max(0.01, parseFloat(focalLengthInput.value) || 4);
+  const horizontalPx = getHorizontalPx();
+  const distanceRaw = Math.max(0.01, parseFloat(distanceInput.value) || 0.01);
+  const distanceM = unit === 'ft' ? distanceRaw * 0.3048 : distanceRaw;
+
+  const hfovRad = 2 * Math.atan(sensor.w / (2 * focalLength));
+  const vfovRad = 2 * Math.atan(sensor.h / (2 * focalLength));
+  const hfovDeg = hfovRad * (180 / Math.PI);
+  const vfovDeg = vfovRad * (180 / Math.PI);
+
+  const sceneWidthM = 2 * distanceM * Math.tan(hfovRad / 2);
+  const sceneWidthDisplay = unit === 'ft' ? sceneWidthM / 0.3048 : sceneWidthM;
+  const densityPxPerM = horizontalPx / sceneWidthM;
+
+  const tanHalf = Math.tan(hfovRad / 2);
+  const maxDist = (threshold) => {
+    const meters = horizontalPx / (2 * threshold * tanHalf);
+    return unit === 'ft' ? meters / 0.3048 : meters;
+  };
+
+  document.getElementById('resultHfov').textContent = fmtNum(hfovDeg, 1);
+  document.getElementById('rVfov').textContent = fmtNum(vfovDeg, 1) + '°';
+  document.getElementById('rSceneWidth').textContent = fmtNum(sceneWidthDisplay, 1) + ' ' + unit;
+  document.getElementById('rDensity').textContent = fmtNum(densityPxPerM, 0) + ' px/m';
+  document.getElementById('rClassify').textContent = classify(densityPxPerM);
+  document.getElementById('rMaxId').textContent = fmtNum(maxDist(125), 1) + ' ' + unit;
+  document.getElementById('rMaxRec').textContent = fmtNum(maxDist(63), 1) + ' ' + unit;
+  document.getElementById('rMaxDet').textContent = fmtNum(maxDist(25), 1) + ' ' + unit;
+}
+
+calculate();
+</script>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

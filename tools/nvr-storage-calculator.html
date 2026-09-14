@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVR Storage Calculator (Free) — GaugeCalc</title>
+<meta name="description" content="Free NVR storage calculator. Enter camera count, resolution, frame rate, compression and retention days to get the exact hard drive size you need.">
+<link rel="canonical" href="https://gaugecalc.com/tools/nvr-storage-calculator.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="NVR Storage Calculator (Free) — GaugeCalc">
+<meta property="og:description" content="Free NVR storage calculator. Work out exactly how much hard drive space you need for your CCTV cameras based on resolution, fps, codec, and retention days.">
+<meta property="og:url" content="https://gaugecalc.com/tools/nvr-storage-calculator.html">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NVR Storage Calculator (Free) — GaugeCalc">
+<meta name="twitter:description" content="Free NVR storage calculator. Work out exactly how much hard drive space you need for your CCTV cameras based on resolution, fps, codec, and retention days.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "NVR Storage Calculator",
+  "url": "https://gaugecalc.com/tools/nvr-storage-calculator.html",
+  "description": "Calculates required NVR/DVR hard drive storage based on camera count, resolution, frame rate, codec, retention days, and recording mode.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "NVR Storage Calculator", "item": "https://gaugecalc.com/tools/nvr-storage-calculator.html" }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">G</span>
+      GaugeCalc
+    </a>
+    <div class="header-right">
+      <nav class="site-nav">
+      <a href="../index.html#cctv-tools">CCTV Tools</a>
+      <a href="../index.html#electrical-tools">Electrical Tools</a>
+      <a href="../blog/">Guides</a>
+    </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="thumb">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../index.html">Home</a> / NVR Storage Calculator</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>NVR Storage Calculator</h1>
+      <p class="lead">
+        Enter your camera count, resolution, frame rate and how long you need to keep footage.
+        This tool gives you the exact storage size and the network bandwidth those cameras will use —
+        so you don't undersize the hard drive or overload the switch.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+
+      <!-- ================= INPUT PANEL ================= -->
+      <div class="panel">
+        <h2>Your setup</h2>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="numCameras">Number of cameras</label>
+            <input type="number" id="numCameras" min="1" max="512" value="8">
+          </div>
+          <div class="field">
+            <label for="resolution">Camera resolution</label>
+            <select id="resolution">
+              <option value="2">2MP (1080p)</option>
+              <option value="4" selected>4MP</option>
+              <option value="5">5MP</option>
+              <option value="8">8MP (4K)</option>
+              <option value="custom">Custom bitrate</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row" id="customBitrateRow" style="display:none;">
+          <div class="field">
+            <label for="customMbps">Bitrate per camera (Mbps)</label>
+            <input type="number" id="customMbps" min="0.1" step="0.1" value="6">
+          </div>
+          <div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="fps">Frame rate (fps)</label>
+            <select id="fps">
+              <option value="5">5 fps</option>
+              <option value="10">10 fps</option>
+              <option value="15" selected>15 fps</option>
+              <option value="20">20 fps</option>
+              <option value="25">25 fps</option>
+              <option value="30">30 fps</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="retention">Retention period (days)</label>
+            <input type="number" id="retention" min="1" max="365" value="30">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:16px;">
+          <label>Compression / codec</label>
+          <div class="toggle-row" id="codecToggle">
+            <button type="button" class="toggle-btn" data-value="1">H.264</button>
+            <button type="button" class="toggle-btn active" data-value="0.5">H.265</button>
+            <button type="button" class="toggle-btn" data-value="0.32">H.265+ / Smart</button>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:6px;">
+          <label>Recording mode</label>
+          <div class="toggle-row" id="modeToggle">
+            <button type="button" class="toggle-btn active" data-value="continuous">Continuous 24/7</button>
+            <button type="button" class="toggle-btn" data-value="motion">Motion-triggered</button>
+          </div>
+        </div>
+
+        <div class="field-row" id="motionRow" style="display:none; margin-top:12px;">
+          <div class="field">
+            <label for="motionPct">Active recording (% of day) <span class="hint">typical: 15–30%</span></label>
+            <input type="number" id="motionPct" min="1" max="100" value="20">
+          </div>
+          <div></div>
+        </div>
+      </div>
+
+      <!-- ================= RESULTS PANEL ================= -->
+      <div class="panel result-panel">
+        <h2>Storage needed</h2>
+
+        <div class="result-hero">
+          <span class="value" id="resultTB">—</span><span class="unit">TB</span>
+          <div class="caption">raw storage for the full retention period</div>
+        </div>
+
+        <div class="result-list">
+          <div class="result-row"><span class="k">Per-camera bitrate</span><span class="v" id="rBitrate">—</span></div>
+          <div class="result-row"><span class="k">Total network bandwidth</span><span class="v" id="rBandwidth">—</span></div>
+          <div class="result-row"><span class="k">Storage per day (all cameras)</span><span class="v" id="rPerDay">—</span></div>
+          <div class="result-row"><span class="k">Storage per camera (full period)</span><span class="v" id="rPerCamera">—</span></div>
+        </div>
+
+        <div class="recommend-box">
+          Recommended drive size: <strong id="rDrive">—</strong><br>
+          <span style="font-size:0.8rem;">Includes a 10% safety buffer for filesystem overhead and bitrate spikes.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= GUIDE CONTENT ================= -->
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">
+      <span class="ad-slot__label">Advertisement</span>
+    </div>
+
+    <article class="article">
+      <h2>How this calculator works</h2>
+      <p>
+        Storage size depends on five things: how many cameras you have, their resolution, frame rate, the
+        compression codec, and how many days you need to keep footage. This tool estimates the bitrate each
+        camera produces, then multiplies that by the number of seconds you'll actually be recording over your
+        retention period.
+      </p>
+
+      <div class="note-box">
+        <strong>Formula:</strong> Storage (GB) = Bitrate (Mbps) ÷ 8 × 3600 × recording hours/day × retention days ÷ 1000, summed across all cameras.
+      </div>
+
+      <h2>Typical bitrates by resolution (H.264, 30fps baseline)</h2>
+      <table>
+        <thead><tr><th>Resolution</th><th>Approx. bitrate</th><th>Typical use</th></tr></thead>
+        <tbody>
+          <tr><td>2MP (1080p)</td><td>~4 Mbps</td><td>Standard entry-level dome/bullet cameras</td></tr>
+          <tr><td>4MP</td><td>~6 Mbps</td><td>Most common choice for new residential/commercial installs</td></tr>
+          <tr><td>5MP</td><td>~7 Mbps</td><td>Better detail for wider coverage areas</td></tr>
+          <tr><td>8MP (4K)</td><td>~12 Mbps</td><td>License plate capture, large open areas, retail</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Lowering the frame rate reduces bitrate, but not in a straight line — a camera at 15fps typically still
+        uses roughly 60–70% of its 30fps bitrate, since I-frames (full reference frames) still fire at the same
+        interval regardless of fps. This calculator applies that curve rather than a simple linear scale, so the
+        estimate stays realistic instead of underselling your storage needs.
+      </p>
+
+      <h2>H.264 vs. H.265 vs. H.265+</h2>
+      <p>
+        H.265 (HEVC) typically cuts bitrate by roughly 50% compared to H.264 at the same visual quality — most
+        NVRs and cameras sold since around 2019 support it. H.265+ and other vendor "smart codec" variants
+        (Hikvision's H.265+, Dahua's Smart H.265+) add scene-analysis on top, dropping bitrate further on static
+        scenes — real-world savings of 60–80% over H.264 are common, though this varies heavily with how much
+        motion is actually in the frame. Treat the H.265+ figure here as a reasonable planning estimate, not a
+        guarantee — a busy parking lot will use more than a quiet hallway even on the same codec.
+      </p>
+
+      <h2>Continuous vs. motion-triggered recording</h2>
+      <p>
+        Continuous recording is the safest choice for anything used as evidence — motion detection can miss
+        fast-moving subjects or fail in low light. Motion-triggered recording can cut your storage requirement
+        by 70–85%, which matters most on long-retention jobs (90+ days) where drive cost adds up fast.
+      </p>
+      <div class="warn-box">
+        <strong>Bandwidth note:</strong> even with motion-triggered recording, most IP cameras still stream
+        continuously to the NVR — only the decision to <em>write</em> the stream to disk changes. Your network
+        bandwidth requirement should still be calculated as if every camera is streaming 24/7. Use our
+        <a href="ip-camera-bandwidth-calculator.html">IP Camera Bandwidth Calculator</a> to size your
+        switch and NVR network ports correctly.
+      </div>
+
+      <h2>Choosing the right hard drive</h2>
+      <p>
+        Always buy a surveillance-rated drive (Western Digital Purple, Seagate SkyHawk, or similar) rather than
+        a standard desktop drive — they're built for the sustained 24/7 write workload an NVR produces and
+        handle many simultaneous camera streams without dropping frames. Round up to the next common drive
+        size (1TB, 2TB, 4TB, 6TB, 8TB, 10TB, 12TB, 16TB, 18TB, 20TB, 22TB) and keep the 10% buffer this
+        calculator adds — real-world footage rarely matches theoretical bitrate exactly, especially with busy
+        scenes or lighting changes that spike bitrate temporarily.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Does this account for RAID?</h3>
+      <p>
+        No — the figure above is raw usable storage. If you're using RAID 1, 5, or 6 for redundancy, you'll
+        need additional drives beyond this number since RAID trades some capacity for fault tolerance.
+      </p>
+      <h3>What if my cameras use variable bitrate (VBR)?</h3>
+      <p>
+        Most IP cameras run VBR by default, which means actual usage fluctuates with scene complexity. The
+        bitrates used in this calculator are realistic averages for VBR-encoded footage, not the absolute peak
+        — which is exactly why the 10% buffer is built into the drive recommendation.
+      </p>
+      <h3>Got a mix of analog and IP cameras, or an older DVR?</h3>
+      <p>
+        Use the <a href="cctv-storage-calculator.html">CCTV Storage Calculator</a> instead — it covers analog
+        HD-CCTV formats (D1, 960H, AHD/TVI/CVI) alongside IP resolutions in one tool.
+      </p>
+
+      <h2>Related guide</h2>
+      <p>
+        This calculator handles the formula — but 12 real-world factors regularly make the calculated number
+        wrong on an actual job. See
+        <a href="../blog/nvr-storage-mistakes.html">NVR Storage Calculation: 12 Mistakes That Leave You Short
+        on Space</a> for the full field checklist before you order a drive.
+      </p>
+    
+      <p style="margin-top:24px;"><a href="../feedback.html?tool=NVR%20Storage%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
+
+      <div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+      <div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Estimates only — always confirm against your camera and NVR manufacturer's own bitrate specs.</span>
+    <span><a href="../privacy-policy.html">Privacy Policy</a> · <a href="../contact.html">Contact</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const resSelect = document.getElementById('resolution');
+const customRow = document.getElementById('customBitrateRow');
+const customMbps = document.getElementById('customMbps');
+const fpsSelect = document.getElementById('fps');
+const retentionInput = document.getElementById('retention');
+const numCamerasInput = document.getElementById('numCameras');
+const codecToggle = document.getElementById('codecToggle');
+const modeToggle = document.getElementById('modeToggle');
+const motionRow = document.getElementById('motionRow');
+const motionPct = document.getElementById('motionPct');
+
+const baseBitrateByRes = { "2": 4, "4": 6, "5": 7, "8": 12 }; // Mbps at 30fps H.264
+
+let codecFactor = 0.5;   // H.265 default
+let recMode = 'continuous';
+
+function setupToggle(container, onPick) {
+  container.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      onPick(btn.dataset.value);
+      calculate();
+    });
+  });
+}
+
+setupToggle(codecToggle, (val) => { codecFactor = parseFloat(val); });
+setupToggle(modeToggle, (val) => {
+  recMode = val;
+  motionRow.style.display = (val === 'motion') ? 'grid' : 'none';
+});
+
+resSelect.addEventListener('change', () => {
+  customRow.style.display = (resSelect.value === 'custom') ? 'grid' : 'none';
+  calculate();
+});
+
+[fpsSelect, retentionInput, numCamerasInput, customMbps, motionPct].forEach(el => {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+function fmtNum(n, decimals = 2) {
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
+}
+
+function nextDriveSize(tb) {
+  const sizes = [1, 2, 4, 6, 8, 10, 12, 16, 18, 20, 22, 24];
+  for (const s of sizes) if (tb <= s) return s + ' TB';
+  return Math.ceil(tb / 2) * 2 + ' TB (multiple drives / NAS recommended)';
+}
+
+function calculate() {
+  const numCameras = Math.max(1, parseInt(numCamerasInput.value) || 1);
+  const fps = parseInt(fpsSelect.value);
+  const retention = Math.max(1, parseInt(retentionInput.value) || 1);
+
+  let baseMbps;
+  if (resSelect.value === 'custom') {
+    baseMbps = parseFloat(customMbps.value) || 1;
+    // custom bitrate is taken as already-final per-camera figure — skip fps/codec scaling
+    var perCameraMbps = baseMbps;
+  } else {
+    baseMbps = baseBitrateByRes[resSelect.value];
+    const fpsFactor = 0.3 + 0.7 * (fps / 30); // diminishing-returns curve
+    perCameraMbps = baseMbps * fpsFactor * codecFactor;
+  }
+
+  const totalBandwidthMbps = perCameraMbps * numCameras;
+
+  let hoursPerDay = 24;
+  if (recMode === 'motion') {
+    const pct = Math.min(100, Math.max(1, parseFloat(motionPct.value) || 20));
+    hoursPerDay = 24 * (pct / 100);
+  }
+
+  // Storage per camera per day (GB): Mbps -> MBps (/8) -> bytes/sec -> * seconds recorded -> /1000 for GB
+  const secondsPerDay = hoursPerDay * 3600;
+  const gbPerCameraPerDay = (perCameraMbps / 8) * secondsPerDay / 1000;
+  const gbPerCameraTotal = gbPerCameraPerDay * retention;
+  const gbAllCamerasPerDay = gbPerCameraPerDay * numCameras;
+  const tbTotal = (gbPerCameraTotal * numCameras) / 1000;
+  const tbWithBuffer = tbTotal * 1.10;
+
+  document.getElementById('resultTB').textContent = fmtNum(tbWithBuffer, tbWithBuffer < 10 ? 2 : 1);
+  document.getElementById('rBitrate').textContent = fmtNum(perCameraMbps, 2) + ' Mbps';
+  document.getElementById('rBandwidth').textContent = fmtNum(totalBandwidthMbps, 1) + ' Mbps (' + fmtNum(totalBandwidthMbps / 1000, 2) + ' Gbps)';
+  document.getElementById('rPerDay').textContent = fmtNum(gbAllCamerasPerDay, 1) + ' GB';
+  document.getElementById('rPerCamera').textContent = fmtNum(gbPerCameraTotal, 1) + ' GB';
+  document.getElementById('rDrive').textContent = nextDriveSize(tbWithBuffer);
+}
+
+calculate();
+</script>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
