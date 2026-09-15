@@ -27,12 +27,16 @@
 <meta name="twitter:description" content="Free NVR storage calculator. Work out exactly how much hard drive space you need for your CCTV cameras based on resolution, fps, codec, and retention days.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="../assets/style.css">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   "name": "NVR Storage Calculator",
   "url": "https://gaugecalc.com/tools/nvr-storage-calculator.html",
   "description": "Calculates required NVR/DVR hard drive storage based on camera count, resolution, frame rate, codec, retention days, and recording mode.",
@@ -57,6 +61,38 @@
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
     { "@type": "ListItem", "position": 2, "name": "NVR Storage Calculator", "item": "https://gaugecalc.com/tools/nvr-storage-calculator.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this account for RAID?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the figure above is raw usable storage. If you're using RAID 1, 5, or 6 for redundancy, you'll need additional drives beyond this number since RAID trades some capacity for fault tolerance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my cameras use variable bitrate (VBR)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most IP cameras run VBR by default, which means actual usage fluctuates with scene complexity. The bitrates used in this calculator are realistic averages for VBR-encoded footage, not the absolute peak — which is exactly why the 10% buffer is built into the drive recommendation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Got a mix of analog and IP cameras, or an older DVR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the CCTV Storage Calculator instead — it covers analog HD-CCTV formats (D1, 960H, AHD/TVI/CVI) alongside IP resolutions in one tool."
+      }
+    }
   ]
 }
 </script>
@@ -444,6 +480,6 @@ function calculate() {
 
 calculate();
 </script>
-<script src="../assets/theme.js"></script>
+<script src="../assets/theme.js" defer></script>
 </body>
 </html>

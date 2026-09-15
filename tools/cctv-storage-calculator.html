@@ -27,12 +27,16 @@
 <meta name="twitter:description" content="Free CCTV storage calculator covering both analog HD (DVR) and IP (NVR) systems. Enter camera count, resolution, and retention to get exact hard drive size.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="../assets/style.css">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   "name": "CCTV Storage Calculator",
   "url": "https://gaugecalc.com/tools/cctv-storage-calculator.html",
   "description": "Calculates required DVR/NVR hard drive storage for both analog HD-CCTV systems (D1, 960H, 720p/1080p AHD/TVI/CVI) and IP camera systems, based on camera count, resolution, frame rate, and retention days.",
@@ -408,6 +412,6 @@ function calculate() {
 populateResolutions();
 calculate();
 </script>
-<script src="../assets/theme.js"></script>
+<script src="../assets/theme.js" defer></script>
 </body>
 </html>

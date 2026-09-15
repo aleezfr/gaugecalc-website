@@ -17,8 +17,6 @@
    avoid FOUC.
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
-
 :root {
   /* --- surfaces & text (light): cool instrument grey, not warm paper --- */
   --bg: #eef1f4;
@@ -28,7 +26,7 @@
   --border-strong: #bcc7d1;
   --text: #101820;
   --text-muted: #4c5b69;
-  --text-faint: #76858f;
+  --text-faint: #5f6d78;
 
   /* --- brand: electric signal-blue trace --- */
   --brand: #0a6ecf;
@@ -910,7 +908,6 @@ textarea:focus {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-faint);
-  opacity: 0.55;
 }
 
 .ad-slot--rect {
