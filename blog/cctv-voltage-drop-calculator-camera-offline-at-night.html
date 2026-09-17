@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCTV Voltage Drop Calculator: Why Cameras Fail After Dark</title>
+<meta name="description" content="Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.">
+<link rel="canonical" href="https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="CCTV Voltage Drop Calculator: Why Cameras Fail After Dark">
+<meta property="og:description" content="Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.">
+<meta property="og:url" content="https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CCTV Voltage Drop Calculator: Why Cameras Fail After Dark">
+<meta name="twitter:description" content="Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "CCTV Voltage Drop Calculator: Why Cameras Fail After Dark",
+  "description": "Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.",
+  "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
+  "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
+  "datePublished": "2026-09-18",
+  "dateModified": "2026-09-18",
+  "mainEntityOfPage": "https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://gaugecalc.com/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "CCTV Voltage Drop Calculator: Why Cameras Fail After Dark", "item": "https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does my CCTV camera keep going offline only at night?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Night mode IR illuminators and heaters draw more current than daytime operation. On a long or thin cable run, that extra current causes more voltage drop, and if voltage at the camera drops below its operating minimum, the camera can reboot or disconnect intermittently."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What wire gauge should I use for a long CCTV camera run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For runs under roughly 100 feet, 20 or 22 AWG is usually fine on a 12V system. Past 100 to 150 feet, 18 AWG is the safer default, especially for cameras with IR illuminators or heaters that spike current draw at night."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I fix voltage drop without repulling the cable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On a Cat5/6 run using only two pairs for power, paralleling the unused pairs for power delivery can cut effective resistance roughly in half. It's a useful stopgap on a marginal run, not a substitute for correct gauge on a new install."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail">
+    <a href="../" class="rail-brand">
+      <span class="rail-mark">G</span>GaugeCalc
+    </a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+
+      <a class="rail-btn" href="../"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></span> Home</a>
+
+    <div class="rail-cat">CCTV Tools</div>
+      <a class="rail-btn" href="../tools/nvr-storage-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span> NVR Storage Calculator</a>
+      <a class="rail-btn" href="../tools/ip-camera-bandwidth-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></span> IP Camera Bandwidth Calculator</a>
+      <a class="rail-btn" href="../tools/cctv-storage-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span> CCTV Storage Calculator</a>
+      <a class="rail-btn" href="../tools/field-of-view-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></span> Field of View Calculator</a>
+      <a class="rail-btn" href="../tools/poe-budget-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></span> PoE Budget Calculator</a>
+
+    <div class="rail-cat">Electrical Tools</div>
+      <a class="rail-btn" href="../tools/amp-hour-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span> Amp Hour Calculator</a>
+      <a class="rail-btn" href="../tools/battery-backup-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span> Battery Backup Calculator</a>
+      <a class="rail-btn" href="../tools/battery-amp-hour-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M9 11.5h6M12 8.5v6"/></svg></span> Battery Amp Hour Calculator</a>
+
+    <div class="rail-cat">Guides</div>
+      <a class="rail-btn" href="./"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5"/></svg></span> All Guides</a>
+      <a class="rail-btn" href="nvr-storage-mistakes"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span> NVR Storage Mistakes</a>
+      <a class="rail-btn" href="ip-camera-bandwidth-mistakes"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></span> IP Bandwidth Mistakes</a>
+      <a class="rail-btn" href="analog-vs-ip-cctv"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span> Analog vs IP CCTV</a>
+      <a class="rail-btn" href="battery-sizing-guide"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span> Battery Sizing Guide</a>
+      <a class="rail-btn" href="cctv-lens-selection-guide"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></span> Lens Selection Guide</a>
+      <a class="rail-btn" href="poe-budget-calculator-how-many-cameras"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></span> PoE Budget Math</a>
+      <a class="rail-btn active" href="cctv-voltage-drop-calculator-camera-offline-at-night"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13h5l-1 8 8-11h-5z"/></svg></span> Voltage Drop at Night</a>
+
+    <div class="rail-cat">Site</div>
+      <a class="rail-btn" href="../privacy-policy"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></span> Privacy Policy</a>
+      <a class="rail-btn" href="../contact"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 6.5 8 6 8-6"/></svg></span> Contact</a>
+      <a class="rail-btn" href="../feedback"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.4 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 1 1 16.9-2.9z"/></svg></span> Feedback</a>
+  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / <a href="./">Guides</a> / CCTV Voltage Drop Calculator</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <span class="eyebrow">Field guide · CCTV &amp; electrical</span>
+      <h1>CCTV Voltage Drop Calculator: Why That Camera Only Goes Offline After Sunset</h1>
+      <p class="lead">
+        Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable
+        pulls cause night time reboot loops.
+      </p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Engineer Ali Zafar &middot; 10+ years field experience</p>
+    </section>
+
+    <article class="article" style="margin-top:8px;">
+
+      <p>
+        This one took me embarrassingly long to figure out the first time it happened.
+      </p>
+      <p>
+        Outdoor camera, decent install, ran fine all day. Every evening, without fail, it would drop offline.
+        Sometimes for a few seconds. Sometimes it would cycle a few times before settling. Customer was
+        convinced the camera was faulty. So was I, honestly. We swapped it. Same behavior on the replacement.
+        Tested the cable for continuity and it passed. Checked the connector, re-terminated it. No change.
+      </p>
+      <p>
+        What finally cracked it was checking voltage at the camera end instead of the source end, and doing
+        it specifically while the IR LEDs were active. At the switch or power supply, everything read a clean
+        12V. At the camera, during the day, it was 12V too. The second the IR array kicked on at dusk and
+        pulled more current than daytime operation, the voltage at the camera end sagged to somewhere around
+        9V. That run was pushing over 200 feet on wire that was fine for a short pull but way too thin once
+        current demand went up.
+      </p>
+
+      <h2>Why this only shows up at night</h2>
+      <p>
+        Voltage drop isn't a fixed number. It scales with current. A camera doing daytime video draws
+        relatively little. The same camera at night, with IR illuminators and sometimes a heater engaged, can
+        draw noticeably more. Over a long, thin cable run, that extra current means extra drop, and if the
+        voltage at the camera end sags below what it needs to operate cleanly, you get exactly what we saw:
+        fine by day, unstable or stuck in a reboot loop after dark. It's one of the most misdiagnosed CCTV
+        issues on site because the symptom points everywhere except the actual cause. People blame the
+        camera, the DVR, the network, anything but the wire.
+      </p>
+
+      <h2>The wire gauge matters more than most installers budget for</h2>
+      <p>
+        Use this table exactly:
+      </p>
+      <table>
+        <thead><tr><th>Gauge</th><th>Typical long run performance</th></tr></thead>
+        <tbody>
+          <tr><td>24 AWG</td><td>Poor beyond roughly 50 to 75 ft on any real load</td></tr>
+          <tr><td>22 AWG</td><td>Fair for shorter runs, weak past roughly 100 ft</td></tr>
+          <tr><td>20 AWG</td><td>Better, but still marginal on long high draw runs</td></tr>
+          <tr><td>18 AWG</td><td>The safe default once you're past 100 to 150 ft</td></tr>
+        </tbody>
+      </table>
+      <p>
+        If you're reusing old low voltage wiring, old alarm cable, or an existing run that was already in the
+        wall, check the gauge before you trust it for a new camera. A lot of legacy wiring was sized for much
+        lighter loads than a modern IR or PTZ camera actually pulls.
+      </p>
+      <p>
+        One trick that's saved me more than once on a run I couldn't easily repull: if you're running over
+        Cat5 or Cat6 and only using two pairs for power, paralleling the spare pairs for power delivery cuts
+        your effective resistance roughly in half. It's not a permanent fix for a badly undersized run, but
+        it's genuinely useful as a stopgap, or on a marginal run where a full repull isn't worth it for the
+        distance involved.
+      </p>
+
+      <h2>What I check now before I leave site</h2>
+      <p>
+        Any run past 100 feet, I don't assume the wire is fine just because it "worked" on the daytime
+        walkthrough. I check voltage at the camera end specifically with IR active, not just on a quick
+        daytime test. If it's sagging, I either upgrade the gauge, shorten the effective run, or use the
+        parallel pair trick as a stopgap until a proper repull.
+      </p>
+      <p>
+        We built a free <a href="../tools/cctv-voltage-drop-calculator">CCTV Voltage Drop Calculator</a> for
+        exactly this, out of the same problem we kept running into on site. Put in your run length, wire
+        gauge, and the camera's current draw, and it tells you what voltage is actually reaching the camera
+        before you find out the hard way at 6pm on install day.
+      </p>
+      <p>
+        Worth checking your camera's rated current draw against an
+        <a href="../tools/amp-hour-calculator">Amp Hour Calculator</a> too if the same run is also feeding a
+        battery backup, and logging the run length against your
+        <a href="../tools/nvr-storage-calculator">NVR Storage Calculator</a> notes so the whole install is
+        documented in one place.
+      </p>
+      <p>
+        If your cameras are PoE rather than a separate 12V run, wire gauge is only half the story. Worth
+        reading how switch power budgets cause the same "fine by day, dead by night" symptom in our
+        <a href="poe-budget-calculator-how-many-cameras">PoE Budget Calculator</a> article.
+      </p>
+
+      <h2>FAQ</h2>
+      <h3>Why does my CCTV camera keep going offline only at night?</h3>
+      <p>
+        Night mode IR illuminators and heaters draw more current than daytime operation. On a long or thin
+        cable run, that extra current causes more voltage drop, and if voltage at the camera drops below its
+        operating minimum, the camera can reboot or disconnect intermittently.
+      </p>
+      <h3>What wire gauge should I use for a long CCTV camera run?</h3>
+      <p>
+        For runs under roughly 100 feet, 20 or 22 AWG is usually fine on a 12V system. Past 100 to 150 feet,
+        18 AWG is the safer default, especially for cameras with IR illuminators or heaters that spike current
+        draw at night.
+      </p>
+      <h3>Can I fix voltage drop without repulling the cable?</h3>
+      <p>
+        On a Cat5/6 run using only two pairs for power, paralleling the unused pairs for power delivery can
+        cut effective resistance roughly in half. It's a useful stopgap on a marginal run, not a substitute
+        for correct gauge on a new install.
+      </p>
+
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.85rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin-top:24px;">By Engineer Ali Zafar &middot; 10+ years field experience</p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=CCTV%20Voltage%20Drop%20Calculator%20Guide">Found something wrong on this page? Send feedback →</a></p>
+
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </aside>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Field guidance only - always confirm against your camera manufacturer's own datasheet.</span>
+    <span><a href="../privacy-policy">Privacy Policy</a> · <a href="../contact">Contact</a> · <a href="../">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="../assets/theme.js" defer></script>
+</body>
+</html>
