@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PoE Budget Calculator (Free) — GaugeCalc</title>
+<meta name="description" content="Free PoE budget calculator for CCTV and network installs. Check switch power headroom, port limits, and how many PoE cameras you can add.">
+<link rel="canonical" href="https://gaugecalc.com/tools/poe-budget-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="PoE Budget Calculator (Free) — GaugeCalc">
+<meta property="og:description" content="Free PoE budget calculator for CCTV and network installs. Check switch power headroom, port limits, and how many PoE cameras you can add.">
+<meta property="og:url" content="https://gaugecalc.com/tools/poe-budget-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PoE Budget Calculator (Free) — GaugeCalc">
+<meta name="twitter:description" content="Free PoE budget calculator for CCTV and network installs. Check switch power headroom, port limits, and how many PoE cameras you can add.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PoE Budget Calculator",
+  "url": "https://gaugecalc.com/tools/poe-budget-calculator",
+  "description": "Calculates PoE switch power budget usage from device count, wattage, PoE standard, and headroom, including an optional cable-loss estimate and a reverse mode for maximum device count.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "PoE Budget Calculator", "item": "https://gaugecalc.com/tools/poe-budget-calculator" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much PoE power does an IP camera use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends heavily on the camera. A basic 2MP fixed camera might draw 4-5W, while a PTZ with a heater can pull 30-40W or more. Always check the camera's own datasheet for its rated draw — the presets in this calculator are starting-point examples, not guarantees."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many cameras can a PoE switch power?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That depends on your switch's total PoE budget, the actual wattage of each camera, and how much headroom you want to keep. Use the \"How Many Cameras?\" mode above to get a number based on both your power budget and your port count."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between 802.3af and 802.3at?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "802.3af (Type 1) delivers up to 15.4W from the switch (PSE) and about 12.95W at the device (PD) after standard cable loss. 802.3at (Type 2, often called PoE+) roughly doubles that to 30W PSE / 25.5W PD, enough for most PTZ cameras and access points."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is 802.3bt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "802.3bt is the newer standard that adds Type 3 (60W PSE / 51W PD) and Type 4 (90W PSE / roughly 71-73W PD depending on the reference), using all four pairs in the cable instead of two. It's aimed at high-draw devices like PTZ cameras with heaters, video walls, and some access points."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I leave headroom on a PoE switch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most technicians plan with some margin rather than right at the switch's rated limit, since real-world draw can spike briefly during camera boot-up, IR turning on, or PTZ movement. This calculator defaults to 20% headroom as a planning convention, not an IEEE requirement — adjust it to match how your team normally specs jobs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does cable length reduce PoE power?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every meter of copper adds resistance, and that resistance turns some of the power into heat along the way rather than at the device. The loss is usually small on a typical 30-50m run but grows with length, which is why this calculator offers an optional cable-loss estimate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is PoE switch wattage the same as camera power?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, and mixing these up is one of the most common sizing mistakes. Switch wattage (PSE) is what the switch can source; the camera's actual draw (PD) is always somewhat lower once cable loss is accounted for. This calculator keeps the two separate rather than treating them as interchangeable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I mix PoE and PoE+ cameras on one switch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Most modern PoE switches negotiate power per port based on what each connected device requests, so af, at, and bt devices can share the same switch as long as the total draw stays within the switch's overall PoE budget."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail">
+    <a href="../" class="rail-brand">
+      <span class="rail-mark">G</span>GaugeCalc
+    </a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+
+      <a class="rail-btn" href="../"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></span> Home</a>
+
+    <div class="rail-cat">CCTV Tools</div>
+      <a class="rail-btn" href="nvr-storage-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span> NVR Storage Calculator</a>
+      <a class="rail-btn" href="ip-camera-bandwidth-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></span> IP Camera Bandwidth Calculator</a>
+      <a class="rail-btn" href="cctv-storage-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span> CCTV Storage Calculator</a>
+      <a class="rail-btn" href="field-of-view-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></span> Field of View Calculator</a>
+      <a class="rail-btn active" href="poe-budget-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></span> PoE Budget Calculator</a>
+
+    <div class="rail-cat">Electrical Tools</div>
+      <a class="rail-btn" href="amp-hour-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span> Amp Hour Calculator</a>
+      <a class="rail-btn" href="battery-backup-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span> Battery Backup Calculator</a>
+      <a class="rail-btn" href="battery-amp-hour-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M9 11.5h6M12 8.5v6"/></svg></span> Battery Amp Hour Calculator</a>
+
+    <div class="rail-cat">Guides</div>
+      <a class="rail-btn" href="../blog/"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5"/></svg></span> All Guides</a>
+      <a class="rail-btn" href="../blog/nvr-storage-mistakes"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span> NVR Storage Mistakes</a>
+      <a class="rail-btn" href="../blog/ip-camera-bandwidth-mistakes"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></span> IP Bandwidth Mistakes</a>
+      <a class="rail-btn" href="../blog/analog-vs-ip-cctv"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span> Analog vs IP CCTV</a>
+      <a class="rail-btn" href="../blog/battery-sizing-guide"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span> Battery Sizing Guide</a>
+      <a class="rail-btn" href="../blog/cctv-lens-selection-guide"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></span> Lens Selection Guide</a>
+
+    <div class="rail-cat">Site</div>
+      <a class="rail-btn" href="../privacy-policy"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></span> Privacy Policy</a>
+      <a class="rail-btn" href="../contact"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 6.5 8 6 8-6"/></svg></span> Contact</a>
+      <a class="rail-btn" href="../feedback"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.4 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 1 1 16.9-2.9z"/></svg></span> Feedback</a>
+  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / PoE Budget Calculator</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>PoE Budget Calculator</h1>
+      <p class="lead">
+        Check whether your PoE switch can actually power the cameras and other devices you're planning to
+        connect — or flip it around and work out how many devices a given switch budget can support.
+        Enter your switch's PoE budget and add device rows to get an instant power and port check.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <div class="panel">
+        <h2>Mode</h2>
+        <div class="field" style="margin-bottom:18px;">
+          <div class="toggle-row" id="modeToggle">
+            <button type="button" class="toggle-btn active" data-value="budget">Budget Check</button>
+            <button type="button" class="toggle-btn" data-value="reverse">How Many Cameras?</button>
+          </div>
+        </div>
+
+        <h2>Your switch</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="switchBudget">PoE power budget (W)</label>
+            <input type="number" id="switchBudget" min="1" max="4000" step="1" value="120">
+          </div>
+          <div class="field">
+            <label for="switchPorts">PoE ports</label>
+            <input type="number" id="switchPorts" min="1" max="512" step="1" value="16">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:6px;">
+          <label>Headroom <span class="hint">reserved margin, not an IEEE requirement</span></label>
+          <div class="toggle-row" id="headroomToggle">
+            <button type="button" class="toggle-btn" data-value="0">0%</button>
+            <button type="button" class="toggle-btn" data-value="15">15%</button>
+            <button type="button" class="toggle-btn active" data-value="20">20%</button>
+            <button type="button" class="toggle-btn" data-value="30">30%</button>
+          </div>
+          <span class="hint" style="margin-top:4px;">Planning headroom is a design choice, not a PoE standard requirement. 20% is a practical default, not an IEEE rule.</span>
+        </div>
+
+        <div class="field" style="margin-bottom:6px;">
+          <label>Cable-loss estimate <span class="hint">optional, off by default</span></label>
+          <div class="toggle-row" id="cableToggle">
+            <button type="button" class="toggle-btn active" data-value="off">Off</button>
+            <button type="button" class="toggle-btn" data-value="on">Include cable-loss estimate</button>
+          </div>
+        </div>
+
+        <!-- ================= BUDGET CHECK MODE ================= -->
+        <div id="modeBudgetSection" style="margin-top:22px;">
+          <h2>Devices</h2>
+          <div id="deviceList"></div>
+          <button type="button" class="btn btn-ghost" id="addDeviceBtn" style="width:100%; justify-content:center;">+ Add device</button>
+        </div>
+
+        <!-- ================= REVERSE MODE ================= -->
+        <div id="modeReverseSection" style="display:none; margin-top:22px;">
+          <h2>Device to add</h2>
+          <div class="field-row">
+            <div class="field">
+              <label for="reversePreset">Device preset</label>
+              <select id="reversePreset"></select>
+            </div>
+            <div class="field">
+              <label for="reverseStandard">PoE standard</label>
+              <select id="reverseStandard"></select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="reverseWatts">Watts per device <span class="hint">editable — not a universal spec</span></label>
+              <input type="number" id="reverseWatts" min="0.1" step="0.1" value="6">
+            </div>
+            <div></div>
+          </div>
+          <div class="field-row dr-cable-fields" id="reverseCableFields" style="display:none;">
+            <div class="field">
+              <label for="reverseLength">Cable length</label>
+              <input type="number" id="reverseLength" min="0" step="1" value="30">
+            </div>
+            <div class="field">
+              <label for="reverseLengthUnit">Unit</label>
+              <select id="reverseLengthUnit">
+                <option value="m">Meters</option>
+                <option value="ft">Feet</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel result-panel">
+        <!-- ================= BUDGET RESULTS ================= -->
+        <div id="resultsBudget">
+          <h2>Switch budget</h2>
+          <div class="result-hero">
+            <span class="value" id="resultRemaining">—</span><span class="unit" id="resultRemainingUnit">W</span>
+            <div class="caption" id="resultRemainingCaption">remaining budget</div>
+          </div>
+
+          <div class="budget-bar" role="img" aria-label="Budget usage bar">
+            <div class="budget-bar__fill" id="budgetBarFill" style="width:0%;"></div>
+          </div>
+          <div class="budget-bar-caption">
+            <span id="budgetBarUsedText">— W used of — W</span>
+            <span id="budgetBarPctText">—%</span>
+          </div>
+
+          <p style="margin:10px 0 16px;"><span class="status-pill ok" id="statusPill">Within budget</span></p>
+
+          <div class="result-list">
+            <div class="result-row"><span class="k">Total device load</span><span class="v" id="rDeviceLoad">—</span></div>
+            <div class="result-row" id="rCableLossRow" style="display:none;"><span class="k">Estimated cable power loss</span><span class="v" id="rCableLoss">—</span></div>
+            <div class="result-row"><span class="k">Headroom allowance</span><span class="v" id="rHeadroom">—</span></div>
+            <div class="result-row"><span class="k">Planning requirement</span><span class="v" id="rPlanning">—</span></div>
+            <div class="result-row"><span class="k">Switch PoE budget</span><span class="v" id="rSwitchBudget">—</span></div>
+            <div class="result-row"><span class="k">Ports used</span><span class="v" id="rPortsUsed">—</span></div>
+            <div class="result-row"><span class="k">Ports remaining</span><span class="v" id="rPortsRemaining">—</span></div>
+          </div>
+
+          <div class="warn-box" id="portWarning" style="display:none;">
+            More devices are assigned than this switch has ports for. Total quantity across all rows can't
+            exceed the port count above.
+          </div>
+
+          <div class="recommend-box">
+            Recommended minimum switch budget: <strong id="rRecommend">—</strong>
+            <br><span style="font-size:0.8rem;">This checks total budget only — confirm the switch's per-port maximum separately, since a high total budget doesn't guarantee any single port can deliver a high-draw device.</span>
+          </div>
+        </div>
+
+        <!-- ================= REVERSE RESULTS ================= -->
+        <div id="resultsReverse" style="display:none;">
+          <h2>How many devices?</h2>
+          <div class="result-hero">
+            <span class="value" id="resultMaxDevices">—</span><span class="unit">devices</span>
+            <div class="caption" id="resultMaxCaption">maximum you can add</div>
+          </div>
+
+          <div class="result-list">
+            <div class="result-row"><span class="k">Power limit</span><span class="v" id="rPowerLimit">—</span></div>
+            <div class="result-row"><span class="k">Port limit</span><span class="v" id="rPortLimit">—</span></div>
+            <div class="result-row"><span class="k">Usable planning budget</span><span class="v" id="rUsableBudget">—</span></div>
+            <div class="result-row" id="rReverseLossRow" style="display:none;"><span class="k">Estimated cable power loss per device</span><span class="v" id="rReverseLoss">—</span></div>
+          </div>
+
+          <div class="recommend-box" id="reverseLimitNote">
+            —
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot" role="complementary" aria-label="Advertisement">
+      <span class="ad-slot__label">Advertisement</span>
+    </div>
+-->
+
+    <article class="article">
+      <h2>How this calculator works</h2>
+      <p>
+        Start with your switch's total PoE budget and port count, then add one row per device group — a
+        preset fills in a reasonable example wattage, which you can overwrite with the actual figure from
+        your device's datasheet. The calculator adds up every device's load, applies your chosen headroom
+        percentage, and checks the result against your switch's budget and port count as two separate
+        limits. Switch to "How Many Cameras?" mode to run the same math backwards: given a switch budget and
+        a device wattage, how many can it actually support.
+      </p>
+
+      <h2>PoE budget vs. device power</h2>
+      <p>
+        PoE numbers get confusing fast because two different power figures are in play at once. <strong>PSE
+        power</strong> is what the switch (the Power Sourcing Equipment) is rated to deliver per port under
+        its standard — 15.4W for 802.3af, 30W for 802.3at, 60W or 90W for 802.3bt. <strong>PD power</strong>
+        is what the connected device (the Powered Device) actually receives after standard cable loss is
+        accounted for, which is always somewhat lower. Neither of these is the same as your device's real
+        rated draw, which comes from its own datasheet and is the number this calculator actually uses for
+        the load estimate.
+      </p>
+      <div class="note-box">
+        <strong>Formula:</strong> device load = quantity × watts per device. Total load = sum across all
+        rows. Planning requirement = total load × (1 + headroom%). The PoE standard/type selected per row
+        sets a reference PSE/PD ceiling for that standard — it does not multiply into the load calculation.
+      </div>
+
+      <h2>Why the switch wattage is not the whole story</h2>
+      <p>
+        A switch's headline PoE budget (say, 120W) is the total it can hand out across every port combined,
+        not a guarantee about any single port. Two separate constraints have to both be satisfied: the
+        <em>total</em> budget across all connected devices, and each port's own maximum capability, which
+        this calculator can't verify since it depends on your specific switch model. A 16-port, 120W switch
+        could comfortably power sixteen 5W readers, but the same switch might not be able to push a single
+        60W PTZ-with-heater out of one port even though the total budget has room — check your switch's
+        datasheet for its per-port maximum before assigning a high-draw device to a single port.
+      </p>
+
+      <h2>Worked example</h2>
+      <p>
+        16-port PoE switch, 120W total budget, ten 4MP cameras at 8W each, 20% headroom.
+      </p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Total device load</td><td>10 × 8W = 80W</td></tr>
+          <tr><td>Headroom allowance (20%)</td><td>80W × 0.20 = 16W</td></tr>
+          <tr><td>Planning requirement</td><td>80W + 16W = 96W</td></tr>
+          <tr><td>Remaining budget</td><td>120W − 96W = 24W</td></tr>
+          <tr><td>Ports used / remaining</td><td>10 used, 6 remaining</td></tr>
+        </tbody>
+      </table>
+      <p>
+        This switch comfortably covers the ten cameras with headroom to spare on both power and ports. Add
+        five more of the same camera (120W total load, 144W planning requirement) and the same switch would
+        be over budget even though three ports are still free — the power budget runs out before the ports
+        do.
+      </p>
+
+      <h2>PoE standards reference</h2>
+      <table>
+        <thead><tr><th>Type</th><th>IEEE standard</th><th>PSE power</th><th>PD power</th><th>Pairs used</th></tr></thead>
+        <tbody>
+          <tr><td>Type 1</td><td>802.3af</td><td>15.4 W</td><td>12.95 W</td><td>2</td></tr>
+          <tr><td>Type 2</td><td>802.3at (PoE+)</td><td>30 W</td><td>25.5 W</td><td>2</td></tr>
+          <tr><td>Type 3</td><td>802.3bt</td><td>60 W</td><td>51 W</td><td>4</td></tr>
+          <tr><td>Type 4</td><td>802.3bt</td><td>90 W</td><td>≈71-73 W</td><td>4</td></tr>
+        </tbody>
+      </table>
+      <p>
+        These are the standards' own reference ceilings, not a specific device's actual draw — a 4MP camera
+        rated for 802.3af compatibility typically uses well under its 12.95W PD allowance in practice. Use
+        the standard to confirm compatibility with your switch, and use the device's own datasheet for the
+        wattage that actually drives this calculator's results.
+      </p>
+
+      <h2>Cable loss</h2>
+      <p>
+        Every meter of twisted-pair copper has resistance, and current flowing through that resistance turns
+        some power into heat along the cable run rather than delivering it to the device — this is ordinary
+        I²R power loss, the same physics behind voltage drop on any DC circuit. When the estimate is switched
+        on, this calculator uses the worst-case channel resistance each PoE standard itself assumes: 20 Ω per
+        100m for 802.3af and 12.5 Ω per 100m for 802.3at, both of which reproduce the standard's own published
+        gap between PSE and PD power exactly when combined with that standard's maximum current (for example,
+        0.35A² × 20Ω = 2.45W, matching the af PSE/PD difference of 15.4W − 12.95W). 802.3bt Type 3 and Type 4
+        both run two 2-pair feeds in parallel and share a documented worst-case channel resistance of 6.25 Ω
+        per 100m — independently verified here the same way: 1.2A² × 6.25Ω = 9W (matching Type 3's 60W − 51W
+        gap) and 1.73A² × 6.25Ω = 18.7W (matching Type 4's 90W − 71.3W gap). The calculator then estimates
+        each device's current from its wattage at a nominal 52V PSE output to turn that resistance into a
+        watts figure for your actual entered load, not the standard's theoretical maximum.
+      </p>
+      <div class="warn-box">
+        <strong>This is an estimate, not a guaranteed delivered-power figure — "estimated cable power loss,"
+        not a certified measurement.</strong> Real-world results depend on actual conductor gauge, cable
+        construction, connector quality, temperature, and how the run is installed — none of which this
+        calculator can see. We could not source a distinctly verified resistance figure for Cat6A
+        specifically (it commonly uses a heavier 23 AWG conductor with somewhat lower resistance than the
+        standard's own worst-case assumption used here, but we didn't have an authoritative number to cite
+        for it at the time this was built). If you know your cable's actual rated resistance from its
+        datasheet, use the "Custom resistance" option instead of the standard default for a more accurate
+        estimate. This estimate also assumes a normal Ethernet channel run within the standard's supported
+        length (up to 100m) — it does not validate link performance or certify the cable run itself.
+      </div>
+
+      <h2>Common field mistakes</h2>
+      <p>
+        A few PoE sizing mistakes come up often enough to be worth calling out directly: planning purely from
+        port count and ignoring the total wattage budget; reading a switch's headline power rating (often the
+        switch's own consumption or a marketing figure) instead of its actual usable PoE budget; sizing PTZ
+        cameras, heaters, and IR illuminators at their idle draw instead of their peak; treating a preset or
+        datasheet "typical" wattage as a hard guarantee rather than a starting point; planning a job at
+        exactly 100% of budget with no margin for growth or measurement variance; and assuming a switch's
+        total PoE budget means any single port can deliver that much power, when the per-port maximum is
+        usually lower and switch-specific.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How much PoE power does an IP camera use?</h3>
+      <p>
+        It depends heavily on the camera. A basic 2MP fixed camera might draw 4-5W, while a PTZ with a
+        heater can pull 30-40W or more. Always check the camera's own datasheet for its rated draw — the
+        presets in this calculator are starting-point examples, not guarantees.
+      </p>
+      <h3>How many cameras can a PoE switch power?</h3>
+      <p>
+        That depends on your switch's total PoE budget, the actual wattage of each camera, and how much
+        headroom you want to keep. Use the "How Many Cameras?" mode above to get a number based on both
+        your power budget and your port count.
+      </p>
+      <h3>What is the difference between 802.3af and 802.3at?</h3>
+      <p>
+        802.3af (Type 1) delivers up to 15.4W from the switch (PSE) and about 12.95W at the device (PD)
+        after standard cable loss. 802.3at (Type 2, often called PoE+) roughly doubles that to 30W PSE /
+        25.5W PD, enough for most PTZ cameras and access points.
+      </p>
+      <h3>What is 802.3bt?</h3>
+      <p>
+        802.3bt is the newer standard that adds Type 3 (60W PSE / 51W PD) and Type 4 (90W PSE / roughly
+        71-73W PD depending on the reference), using all four pairs in the cable instead of two. It's aimed
+        at high-draw devices like PTZ cameras with heaters, video walls, and some access points.
+      </p>
+      <h3>Should I leave headroom on a PoE switch?</h3>
+      <p>
+        Most technicians plan with some margin rather than right at the switch's rated limit, since
+        real-world draw can spike briefly during camera boot-up, IR turning on, or PTZ movement. This
+        calculator defaults to 20% headroom as a planning convention, not an IEEE requirement — adjust it
+        to match how your team normally specs jobs.
+      </p>
+      <h3>Does cable length reduce PoE power?</h3>
+      <p>
+        Yes. Every meter of copper adds resistance, and that resistance turns some of the power into heat
+        along the way rather than at the device. The loss is usually small on a typical 30-50m run but
+        grows with length, which is why this calculator offers an optional cable-loss estimate.
+      </p>
+      <h3>Is PoE switch wattage the same as camera power?</h3>
+      <p>
+        No, and mixing these up is one of the most common sizing mistakes. Switch wattage (PSE) is what the
+        switch can source; the camera's actual draw (PD) is always somewhat lower once cable loss is
+        accounted for. This calculator keeps the two separate rather than treating them as interchangeable.
+      </p>
+      <h3>Can I mix PoE and PoE+ cameras on one switch?</h3>
+      <p>
+        Yes. Most modern PoE switches negotiate power per port based on what each connected device requests,
+        so af, at, and bt devices can share the same switch as long as the total draw stays within the
+        switch's overall PoE budget.
+      </p>
+
+      <h2>Related CCTV tools</h2>
+      <p>
+        Once your power budget checks out, confirm the rest of the install: the
+        <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a> sizes your switch
+        uplink, the <a href="nvr-storage-calculator">NVR Storage Calculator</a> or
+        <a href="cctv-storage-calculator">CCTV Storage Calculator</a> works out drive space for the
+        retention period you need, and the <a href="battery-backup-calculator">Battery Backup
+        Calculator</a> sizes backup power for the switch and NVR if the install needs it.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=PoE%20Budget%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
+
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </aside>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Estimates only — always confirm against your switch and device manufacturer's own datasheets.</span>
+    <span><a href="../privacy-policy">Privacy Policy</a> · <a href="../contact">Contact</a> · <a href="../">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------- Reference data ---------- */
+
+// chOhms100m = worst-case channel resistance per 100m, verified against each standard's own
+// published PSE-PD gap: current(A)^2 x resistance(ohm) = PSE watts - PD watts.
+// af:  0.35A^2 x 20ohm   = 2.45W = 15.4 - 12.95
+// at:  0.6A^2  x 12.5ohm = 4.5W  = 30   - 25.5
+// bt3: 1.2A^2  x 6.25ohm = 9.0W  = 60   - 51    (two 2-pair feeds in parallel, 0.6A/pair x2)
+// bt4: 1.73A^2 x 6.25ohm = 18.7W = 90   - 71.3  (two 2-pair feeds in parallel)
+var POE_TYPES = {
+  af:  { label: '802.3af — Type 1', pse: 15.4, pd: 12.95, pairs: 2, chOhms100m: 20   },
+  at:  { label: '802.3at — Type 2', pse: 30,   pd: 25.5,  pairs: 2, chOhms100m: 12.5 },
+  bt3: { label: '802.3bt — Type 3', pse: 60,   pd: 51,    pairs: 4, chOhms100m: 6.25 },
+  bt4: { label: '802.3bt — Type 4', pse: 90,   pd: 71.3,  pairs: 4, chOhms100m: 6.25 }
+};
+
+var DEVICE_PRESETS = {
+  cam2mp:   { label: '2MP IP Camera',         watts: 4,  standard: 'af'  },
+  cam4mp:   { label: '4MP IP Camera',         watts: 6,  standard: 'af'  },
+  cam8mp:   { label: '8MP IP Camera',         watts: 8,  standard: 'at'  },
+  ptz:      { label: 'PTZ Camera',            watts: 20, standard: 'at'  },
+  ptzHeat:  { label: 'PTZ + Heater',          watts: 40, standard: 'bt3' },
+  ap:       { label: 'Wi-Fi Access Point',    watts: 12, standard: 'at'  },
+  reader:   { label: 'Access Control Reader', watts: 5,  standard: 'af'  },
+  intercom: { label: 'Intercom',              watts: 7,  standard: 'af'  },
+  ir:       { label: 'IR Illuminator',        watts: 15, standard: 'at'  },
+  custom:   { label: 'Custom Device',         watts: 10, standard: 'at'  }
+};
+
+var DEFAULT_CH_OHMS_100M = 12.5; // starting value shown for "Custom resistance" — the 802.3at channel figure
+var PSE_NOMINAL_V = 52; // nominal PSE output voltage (within the 44-57V range PSE standards allow) used to estimate device current for cable-loss math
+var SWITCH_SIZES = [60, 90, 120, 150, 180, 240, 370, 480];
+
+function fmtNum(n, decimals) {
+  decimals = decimals === undefined ? 1 : decimals;
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
+}
+
+function presetOptionsHTML(selected) {
+  var out = '';
+  for (var key in DEVICE_PRESETS) {
+    out += '<option value="' + key + '"' + (key === selected ? ' selected' : '') + '>' + DEVICE_PRESETS[key].label + '</option>';
+  }
+  return out;
+}
+
+function standardOptionsHTML(selected) {
+  var out = '';
+  for (var key in POE_TYPES) {
+    out += '<option value="' + key + '"' + (key === selected ? ' selected' : '') + '>' + POE_TYPES[key].label + '</option>';
+  }
+  return out;
+}
+
+/* ---------- Mode toggle ---------- */
+
+var mode = 'budget';
+var modeToggle = document.getElementById('modeToggle');
+var modeBudgetSection = document.getElementById('modeBudgetSection');
+var modeReverseSection = document.getElementById('modeReverseSection');
+var resultsBudget = document.getElementById('resultsBudget');
+var resultsReverse = document.getElementById('resultsReverse');
+
+modeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    modeToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    mode = btn.dataset.value;
+    modeBudgetSection.style.display = mode === 'budget' ? 'block' : 'none';
+    modeReverseSection.style.display = mode === 'reverse' ? 'block' : 'none';
+    resultsBudget.style.display = mode === 'budget' ? 'block' : 'none';
+    resultsReverse.style.display = mode === 'reverse' ? 'block' : 'none';
+    calculate();
+  });
+});
+
+/* ---------- Headroom toggle ---------- */
+
+var headroomToggle = document.getElementById('headroomToggle');
+headroomToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    headroomToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    calculate();
+  });
+});
+
+function getHeadroomPct() {
+  var active = headroomToggle.querySelector('.toggle-btn.active');
+  return active ? parseFloat(active.dataset.value) : 0;
+}
+
+/* ---------- Cable-loss toggle ---------- */
+
+var cableLossOn = false;
+var cableToggle = document.getElementById('cableToggle');
+var reverseCableFields = document.getElementById('reverseCableFields');
+
+cableToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    cableToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    cableLossOn = btn.dataset.value === 'on';
+    document.querySelectorAll('.dr-cable-fields').forEach(function (el) {
+      el.style.display = cableLossOn ? 'grid' : 'none';
+    });
+    calculate();
+  });
+});
+
+/* ---------- Device rows (Budget Check mode) ---------- */
+
+var deviceList = document.getElementById('deviceList');
+var addDeviceBtn = document.getElementById('addDeviceBtn');
+var rowCounter = 0;
+
+function rowTemplate(id, presetKey) {
+  var preset = DEVICE_PRESETS[presetKey];
+  return (
+    '<div class="device-row" data-row-id="' + id + '">' +
+      '<div class="device-row-header">' +
+        '<span class="device-row-title">Device group</span>' +
+        '<button type="button" class="device-row-remove" aria-label="Remove this device row">&times;</button>' +
+      '</div>' +
+      '<div class="device-grid">' +
+        '<div class="field">' +
+          '<label for="dr-preset-' + id + '">Device preset</label>' +
+          '<select id="dr-preset-' + id + '" class="dr-preset">' + presetOptionsHTML(presetKey) + '</select>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="dr-qty-' + id + '">Quantity</label>' +
+          '<input type="number" id="dr-qty-' + id + '" class="dr-qty" min="1" max="512" step="1" value="1">' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="dr-standard-' + id + '">PoE standard</label>' +
+          '<select id="dr-standard-' + id + '" class="dr-standard">' + standardOptionsHTML(preset.standard) + '</select>' +
+          '<span class="poe-type-hint dr-standard-hint"></span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="dr-watts-' + id + '">Watts per device <span class="hint">editable — not a universal spec</span></label>' +
+          '<input type="number" id="dr-watts-' + id + '" class="dr-watts" min="0.1" step="0.1" value="' + preset.watts + '">' +
+        '</div>' +
+      '</div>' +
+      '<div class="device-grid dr-cable-fields" style="display:' + (cableLossOn ? 'grid' : 'none') + '; margin-top:10px;">' +
+        '<div class="field">' +
+          '<label for="dr-length-' + id + '">Cable length</label>' +
+          '<input type="number" id="dr-length-' + id + '" class="dr-length" min="0" step="1" value="30">' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="dr-length-unit-' + id + '">Unit</label>' +
+          '<select id="dr-length-unit-' + id + '" class="dr-length-unit">' +
+            '<option value="m">Meters</option>' +
+            '<option value="ft">Feet</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="dr-cable-type-' + id + '">Cable resistance basis</label>' +
+          '<select id="dr-cable-type-' + id + '" class="dr-cable-type">' +
+            '<option value="standard">Standard copper (IEEE worst-case for this row\'s PoE type)</option>' +
+            '<option value="custom">Custom resistance</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="field dr-custom-r-field" style="display:none;">' +
+          '<label for="dr-custom-r-' + id + '">Custom resistance <span class="hint">&#8486; per 100m, loop</span></label>' +
+          '<input type="number" id="dr-custom-r-' + id + '" class="dr-custom-r" min="0" step="0.1" value="' + DEFAULT_CH_OHMS_100M + '">' +
+        '</div>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+function updateRowHint(row) {
+  var std = POE_TYPES[row.querySelector('.dr-standard').value];
+  row.querySelector('.dr-standard-hint').textContent = 'Capability ceiling: ' + std.pse + 'W PSE / ' + std.pd + 'W PD — not this device’s actual draw';
+}
+
+function addRow(presetKey) {
+  rowCounter++;
+  deviceList.insertAdjacentHTML('beforeend', rowTemplate(rowCounter, presetKey || 'cam4mp'));
+  var row = deviceList.querySelector('[data-row-id="' + rowCounter + '"]');
+  updateRowHint(row);
+  calculate();
+}
+
+function resetRow(row) {
+  row.querySelector('.dr-preset').value = 'cam4mp';
+  row.querySelector('.dr-qty').value = 1;
+  row.querySelector('.dr-standard').value = DEVICE_PRESETS.cam4mp.standard;
+  row.querySelector('.dr-watts').value = DEVICE_PRESETS.cam4mp.watts;
+  updateRowHint(row);
+}
+
+addDeviceBtn.addEventListener('click', function () { addRow('cam4mp'); });
+
+// Event delegation: dynamically added rows are covered automatically.
+deviceList.addEventListener('input', function (e) {
+  var t = e.target;
+  if (t.classList.contains('dr-qty') || t.classList.contains('dr-watts') ||
+      t.classList.contains('dr-length') || t.classList.contains('dr-custom-r')) {
+    calculate();
+  }
+});
+
+deviceList.addEventListener('change', function (e) {
+  var t = e.target;
+  var row = t.closest('.device-row');
+  if (t.classList.contains('dr-preset')) {
+    var preset = DEVICE_PRESETS[t.value];
+    row.querySelector('.dr-watts').value = preset.watts;
+    row.querySelector('.dr-standard').value = preset.standard;
+    updateRowHint(row);
+    calculate();
+  } else if (t.classList.contains('dr-standard')) {
+    updateRowHint(row);
+    calculate();
+  } else if (t.classList.contains('dr-cable-type')) {
+    row.querySelector('.dr-custom-r-field').style.display = t.value === 'custom' ? 'flex' : 'none';
+    calculate();
+  } else if (t.classList.contains('dr-length-unit') || t.classList.contains('dr-qty')) {
+    calculate();
+  }
+});
+
+deviceList.addEventListener('click', function (e) {
+  var removeBtn = e.target.closest('.device-row-remove');
+  if (!removeBtn) return;
+  var rows = deviceList.querySelectorAll('.device-row');
+  if (rows.length <= 1) {
+    resetRow(rows[0]);
+  } else {
+    removeBtn.closest('.device-row').remove();
+  }
+  calculate();
+});
+
+/* ---------- Reverse mode inputs ---------- */
+
+var reversePresetSelect = document.getElementById('reversePreset');
+var reverseStandardSelect = document.getElementById('reverseStandard');
+var reverseWattsInput = document.getElementById('reverseWatts');
+var reverseLengthInput = document.getElementById('reverseLength');
+var reverseLengthUnitSelect = document.getElementById('reverseLengthUnit');
+
+reversePresetSelect.innerHTML = presetOptionsHTML('cam4mp');
+reverseStandardSelect.innerHTML = standardOptionsHTML(DEVICE_PRESETS.cam4mp.standard);
+
+reversePresetSelect.addEventListener('change', function () {
+  var preset = DEVICE_PRESETS[reversePresetSelect.value];
+  reverseWattsInput.value = preset.watts;
+  reverseStandardSelect.value = preset.standard;
+  calculate();
+});
+[reverseStandardSelect, reverseWattsInput, reverseLengthInput, reverseLengthUnitSelect].forEach(function (el) {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+/* Cable-loss toggle also needs to show/hide the reverse-mode length fields */
+cableToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    reverseCableFields.style.display = cableLossOn ? 'grid' : 'none';
+  });
+});
+
+/* ---------- Switch inputs ---------- */
+
+var switchBudgetInput = document.getElementById('switchBudget');
+var switchPortsInput = document.getElementById('switchPorts');
+[switchBudgetInput, switchPortsInput].forEach(function (el) {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+/* ---------- Shared cable-loss math ---------- */
+
+function cableLossWattsForDevice(watts, standardKey, lengthVal, lengthUnit, cableType, customR) {
+  if (!cableLossOn || lengthVal <= 0) return 0;
+  var lengthM = lengthUnit === 'ft' ? lengthVal * 0.3048 : lengthVal;
+  var type = POE_TYPES[standardKey] || POE_TYPES.at;
+  var rPer100 = cableType === 'custom' ? Math.max(0, customR) : type.chOhms100m;
+  var loopR = rPer100 * (lengthM / 100);
+  var current = watts / PSE_NOMINAL_V;
+  return current * current * loopR; // I^2R loss, watts, per single device
+}
+
+function recommendSwitchSize(w) {
+  for (var i = 0; i < SWITCH_SIZES.length; i++) {
+    if (w <= SWITCH_SIZES[i]) return SWITCH_SIZES[i] + ' W';
+  }
+  return (Math.ceil(w / 60) * 60) + ' W (multiple switches or a higher-capacity unit)';
+}
+
+/* ---------- Budget Check calculation ---------- */
+
+function calculateBudgetMode() {
+  var switchBudget = Math.max(0, parseFloat(switchBudgetInput.value) || 0);
+  var switchPorts = Math.max(0, parseInt(switchPortsInput.value, 10) || 0);
+  var headroomPct = getHeadroomPct();
+
+  var totalDeviceLoad = 0;
+  var totalPortsUsed = 0;
+  var totalCableLoss = 0;
+
+  deviceList.querySelectorAll('.device-row').forEach(function (row) {
+    var qty = Math.max(0, parseInt(row.querySelector('.dr-qty').value, 10) || 0);
+    var watts = Math.max(0, parseFloat(row.querySelector('.dr-watts').value) || 0);
+    var standard = row.querySelector('.dr-standard').value;
+
+    totalDeviceLoad += qty * watts;
+    totalPortsUsed += qty;
+
+    if (cableLossOn) {
+      var lengthVal = Math.max(0, parseFloat(row.querySelector('.dr-length').value) || 0);
+      var lengthUnit = row.querySelector('.dr-length-unit').value;
+      var cableType = row.querySelector('.dr-cable-type').value;
+      var customR = Math.max(0, parseFloat(row.querySelector('.dr-custom-r').value) || 0);
+      totalCableLoss += cableLossWattsForDevice(watts, standard, lengthVal, lengthUnit, cableType, customR) * qty;
+    }
+  });
+
+  var pseLoad = totalDeviceLoad + totalCableLoss;
+  var headroomWatts = pseLoad * (headroomPct / 100);
+  var planningRequirement = pseLoad + headroomWatts;
+  var remaining = switchBudget - planningRequirement;
+  // usedPct is null when there's no budget to divide by but a real load exists —
+  // showing "0%" in that case would contradict the "over budget" status it also triggers.
+  var usedPct = switchBudget > 0 ? (planningRequirement / switchBudget * 100) : (planningRequirement > 0 ? null : 0);
+  var portsRemaining = switchPorts - totalPortsUsed;
+  var overBudget = remaining < 0;
+
+  document.getElementById('rCableLossRow').style.display = cableLossOn ? 'flex' : 'none';
+  document.getElementById('rCableLoss').textContent = fmtNum(totalCableLoss, 2) + ' W';
+  document.getElementById('rDeviceLoad').textContent = fmtNum(totalDeviceLoad, 1) + ' W';
+  document.getElementById('rHeadroom').textContent = fmtNum(headroomWatts, 1) + ' W';
+  document.getElementById('rPlanning').textContent = fmtNum(planningRequirement, 1) + ' W';
+  document.getElementById('rSwitchBudget').textContent = fmtNum(switchBudget, 0) + ' W';
+  document.getElementById('rPortsUsed').textContent = totalPortsUsed;
+  document.getElementById('rPortsRemaining').textContent = portsRemaining;
+  document.getElementById('rRecommend').textContent = recommendSwitchSize(planningRequirement);
+
+  var heroEl = document.getElementById('resultRemaining');
+  var heroUnit = document.getElementById('resultRemainingUnit');
+  var heroCaption = document.getElementById('resultRemainingCaption');
+  if (overBudget) {
+    heroEl.textContent = fmtNum(Math.abs(remaining), 1);
+    heroUnit.textContent = 'W over budget';
+    heroCaption.textContent = 'required exceeds available budget';
+  } else {
+    heroEl.textContent = fmtNum(remaining, 1);
+    heroUnit.textContent = 'W remaining';
+    heroCaption.textContent = 'of switch budget';
+  }
+
+  var barFill = document.getElementById('budgetBarFill');
+  var barPct = usedPct === null ? 100 : Math.max(0, Math.min(100, usedPct));
+  barFill.style.width = barPct + '%';
+  var pctText = usedPct === null ? 'no budget entered' : (fmtNum(usedPct, 0) + '% of budget');
+  barFill.classList.remove('status-warn', 'status-over');
+
+  var pill = document.getElementById('statusPill');
+  pill.classList.remove('ok', 'warn', 'over');
+
+  var statusText;
+  if (overBudget) {
+    statusText = 'Over budget';
+    pill.classList.add('over');
+    barFill.classList.add('status-over');
+    document.getElementById('budgetBarUsedText').textContent = fmtNum(planningRequirement, 1) + ' W required vs ' + fmtNum(switchBudget, 0) + ' W available';
+    document.getElementById('budgetBarPctText').textContent = pctText;
+  } else if (usedPct > 80) {
+    statusText = 'Budget is getting tight';
+    pill.classList.add('warn');
+    barFill.classList.add('status-warn');
+    document.getElementById('budgetBarUsedText').textContent = fmtNum(planningRequirement, 1) + ' W used of ' + fmtNum(switchBudget, 0) + ' W';
+    document.getElementById('budgetBarPctText').textContent = pctText;
+  } else {
+    statusText = 'Within budget';
+    pill.classList.add('ok');
+    document.getElementById('budgetBarUsedText').textContent = fmtNum(planningRequirement, 1) + ' W used of ' + fmtNum(switchBudget, 0) + ' W';
+    document.getElementById('budgetBarPctText').textContent = pctText;
+  }
+  pill.textContent = statusText;
+
+  var portWarning = document.getElementById('portWarning');
+  portWarning.style.display = totalPortsUsed > switchPorts ? 'block' : 'none';
+}
+
+/* ---------- Reverse mode calculation ---------- */
+
+function calculateReverseMode() {
+  var switchBudget = Math.max(0, parseFloat(switchBudgetInput.value) || 0);
+  var switchPorts = Math.max(0, parseInt(switchPortsInput.value, 10) || 0);
+  var headroomPct = getHeadroomPct();
+  var watts = Math.max(0.1, parseFloat(reverseWattsInput.value) || 0.1);
+  var standard = reverseStandardSelect.value;
+
+  var lossPerDevice = 0;
+  if (cableLossOn) {
+    var lengthVal = Math.max(0, parseFloat(reverseLengthInput.value) || 0);
+    var lengthUnit = reverseLengthUnitSelect.value;
+    lossPerDevice = cableLossWattsForDevice(watts, standard, lengthVal, lengthUnit, 'standard', 0);
+  }
+  var effectiveWatts = watts + lossPerDevice;
+
+  var usableBudget = headroomPct < 100 ? switchBudget / (1 + headroomPct / 100) : 0;
+  var powerLimit = effectiveWatts > 0 ? Math.floor(usableBudget / effectiveWatts) : 0;
+  var portLimit = switchPorts;
+  var result = Math.max(0, Math.min(powerLimit, portLimit));
+
+  document.getElementById('resultMaxDevices').textContent = result;
+  document.getElementById('rPowerLimit').textContent = powerLimit + ' (power limit)';
+  document.getElementById('rPortLimit').textContent = portLimit + ' (port limit)';
+  document.getElementById('rUsableBudget').textContent = fmtNum(usableBudget, 1) + ' W';
+
+  document.getElementById('rReverseLossRow').style.display = cableLossOn ? 'flex' : 'none';
+  document.getElementById('rReverseLoss').textContent = fmtNum(lossPerDevice, 2) + ' W';
+
+  var note = document.getElementById('reverseLimitNote');
+  if (powerLimit <= portLimit) {
+    note.innerHTML = '<strong>Power limit reached first.</strong> The switch runs out of PoE budget before it runs out of ports.';
+  } else {
+    note.innerHTML = '<strong>Port limit reached first.</strong> The switch has power budget to spare, but runs out of physical ports.';
+  }
+}
+
+function calculate() {
+  if (mode === 'budget') {
+    calculateBudgetMode();
+  } else {
+    calculateReverseMode();
+  }
+}
+
+/* ---------- Init ---------- */
+
+addRow('cam4mp');
+calculate();
+</script>
+<script src="../assets/theme.js" defer></script>
+</body>
+</html>

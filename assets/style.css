@@ -1198,3 +1198,121 @@ textarea:focus {
   min-width: 0;
   padding-top: 12px;
 }
+
+/* ---------- Device rows & budget bar (additive — PoE Budget Calculator) ---------- */
+/* Purely additive: nothing above this point is touched. Reuses existing
+   color tokens, radius, and spacing scale — no new visual language. */
+
+.device-row {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.device-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.device-row-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+}
+
+.device-row-remove {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-faint);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+
+.device-row-remove:hover {
+  color: var(--warn-text);
+  border-color: var(--warn-border);
+  background: var(--warn-bg);
+}
+
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.poe-type-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+.budget-bar {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin: 4px 0 6px;
+}
+
+.budget-bar__fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(155deg, var(--brand) 0%, var(--brand-dark) 100%);
+  transition: width var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.budget-bar__fill.status-warn {
+  background: linear-gradient(155deg, var(--accent) 0%, var(--accent-dark) 100%);
+}
+
+.budget-bar__fill.status-over {
+  background: linear-gradient(155deg, var(--warn-border) 0%, var(--warn-text) 100%);
+}
+
+.budget-bar-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: "IBM Plex Mono", monospace;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.status-pill.ok { background: var(--brand-light); color: var(--brand-dark); }
+.status-pill.warn { background: var(--accent-light); color: var(--accent-dark); }
+.status-pill.over { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .status-pill.ok { color: var(--brand); }
+}
+:root[data-theme="dark"] .status-pill.ok { color: var(--brand); }
