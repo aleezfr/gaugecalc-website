@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCTV Voltage Drop Calculator (Free) — GaugeCalc</title>
+<meta name="description" content="Free CCTV voltage drop calculator for 12V and 24V DC camera runs. Check delivered voltage, drop percentage, and maximum cable length by wire gauge.">
+<link rel="canonical" href="https://gaugecalc.com/tools/cctv-voltage-drop-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="CCTV Voltage Drop Calculator (Free) — GaugeCalc">
+<meta property="og:description" content="Free CCTV voltage drop calculator for 12V and 24V DC camera runs. Check delivered voltage, drop percentage, and maximum cable length by wire gauge.">
+<meta property="og:url" content="https://gaugecalc.com/tools/cctv-voltage-drop-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CCTV Voltage Drop Calculator (Free) — GaugeCalc">
+<meta name="twitter:description" content="Free CCTV voltage drop calculator for 12V and 24V DC camera runs. Check delivered voltage, drop percentage, and maximum cable length by wire gauge.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CCTV Voltage Drop Calculator",
+  "url": "https://gaugecalc.com/tools/cctv-voltage-drop-calculator",
+  "description": "Calculates voltage drop, delivered voltage, and drop percentage for 12V/24V DC CCTV camera cable runs by wire gauge and length, plus a reverse mode for maximum cable length.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "CCTV Voltage Drop Calculator", "item": "https://gaugecalc.com/tools/cctv-voltage-drop-calculator" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I calculate voltage drop for a CCTV camera?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Take the resistance of one conductor at your wire gauge, double it to account for the outgoing and return legs of the run, multiply by the one-way cable length to get total loop resistance, then multiply by the camera's maximum current to get voltage drop. Subtract that from your supply voltage to get delivered voltage at the camera. This calculator runs that exact formula for you — enter your supply voltage, current, length, and gauge above."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What wire gauge should I use for a 12V security camera?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on your cable length and the camera's maximum current draw — there's no single correct gauge for every job. A lower AWG number means a thicker conductor with less resistance, which reduces voltage drop over a given distance. Use the calculator above with your actual run length and current to compare gauges before you buy cable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How far can I run a 12V CCTV camera?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That depends on the camera's maximum current draw, the wire gauge you use, and how much voltage drop you're willing to accept. Switch to \"Maximum Cable Length\" mode above, enter your current and gauge, and it will calculate the longest one-way run that stays within your planning threshold (and your camera's minimum voltage, if you know it)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my CCTV camera go offline at night?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many cameras draw noticeably more current at night when IR illuminators (and sometimes heaters) turn on. If a run was only checked against daytime idle current, the added night-time draw can push voltage drop past what the camera actually needs to stay powered, causing reboots or dropouts specifically after dark. Recalculate using the camera's maximum operating current, not its idle current, to catch this before installation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use Cat5e or Cat6 for CCTV camera power?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only with caution. Cat5e and Cat6 are commonly built with roughly 24 AWG and 23 AWG conductors respectively, which this calculator's AWG options cover for a single conductor pair — but exact resistance varies by cable construction, and this calculator does not model paralleling multiple pairs to lower effective resistance. If your cable's datasheet lists a known conductor resistance, use the custom resistance field instead of assuming a default AWG value."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is 10% voltage drop a requirement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The 10% default here is a planning guideline, not an electrical code requirement or a universal CCTV standard. It's a reasonable starting point for planning a run, but the number that actually matters is your camera's manufacturer-specified minimum operating voltage — enter it above if you have it for a more accurate pass/fail check."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use 12V or 24V DC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That's determined by what your camera supports, not by this calculator. For the same current and cable, a 24V DC system generally tolerates longer runs than 12V for the same percentage drop, since the same voltage drop is a smaller fraction of a higher supply voltage. Only use a voltage your camera is actually rated for."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this calculator work for PoE cameras?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. PoE uses a different power-delivery and negotiation model between the switch and camera, not a simple fixed-voltage DC supply, so this calculator's formulas don't apply to it. Use the PoE Budget Calculator instead for switch power budget and port planning."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail">
+    <a href="../" class="rail-brand">
+      <span class="rail-mark">G</span>GaugeCalc
+    </a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+
+      <a class="rail-btn" href="../"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></span> Home</a>
+
+    <div class="rail-cat">CCTV Tools</div>
+      <a class="rail-btn" href="nvr-storage-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span> NVR Storage Calculator</a>
+      <a class="rail-btn" href="ip-camera-bandwidth-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></span> IP Camera Bandwidth Calculator</a>
+      <a class="rail-btn" href="cctv-storage-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span> CCTV Storage Calculator</a>
+      <a class="rail-btn" href="field-of-view-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></span> Field of View Calculator</a>
+      <a class="rail-btn" href="poe-budget-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></span> PoE Budget Calculator</a>
+      <a class="rail-btn active" href="cctv-voltage-drop-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13h5l-1 8 8-11h-5z"/></svg></span> CCTV Voltage Drop Calculator</a>
+
+    <div class="rail-cat">Electrical Tools</div>
+      <a class="rail-btn" href="amp-hour-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span> Amp Hour Calculator</a>
+      <a class="rail-btn" href="battery-backup-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span> Battery Backup Calculator</a>
+      <a class="rail-btn" href="battery-amp-hour-calculator"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M9 11.5h6M12 8.5v6"/></svg></span> Battery Amp Hour Calculator</a>
+
+    <div class="rail-cat">Guides</div>
+      <a class="rail-btn" href="../blog/"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5"/></svg></span> All Guides</a>
+      <a class="rail-btn" href="../blog/nvr-storage-mistakes"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span> NVR Storage Mistakes</a>
+      <a class="rail-btn" href="../blog/ip-camera-bandwidth-mistakes"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></span> IP Bandwidth Mistakes</a>
+      <a class="rail-btn" href="../blog/analog-vs-ip-cctv"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span> Analog vs IP CCTV</a>
+      <a class="rail-btn" href="../blog/battery-sizing-guide"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span> Battery Sizing Guide</a>
+      <a class="rail-btn" href="../blog/cctv-lens-selection-guide"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></span> Lens Selection Guide</a>
+
+    <div class="rail-cat">Site</div>
+      <a class="rail-btn" href="../privacy-policy"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></span> Privacy Policy</a>
+      <a class="rail-btn" href="../contact"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 6.5 8 6 8-6"/></svg></span> Contact</a>
+      <a class="rail-btn" href="../feedback"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.4 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 1 1 16.9-2.9z"/></svg></span> Feedback</a>
+  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / CCTV Voltage Drop Calculator</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>CCTV Voltage Drop Calculator</h1>
+      <p class="lead">
+        Check whether a 12V or 24V DC camera run will actually deliver enough voltage at the camera end — or
+        flip it around to find the maximum cable length a given gauge and current can support. Built for
+        direct DC-powered camera runs, not PoE.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <div class="panel">
+        <h2>Mode</h2>
+        <div class="field" style="margin-bottom:18px;">
+          <div class="toggle-row" id="modeToggle">
+            <button type="button" class="toggle-btn active" data-value="forward">Voltage Drop Check</button>
+            <button type="button" class="toggle-btn" data-value="reverse">Maximum Cable Length</button>
+          </div>
+        </div>
+
+        <h2>Supply &amp; load</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="supplyVoltage">Supply voltage</label>
+            <select id="supplyVoltage">
+              <option value="12" selected>12V DC</option>
+              <option value="24">24V DC</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="maxCurrent">Maximum operating current (A)</label>
+            <input type="number" id="maxCurrent" min="0" step="0.01" value="0.5">
+            <span class="hint">Include IR, heater, PTZ motor, or other auxiliary loads where applicable.</span>
+          </div>
+        </div>
+
+        <div class="field-row" id="lengthFieldRow">
+          <div class="field">
+            <label for="cableLength">One-way cable length</label>
+            <input type="number" id="cableLength" min="0" step="1" value="150">
+          </div>
+          <div class="field">
+            <label for="lengthUnit">Unit</label>
+            <select id="lengthUnit">
+              <option value="ft" selected>Feet</option>
+              <option value="m">Meters</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="wireGauge">Wire gauge</label>
+            <select id="wireGauge">
+              <option value="24">24 AWG</option>
+              <option value="22">22 AWG</option>
+              <option value="20">20 AWG</option>
+              <option value="18" selected>18 AWG</option>
+              <option value="16">16 AWG</option>
+              <option value="14">14 AWG</option>
+              <option value="12">12 AWG</option>
+            </select>
+            <span class="hint" id="gaugeDisabledHint" style="display:none;">Overridden by custom resistance below</span>
+          </div>
+          <div class="field">
+            <label for="planningThreshold">Planning threshold (%)</label>
+            <input type="number" id="planningThreshold" min="0" max="100" step="0.5" value="10">
+            <span class="hint">A planning guideline, not an electrical code requirement.</span>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:6px;">
+          <label for="minVoltage">Camera minimum operating voltage (V) <span class="hint">optional</span></label>
+          <input type="number" id="minVoltage" min="0" step="0.1" placeholder="Leave blank if unknown">
+          <span class="hint">Enter the minimum operating voltage from the camera manufacturer's datasheet, if known.</span>
+        </div>
+        <p class="field-error" id="minVoltageError" role="alert" style="display:none;"></p>
+
+        <div class="field" style="margin-top:16px; margin-bottom:6px;">
+          <label>Advanced <span class="hint">optional</span></label>
+          <div class="toggle-row" id="customRToggle">
+            <button type="button" class="toggle-btn active" data-value="off">Use AWG resistance</button>
+            <button type="button" class="toggle-btn" data-value="on">Use custom resistance</button>
+          </div>
+        </div>
+        <div class="field" id="customRField" style="display:none;">
+          <label for="customR">Custom conductor resistance (&#8486; per 1000 ft)</label>
+          <input type="number" id="customR" min="0" step="0.001" placeholder="e.g. 6.385">
+          <span class="hint">Useful when your cable's datasheet gives a known single-conductor resistance different from the standard AWG table. Does not enable AC, aluminum, or paralleled-conductor modeling.</span>
+        </div>
+        <p class="field-error" id="customRError" role="alert" style="display:none;"></p>
+        <p class="field-error" id="generalError" role="alert" style="display:none;"></p>
+      </div>
+
+      <div class="panel result-panel">
+        <!-- ================= FORWARD RESULTS ================= -->
+        <div id="resultsForward">
+          <h2>Voltage at camera</h2>
+          <div class="result-hero">
+            <span class="value" id="resultVCamera">—</span><span class="unit">V</span>
+            <div class="caption" id="resultVCameraCaption">delivered at the camera end</div>
+          </div>
+
+          <p style="margin:10px 0 16px;"><span class="status-pill ok" id="statusPill">—</span></p>
+
+          <div class="result-list">
+            <div class="result-row"><span class="k">Voltage drop</span><span class="v" id="rVDrop">—</span></div>
+            <div class="result-row"><span class="k">Voltage drop percentage</span><span class="v" id="rDropPct">—</span></div>
+            <div class="result-row"><span class="k">Total loop resistance</span><span class="v" id="rLoopR">—</span></div>
+            <div class="result-row"><span class="k">Resistance basis</span><span class="v" id="rResistanceBasis">—</span></div>
+          </div>
+
+          <div class="recommend-box" id="explainBox">—</div>
+        </div>
+
+        <!-- ================= REVERSE RESULTS ================= -->
+        <div id="resultsReverse" style="display:none;">
+          <h2>Maximum one-way cable length</h2>
+          <div class="result-hero">
+            <span class="value" id="resultMaxLength">—</span><span class="unit" id="resultMaxLengthUnit">ft</span>
+            <div class="caption">at this current, gauge, and planning threshold</div>
+          </div>
+
+          <div class="result-list">
+            <div class="result-row"><span class="k">Threshold-limited length</span><span class="v" id="rLenThreshold">—</span></div>
+            <div class="result-row" id="rLenMinVRow" style="display:none;"><span class="k">Minimum-voltage-limited length</span><span class="v" id="rLenMinV">—</span></div>
+            <div class="result-row"><span class="k">Resistance basis</span><span class="v" id="rResistanceBasisReverse">—</span></div>
+          </div>
+
+          <div class="recommend-box" id="reverseLimitNote">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:8px;">
+      Calculations use nominal copper resistance at 20&deg;C (68&deg;F). Actual conductor resistance increases
+      as the cable gets hotter, so hot attics, direct sun, bundled cable, or conduit runs can produce somewhat
+      more voltage drop than shown. This is a planning calculation, not a field measurement.
+    </div>
+
+    <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot" role="complementary" aria-label="Advertisement">
+      <span class="ad-slot__label">Advertisement</span>
+    </div>
+-->
+
+    <article class="article">
+      <h2>How this calculator works</h2>
+      <p>
+        Enter your supply voltage, the camera's maximum operating current, the one-way cable length, and the
+        wire gauge. The calculator looks up (or uses your custom) single-conductor resistance, doubles it to
+        account for the outgoing and return legs of the circuit, and multiplies by the one-way length to get
+        total loop resistance. Multiplying loop resistance by current gives voltage drop; subtracting that
+        from your supply voltage gives the voltage actually delivered at the camera. Switch to "Maximum Cable
+        Length" mode to run the same model backwards: given a current, gauge, and planning threshold, how far
+        can the run go before dropping too much voltage.
+      </p>
+      <div class="note-box">
+        <strong>Formulas:</strong> R_loop = R_conductor &times; 2 &times; one-way length. V_drop = I &times;
+        R_loop. V_camera = V_source &minus; V_drop. drop_percent = (V_drop / V_source) &times; 100. R_conductor
+        is the resistance of <em>one</em> conductor — the &times;2 represents the outgoing and return legs of
+        the circuit, not two separate calculations.
+      </div>
+
+      <h2>What voltage drop means for CCTV cameras</h2>
+      <p>
+        Every real conductor has resistance, and current flowing through that resistance uses up some of the
+        supply voltage before it reaches the camera — that lost voltage is the "drop." A camera at the end of
+        a long or thin cable run can receive noticeably less voltage than what's coming out of the power
+        supply, even though nothing is actually broken. Whether that matters depends on how much voltage the
+        specific camera actually needs to operate reliably.
+      </p>
+
+      <h2>Why long cable runs cause problems</h2>
+      <p>
+        Resistance increases in direct proportion to conductor length — a run twice as long has roughly twice
+        the resistance, and therefore roughly twice the voltage drop for the same current and gauge. This is
+        why a camera that works fine at 50 feet from its power supply can struggle or fail at 300 feet on the
+        same wire gauge and current: the loop resistance has grown enough that the delivered voltage falls
+        below what the camera needs.
+      </p>
+
+      <h2>Why cameras may work during the day but fail or reboot at night</h2>
+      <p>
+        Many cameras draw meaningfully more current at night, when IR illuminators (and sometimes heaters)
+        switch on. If a cable run was only ever checked against the camera's idle daytime current, the added
+        night-time draw increases voltage drop past what was verified — and if that pushes delivered voltage
+        below the camera's real minimum, the camera can reboot, drop offline, or behave erratically specifically
+        after dark. Checking the run against maximum operating current, not idle current, catches this before
+        it becomes a night-only fault that's hard to diagnose after installation.
+      </p>
+
+      <h2>How wire gauge affects voltage drop</h2>
+      <p>
+        A lower AWG number means a physically thicker conductor, and thicker conductors have lower resistance
+        per foot. Lower resistance means less voltage is lost to the wire itself over the same distance and
+        current, so upsizing the gauge is one of the standard ways to extend a run or reduce drop without
+        changing the supply voltage. There's no single "correct" gauge for every job — it depends on your
+        specific length and current, which is exactly what the calculator above checks.
+      </p>
+      <table>
+        <thead><tr><th>AWG</th><th>&Omega; / 1000 ft at 20&deg;C</th><th>Approx. &Omega; / 100 m</th></tr></thead>
+        <tbody id="resistanceTableBody"></tbody>
+      </table>
+      <p class="hint" style="display:block; margin-top:8px;">
+        Values are nominal copper resistance for a single conductor at 20&deg;C (68&deg;F), converted to an
+        approximate per-100m figure for reference. See the temperature note below for why real-world
+        resistance can run somewhat higher.
+      </p>
+
+      <h2>Why maximum operating current matters</h2>
+      <p>
+        Voltage drop scales directly with current — double the current, double the drop, all else equal.
+        Using a camera's idle or "typical" current instead of its maximum understates the real-world drop,
+        especially for cameras with IR illuminators, heaters, or pan/tilt/zoom motors that draw significantly
+        more at peak than at rest. Always enter the manufacturer's maximum operating current here, not a
+        typical or average figure, so the calculation reflects the worst case the run will actually see.
+      </p>
+
+      <h2>Why minimum operating voltage is manufacturer-specific</h2>
+      <p>
+        There is no universal minimum voltage that applies to every 12V or 24V camera — the real number comes
+        from the camera's own datasheet and varies by manufacturer and model. This calculator lets you enter
+        that number if you have it, and compares delivered voltage directly against it for the most accurate
+        check. If you don't know it, the calculator falls back to the percentage-based planning threshold,
+        which is a reasonable guideline but not a substitute for the camera's actual specification.
+      </p>
+
+      <h2>12V vs 24V DC</h2>
+      <p>
+        Both are supported here using the same resistive formula — only the supply voltage and camera's rated
+        range differ. For the same current and cable, a 24V system experiences the same absolute voltage drop
+        as an equivalent 12V system, but that drop is a smaller percentage of the higher supply voltage, so
+        24V systems generally tolerate longer runs before hitting the same percentage-based threshold. Only
+        use a voltage your specific camera actually supports — this calculator does not model 24V AC, which
+        requires a different impedance-based calculation this tool doesn't perform.
+      </p>
+
+      <h2>Using Cat5e/Cat6 for camera power</h2>
+      <p>
+        Cat5e and Cat6 cable are commonly built with roughly 24 AWG and 23 AWG conductors respectively, so the
+        24 AWG option above is a reasonable rough match for a single pair of Cat5e, but exact resistance still
+        varies by cable construction and manufacturer — don't assume every Cat5e/Cat6 cable is identical.
+        Paralleling multiple pairs to lower effective resistance is a common field practice, but it is
+        <strong>not modeled in this calculator</strong>. If your cable's datasheet lists a known conductor
+        resistance for the configuration you're actually using, enter it in the custom resistance field
+        instead of relying on the default AWG value. Being able to physically run power over a Cat5e/Cat6
+        cable also doesn't automatically mean it's an appropriate or code-compliant choice for every camera
+        power run — check your camera and cable specifications.
+      </p>
+
+      <h2>Temperature and resistance caveat</h2>
+      <p>
+        The resistance table above uses nominal copper values at 20&deg;C (68&deg;F), a standard reference
+        temperature for copper wire resistance. Real conductor resistance increases as the wire gets hotter,
+        so a run in a hot attic, in direct sun, tightly bundled with other cables, or inside conduit can run
+        somewhat hotter than 20&deg;C and therefore have somewhat higher real-world resistance and voltage
+        drop than this calculator shows. Treat the result as a planning calculation for typical conditions,
+        not a guaranteed field measurement — leave yourself some margin on long or thermally exposed runs.
+      </p>
+
+      <h2>DC voltage drop vs PoE</h2>
+      <p>
+        This calculator is for direct DC-powered camera runs — a fixed-voltage supply feeding a camera over
+        two conductors. PoE installations use a different power-delivery system entirely, with the switch and
+        camera negotiating power class and the cable carrying both data and power, so this DC loop-resistance
+        model doesn't apply to it. PoE installations should be evaluated with the
+        <a href="poe-budget-calculator">PoE Budget Calculator</a> instead.
+      </p>
+
+      <h2>Worked example</h2>
+      <p>
+        <strong>Illustrative only — your actual result depends on your own supply voltage, maximum current,
+        cable length, conductor resistance, planning threshold, and camera minimum voltage.</strong> This is
+        one example, not a rule of thumb for every job.
+      </p>
+      <p>
+        12V DC supply, 0.5A maximum current, 150 ft one-way run, 18 AWG (6.385 &Omega;/1000 ft), 10% planning
+        threshold, no manufacturer minimum voltage entered.
+      </p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Loop resistance</td><td>6.385 &Omega;/1000 ft &times; 2 &times; 150 ft = 1.9155 &Omega;</td></tr>
+          <tr><td>Voltage drop</td><td>0.5A &times; 1.9155 &Omega; = 0.958 V</td></tr>
+          <tr><td>Voltage at camera</td><td>12V &minus; 0.958V = 11.04 V</td></tr>
+          <tr><td>Drop percentage</td><td>0.958 / 12 &times; 100 = 7.98%</td></tr>
+          <tr><td>Status</td><td>PASS against the 10% planning threshold (manufacturer minimum not provided)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Common field mistakes</h2>
+      <p>
+        Recurring mistakes worth watching for: checking a run against a camera's idle current instead of its
+        IR/heater/PTZ-inclusive maximum; treating the 10% planning threshold as if it were an electrical code
+        requirement rather than a guideline; assuming a percentage-based PASS means the camera is guaranteed
+        to work when its actual minimum voltage was never checked; mixing up resistance values from different
+        temperature bases; assuming any Cat5e/Cat6 cable will behave like any other without checking its
+        actual conductor resistance; and using a fixed-voltage DC calculation to evaluate a PoE run, which
+        uses a different power-delivery model entirely.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How do I calculate voltage drop for a CCTV camera?</h3>
+      <p>
+        Take the resistance of one conductor at your wire gauge, double it to account for the outgoing and
+        return legs of the run, multiply by the one-way cable length to get total loop resistance, then
+        multiply by the camera's maximum current to get voltage drop. Subtract that from your supply voltage
+        to get delivered voltage at the camera. This calculator runs that exact formula for you — enter your
+        supply voltage, current, length, and gauge above.
+      </p>
+      <h3>What wire gauge should I use for a 12V security camera?</h3>
+      <p>
+        It depends on your cable length and the camera's maximum current draw — there's no single correct
+        gauge for every job. A lower AWG number means a thicker conductor with less resistance, which reduces
+        voltage drop over a given distance. Use the calculator above with your actual run length and current
+        to compare gauges before you buy cable.
+      </p>
+      <h3>How far can I run a 12V CCTV camera?</h3>
+      <p>
+        That depends on the camera's maximum current draw, the wire gauge you use, and how much voltage drop
+        you're willing to accept. Switch to "Maximum Cable Length" mode above, enter your current and gauge,
+        and it will calculate the longest one-way run that stays within your planning threshold (and your
+        camera's minimum voltage, if you know it).
+      </p>
+      <h3>Why does my CCTV camera go offline at night?</h3>
+      <p>
+        Many cameras draw noticeably more current at night when IR illuminators (and sometimes heaters) turn
+        on. If a run was only checked against daytime idle current, the added night-time draw can push voltage
+        drop past what the camera actually needs to stay powered, causing reboots or dropouts specifically
+        after dark. Recalculate using the camera's maximum operating current, not its idle current, to catch
+        this before installation.
+      </p>
+      <h3>Can I use Cat5e or Cat6 for CCTV camera power?</h3>
+      <p>
+        Only with caution. Cat5e and Cat6 are commonly built with roughly 24 AWG and 23 AWG conductors
+        respectively, which this calculator's AWG options cover for a single conductor pair — but exact
+        resistance varies by cable construction, and this calculator does not model paralleling multiple pairs
+        to lower effective resistance. If your cable's datasheet lists a known conductor resistance, use the
+        custom resistance field instead of assuming a default AWG value.
+      </p>
+      <h3>Is 10% voltage drop a requirement?</h3>
+      <p>
+        No. The 10% default here is a planning guideline, not an electrical code requirement or a universal
+        CCTV standard. It's a reasonable starting point for planning a run, but the number that actually
+        matters is your camera's manufacturer-specified minimum operating voltage — enter it above if you have
+        it for a more accurate pass/fail check.
+      </p>
+      <h3>Should I use 12V or 24V DC?</h3>
+      <p>
+        That's determined by what your camera supports, not by this calculator. For the same current and
+        cable, a 24V DC system generally tolerates longer runs than 12V for the same percentage drop, since
+        the same voltage drop is a smaller fraction of a higher supply voltage. Only use a voltage your camera
+        is actually rated for.
+      </p>
+      <h3>Does this calculator work for PoE cameras?</h3>
+      <p>
+        No. PoE uses a different power-delivery and negotiation model between the switch and camera, not a
+        simple fixed-voltage DC supply, so this calculator's formulas don't apply to it. Use the
+        <a href="poe-budget-calculator">PoE Budget Calculator</a> instead for switch power budget and port
+        planning.
+      </p>
+
+      <h2>Related CCTV tools</h2>
+      <p>
+        Powering the camera over PoE instead? Check switch headroom with the
+        <a href="poe-budget-calculator">PoE Budget Calculator</a>. Running the install off battery backup?
+        Size it with the <a href="battery-backup-calculator">Battery Backup Calculator</a> or the
+        <a href="amp-hour-calculator">Amp Hour Calculator</a>. Also sizing network bandwidth for the same
+        cameras? Use the <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a>.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=CCTV%20Voltage%20Drop%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
+
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </aside>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your camera manufacturer's own datasheet.</span>
+    <span><a href="../privacy-policy">Privacy Policy</a> · <a href="../contact">Contact</a> · <a href="../">Home</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------- Reference data ---------- */
+
+// Nominal copper resistance at 20C (68F), ohms per 1000 ft, single conductor.
+// Do not mix with NEC Table 8 (75C) values -- see calculator article for sourcing notes.
+var AWG_RESISTANCE = {
+  '24': 25.67,
+  '22': 16.14,
+  '20': 10.15,
+  '18': 6.385,
+  '16': 4.016,
+  '14': 2.525,
+  '12': 1.588
+};
+
+var FT_PER_M = 3.28084;
+var MAX_CUSTOM_R = 10000; // sane upper bound for custom resistance, ohms/1000ft
+
+function fmtNum(n, decimals) {
+  decimals = decimals === undefined ? 2 : decimals;
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
+}
+
+function isFiniteNumber(n) {
+  return typeof n === 'number' && isFinite(n) && !isNaN(n);
+}
+
+/* ---------- Resistance table (article) ---------- */
+
+(function buildResistanceTable() {
+  var tbody = document.getElementById('resistanceTableBody');
+  var gauges = ['24', '22', '20', '18', '16', '14', '12'];
+  var html = '';
+  gauges.forEach(function (g) {
+    var rPerKft = AWG_RESISTANCE[g];
+    var rPer100m = rPerKft * (100 / (1000 / FT_PER_M)); // ohms/1000ft -> ohms/100m
+    html += '<tr><td>' + g + ' AWG</td><td>' + fmtNum(rPerKft, 3) + '</td><td>' + fmtNum(rPer100m, 3) + '</td></tr>';
+  });
+  tbody.innerHTML = html;
+})();
+
+/* ---------- Mode toggle ---------- */
+
+var mode = 'forward';
+var modeToggle = document.getElementById('modeToggle');
+var resultsForward = document.getElementById('resultsForward');
+var resultsReverse = document.getElementById('resultsReverse');
+var lengthFieldRow = document.getElementById('lengthFieldRow');
+
+modeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    modeToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    mode = btn.dataset.value;
+    resultsForward.style.display = mode === 'forward' ? 'block' : 'none';
+    resultsReverse.style.display = mode === 'reverse' ? 'block' : 'none';
+    lengthFieldRow.style.display = mode === 'forward' ? 'grid' : 'none';
+    calculate();
+  });
+});
+
+/* ---------- Custom resistance toggle ---------- */
+
+var customROn = false;
+var customRToggle = document.getElementById('customRToggle');
+var customRField = document.getElementById('customRField');
+var wireGaugeSelect = document.getElementById('wireGauge');
+var gaugeDisabledHint = document.getElementById('gaugeDisabledHint');
+
+customRToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    customRToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    customROn = btn.dataset.value === 'on';
+    customRField.style.display = customROn ? 'flex' : 'none';
+    wireGaugeSelect.disabled = customROn;
+    gaugeDisabledHint.style.display = customROn ? 'inline' : 'none';
+    calculate();
+  });
+});
+
+/* ---------- Inputs ---------- */
+
+var supplyVoltageSelect = document.getElementById('supplyVoltage');
+var maxCurrentInput = document.getElementById('maxCurrent');
+var cableLengthInput = document.getElementById('cableLength');
+var lengthUnitSelect = document.getElementById('lengthUnit');
+var planningThresholdInput = document.getElementById('planningThreshold');
+var minVoltageInput = document.getElementById('minVoltage');
+var customRInput = document.getElementById('customR');
+
+var minVoltageError = document.getElementById('minVoltageError');
+var customRError = document.getElementById('customRError');
+var generalError = document.getElementById('generalError');
+
+[supplyVoltageSelect, maxCurrentInput, cableLengthInput, lengthUnitSelect, wireGaugeSelect,
+ planningThresholdInput, minVoltageInput, customRInput].forEach(function (el) {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+/* ---------- Validation helpers ---------- */
+
+function parsePositiveOrZero(val) {
+  var n = parseFloat(val);
+  if (!isFiniteNumber(n) || n < 0) return 0;
+  return n;
+}
+
+function parseOptional(val) {
+  if (val === '' || val === null || typeof val === 'undefined') return null;
+  var n = parseFloat(val);
+  if (!isFiniteNumber(n)) return null;
+  return n;
+}
+
+function getResistancePerKft() {
+  if (customROn) {
+    var n = parseFloat(customRInput.value);
+    if (customRInput.value.trim() === '') return { value: null, error: 'Enter a custom resistance value, or switch back to "Use AWG resistance."' };
+    if (!isFiniteNumber(n) || n <= 0 || n > MAX_CUSTOM_R) {
+      return { value: null, error: 'Custom resistance must be a positive number no greater than ' + MAX_CUSTOM_R + ' Ω/1000 ft.' };
+    }
+    return { value: n, error: null, source: 'Custom resistance (' + fmtNum(n, 3) + ' Ω/1000 ft)' };
+  }
+  var awg = wireGaugeSelect.value;
+  return { value: AWG_RESISTANCE[awg], error: null, source: awg + ' AWG copper, 20°C nominal' };
+}
+
+function lengthToFeet(val, unit) {
+  return unit === 'm' ? val * FT_PER_M : val;
+}
+
+function feetToUnit(ft, unit) {
+  return unit === 'm' ? ft / FT_PER_M : ft;
+}
+
+/* ---------- Forward calculation ---------- */
+
+function calculateForward() {
+  generalError.style.display = 'none';
+  minVoltageError.style.display = 'none';
+  customRError.style.display = 'none';
+
+  var vSource = parseFloat(supplyVoltageSelect.value);
+  var current = parsePositiveOrZero(maxCurrentInput.value);
+  var lengthRaw = parsePositiveOrZero(cableLengthInput.value);
+  var unit = lengthUnitSelect.value;
+  var lengthFt = lengthToFeet(lengthRaw, unit);
+  var threshold = parseFloat(planningThresholdInput.value);
+  if (!isFiniteNumber(threshold) || threshold < 0) threshold = 0;
+  if (threshold > 100) threshold = 100;
+  var vMin = parseOptional(minVoltageInput.value);
+
+  var rInfo = getResistancePerKft();
+  if (rInfo.error) {
+    customRError.textContent = rInfo.error;
+    customRError.style.display = 'block';
+    renderForwardBlocked();
+    return;
+  }
+  var rConductor = rInfo.value / 1000; // ohms per foot, single conductor
+
+  if (vMin !== null && vMin >= vSource) {
+    minVoltageError.textContent = 'Minimum camera voltage can’t be equal to or greater than the supply voltage (' + vSource + 'V) — check your inputs.';
+    minVoltageError.style.display = 'block';
+    renderForwardBlocked();
+    return;
+  }
+
+  var rLoop = rConductor * 2 * lengthFt;
+  var vDrop = current * rLoop;
+  var vCameraRaw = vSource - vDrop;
+  var vCamera = Math.max(0, vCameraRaw);
+  var dropPercent = vSource > 0 ? (vDrop / vSource) * 100 : 0;
+
+  var status, statusText, caption;
+  if (vCameraRaw < 0 || (vMin !== null && vCamera < vMin)) {
+    status = 'over';
+    statusText = 'FAIL';
+  } else if (dropPercent <= threshold + 1e-9 && (vMin === null || vCamera >= vMin)) {
+    status = 'ok';
+    statusText = 'PASS';
+  } else {
+    status = 'warn';
+    statusText = 'CAUTION';
+  }
+
+  document.getElementById('resultVCamera').textContent = vCameraRaw < 0 ? '0' : fmtNum(vCamera, 2);
+  document.getElementById('resultVCameraCaption').textContent = vCameraRaw < 0 ? '0 V (exceeds supply)' : 'delivered at the camera end';
+  document.getElementById('rVDrop').textContent = fmtNum(vDrop, 2) + ' V';
+  document.getElementById('rDropPct').textContent = fmtNum(dropPercent, 1) + '%';
+  document.getElementById('rLoopR').textContent = fmtNum(rLoop, 4) + ' Ω';
+  document.getElementById('rResistanceBasis').textContent = rInfo.source;
+
+  var pill = document.getElementById('statusPill');
+  pill.classList.remove('ok', 'warn', 'over');
+  pill.classList.add(status);
+  pill.textContent = statusText;
+
+  var explainBox = document.getElementById('explainBox');
+  var vMinKnown = vMin !== null;
+  var sentence = 'Your camera starts with ' + vSource + 'V at the supply. Cable resistance causes approximately ' +
+    fmtNum(vDrop, 2) + ' V of drop, leaving approximately ' + fmtNum(vCamera, 2) + ' V at the camera (' +
+    fmtNum(dropPercent, 1) + '% drop).';
+
+  if (statusText === 'FAIL') {
+    sentence += ' This is below the minimum operating voltage you entered (' + fmtNum(vMin, 2) + ' V) — the camera may not operate reliably at this length and current.';
+  } else if (statusText === 'CAUTION' && vMinKnown) {
+    sentence += ' Delivered voltage meets the minimum you entered, but the drop exceeds your ' + fmtNum(threshold, 1) + '% planning threshold — some margin has already been used.';
+  } else if (statusText === 'CAUTION' && !vMinKnown) {
+    sentence += ' The calculated voltage drop is above your selected planning threshold. Check the camera’s minimum operating voltage and consider a larger conductor, shorter run, higher supply voltage where supported, or a different power arrangement.';
+  } else if (statusText === 'PASS' && vMinKnown) {
+    sentence += ' This meets both your ' + fmtNum(threshold, 1) + '% planning threshold and the minimum operating voltage you entered.';
+  } else {
+    sentence += ' This meets your ' + fmtNum(threshold, 1) + '% planning threshold. The camera’s manufacturer minimum operating voltage was not provided, so this is a planning assessment only, not a confirmed pass against the camera’s real specification.';
+  }
+  explainBox.textContent = sentence;
+}
+
+function renderForwardBlocked() {
+  document.getElementById('resultVCamera').textContent = '—';
+  document.getElementById('resultVCameraCaption').textContent = 'enter valid values';
+  document.getElementById('rVDrop').textContent = '—';
+  document.getElementById('rDropPct').textContent = '—';
+  document.getElementById('rLoopR').textContent = '—';
+  document.getElementById('rResistanceBasis').textContent = '—';
+  var pill = document.getElementById('statusPill');
+  pill.classList.remove('ok', 'warn', 'over');
+  pill.textContent = '—';
+  document.getElementById('explainBox').textContent = 'Fix the highlighted input above to see a result.';
+}
+
+/* ---------- Reverse calculation ---------- */
+
+function calculateReverse() {
+  generalError.style.display = 'none';
+  minVoltageError.style.display = 'none';
+  customRError.style.display = 'none';
+
+  var vSource = parseFloat(supplyVoltageSelect.value);
+  var current = parsePositiveOrZero(maxCurrentInput.value);
+  var unit = lengthUnitSelect.value;
+  var threshold = parseFloat(planningThresholdInput.value);
+  if (!isFiniteNumber(threshold) || threshold < 0) threshold = 0;
+  if (threshold > 100) threshold = 100;
+  var vMin = parseOptional(minVoltageInput.value);
+
+  var rInfo = getResistancePerKft();
+  if (rInfo.error) {
+    customRError.textContent = rInfo.error;
+    customRError.style.display = 'block';
+    renderReverseBlocked();
+    return;
+  }
+  var rConductor = rInfo.value / 1000; // ohms per foot
+
+  if (vMin !== null && vMin >= vSource) {
+    minVoltageError.textContent = 'Minimum camera voltage can’t be equal to or greater than the supply voltage (' + vSource + 'V) — check your inputs.';
+    minVoltageError.style.display = 'block';
+    renderReverseBlocked();
+    return;
+  }
+
+  document.getElementById('rResistanceBasisReverse').textContent = rInfo.source;
+
+  var denom = current * rConductor * 2;
+
+  if (denom <= 0) {
+    document.getElementById('resultMaxLength').textContent = 'No limit';
+    document.getElementById('resultMaxLengthUnit').textContent = 'at 0A current';
+    document.getElementById('rLenThreshold').textContent = '—';
+    document.getElementById('rLenMinVRow').style.display = 'none';
+    document.getElementById('reverseLimitNote').textContent = 'No practical limit at this current — with zero current there is no voltage drop regardless of length.';
+    return;
+  }
+
+  var maxDropVoltageThreshold = vSource * (threshold / 100);
+  var maxLengthThresholdFt = maxDropVoltageThreshold / denom;
+
+  var maxLengthFt = maxLengthThresholdFt;
+  var limitedBy = 'threshold';
+  var maxLengthMinVFt = null;
+
+  if (vMin !== null) {
+    var maxAllowedDropMinV = vSource - vMin;
+    maxLengthMinVFt = maxAllowedDropMinV / denom;
+    if (maxLengthMinVFt < maxLengthThresholdFt) {
+      maxLengthFt = maxLengthMinVFt;
+      limitedBy = 'minVoltage';
+    }
+  }
+
+  maxLengthFt = Math.max(0, maxLengthFt);
+  var displayUnit = unit;
+  var maxLengthDisplay = feetToUnit(maxLengthFt, displayUnit);
+
+  document.getElementById('resultMaxLength').textContent = fmtNum(maxLengthDisplay, 1);
+  document.getElementById('resultMaxLengthUnit').textContent = displayUnit === 'm' ? 'm' : 'ft';
+  document.getElementById('rLenThreshold').textContent = fmtNum(feetToUnit(Math.max(0, maxLengthThresholdFt), displayUnit), 1) + ' ' + (displayUnit === 'm' ? 'm' : 'ft');
+
+  var lenMinVRow = document.getElementById('rLenMinVRow');
+  if (maxLengthMinVFt !== null) {
+    lenMinVRow.style.display = 'flex';
+    document.getElementById('rLenMinV').textContent = fmtNum(feetToUnit(Math.max(0, maxLengthMinVFt), displayUnit), 1) + ' ' + (displayUnit === 'm' ? 'm' : 'ft');
+  } else {
+    lenMinVRow.style.display = 'none';
+  }
+
+  var note = document.getElementById('reverseLimitNote');
+  if (limitedBy === 'minVoltage') {
+    note.innerHTML = '<strong>Limited by the camera’s minimum operating voltage (' + fmtNum(vMin, 2) + 'V).</strong> The planning threshold would allow a longer run, but the entered minimum voltage is more restrictive.';
+  } else if (vMin !== null) {
+    note.innerHTML = '<strong>Limited by your ' + fmtNum(threshold, 1) + '% planning threshold.</strong> The camera’s minimum operating voltage would allow a longer run, but the threshold is more restrictive.';
+  } else {
+    note.innerHTML = '<strong>Limited by your ' + fmtNum(threshold, 1) + '% planning threshold.</strong> No manufacturer minimum voltage was entered, so this is a planning-only limit — enter the camera’s minimum voltage for a more accurate check.';
+  }
+}
+
+function renderReverseBlocked() {
+  document.getElementById('resultMaxLength').textContent = '—';
+  document.getElementById('resultMaxLengthUnit').textContent = '';
+  document.getElementById('rLenThreshold').textContent = '—';
+  document.getElementById('rLenMinVRow').style.display = 'none';
+  document.getElementById('rResistanceBasisReverse').textContent = '—';
+  document.getElementById('reverseLimitNote').textContent = 'Fix the highlighted input above to see a result.';
+}
+
+function calculate() {
+  if (mode === 'forward') {
+    calculateForward();
+  } else {
+    calculateReverse();
+  }
+}
+
+/* ---------- Init ---------- */
+
+calculate();
+</script>
+<script src="../assets/theme.js" defer></script>
+</body>
+</html>

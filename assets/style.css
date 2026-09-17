@@ -881,6 +881,17 @@ textarea:focus {
   margin-block: 18px;
 }
 
+.field-error {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--warn-text);
+  margin: -4px 0 14px;
+}
+
 /* ---------- Ad slots (AdSense-ready reserved space) ---------- */
 /* Reserves layout space now so the page doesn't jump once real
    AdSense units are pasted in after account approval. */
