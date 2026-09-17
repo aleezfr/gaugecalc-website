@@ -56,6 +56,38 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Should I use this or the NVR Storage Calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use this one if any part of your job includes analog HD-CCTV (DVR, coax, AHD/TVI/CVI) hardware. If it's a pure IP camera install, the NVR Storage Calculator gives the same result with a simpler resolution list."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why doesn't the analog side have codec options?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Analog HD-CCTV hardware is effectively locked to H.264. DVRs and coax-based cameras don't support H.265 or smart codecs, so the codec toggle only appears when you select an IP system."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are the analog bitrate figures?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Less precise than the IP figures. Analog HD-CCTV bitrates vary more by manufacturer than IP camera bitrates do, so treat these as a solid planning estimate and confirm against your specific DVR's datasheet before ordering a drive for a large or long-retention job."
+      }
+    }
+  ]
+}
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
 <script>
@@ -258,6 +290,34 @@
         do — always sanity-check against your specific DVR/camera datasheet before ordering a drive on a large
         or long-retention job.
       </div>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Should I use this or the NVR Storage Calculator?</h3>
+      <p>
+        Use this one if any part of your job includes analog HD-CCTV (DVR, coax, AHD/TVI/CVI) hardware. If
+        it's a pure IP camera install, the NVR Storage Calculator gives the same result with a simpler
+        resolution list.
+      </p>
+      <h3>Why doesn't the analog side have codec options?</h3>
+      <p>
+        Analog HD-CCTV hardware is effectively locked to H.264. DVRs and coax-based cameras don't support
+        H.265 or smart codecs, so the codec toggle only appears when you select an IP system.
+      </p>
+      <h3>How accurate are the analog bitrate figures?</h3>
+      <p>
+        Less precise than the IP figures. Analog HD-CCTV bitrates vary more by manufacturer than IP camera
+        bitrates do, so treat these as a solid planning estimate and confirm against your specific DVR's
+        datasheet before ordering a drive for a large or long-retention job.
+      </p>
+
+      <h2>Related CCTV tools</h2>
+      <p>
+        For a pure IP install, the <a href="nvr-storage-calculator">NVR Storage Calculator</a> covers the
+        same math with a simpler resolution list. On the network side, use the
+        <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a> to size your switch
+        uplink, and the <a href="field-of-view-calculator">Field of View Calculator</a> to confirm camera
+        placement and coverage.
+      </p>
 
       <h2>Related guide</h2>
       <p>

@@ -64,6 +64,38 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which sensor size should I pick if I don't know mine?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Check the camera's datasheet, it's usually listed as a fraction like 1/2.8\" or 1/3\". If you genuinely can't find it, 1/2.8\" is the most common sensor size in current IP cameras and a reasonable default."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my camera's real-world coverage look narrower than the result here?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This calculator gives the geometric ideal. Lens distortion, especially toward the edges of a wide-angle lens, and the camera's actual mounting angle both reduce usable coverage compared to the raw math. Treat the number as a best-case reference, not an exact match to what you'll see on screen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What pixel density do I actually need for identifiable footage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aim for identification grade, 125 pixels per meter or higher, at any point you need to identify a face or read a plate. Recognition and detection grade are fine for general monitoring but usually aren't detailed enough to confirm identity."
+      }
+    }
+  ]
+}
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
 <script>
@@ -277,6 +309,35 @@
         margin for anything mission-critical like a license-plate-capture point or a controlled entry.
       </p>
 
+      <h2>Frequently asked questions</h2>
+      <h3>Which sensor size should I pick if I don't know mine?</h3>
+      <p>
+        Check the camera's datasheet, it's usually listed as a fraction like 1/2.8" or 1/3". If you
+        genuinely can't find it, 1/2.8" is the most common sensor size in current IP cameras and a reasonable
+        default.
+      </p>
+      <h3>Why does my camera's real-world coverage look narrower than the result here?</h3>
+      <p>
+        This calculator gives the geometric ideal. Lens distortion, especially toward the edges of a
+        wide-angle lens, and the camera's actual mounting angle both reduce usable coverage compared to the
+        raw math. Treat the number as a best-case reference, not an exact match to what you'll see on screen.
+      </p>
+      <h3>What pixel density do I actually need for identifiable footage?</h3>
+      <p>
+        Aim for identification grade, 125 pixels per meter or higher, at any point you need to identify a
+        face or read a plate. Recognition and detection grade are fine for general monitoring but usually
+        aren't detailed enough to confirm identity.
+      </p>
+
+      <h2>Related CCTV tools</h2>
+      <p>
+        Once you've confirmed the coverage a camera gives you, check whether your network can carry it — use
+        the <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a> to size the total
+        bitrate and uplink, then the <a href="nvr-storage-calculator">NVR Storage Calculator</a> or the
+        <a href="cctv-storage-calculator">CCTV Storage Calculator</a> (for mixed analog/IP jobs) to work out
+        drive space for the retention period you need.
+      </p>
+
       <h2>Related tools &amp; guides</h2>
       <p>
         Not sure how to pick the lens in the first place, or why a wider field of view can leave everyone in
@@ -285,9 +346,7 @@
         Distance</a>.
       </p>
       <p>
-        Once you've confirmed the coverage a camera gives you, check whether your network can carry it — use
-        the <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a> to size the total
-        bitrate and uplink, and see
+        See also
         <a href="../blog/ip-camera-bandwidth-mistakes">IP Camera Bandwidth: Why the Switch (and PoE Budget)
         Fail Before the Network Does</a> for the two mistakes that break installs even when bandwidth looks fine.
       </p>

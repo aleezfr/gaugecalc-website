@@ -64,6 +64,38 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What standby time should I actually use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That's set by your local fire code and AHJ, not by this calculator. 24 hours is the most common baseline for commercial fire systems, but always confirm the actual requirement for your jurisdiction and system type before finalizing a design."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need the alarm stage for a non-life-safety system like an NVR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Set alarm current and minutes to 0 and use only the standby fields for your desired backup runtime during an outage. The two-stage method exists for fire and burglar alarm systems that need to run a siren or notification device after the standby period."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is the aging factor included by default?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A sealed lead-acid battery loses usable capacity as it ages, sometimes 15 to 20 percent within a couple of years in a warm cabinet. Building that margin in up front means the system still meets its requirement after the battery has aged, not just on the day it's installed."
+      }
+    }
+  ]
+}
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
 <script>
@@ -232,6 +264,26 @@
         NFPA-style calculation method as a planning tool — the actual required standby/alarm times for a fire
         or life-safety system are set by code and your local authority having jurisdiction, not by this page.
       </div>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What standby time should I actually use?</h3>
+      <p>
+        That's set by your local fire code and AHJ, not by this calculator. 24 hours is the most common
+        baseline for commercial fire systems, but always confirm the actual requirement for your jurisdiction
+        and system type before finalizing a design.
+      </p>
+      <h3>Do I need the alarm stage for a non-life-safety system like an NVR?</h3>
+      <p>
+        No. Set alarm current and minutes to 0 and use only the standby fields for your desired backup
+        runtime during an outage. The two-stage method exists for fire and burglar alarm systems that need to
+        run a siren or notification device after the standby period.
+      </p>
+      <h3>Why is the aging factor included by default?</h3>
+      <p>
+        A sealed lead-acid battery loses usable capacity as it ages, sometimes 15 to 20 percent within a
+        couple of years in a warm cabinet. Building that margin in up front means the system still meets its
+        requirement after the battery has aged, not just on the day it's installed.
+      </p>
 
       <h2>Sizing backup for an NVR or PoE switch</h2>
       <p>

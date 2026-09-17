@@ -56,6 +56,38 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is my real runtime shorter than the simple Ah divided by amps math?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because that simple math ignores depth of discharge and system losses. This calculator applies your chemistry's safe discharge limit and your stated losses, so the runtime figure reflects what the battery will actually deliver, not the optimistic label number."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the Peukert effect and should I worry about it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's the drop in usable capacity that happens at higher discharge rates, a battery delivers less than its rated Ah when drained quickly. It matters most for loads drawing more than about a fifth of the battery's Ah rating in amps. For lighter loads, the effect is small enough to ignore."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for a battery bank instead of a single battery?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Add up the Ah ratings of batteries wired in parallel and enter that total, the voltage and runtime math work the same way. For batteries wired in series, enter the bank's total voltage instead and keep the single battery's Ah rating."
+      }
+    }
+  ]
+}
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
 <script>
@@ -241,7 +273,27 @@
         planning figure, not a guarantee, especially for loads that draw more than about C/5 (a fifth of the
         battery's Ah rating in amps).
       </div>
-    
+
+      <h2>Frequently asked questions</h2>
+      <h3>Why is my real runtime shorter than the simple Ah divided by amps math?</h3>
+      <p>
+        Because that simple math ignores depth of discharge and system losses. This calculator applies your
+        chemistry's safe discharge limit and your stated losses, so the runtime figure reflects what the
+        battery will actually deliver, not the optimistic label number.
+      </p>
+      <h3>What's the Peukert effect and should I worry about it?</h3>
+      <p>
+        It's the drop in usable capacity that happens at higher discharge rates, a battery delivers less
+        than its rated Ah when drained quickly. It matters most for loads drawing more than about a fifth of
+        the battery's Ah rating in amps. For lighter loads, the effect is small enough to ignore.
+      </p>
+      <h3>Can I use this for a battery bank instead of a single battery?</h3>
+      <p>
+        Yes. Add up the Ah ratings of batteries wired in parallel and enter that total, the voltage and
+        runtime math work the same way. For batteries wired in series, enter the bank's total voltage instead
+        and keep the single battery's Ah rating.
+      </p>
+
       <p style="margin-top:24px;"><a href="../feedback?tool=Battery%20Amp%20Hour%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
 
       <div class="ad-slot" role="complementary" aria-label="Advertisement">

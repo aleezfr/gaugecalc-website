@@ -64,6 +64,38 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Should I size the battery around the raw Ah or the rated Ah?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Always buy based on the rated Ah figure, the one already divided by your chemistry's depth of discharge. The raw Ah number is only what you'll consume. Buying to that figure means draining the battery further than is safe every cycle."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What losses figure should I use for a mostly DC setup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A pure DC load wired directly, like a camera or alarm panel, typically only needs 5 to 10 percent for wiring losses. Reserve the higher 15 to 20 percent figure for setups running through an inverter, since inverter inefficiency is usually the bigger loss source."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is lithium always the better choice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not automatically. Lithium (LiFePO4) needs a smaller rated capacity for the same job and lasts far more cycles, but costs more upfront. It tends to pay off fastest on systems that cycle daily, like solar, rather than backup power that sits idle most of the time."
+      }
+    }
+  ]
+}
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
 <script>
@@ -247,6 +279,26 @@
         Add wiring resistance over longer cable runs and connector losses, and a 15–20% overall loss factor is
         a realistic default for most real-world installs — pure DC loads wired directly (like a 12V camera or
         alarm panel) can use a lower figure, closer to 5–10%.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Should I size the battery around the raw Ah or the rated Ah?</h3>
+      <p>
+        Always buy based on the rated Ah figure, the one already divided by your chemistry's depth of
+        discharge. The raw Ah number is only what you'll consume. Buying to that figure means draining the
+        battery further than is safe every cycle.
+      </p>
+      <h3>What losses figure should I use for a mostly DC setup?</h3>
+      <p>
+        A pure DC load wired directly, like a camera or alarm panel, typically only needs 5 to 10 percent for
+        wiring losses. Reserve the higher 15 to 20 percent figure for setups running through an inverter,
+        since inverter inefficiency is usually the bigger loss source.
+      </p>
+      <h3>Is lithium always the better choice?</h3>
+      <p>
+        Not automatically. Lithium (LiFePO4) needs a smaller rated capacity for the same job and lasts far
+        more cycles, but costs more upfront. It tends to pay off fastest on systems that cycle daily, like
+        solar, rather than backup power that sits idle most of the time.
       </p>
 
       <h2>Related tools</h2>

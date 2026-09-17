@@ -64,6 +64,38 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What if my cameras aren't all the same resolution?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Run this calculator once per camera group (same resolution and fps) and add the resulting Mbps figures together. Mixed installs are common, and this is more accurate than trying to average the resolutions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to check bandwidth per camera port or just the uplink?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Just the uplink to the NVR, or between switches if you're stacking them. A single camera's own port only ever carries that one camera's stream, which is almost never a bottleneck. It's the point where all the streams combine that needs the bandwidth check."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PoE power capacity matter separately from bandwidth?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Bandwidth and PoE wattage are two different limits on the same switch. A switch can have bandwidth to spare while still running out of PoE budget for high-draw PTZ or IR-heavy cameras, so check both specs, not just this one."
+      }
+    }
+  ]
+}
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
 <script>
@@ -253,6 +285,35 @@
         of bandwidth headroom left while still running out of PoE wattage if you're powering high-draw PTZ
         cameras or IR-heavy bullet cameras. Check your switch's total PoE budget separately from the bandwidth
         figure here.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What if my cameras aren't all the same resolution?</h3>
+      <p>
+        Run this calculator once per camera group (same resolution and fps) and add the resulting Mbps
+        figures together. Mixed installs are common, and this is more accurate than trying to average the
+        resolutions.
+      </p>
+      <h3>Do I need to check bandwidth per camera port or just the uplink?</h3>
+      <p>
+        Just the uplink to the NVR, or between switches if you're stacking them. A single camera's own port
+        only ever carries that one camera's stream, which is almost never a bottleneck. It's the point where
+        all the streams combine that needs the bandwidth check.
+      </p>
+      <h3>Does PoE power capacity matter separately from bandwidth?</h3>
+      <p>
+        Yes. Bandwidth and PoE wattage are two different limits on the same switch. A switch can have
+        bandwidth to spare while still running out of PoE budget for high-draw PTZ or IR-heavy cameras, so
+        check both specs, not just this one.
+      </p>
+
+      <h2>Related CCTV tools</h2>
+      <p>
+        Now that your network bandwidth is sized, use the
+        <a href="nvr-storage-calculator">NVR Storage Calculator</a> to work out drive space for the same
+        cameras, the <a href="cctv-storage-calculator">CCTV Storage Calculator</a> if the job also includes
+        analog HD-CCTV hardware, and the <a href="field-of-view-calculator">Field of View Calculator</a> to
+        check coverage and identification distance before you finalize camera placement.
       </p>
 
       <h2>Related guide</h2>
