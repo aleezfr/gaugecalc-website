@@ -220,10 +220,12 @@
         built-in heaters, and floodlight cameras can all increase power requirements — but that doesn't mean
         every PTZ automatically needs PoE+ or higher. The right way to spec it is to pull the camera's
         published maximum (or planned) PoE consumption from its own datasheet, not to guess the PoE type
-        from the device category. Budget for that worst-case figure, not the idle draw. A camera that sips
-        6W during the day can pull 15 to 18W once the heater and IR both engage on a cold night. That
-        difference is exactly what gets missed at spec time and shows up as a "random" fault a few nights
-        after handover.
+        from the device category. Budget for that worst-case figure, not the idle draw. A camera's actual
+        consumption can increase substantially once IR, heater, floodlight, or other auxiliary loads switch
+        on — how much depends entirely on that specific model, which is exactly why the manufacturer's
+        published maximum (not the daytime idle figure) is the number to plan against. Skipping that step
+        is exactly what gets missed at spec time and shows up as a "random" fault a few nights after
+        handover.
       </p>
 
       <h2>What I check now before I ever touch the switch</h2>
@@ -248,6 +250,27 @@
         <a href="../tools/ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a> too, since an
         undersized uplink can cause a similar-looking "random drop" complaint for a completely different
         reason.
+      </p>
+
+      <h2>How the PoE budget calculation works</h2>
+      <p>
+        The math behind the calculator is straightforward once you separate the two steps: what your
+        cameras actually need, and how much margin you want on top of that.
+      </p>
+      <div class="note-box">
+        <strong>Device load</strong> = sum of (quantity × watts per device), added up across every camera
+        on the switch.<br>
+        <strong>Planning load</strong> = device load × (1 + headroom), where headroom is a planning choice
+        you set, not an IEEE requirement.<br>
+        <strong>Remaining budget</strong> = switch PoE budget − planning load.
+      </div>
+      <p>
+        Run it backwards — "how many cameras can I add?" — and the calculator does the same math in
+        reverse: it takes the switch's budget, backs out your chosen headroom to get a usable planning
+        budget, then divides that by your selected camera's wattage. That gives a power-limited camera
+        count. It separately checks that number against how many physical ports are actually free, and
+        reports whichever limit is reached first — power or ports — since either one can be the real
+        ceiling depending on the job.
       </p>
 
       <h2>Frequently asked questions</h2>
