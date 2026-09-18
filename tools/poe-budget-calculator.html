@@ -107,7 +107,7 @@
       "name": "Should I leave headroom on a PoE switch?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Most technicians plan with some margin rather than right at the switch's rated limit, since real-world draw can spike briefly during camera boot-up, IR turning on, or PTZ movement. This calculator defaults to 20% headroom as a planning convention, not an IEEE requirement — adjust it to match how your team normally specs jobs."
+        "text": "Most technicians plan with some margin rather than right at the switch's rated limit, since real-world draw can spike briefly during camera boot-up, IR or heater activation, or PTZ movement. This calculator defaults to 20% headroom as a planning convention, not an IEEE requirement — adjust it to match how your team normally specs jobs."
       }
     },
     {
@@ -132,6 +132,22 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Yes. Most modern PoE switches negotiate power per port based on what each connected device requests, so af, at, and bt devices can share the same switch as long as the total draw stays within the switch's overall PoE budget."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a PoE switch doesn't have enough power?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on the switch, but the usual result is that one or more ports won't power up, or a port that was already running gets cut when total demand exceeds the budget — not a clean, obvious failure. Exactly how a given switch handles it (denying new devices, dropping lower-priority ports, or something else) comes down to that switch's own power-management firmware. This is exactly why checking total planning requirement against switch budget matters more than just counting free ports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a PoE++ device work on a PoE+ port?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on what the device actually needs, not just its PoE++ label. A PoE++ (802.3bt) device that only draws, say, 20W will run fine on a PoE+ (802.3at, up to 30W) port, since the device and the port negotiate the power it actually requests. A PoE++ device that needs more than 30W won't get enough from a PoE+ port and typically won't power on at all. Check the device's actual rated draw against the port's standard, not just the standard names against each other."
       }
     }
   ]
@@ -207,11 +223,11 @@
 
     <div class="calc-layout">
       <div class="panel">
-        <h2>Mode</h2>
+        <h2 id="modeHeading">Mode</h2>
         <div class="field" style="margin-bottom:18px;">
-          <div class="toggle-row" id="modeToggle">
-            <button type="button" class="toggle-btn active" data-value="budget">Budget Check</button>
-            <button type="button" class="toggle-btn" data-value="reverse">How Many Cameras?</button>
+          <div class="toggle-row" id="modeToggle" role="group" aria-labelledby="modeHeading">
+            <button type="button" class="toggle-btn active" data-value="budget" aria-pressed="true">Budget Check</button>
+            <button type="button" class="toggle-btn" data-value="reverse" aria-pressed="false">How Many Cameras?</button>
           </div>
         </div>
 
@@ -219,30 +235,32 @@
         <div class="field-row">
           <div class="field">
             <label for="switchBudget">PoE power budget (W)</label>
-            <input type="number" id="switchBudget" min="1" max="4000" step="1" value="120">
+            <input type="number" id="switchBudget" min="1" max="4000" step="1" value="120" aria-describedby="switchBudgetError">
           </div>
           <div class="field">
             <label for="switchPorts">PoE ports</label>
-            <input type="number" id="switchPorts" min="1" max="512" step="1" value="16">
+            <input type="number" id="switchPorts" min="1" max="512" step="1" value="16" aria-describedby="switchPortsError">
           </div>
         </div>
+        <p class="field-error" id="switchBudgetError" role="alert" style="display:none;"></p>
+        <p class="field-error" id="switchPortsError" role="alert" style="display:none;"></p>
 
         <div class="field" style="margin-bottom:6px;">
-          <label>Headroom <span class="hint">reserved margin, not an IEEE requirement</span></label>
-          <div class="toggle-row" id="headroomToggle">
-            <button type="button" class="toggle-btn" data-value="0">0%</button>
-            <button type="button" class="toggle-btn" data-value="15">15%</button>
-            <button type="button" class="toggle-btn active" data-value="20">20%</button>
-            <button type="button" class="toggle-btn" data-value="30">30%</button>
+          <label id="headroomLabel">Headroom <span class="hint">reserved margin, not an IEEE requirement</span></label>
+          <div class="toggle-row" id="headroomToggle" role="group" aria-labelledby="headroomLabel">
+            <button type="button" class="toggle-btn" data-value="0" aria-pressed="false">0%</button>
+            <button type="button" class="toggle-btn" data-value="15" aria-pressed="false">15%</button>
+            <button type="button" class="toggle-btn active" data-value="20" aria-pressed="true">20%</button>
+            <button type="button" class="toggle-btn" data-value="30" aria-pressed="false">30%</button>
           </div>
           <span class="hint" style="margin-top:4px;">Planning headroom is a design choice, not a PoE standard requirement. 20% is a practical default, not an IEEE rule.</span>
         </div>
 
         <div class="field" style="margin-bottom:6px;">
-          <label>Cable-loss estimate <span class="hint">optional, off by default</span></label>
-          <div class="toggle-row" id="cableToggle">
-            <button type="button" class="toggle-btn active" data-value="off">Off</button>
-            <button type="button" class="toggle-btn" data-value="on">Include cable-loss estimate</button>
+          <label id="cableLossLabel">Cable-loss estimate <span class="hint">optional, off by default</span></label>
+          <div class="toggle-row" id="cableToggle" role="group" aria-labelledby="cableLossLabel">
+            <button type="button" class="toggle-btn active" data-value="off" aria-pressed="true">Off</button>
+            <button type="button" class="toggle-btn" data-value="on" aria-pressed="false">Include cable-loss estimate</button>
           </div>
         </div>
 
@@ -269,14 +287,16 @@
           <div class="field-row">
             <div class="field">
               <label for="reverseWatts">Watts per device <span class="hint">editable — not a universal spec</span></label>
-              <input type="number" id="reverseWatts" min="0.1" step="0.1" value="6">
+              <input type="number" id="reverseWatts" min="0.1" step="0.1" value="6" aria-describedby="reverseWattsError">
+              <span class="hint" id="reverseWattsWarning" style="display:none; color:var(--warn-text);"></span>
             </div>
             <div></div>
           </div>
+          <p class="field-error" id="reverseWattsError" role="alert" style="display:none;"></p>
           <div class="field-row dr-cable-fields" id="reverseCableFields" style="display:none;">
             <div class="field">
               <label for="reverseLength">Cable length</label>
-              <input type="number" id="reverseLength" min="0" step="1" value="30">
+              <input type="number" id="reverseLength" min="0" step="1" value="30" aria-describedby="reverseLengthError">
             </div>
             <div class="field">
               <label for="reverseLengthUnit">Unit</label>
@@ -286,12 +306,13 @@
               </select>
             </div>
           </div>
+          <p class="field-error" id="reverseLengthError" role="alert" style="display:none;"></p>
         </div>
       </div>
 
       <div class="panel result-panel">
         <!-- ================= BUDGET RESULTS ================= -->
-        <div id="resultsBudget">
+        <div id="resultsBudget" aria-live="polite" role="status">
           <h2>Switch budget</h2>
           <div class="result-hero">
             <span class="value" id="resultRemaining">—</span><span class="unit" id="resultRemainingUnit">W</span>
@@ -327,10 +348,11 @@
             Recommended minimum switch budget: <strong id="rRecommend">—</strong>
             <br><span style="font-size:0.8rem;">This checks total budget only — confirm the switch's per-port maximum separately, since a high total budget doesn't guarantee any single port can deliver a high-draw device.</span>
           </div>
+          <p class="hint" id="resultsBudgetInvalidNote" style="display:none; margin-top:10px;">Fix the highlighted input(s) above to see a result.</p>
         </div>
 
         <!-- ================= REVERSE RESULTS ================= -->
-        <div id="resultsReverse" style="display:none;">
+        <div id="resultsReverse" style="display:none;" aria-live="polite" role="status">
           <h2>How many devices?</h2>
           <div class="result-hero">
             <span class="value" id="resultMaxDevices">—</span><span class="unit">devices</span>
@@ -347,6 +369,7 @@
           <div class="recommend-box" id="reverseLimitNote">
             —
           </div>
+          <p class="hint" id="resultsReverseInvalidNote" style="display:none; margin-top:10px;">Fix the highlighted input(s) above to see a result.</p>
         </div>
       </div>
     </div>
@@ -501,7 +524,7 @@
       <h3>Should I leave headroom on a PoE switch?</h3>
       <p>
         Most technicians plan with some margin rather than right at the switch's rated limit, since
-        real-world draw can spike briefly during camera boot-up, IR turning on, or PTZ movement. This
+        real-world draw can spike briefly during camera boot-up, IR or heater activation, or PTZ movement. This
         calculator defaults to 20% headroom as a planning convention, not an IEEE requirement — adjust it
         to match how your team normally specs jobs.
       </p>
@@ -523,6 +546,22 @@
         so af, at, and bt devices can share the same switch as long as the total draw stays within the
         switch's overall PoE budget.
       </p>
+      <h3>What happens if a PoE switch doesn't have enough power?</h3>
+      <p>
+        It depends on the switch, but the usual result is that one or more ports won't power up, or a port
+        that was already running gets cut when total demand exceeds the budget — not a clean, obvious
+        failure. Exactly how a given switch handles it (denying new devices, dropping lower-priority ports,
+        or something else) comes down to that switch's own power-management firmware. This is exactly why
+        checking total planning requirement against switch budget matters more than just counting free ports.
+      </p>
+      <h3>Can a PoE++ device work on a PoE+ port?</h3>
+      <p>
+        It depends on what the device actually needs, not just its PoE++ label. A PoE++ (802.3bt) device
+        that only draws, say, 20W will run fine on a PoE+ (802.3at, up to 30W) port, since the device and
+        the port negotiate the power it actually requests. A PoE++ device that needs more than 30W won't get
+        enough from a PoE+ port and typically won't power on at all. Check the device's actual rated draw
+        against the port's standard, not just the standard names against each other.
+      </p>
 
       <h2>Related CCTV tools</h2>
       <p>
@@ -532,6 +571,14 @@
         <a href="cctv-storage-calculator">CCTV Storage Calculator</a> works out drive space for the
         retention period you need, and the <a href="battery-backup-calculator">Battery Backup
         Calculator</a> sizes backup power for the switch and NVR if the install needs it.
+      </p>
+
+      <h2>Related guide</h2>
+      <p>
+        Want the field story behind this math — why PoE cameras sometimes reboot only after dark, and how to
+        catch it before it becomes a callback? See
+        <a href="../blog/poe-budget-calculator-how-many-cameras">PoE Budget Calculator: The Camera Power
+        Math That's Easy to Miss</a>.
       </p>
 
       <p style="margin-top:24px;"><a href="../feedback?tool=PoE%20Budget%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
@@ -625,6 +672,17 @@ function standardOptionsHTML(selected) {
 
 /* ---------- Mode toggle ---------- */
 
+// Shared toggle-group helper: sets .active + aria-pressed together so every
+// toggle-row on this page (mode, headroom, cable-loss) stays in sync.
+function setActiveToggle(container, btn) {
+  container.querySelectorAll('.toggle-btn').forEach(function (b) {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+}
+
 var mode = 'budget';
 var modeToggle = document.getElementById('modeToggle');
 var modeBudgetSection = document.getElementById('modeBudgetSection');
@@ -634,8 +692,7 @@ var resultsReverse = document.getElementById('resultsReverse');
 
 modeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    modeToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
+    setActiveToggle(modeToggle, btn);
     mode = btn.dataset.value;
     modeBudgetSection.style.display = mode === 'budget' ? 'block' : 'none';
     modeReverseSection.style.display = mode === 'reverse' ? 'block' : 'none';
@@ -650,8 +707,7 @@ modeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
 var headroomToggle = document.getElementById('headroomToggle');
 headroomToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    headroomToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
+    setActiveToggle(headroomToggle, btn);
     calculate();
   });
 });
@@ -669,8 +725,7 @@ var reverseCableFields = document.getElementById('reverseCableFields');
 
 cableToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    cableToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
+    setActiveToggle(cableToggle, btn);
     cableLossOn = btn.dataset.value === 'on';
     document.querySelectorAll('.dr-cable-fields').forEach(function (el) {
       el.style.display = cableLossOn ? 'grid' : 'none';
@@ -687,6 +742,7 @@ var rowCounter = 0;
 
 function rowTemplate(id, presetKey) {
   var preset = DEVICE_PRESETS[presetKey];
+  var errStyle = 'style="margin:4px 0 0; display:none;"';
   return (
     '<div class="device-row" data-row-id="' + id + '">' +
       '<div class="device-row-header">' +
@@ -700,7 +756,8 @@ function rowTemplate(id, presetKey) {
         '</div>' +
         '<div class="field">' +
           '<label for="dr-qty-' + id + '">Quantity</label>' +
-          '<input type="number" id="dr-qty-' + id + '" class="dr-qty" min="1" max="512" step="1" value="1">' +
+          '<input type="number" id="dr-qty-' + id + '" class="dr-qty" min="1" max="512" step="1" value="1" aria-describedby="dr-qty-error-' + id + '">' +
+          '<p class="field-error dr-qty-error" id="dr-qty-error-' + id + '" role="alert" ' + errStyle + '></p>' +
         '</div>' +
         '<div class="field">' +
           '<label for="dr-standard-' + id + '">PoE standard</label>' +
@@ -709,13 +766,16 @@ function rowTemplate(id, presetKey) {
         '</div>' +
         '<div class="field">' +
           '<label for="dr-watts-' + id + '">Watts per device <span class="hint">editable — not a universal spec</span></label>' +
-          '<input type="number" id="dr-watts-' + id + '" class="dr-watts" min="0.1" step="0.1" value="' + preset.watts + '">' +
+          '<input type="number" id="dr-watts-' + id + '" class="dr-watts" min="0.1" step="0.1" value="' + preset.watts + '" aria-describedby="dr-watts-error-' + id + ' dr-watts-warning-' + id + '">' +
+          '<p class="field-error dr-watts-error" id="dr-watts-error-' + id + '" role="alert" ' + errStyle + '></p>' +
+          '<span class="hint dr-watts-warning" id="dr-watts-warning-' + id + '" style="display:none; color:var(--warn-text);"></span>' +
         '</div>' +
       '</div>' +
       '<div class="device-grid dr-cable-fields" style="display:' + (cableLossOn ? 'grid' : 'none') + '; margin-top:10px;">' +
         '<div class="field">' +
           '<label for="dr-length-' + id + '">Cable length</label>' +
-          '<input type="number" id="dr-length-' + id + '" class="dr-length" min="0" step="1" value="30">' +
+          '<input type="number" id="dr-length-' + id + '" class="dr-length" min="0" step="1" value="30" aria-describedby="dr-length-error-' + id + '">' +
+          '<p class="field-error dr-length-error" id="dr-length-error-' + id + '" role="alert" ' + errStyle + '></p>' +
         '</div>' +
         '<div class="field">' +
           '<label for="dr-length-unit-' + id + '">Unit</label>' +
@@ -733,7 +793,8 @@ function rowTemplate(id, presetKey) {
         '</div>' +
         '<div class="field dr-custom-r-field" style="display:none;">' +
           '<label for="dr-custom-r-' + id + '">Custom resistance <span class="hint">&#8486; per 100m, loop</span></label>' +
-          '<input type="number" id="dr-custom-r-' + id + '" class="dr-custom-r" min="0" step="0.1" value="' + DEFAULT_CH_OHMS_100M + '">' +
+          '<input type="number" id="dr-custom-r-' + id + '" class="dr-custom-r" min="0" step="0.1" value="' + DEFAULT_CH_OHMS_100M + '" aria-describedby="dr-custom-r-error-' + id + '">' +
+          '<p class="field-error dr-custom-r-error" id="dr-custom-r-error-' + id + '" role="alert" ' + errStyle + '></p>' +
         '</div>' +
       '</div>' +
     '</div>'
@@ -810,6 +871,9 @@ var reversePresetSelect = document.getElementById('reversePreset');
 var reverseStandardSelect = document.getElementById('reverseStandard');
 var reverseWattsInput = document.getElementById('reverseWatts');
 var reverseLengthInput = document.getElementById('reverseLength');
+var reverseWattsError = document.getElementById('reverseWattsError');
+var reverseWattsWarning = document.getElementById('reverseWattsWarning');
+var reverseLengthError = document.getElementById('reverseLengthError');
 var reverseLengthUnitSelect = document.getElementById('reverseLengthUnit');
 
 reversePresetSelect.innerHTML = presetOptionsHTML('cam4mp');
@@ -837,6 +901,8 @@ cableToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
 
 var switchBudgetInput = document.getElementById('switchBudget');
 var switchPortsInput = document.getElementById('switchPorts');
+var switchBudgetError = document.getElementById('switchBudgetError');
+var switchPortsError = document.getElementById('switchPortsError');
 [switchBudgetInput, switchPortsInput].forEach(function (el) {
   el.addEventListener('input', calculate);
   el.addEventListener('change', calculate);
@@ -861,31 +927,176 @@ function recommendSwitchSize(w) {
   return (Math.ceil(w / 60) * 60) + ' W (multiple switches or a higher-capacity unit)';
 }
 
+/* ---------- Validation helpers ---------- */
+// Shared by the static switch/reverse fields and the dynamic device rows.
+// Never silently substitutes a fallback number for a clearly invalid entry —
+// invalid fields get an inline error and the calculation is withheld instead.
+
+function showFieldError(el, msg) {
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function clearFieldError(el) {
+  if (!el) return;
+  el.textContent = '';
+  el.style.display = 'none';
+}
+
+function setInvalid(input, invalid) {
+  if (!input) return;
+  if (invalid) input.setAttribute('aria-invalid', 'true');
+  else input.removeAttribute('aria-invalid');
+}
+
+// Validates one numeric field against declared HTML bounds. Returns the
+// parsed number when valid, or null (after showing/clearing the error) when not.
+function validateNumberField(input, errorEl, opts) {
+  opts = opts || {};
+  var raw = (input.value === undefined || input.value === null) ? '' : String(input.value).trim();
+  var isInt = !!opts.integer;
+  var min = opts.min !== undefined ? opts.min : (input.min !== '' ? parseFloat(input.min) : undefined);
+  var max = opts.max !== undefined ? opts.max : (input.max !== '' ? parseFloat(input.max) : undefined);
+  var label = opts.label || 'value';
+
+  if (raw === '') {
+    showFieldError(errorEl, 'Enter a ' + label + '.');
+    setInvalid(input, true);
+    return null;
+  }
+  var num = parseFloat(raw);
+  if (!Number.isFinite(num)) {
+    showFieldError(errorEl, 'Enter a valid number for ' + label + '.');
+    setInvalid(input, true);
+    return null;
+  }
+  if (isInt && !Number.isInteger(num)) {
+    showFieldError(errorEl, 'Enter a whole number for ' + label + '.');
+    setInvalid(input, true);
+    return null;
+  }
+  if (min !== undefined && num < min) {
+    showFieldError(errorEl, (label.charAt(0).toUpperCase() + label.slice(1)) + ' must be at least ' + min + '.');
+    setInvalid(input, true);
+    return null;
+  }
+  if (max !== undefined && num > max) {
+    showFieldError(errorEl, (label.charAt(0).toUpperCase() + label.slice(1)) + ' can\'t exceed ' + max + '.');
+    setInvalid(input, true);
+    return null;
+  }
+  clearFieldError(errorEl);
+  setInvalid(input, false);
+  return num;
+}
+
+// Non-blocking advisory: flags when entered watts exceeds the selected PoE
+// standard's own PD ceiling. Doesn't touch the watts value or block calculation —
+// the user may genuinely be planning against a custom/override figure.
+function checkWattsCeiling(warningEl, watts, standardKey) {
+  if (!warningEl) return;
+  var type = POE_TYPES[standardKey];
+  if (!type || !Number.isFinite(watts) || watts <= type.pd) {
+    warningEl.style.display = 'none';
+    warningEl.textContent = '';
+    return;
+  }
+  warningEl.textContent = 'This is above the ' + type.pd + 'W PD ceiling for ' + type.label + ' — the device may not power on unless the PoE standard is upgraded to match, or the switch/port supports a higher tier than selected.';
+  warningEl.style.display = 'block';
+}
+
 /* ---------- Budget Check calculation ---------- */
 
+function blankBudgetResults() {
+  ['rDeviceLoad', 'rCableLoss', 'rHeadroom', 'rPlanning', 'rSwitchBudget', 'rPortsUsed', 'rPortsRemaining', 'rRecommend'].forEach(function (id) {
+    document.getElementById(id).textContent = '—';
+  });
+  document.getElementById('resultRemaining').textContent = '—';
+  document.getElementById('resultRemainingUnit').textContent = '';
+  document.getElementById('resultRemainingCaption').textContent = 'fix the highlighted input(s)';
+  document.getElementById('budgetBarFill').style.width = '0%';
+  document.getElementById('budgetBarFill').classList.remove('status-warn', 'status-over');
+  document.getElementById('budgetBarUsedText').textContent = '— W used of — W';
+  document.getElementById('budgetBarPctText').textContent = '—%';
+  var pill = document.getElementById('statusPill');
+  pill.classList.remove('ok', 'warn', 'over');
+  pill.textContent = '—';
+  document.getElementById('portWarning').style.display = 'none';
+  document.getElementById('resultsBudgetInvalidNote').style.display = 'block';
+}
+
 function calculateBudgetMode() {
-  var switchBudget = Math.max(0, parseFloat(switchBudgetInput.value) || 0);
-  var switchPorts = Math.max(0, parseInt(switchPortsInput.value, 10) || 0);
+  var switchBudget = validateNumberField(switchBudgetInput, switchBudgetError, { label: 'PoE power budget' });
+  var switchPorts = validateNumberField(switchPortsInput, switchPortsError, { integer: true, label: 'PoE port count' });
   var headroomPct = getHeadroomPct();
+
+  var rows = deviceList.querySelectorAll('.device-row');
+  var rowData = [];
+  var allRowsValid = true;
+
+  rows.forEach(function (row) {
+    var rowId = row.getAttribute('data-row-id');
+    var qtyInput = row.querySelector('.dr-qty');
+    var wattsInput = row.querySelector('.dr-watts');
+    var qtyError = row.querySelector('.dr-qty-error');
+    var wattsError = row.querySelector('.dr-watts-error');
+    var wattsWarning = row.querySelector('.dr-watts-warning');
+    var standard = row.querySelector('.dr-standard').value;
+
+    var qty = validateNumberField(qtyInput, qtyError, { integer: true, label: 'quantity' });
+    var watts = validateNumberField(wattsInput, wattsError, { label: 'watts per device' });
+    if (qty === null || watts === null) allRowsValid = false;
+
+    checkWattsCeiling(wattsWarning, watts, standard);
+
+    var lengthVal = 0, lengthUnit = 'm', cableType = 'standard', customR = 0;
+    if (cableLossOn) {
+      var lengthInput = row.querySelector('.dr-length');
+      var lengthError = row.querySelector('.dr-length-error');
+      lengthUnit = row.querySelector('.dr-length-unit').value;
+      cableType = row.querySelector('.dr-cable-type').value;
+      var lengthResult = validateNumberField(lengthInput, lengthError, { label: 'cable length' });
+      if (lengthResult === null) allRowsValid = false;
+      lengthVal = lengthResult || 0;
+
+      if (cableType === 'custom') {
+        var customRInput = row.querySelector('.dr-custom-r');
+        var customRError = row.querySelector('.dr-custom-r-error');
+        var customRResult = validateNumberField(customRInput, customRError, { label: 'custom resistance' });
+        if (customRResult === null) allRowsValid = false;
+        customR = customRResult || 0;
+      } else {
+        clearFieldError(row.querySelector('.dr-custom-r-error'));
+        setInvalid(row.querySelector('.dr-custom-r'), false);
+      }
+    } else {
+      // Cable-loss fields are hidden and not part of the calculation — clear any stale errors on them.
+      clearFieldError(row.querySelector('.dr-length-error'));
+      setInvalid(row.querySelector('.dr-length'), false);
+      clearFieldError(row.querySelector('.dr-custom-r-error'));
+      setInvalid(row.querySelector('.dr-custom-r'), false);
+    }
+
+    rowData.push({ qty: qty, watts: watts, standard: standard, lengthVal: lengthVal, lengthUnit: lengthUnit, cableType: cableType, customR: customR });
+  });
+
+  if (switchBudget === null || switchPorts === null || !allRowsValid) {
+    blankBudgetResults();
+    return;
+  }
+  document.getElementById('resultsBudgetInvalidNote').style.display = 'none';
 
   var totalDeviceLoad = 0;
   var totalPortsUsed = 0;
   var totalCableLoss = 0;
 
-  deviceList.querySelectorAll('.device-row').forEach(function (row) {
-    var qty = Math.max(0, parseInt(row.querySelector('.dr-qty').value, 10) || 0);
-    var watts = Math.max(0, parseFloat(row.querySelector('.dr-watts').value) || 0);
-    var standard = row.querySelector('.dr-standard').value;
-
-    totalDeviceLoad += qty * watts;
-    totalPortsUsed += qty;
+  rowData.forEach(function (d) {
+    totalDeviceLoad += d.qty * d.watts;
+    totalPortsUsed += d.qty;
 
     if (cableLossOn) {
-      var lengthVal = Math.max(0, parseFloat(row.querySelector('.dr-length').value) || 0);
-      var lengthUnit = row.querySelector('.dr-length-unit').value;
-      var cableType = row.querySelector('.dr-cable-type').value;
-      var customR = Math.max(0, parseFloat(row.querySelector('.dr-custom-r').value) || 0);
-      totalCableLoss += cableLossWattsForDevice(watts, standard, lengthVal, lengthUnit, cableType, customR) * qty;
+      totalCableLoss += cableLossWattsForDevice(d.watts, d.standard, d.lengthVal, d.lengthUnit, d.cableType, d.customR) * d.qty;
     }
   });
 
@@ -958,17 +1169,46 @@ function calculateBudgetMode() {
 
 /* ---------- Reverse mode calculation ---------- */
 
+function blankReverseResults() {
+  document.getElementById('resultMaxDevices').textContent = '—';
+  document.getElementById('resultMaxCaption').textContent = 'fix the highlighted input(s)';
+  ['rPowerLimit', 'rPortLimit', 'rUsableBudget', 'rReverseLoss'].forEach(function (id) {
+    document.getElementById(id).textContent = '—';
+  });
+  document.getElementById('reverseLimitNote').textContent = '—';
+  document.getElementById('resultsReverseInvalidNote').style.display = 'block';
+}
+
 function calculateReverseMode() {
-  var switchBudget = Math.max(0, parseFloat(switchBudgetInput.value) || 0);
-  var switchPorts = Math.max(0, parseInt(switchPortsInput.value, 10) || 0);
+  var switchBudget = validateNumberField(switchBudgetInput, switchBudgetError, { label: 'PoE power budget' });
+  var switchPorts = validateNumberField(switchPortsInput, switchPortsError, { integer: true, label: 'PoE port count' });
   var headroomPct = getHeadroomPct();
-  var watts = Math.max(0.1, parseFloat(reverseWattsInput.value) || 0.1);
+  var watts = validateNumberField(reverseWattsInput, reverseWattsError, { label: 'watts per device' });
   var standard = reverseStandardSelect.value;
+
+  checkWattsCeiling(reverseWattsWarning, watts, standard);
+
+  var lengthVal = 0;
+  var lengthUnit = 'm';
+  var lengthValid = true;
+  if (cableLossOn) {
+    var lengthResult = validateNumberField(reverseLengthInput, reverseLengthError, { label: 'cable length' });
+    lengthValid = lengthResult !== null;
+    lengthVal = lengthResult || 0;
+    lengthUnit = reverseLengthUnitSelect.value;
+  } else {
+    clearFieldError(reverseLengthError);
+    setInvalid(reverseLengthInput, false);
+  }
+
+  if (switchBudget === null || switchPorts === null || watts === null || !lengthValid) {
+    blankReverseResults();
+    return;
+  }
+  document.getElementById('resultsReverseInvalidNote').style.display = 'none';
 
   var lossPerDevice = 0;
   if (cableLossOn) {
-    var lengthVal = Math.max(0, parseFloat(reverseLengthInput.value) || 0);
-    var lengthUnit = reverseLengthUnitSelect.value;
     lossPerDevice = cableLossWattsForDevice(watts, standard, lengthVal, lengthUnit, 'standard', 0);
   }
   var effectiveWatts = watts + lossPerDevice;
@@ -978,6 +1218,7 @@ function calculateReverseMode() {
   var portLimit = switchPorts;
   var result = Math.max(0, Math.min(powerLimit, portLimit));
 
+  document.getElementById('resultMaxCaption').textContent = 'maximum you can add';
   document.getElementById('resultMaxDevices').textContent = result;
   document.getElementById('rPowerLimit').textContent = powerLimit + ' (power limit)';
   document.getElementById('rPortLimit').textContent = portLimit + ' (port limit)';
