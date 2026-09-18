@@ -85,6 +85,38 @@
         "@type": "Answer",
         "text": "Less precise than the IP figures. Analog HD-CCTV bitrates vary more by manufacturer than IP camera bitrates do, so treat these as a solid planning estimate and confirm against your specific DVR's datasheet before ordering a drive for a large or long-retention job."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Does H.265 reduce CCTV storage requirements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — H.265 (HEVC) typically needs roughly half the bitrate of H.264 for comparable video quality, and H.265+/smart-codec variants can reduce it further on scenes with limited motion. Actual savings depend on the specific camera, scene complexity, and encoder implementation, so treat the codec factors in this calculator as planning estimates rather than guaranteed numbers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does motion-detection recording reduce storage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, in principle — motion-triggered recording only writes to disk when the camera detects activity, so less continuous recording time means less storage used. How much it actually saves depends entirely on how much activity the camera sees, so the \"estimated recording activity\" percentage in this calculator is a planning estimate you set based on your scene, not a value the calculator or the camera can guarantee."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does frame rate (FPS) affect CCTV storage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lower fps reduces bitrate, but not in a straight line down to zero — this calculator scales bitrate between 30% and 100% of its 30fps figure as fps drops from 0 to 30, since full reference (I-)frames still need to be recorded at intervals regardless of frame rate. Halving fps from 30 to 15 typically saves noticeably less than half the storage, not exactly half."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is my hard drive's usable capacity smaller than advertised?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hard drive manufacturers list capacity in decimal terabytes (1 TB = 1,000,000,000,000 bytes) — the same convention this calculator uses. Operating systems typically report capacity in binary units, which shows a smaller number for the same physical drive (roughly 7-10% less), and formatting/filesystem overhead reduces the usable amount further. A 6 TB drive showing as roughly 5.45 TB or less in your NVR or OS is expected behavior, not a faulty or short drive."
+      }
     }
   ]
 }
@@ -162,23 +194,24 @@
         <h2>Your setup</h2>
 
         <div class="field" style="margin-bottom:16px;">
-          <label>System type</label>
-          <div class="toggle-row" id="sysToggle">
-            <button type="button" class="toggle-btn" data-value="analog">Analog / HD-CCTV (DVR)</button>
-            <button type="button" class="toggle-btn active" data-value="ip">IP Camera (NVR)</button>
+          <label id="sysToggleLabel">System type</label>
+          <div class="toggle-row" id="sysToggle" role="group" aria-labelledby="sysToggleLabel">
+            <button type="button" class="toggle-btn" data-value="analog" aria-pressed="false">Analog / HD-CCTV (DVR)</button>
+            <button type="button" class="toggle-btn active" data-value="ip" aria-pressed="true">IP Camera (NVR)</button>
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="numCameras">Number of cameras</label>
-            <input type="number" id="numCameras" min="1" max="256" value="8">
+            <input type="number" id="numCameras" min="1" max="256" value="8" aria-describedby="camerasError">
           </div>
           <div class="field">
             <label for="resolution">Resolution</label>
             <select id="resolution"></select>
           </div>
         </div>
+        <p class="field-error" id="camerasError" role="alert" style="display:none;"></p>
 
         <div class="field-row">
           <div class="field">
@@ -194,30 +227,56 @@
           </div>
           <div class="field">
             <label for="retention">Retention period (days)</label>
-            <input type="number" id="retention" min="1" max="365" value="30">
+            <input type="number" id="retention" min="1" max="365" value="30" aria-describedby="retentionError">
           </div>
         </div>
+        <p class="field-error" id="retentionError" role="alert" style="display:none;"></p>
 
         <div class="field" id="codecField" style="margin-bottom:6px;">
-          <label>Compression / codec</label>
-          <div class="toggle-row" id="codecToggle">
-            <button type="button" class="toggle-btn" data-value="1">H.264</button>
-            <button type="button" class="toggle-btn active" data-value="0.5">H.265</button>
-            <button type="button" class="toggle-btn" data-value="0.32">H.265+ / Smart</button>
+          <label id="codecToggleLabel">Compression / codec</label>
+          <div class="toggle-row" id="codecToggle" role="group" aria-labelledby="codecToggleLabel">
+            <button type="button" class="toggle-btn" data-value="1" aria-pressed="false">H.264</button>
+            <button type="button" class="toggle-btn active" data-value="0.5" aria-pressed="true">H.265</button>
+            <button type="button" class="toggle-btn" data-value="0.32" aria-pressed="false">H.265+ / Smart</button>
           </div>
         </div>
 
-        <div class="field">
-          <label>Recording mode</label>
-          <div class="toggle-row" id="modeToggle">
-            <button type="button" class="toggle-btn active" data-value="continuous">Continuous 24/7</button>
-            <button type="button" class="toggle-btn" data-value="motion">Motion-triggered</button>
+        <div class="field" style="margin-bottom:6px;">
+          <label id="modeToggleLabel">Recording mode</label>
+          <div class="toggle-row" id="modeToggle" role="group" aria-labelledby="modeToggleLabel">
+            <button type="button" class="toggle-btn active" data-value="continuous" aria-pressed="true">Continuous 24/7</button>
+            <button type="button" class="toggle-btn" data-value="motion" aria-pressed="false">Motion-triggered</button>
           </div>
         </div>
+
+        <div class="field-row" id="motionRow" style="display:none; margin-top:12px;">
+          <div class="field">
+            <label for="motionPct">Estimated recording activity (% of day) <span class="hint">typical: 15–30%</span></label>
+            <input type="number" id="motionPct" min="1" max="100" step="1" value="20" aria-describedby="motionError">
+            <span class="hint">An estimate you set, not a guarantee — actual recorded time depends on scene activity, sensitivity, and camera placement.</span>
+          </div>
+          <div></div>
+        </div>
+        <p class="field-error" id="motionError" role="alert" style="display:none;"></p>
+
+        <div class="field" style="margin-top:18px; margin-bottom:6px;">
+          <label id="bitrateSourceLabel">Advanced <span class="hint">optional, for professional use</span></label>
+          <div class="toggle-row" id="bitrateSourceToggle" role="group" aria-labelledby="bitrateSourceLabel">
+            <button type="button" class="toggle-btn active" data-value="table" aria-pressed="true">Table estimate</button>
+            <button type="button" class="toggle-btn" data-value="custom" aria-pressed="false">Custom bitrate</button>
+          </div>
+        </div>
+        <div class="field" id="customBitrateField" style="display:none;">
+          <label for="customBitrate">Per-camera bitrate from datasheet (Mbps)</label>
+          <input type="number" id="customBitrate" min="0.1" max="200" step="0.1" placeholder="e.g. 6" aria-describedby="customBitrateError">
+          <span class="hint">Overrides the resolution/fps/codec table above for this camera configuration. Use your manufacturer's actual spec sheet value when you have it.</span>
+        </div>
+        <p class="field-error" id="customBitrateError" role="alert" style="display:none;"></p>
       </div>
 
       <div class="panel result-panel">
         <h2>Storage needed</h2>
+        <div id="resultsLive" aria-live="polite" role="status">
         <div class="result-hero">
           <span class="caption">Full retention period, incl. 10% buffer</span>
           <span class="value" id="resultTB">—</span><span class="unit">TB</span>
@@ -227,10 +286,14 @@
           <div class="result-row"><span class="k">Per-camera bitrate</span><span class="v" id="rBitrate">—</span></div>
           <div class="result-row"><span class="k">Total network bandwidth</span><span class="v" id="rBw">—</span></div>
           <div class="result-row"><span class="k">Storage per day (all cameras)</span><span class="v" id="rDay">—</span></div>
+          <div class="result-row"><span class="k">Storage per camera (full retention)</span><span class="v" id="rPerCamera">—</span></div>
         </div>
 
         <div class="recommend-box">
-          Recommended drive size: <strong id="rDrive">—</strong>
+          Recommended drive size: <strong id="rDrive">—</strong><br>
+          <span style="font-size:0.8rem;">Includes a 10% planning buffer for filesystem overhead and bitrate spikes.</span>
+        </div>
+        <p class="hint" id="resultsInvalidNote" style="display:none; margin-top:10px;">Fix the highlighted input(s) above to see an estimate.</p>
         </div>
       </div>
     </div>
@@ -255,8 +318,33 @@
         <strong>Formula:</strong> Storage (GB) = bitrate (Mbps) ÷ 8 × 3600 × recording hours/day × retention
         days, summed across all cameras — same underlying math as our
         <a href="nvr-storage-calculator">NVR Storage Calculator</a>, just with a resolution/codec table
-        that covers analog HD-CCTV hardware too.
+        that covers analog HD-CCTV hardware too. Motion-triggered jobs replace 24 hours/day with your entered
+        "estimated recording activity" percentage. The optional custom bitrate field replaces the
+        resolution/fps/codec table entirely for that calculation, using your entered Mbps figure as the final
+        per-camera bitrate.
       </div>
+
+      <h2>Worked example</h2>
+      <p>
+        <strong>Illustrative only — your actual result depends on your own camera count, resolution, fps,
+        codec, recording mode, and retention.</strong> This is one example, using the calculator's own default
+        inputs, not a rule of thumb for every job.
+      </p>
+      <p>
+        IP camera system, 8 cameras, 4MP resolution, 15 fps, H.265, continuous 24/7 recording, 30-day retention.
+      </p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>FPS factor</td><td>0.3 + 0.7 &times; (15 &divide; 30) = 0.65</td></tr>
+          <tr><td>Per-camera bitrate</td><td>6 Mbps &times; 0.65 &times; 0.5 (H.265) = 1.95 Mbps</td></tr>
+          <tr><td>Total network bandwidth</td><td>1.95 Mbps &times; 8 cameras = 15.6 Mbps</td></tr>
+          <tr><td>Storage per camera per day</td><td>(1.95 &divide; 8) &times; 86,400 &divide; 1000 &asymp; 21.06 GB</td></tr>
+          <tr><td>Storage per camera, full retention</td><td>21.06 GB &times; 30 days &asymp; 631.8 GB</td></tr>
+          <tr><td>Storage, all cameras per day</td><td>21.06 GB &times; 8 cameras &asymp; 168.5 GB</td></tr>
+          <tr><td>Total storage, incl. 10% buffer</td><td>&asymp; 5.56 TB &rarr; recommended drive: 6 TB</td></tr>
+        </tbody>
+      </table>
 
       <h2>Analog HD-CCTV resolution reference</h2>
       <table>
@@ -291,10 +379,44 @@
       </p>
 
       <div class="warn-box">
-        <strong>Note:</strong> analog HD-CCTV bitrates vary more between manufacturers than IP camera bitrates
-        do — always sanity-check against your specific DVR/camera datasheet before ordering a drive on a large
-        or long-retention job.
+        <strong>Note:</strong> every bitrate figure on this page — analog and IP alike — is a planning estimate,
+        not a guaranteed real-world number. Actual bitrate varies by manufacturer, scene complexity, image
+        detail, compression settings, and camera configuration; analog HD-CCTV figures vary more between
+        manufacturers than IP camera figures do. Always sanity-check against your specific DVR/NVR or camera
+        datasheet before ordering a drive on a large or long-retention job — or enter that datasheet figure
+        directly using the custom bitrate field above.
       </div>
+
+      <h2>Decimal TB vs. what your OS displays</h2>
+      <p>
+        Hard drive manufacturers advertise capacity in decimal terabytes (1 TB = 1,000,000,000,000 bytes), which
+        is also the convention this calculator uses for its TB figures. Operating systems typically report
+        capacity in binary units, which shows a smaller number for the same physical drive — roughly 7–10%
+        less — and formatting/filesystem overhead reduces the usable amount further still. A 6 TB drive showing
+        as roughly 5.45 TB or less in your NVR or OS is expected behavior, not a sign of a faulty or short
+        drive.
+      </p>
+
+      <h2>Drive bays, RAID, and this calculator's limits</h2>
+      <p>
+        This calculator gives you the raw storage figure — it doesn't know your recorder's physical limits.
+        DVR/NVR storage capacity is also bounded by the recorder itself: every recorder has a fixed number of
+        SATA bays and a per-bay drive-size ceiling set by its firmware, so a theoretical 20 TB recommendation is
+        meaningless if your recorder only has two bays rated for 10 TB drives each — check your recorder's
+        datasheet before buying drives. Redundancy (RAID 1/5/6) is a separate infrastructure decision this
+        calculator doesn't model as a full RAID engine — RAID trades some of your total capacity for fault
+        tolerance, so if you're specifying RAID, size your drives above this calculator's raw figure to leave
+        room for that overhead.
+      </p>
+
+      <h2>Working backwards: how long will my drive last?</h2>
+      <p>
+        The same bitrate-to-storage relationship works in reverse: once you know your camera count, resolution,
+        fps, codec, and recording activity, you can estimate how many days a drive of a known size will hold
+        before it fills up — roughly, drive capacity divided by the "storage per day (all cameras)" figure
+        above. This calculator doesn't solve for retention days directly; run your setup above to get that
+        per-day figure, then divide it into your drive's capacity for an estimate.
+      </p>
 
       <h2>Frequently asked questions</h2>
       <h3>Should I use this or the NVR Storage Calculator?</h3>
@@ -313,6 +435,36 @@
         Less precise than the IP figures. Analog HD-CCTV bitrates vary more by manufacturer than IP camera
         bitrates do, so treat these as a solid planning estimate and confirm against your specific DVR's
         datasheet before ordering a drive for a large or long-retention job.
+      </p>
+      <h3>Does H.265 reduce CCTV storage requirements?</h3>
+      <p>
+        Yes — H.265 (HEVC) typically needs roughly half the bitrate of H.264 for comparable video quality, and
+        H.265+/smart-codec variants can reduce it further on scenes with limited motion. Actual savings depend
+        on the specific camera, scene complexity, and encoder implementation, so treat the codec factors in
+        this calculator as planning estimates rather than guaranteed numbers.
+      </p>
+      <h3>Does motion-detection recording reduce storage?</h3>
+      <p>
+        Yes, in principle — motion-triggered recording only writes to disk when the camera detects activity, so
+        less continuous recording time means less storage used. How much it actually saves depends entirely on
+        how much activity the camera sees, so the "estimated recording activity" percentage in this calculator
+        is a planning estimate you set based on your scene, not a value the calculator or the camera can
+        guarantee.
+      </p>
+      <h3>How does frame rate (FPS) affect CCTV storage?</h3>
+      <p>
+        Lower fps reduces bitrate, but not in a straight line down to zero — this calculator scales bitrate
+        between 30% and 100% of its 30fps figure as fps drops from 0 to 30, since full reference (I-)frames
+        still need to be recorded at intervals regardless of frame rate. Halving fps from 30 to 15 typically
+        saves noticeably less than half the storage, not exactly half.
+      </p>
+      <h3>Why is my hard drive's usable capacity smaller than advertised?</h3>
+      <p>
+        Hard drive manufacturers list capacity in decimal terabytes (1 TB = 1,000,000,000,000 bytes) — the same
+        convention this calculator uses. Operating systems typically report capacity in binary units, which
+        shows a smaller number for the same physical drive (roughly 7-10% less), and formatting/filesystem
+        overhead reduces the usable amount further. A 6 TB drive showing as roughly 5.45 TB or less in your NVR
+        or OS is expected behavior, not a faulty or short drive.
       </p>
 
       <h2>Related CCTV tools</h2>
@@ -375,6 +527,17 @@ const retentionInput = document.getElementById('retention');
 const codecField = document.getElementById('codecField');
 const codecToggle = document.getElementById('codecToggle');
 const modeToggle = document.getElementById('modeToggle');
+const motionRow = document.getElementById('motionRow');
+const motionPctInput = document.getElementById('motionPct');
+const bitrateSourceToggle = document.getElementById('bitrateSourceToggle');
+const customBitrateField = document.getElementById('customBitrateField');
+const customBitrateInput = document.getElementById('customBitrate');
+
+const camerasError = document.getElementById('camerasError');
+const retentionError = document.getElementById('retentionError');
+const motionError = document.getElementById('motionError');
+const customBitrateError = document.getElementById('customBitrateError');
+const resultsInvalidNote = document.getElementById('resultsInvalidNote');
 
 const resTables = {
   analog: [
@@ -395,6 +558,7 @@ const resTables = {
 let sysType = 'ip';
 let codecFactor = 0.5;
 let recMode = 'continuous';
+let bitrateSource = 'table';
 
 function populateResolutions(){
   resSelect.innerHTML = '';
@@ -407,10 +571,18 @@ function populateResolutions(){
   });
 }
 
+function setActiveToggle(container, btn) {
+  container.querySelectorAll('.toggle-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+}
+
 sysToggle.querySelectorAll('.toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    sysToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    setActiveToggle(sysToggle, btn);
     sysType = btn.dataset.value;
     codecField.style.display = sysType === 'analog' ? 'none' : 'block';
     if (sysType === 'analog') { codecFactor = 1; }
@@ -425,8 +597,7 @@ sysToggle.querySelectorAll('.toggle-btn').forEach(btn => {
 
 codecToggle.querySelectorAll('.toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    codecToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    setActiveToggle(codecToggle, btn);
     codecFactor = parseFloat(btn.dataset.value);
     calculate();
   });
@@ -434,14 +605,25 @@ codecToggle.querySelectorAll('.toggle-btn').forEach(btn => {
 
 modeToggle.querySelectorAll('.toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    modeToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    setActiveToggle(modeToggle, btn);
     recMode = btn.dataset.value;
+    motionRow.style.display = recMode === 'motion' ? 'grid' : 'none';
+    if (recMode !== 'motion') { motionError.style.display = 'none'; motionPctInput.removeAttribute('aria-invalid'); }
     calculate();
   });
 });
 
-[resSelect, fpsSelect, numCamerasInput, retentionInput].forEach(el => {
+bitrateSourceToggle.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    setActiveToggle(bitrateSourceToggle, btn);
+    bitrateSource = btn.dataset.value;
+    customBitrateField.style.display = bitrateSource === 'custom' ? 'block' : 'none';
+    if (bitrateSource !== 'custom') { customBitrateError.style.display = 'none'; customBitrateInput.removeAttribute('aria-invalid'); }
+    calculate();
+  });
+});
+
+[resSelect, fpsSelect, numCamerasInput, retentionInput, motionPctInput, customBitrateInput].forEach(el => {
   el.addEventListener('input', calculate);
   el.addEventListener('change', calculate);
 });
@@ -456,27 +638,103 @@ function nextDriveSize(tb) {
   return Math.ceil(tb / 2) * 2 + ' TB (multiple drives)';
 }
 
-function calculate() {
-  const numCameras = Math.max(1, parseInt(numCamerasInput.value) || 1);
-  const fps = parseInt(fpsSelect.value);
-  const retention = Math.max(1, parseInt(retentionInput.value) || 1);
+function showError(el, msg) {
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function clearErrors() {
+  [camerasError, retentionError, motionError, customBitrateError].forEach(el => { el.style.display = 'none'; el.textContent = ''; });
+  [numCamerasInput, retentionInput, motionPctInput, customBitrateInput].forEach(el => el.removeAttribute('aria-invalid'));
+}
+
+// Reads and validates all numeric inputs. Returns null (and shows inline errors)
+// instead of silently clamping obviously invalid values.
+function readAndValidate() {
+  clearErrors();
+  let valid = true;
+
+  const numCameras = parseInt(numCamerasInput.value, 10);
+  if (!Number.isInteger(numCameras) || numCameras < 1 || numCameras > 256) {
+    showError(camerasError, 'Enter a whole number of cameras between 1 and 256.');
+    numCamerasInput.setAttribute('aria-invalid', 'true');
+    valid = false;
+  }
+
+  const retention = parseInt(retentionInput.value, 10);
+  if (!Number.isInteger(retention) || retention < 1 || retention > 365) {
+    showError(retentionError, 'Enter a whole number of retention days between 1 and 365.');
+    retentionInput.setAttribute('aria-invalid', 'true');
+    valid = false;
+  }
+
+  let motionPct = 20;
+  if (recMode === 'motion') {
+    motionPct = parseFloat(motionPctInput.value);
+    if (!Number.isFinite(motionPct) || motionPct < 1 || motionPct > 100) {
+      showError(motionError, 'Enter an estimated recording activity between 1% and 100%.');
+      motionPctInput.setAttribute('aria-invalid', 'true');
+      valid = false;
+    }
+  }
+
+  let customBitrateMbps = null;
+  if (bitrateSource === 'custom') {
+    customBitrateMbps = parseFloat(customBitrateInput.value);
+    if (!Number.isFinite(customBitrateMbps) || customBitrateMbps <= 0 || customBitrateMbps > 200) {
+      showError(customBitrateError, 'Enter a custom bitrate greater than 0 and no more than 200 Mbps.');
+      customBitrateInput.setAttribute('aria-invalid', 'true');
+      valid = false;
+    }
+  }
+
+  const fps = parseInt(fpsSelect.value, 10);
   const baseMbps = parseFloat(resSelect.value);
-  const fpsFactor = 0.3 + 0.7 * (fps / 30);
-  const perCameraMbps = baseMbps * fpsFactor * codecFactor;
+  if (!Number.isFinite(fps) || !Number.isFinite(baseMbps)) valid = false;
+
+  return valid ? { numCameras, retention, motionPct, customBitrateMbps, fps, baseMbps } : null;
+}
+
+function blankResults() {
+  ['resultTB', 'rBitrate', 'rBw', 'rDay', 'rPerCamera', 'rDrive'].forEach(id => {
+    document.getElementById(id).textContent = '—';
+  });
+  resultsInvalidNote.style.display = 'block';
+}
+
+function calculate() {
+  const inputs = readAndValidate();
+  if (!inputs) { blankResults(); return; }
+  resultsInvalidNote.style.display = 'none';
+
+  const { numCameras, retention, motionPct, customBitrateMbps, fps, baseMbps } = inputs;
+
+  let perCameraMbps;
+  if (bitrateSource === 'custom') {
+    // Custom bitrate is taken as the final per-camera figure — skip fps/codec scaling.
+    perCameraMbps = customBitrateMbps;
+  } else {
+    const fpsFactor = 0.3 + 0.7 * (fps / 30);
+    perCameraMbps = baseMbps * fpsFactor * codecFactor;
+  }
 
   const totalBw = perCameraMbps * numCameras;
-  const recordHoursPerDay = recMode === 'motion' ? 24 * 0.20 : 24;
+  const recordHoursPerDay = recMode === 'motion' ? 24 * (motionPct / 100) : 24;
   const secondsPerDay = recordHoursPerDay * 3600;
 
   const gbPerCameraPerDay = (perCameraMbps / 8) * secondsPerDay / 1000;
+  const gbPerCameraTotal = gbPerCameraPerDay * retention;
   const gbTotalPerDay = gbPerCameraPerDay * numCameras;
-  const tbTotal = (gbPerCameraPerDay * retention * numCameras) / 1000;
+  const tbTotal = (gbPerCameraTotal * numCameras) / 1000;
   const tbWithBuffer = tbTotal * 1.10;
+
+  if (!Number.isFinite(tbWithBuffer) || tbWithBuffer < 0) { blankResults(); return; }
 
   document.getElementById('resultTB').textContent = fmtNum(tbWithBuffer, tbWithBuffer < 10 ? 2 : 1);
   document.getElementById('rBitrate').textContent = fmtNum(perCameraMbps, 2) + ' Mbps';
   document.getElementById('rBw').textContent = fmtNum(totalBw, 1) + ' Mbps';
   document.getElementById('rDay').textContent = fmtNum(gbTotalPerDay, 1) + ' GB';
+  document.getElementById('rPerCamera').textContent = fmtNum(gbPerCameraTotal, 1) + ' GB';
   document.getElementById('rDrive').textContent = nextDriveSize(tbWithBuffer);
 }
 
