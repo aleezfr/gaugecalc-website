@@ -5,8 +5,8 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9125815530210447" crossorigin="anonymous"></script>
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCTV Voltage Drop Calculator: Why Cameras Fail After Dark — GaugeCalc</title>
-<meta name="description" content="Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.">
+<title>CCTV Camera Offline at Night? Voltage Drop Fix — GaugeCalc</title>
+<meta name="description" content="Camera fine by day but offline after dark? How IR current causes voltage drop on long 12V runs, how to check it at the camera, and how to fix it.">
 <link rel="canonical" href="https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -17,15 +17,15 @@
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="GaugeCalc">
-<meta property="og:title" content="CCTV Voltage Drop Calculator: Why Cameras Fail After Dark">
-<meta property="og:description" content="Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.">
+<meta property="og:title" content="CCTV Camera Offline at Night? Voltage Drop Fix">
+<meta property="og:description" content="Camera fine by day but offline after dark? How IR current causes voltage drop on long 12V runs, how to check it at the camera, and how to fix it.">
 <meta property="og:url" content="https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="CCTV Voltage Drop Calculator: Why Cameras Fail After Dark">
-<meta name="twitter:description" content="Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.">
+<meta name="twitter:title" content="CCTV Camera Offline at Night? Voltage Drop Fix">
+<meta name="twitter:description" content="Camera fine by day but offline after dark? How IR current causes voltage drop on long 12V runs, how to check it at the camera, and how to fix it.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,8 +38,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "CCTV Voltage Drop Calculator: Why Cameras Fail After Dark",
-  "description": "Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable pulls cause night time reboot loops.",
+  "headline": "CCTV Camera Offline at Night? Voltage Drop Fix",
+  "description": "Camera fine by day but offline after dark? How IR current causes voltage drop on long 12V runs, how to check it at the camera, and how to fix it.",
   "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
   "datePublished": "2026-09-18",
@@ -54,7 +54,7 @@
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
     { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://gaugecalc.com/blog/" },
-    { "@type": "ListItem", "position": 3, "name": "CCTV Voltage Drop Calculator: Why Cameras Fail After Dark", "item": "https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night" }
+    { "@type": "ListItem", "position": 3, "name": "CCTV Camera Offline at Night? Voltage Drop Fix", "item": "https://gaugecalc.com/blog/cctv-voltage-drop-calculator-camera-offline-at-night" }
   ]
 }
 </script>
@@ -76,7 +76,7 @@
       "name": "What wire gauge should I use for a long CCTV camera run?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "For runs under roughly 100 feet, 20 or 22 AWG is usually fine on a 12V system. Past 100 to 150 feet, 18 AWG is the safer default, especially for cameras with IR illuminators or heaters that spike current draw at night."
+        "text": "It depends on the camera's maximum current, including IR and heater load, and on the run length, so there is no single gauge that fits every job. As an example only, at 12V, 0.5A, copper and a 10% planning drop, 22 AWG reaches about 74 ft one way, 20 AWG about 118 ft and 18 AWG about 187 ft. At double the current those distances roughly halve. Enter your camera's actual maximum current in the calculator to check your run."
       }
     },
     {
@@ -148,7 +148,7 @@
   <main>
   <div class="wrap wrap--sidebar">
     <div class="page-content">
-    <p class="crumb"><a href="../">Home</a> / <a href="./">Guides</a> / CCTV Voltage Drop Calculator</p>
+    <p class="crumb"><a href="../">Home</a> / <a href="./">Guides</a> / Camera Offline at Night</p>
 
     <section class="hero" style="padding-block:26px 6px;">
       <span class="eyebrow">Field guide · CCTV &amp; electrical</span>
@@ -193,17 +193,23 @@
 
       <h2>The wire gauge matters more than most installers budget for</h2>
       <p>
-        Use this table exactly:
+        The right gauge depends on how much current the camera pulls, not on distance alone. As one example,
+        here is how far each gauge gets on a 12V supply with a 0.5A camera load (IR on) and a 10% planning
+        drop, using solid copper at 20&deg;C. Double the current and these distances roughly halve.
       </p>
       <table>
-        <thead><tr><th>Gauge</th><th>Typical long run performance</th></tr></thead>
+        <thead><tr><th>Gauge</th><th>Approx. max one-way run at 12V, 0.5A, 10% drop</th></tr></thead>
         <tbody>
-          <tr><td>24 AWG</td><td>Poor beyond roughly 50 to 75 ft on any real load</td></tr>
-          <tr><td>22 AWG</td><td>Fair for shorter runs, weak past roughly 100 ft</td></tr>
-          <tr><td>20 AWG</td><td>Better, but still marginal on long high draw runs</td></tr>
-          <tr><td>18 AWG</td><td>The safe default once you're past 100 to 150 ft</td></tr>
+          <tr><td>24 AWG</td><td>About 46 ft</td></tr>
+          <tr><td>22 AWG</td><td>About 74 ft</td></tr>
+          <tr><td>20 AWG</td><td>About 118 ft</td></tr>
+          <tr><td>18 AWG</td><td>About 187 ft</td></tr>
         </tbody>
       </table>
+      <p>
+        These are example figures, not a rule for every camera. Use your camera's actual maximum current in the
+        <a href="../tools/cctv-voltage-drop-calculator">CCTV Voltage Drop Calculator</a> to check your own run.
+      </p>
       <p>
         If you're reusing old low voltage wiring, old alarm cable, or an existing run that was already in the
         wall, check the gauge before you trust it for a new camera. A lot of legacy wiring was sized for much
@@ -252,9 +258,11 @@
       </p>
       <h3>What wire gauge should I use for a long CCTV camera run?</h3>
       <p>
-        For runs under roughly 100 feet, 20 or 22 AWG is usually fine on a 12V system. Past 100 to 150 feet,
-        18 AWG is the safer default, especially for cameras with IR illuminators or heaters that spike current
-        draw at night.
+        It depends on the camera's maximum current, including IR and heater load, and on the run length, so
+        there is no single gauge that fits every job. As an example only, at 12V, 0.5A, copper and a 10%
+        planning drop, 22 AWG reaches about 74 ft one way, 20 AWG about 118 ft and 18 AWG about 187 ft. At
+        double the current those distances roughly halve. Enter your camera's actual maximum current in the
+        calculator to check your run.
       </p>
       <h3>Can I fix voltage drop without repulling the cable?</h3>
       <p>

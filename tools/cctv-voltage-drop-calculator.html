@@ -133,6 +133,30 @@
         "@type": "Answer",
         "text": "No. PoE uses a different power-delivery and negotiation model between the switch and camera, not a simple fixed-voltage DC supply, so this calculator's formulas don't apply to it. Use the PoE Budget Calculator instead for switch power budget and port planning."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens when the voltage at a CCTV camera is too low?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The camera may reboot, drop offline, or behave erratically, because it is no longer receiving the voltage it needs. The exact behavior and the minimum voltage depend on the camera model, so check the manufacturer's datasheet. On a marginal run the problem often appears first at night, when IR illuminators or heaters turn on and increase the current draw, which increases the voltage drop along the cable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does cable length affect voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Conductor resistance grows in direct proportion to length, so for the same current and wire gauge, doubling the one-way length doubles the loop resistance and the voltage drop. That is why a camera that works at 50 feet can fail at 300 feet on the same cable. The calculator counts both the outgoing and return conductors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does wire gauge affect voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A lower AWG number means a thicker conductor with lower resistance per foot, so it loses less voltage over the same length at the same current. For example, at 12V DC and 0.5A, this calculator's copper values put a 10% planning limit at about 74 ft one way for 22 AWG and about 187 ft for 18 AWG. Those figures assume copper conductors at 20°C and are examples, not universal limits."
+      }
     }
   ]
 }
@@ -207,11 +231,11 @@
 
     <div class="calc-layout">
       <div class="panel">
-        <h2>Mode</h2>
+        <h2 id="modeHeading">Mode</h2>
         <div class="field" style="margin-bottom:18px;">
-          <div class="toggle-row" id="modeToggle">
-            <button type="button" class="toggle-btn active" data-value="forward">Voltage Drop Check</button>
-            <button type="button" class="toggle-btn" data-value="reverse">Maximum Cable Length</button>
+          <div class="toggle-row" id="modeToggle" role="group" aria-labelledby="modeHeading">
+            <button type="button" class="toggle-btn active" data-value="forward" aria-pressed="true">Voltage Drop Check</button>
+            <button type="button" class="toggle-btn" data-value="reverse" aria-pressed="false">Maximum Cable Length</button>
           </div>
         </div>
 
@@ -226,24 +250,28 @@
           </div>
           <div class="field">
             <label for="maxCurrent">Maximum operating current (A)</label>
-            <input type="number" id="maxCurrent" min="0" step="0.01" value="0.5">
-            <span class="hint">Include IR, heater, PTZ motor, or other auxiliary loads where applicable.</span>
+            <input type="number" id="maxCurrent" min="0" max="10" step="0.01" value="0.5" aria-describedby="maxCurrentHint maxCurrentError">
+            <span class="hint" id="maxCurrentHint">Include IR, heater, PTZ motor, or other auxiliary loads where applicable. Up to 10 A.</span>
+            <span class="hint" id="maxCurrentZeroNote" style="display:none; color:var(--warn-text);">0 A means no load, so there is no voltage drop to calculate. Enter the camera’s actual maximum current for a meaningful result.</span>
           </div>
         </div>
+        <p class="field-error" id="maxCurrentError" role="alert" style="display:none;"></p>
 
         <div class="field-row" id="lengthFieldRow">
-          <div class="field">
+          <div class="field" id="cableLengthField">
             <label for="cableLength">One-way cable length</label>
-            <input type="number" id="cableLength" min="0" step="1" value="150">
+            <input type="number" id="cableLength" min="0" max="5000" step="1" value="150" aria-describedby="cableLengthHint cableLengthError">
+            <span class="hint" id="cableLengthHint">Maximum 5,000 ft (1,524 m).</span>
           </div>
           <div class="field">
-            <label for="lengthUnit">Unit</label>
+            <label for="lengthUnit" id="lengthUnitLabel">Unit</label>
             <select id="lengthUnit">
               <option value="ft" selected>Feet</option>
               <option value="m">Meters</option>
             </select>
           </div>
         </div>
+        <p class="field-error" id="cableLengthError" role="alert" style="display:none;"></p>
 
         <div class="field-row">
           <div class="field">
@@ -261,37 +289,37 @@
           </div>
           <div class="field">
             <label for="planningThreshold">Planning threshold (%)</label>
-            <input type="number" id="planningThreshold" min="0" max="100" step="0.5" value="10">
-            <span class="hint">A planning guideline, not an electrical code requirement.</span>
+            <input type="number" id="planningThreshold" min="0" max="100" step="0.5" value="10" aria-describedby="planningThresholdHint planningThresholdError">
+            <span class="hint" id="planningThresholdHint">A planning guideline, not an electrical code requirement.</span>
           </div>
         </div>
+        <p class="field-error" id="planningThresholdError" role="alert" style="display:none;"></p>
 
         <div class="field" style="margin-bottom:6px;">
           <label for="minVoltage">Camera minimum operating voltage (V) <span class="hint">optional</span></label>
-          <input type="number" id="minVoltage" min="0" step="0.1" placeholder="Leave blank if unknown">
-          <span class="hint">Enter the minimum operating voltage from the camera manufacturer's datasheet, if known.</span>
+          <input type="number" id="minVoltage" min="0" step="0.1" placeholder="Leave blank if unknown" aria-describedby="minVoltageHint minVoltageError">
+          <span class="hint" id="minVoltageHint">Enter the minimum operating voltage from the camera manufacturer's datasheet, if known.</span>
         </div>
         <p class="field-error" id="minVoltageError" role="alert" style="display:none;"></p>
 
         <div class="field" style="margin-top:16px; margin-bottom:6px;">
-          <label>Advanced <span class="hint">optional</span></label>
-          <div class="toggle-row" id="customRToggle">
-            <button type="button" class="toggle-btn active" data-value="off">Use AWG resistance</button>
-            <button type="button" class="toggle-btn" data-value="on">Use custom resistance</button>
+          <span id="customRLabel" style="font-size:0.83rem; font-weight:600; color:var(--text-muted);">Advanced <span class="hint">optional</span></span>
+          <div class="toggle-row" id="customRToggle" role="group" aria-labelledby="customRLabel">
+            <button type="button" class="toggle-btn active" data-value="off" aria-pressed="true">Use AWG resistance</button>
+            <button type="button" class="toggle-btn" data-value="on" aria-pressed="false">Use custom resistance</button>
           </div>
         </div>
         <div class="field" id="customRField" style="display:none;">
           <label for="customR">Custom conductor resistance (&#8486; per 1000 ft)</label>
-          <input type="number" id="customR" min="0" step="0.001" placeholder="e.g. 6.385">
-          <span class="hint">Useful when your cable's datasheet gives a known single-conductor resistance different from the standard AWG table. Does not enable AC, aluminum, or paralleled-conductor modeling.</span>
+          <input type="number" id="customR" min="0" step="0.001" placeholder="e.g. 6.385" aria-describedby="customRHint customRError">
+          <span class="hint" id="customRHint">Useful when your cable's datasheet gives a known single-conductor resistance different from the standard AWG table. Does not enable AC, aluminum, or paralleled-conductor modeling.</span>
         </div>
         <p class="field-error" id="customRError" role="alert" style="display:none;"></p>
-        <p class="field-error" id="generalError" role="alert" style="display:none;"></p>
       </div>
 
       <div class="panel result-panel">
         <!-- ================= FORWARD RESULTS ================= -->
-        <div id="resultsForward">
+        <div id="resultsForward" aria-live="polite" role="status">
           <h2>Voltage at camera</h2>
           <div class="result-hero">
             <span class="value" id="resultVCamera">—</span><span class="unit">V</span>
@@ -305,13 +333,14 @@
             <div class="result-row"><span class="k">Voltage drop percentage</span><span class="v" id="rDropPct">—</span></div>
             <div class="result-row"><span class="k">Total loop resistance</span><span class="v" id="rLoopR">—</span></div>
             <div class="result-row"><span class="k">Resistance basis</span><span class="v" id="rResistanceBasis">—</span></div>
+            <div class="result-row" id="rRecRow"><span class="k">Smallest AWG that passes</span><span class="v" id="rRecGauge">—</span></div>
           </div>
 
           <div class="recommend-box" id="explainBox">—</div>
         </div>
 
         <!-- ================= REVERSE RESULTS ================= -->
-        <div id="resultsReverse" style="display:none;">
+        <div id="resultsReverse" style="display:none;" aria-live="polite" role="status">
           <h2>Maximum one-way cable length</h2>
           <div class="result-hero">
             <span class="value" id="resultMaxLength">—</span><span class="unit" id="resultMaxLengthUnit">ft</span>
@@ -332,7 +361,9 @@
     <div class="warn-box" style="margin-top:8px;">
       Calculations use nominal copper resistance at 20&deg;C (68&deg;F). Actual conductor resistance increases
       as the cable gets hotter, so hot attics, direct sun, bundled cable, or conduit runs can produce somewhat
-      more voltage drop than shown. This is a planning calculation, not a field measurement.
+      more voltage drop than shown. The entered current is treated as a constant draw at the stated supply
+      voltage, and the AWG values assume copper conductors, not copper-clad aluminum (CCA). This is a planning
+      calculation, not a field measurement.
     </div>
 
     <!-- AdSense placeholder disabled pending approval:
@@ -342,6 +373,29 @@
 -->
 
     <article class="article">
+      <h2>What is voltage drop?</h2>
+      <p>
+        Voltage drop is the voltage lost along a cable because the conductors have resistance. The more current
+        a camera draws and the longer or thinner the cable, the more voltage is used up in the wire, so the
+        camera receives less voltage than the power supply puts out.
+      </p>
+
+      <h2>How much voltage drop is acceptable for a CCTV camera?</h2>
+      <p>
+        There is no single universal limit. What actually matters is the minimum operating voltage in the
+        camera manufacturer's datasheet. Many installers use 10% as a planning guideline, or rule of thumb,
+        when the datasheet figure isn't known, but it is not an electrical code requirement. This calculator
+        defaults to 10% for that reason and lets you enter the camera's real minimum voltage for a stricter check.
+      </p>
+
+      <h2>What happens when the voltage at a CCTV camera is too low?</h2>
+      <p>
+        The camera can reboot, drop offline, or behave erratically because it is no longer receiving the voltage
+        it needs. The exact behavior and the minimum voltage depend on the camera model. On a marginal run the
+        problem often shows up first at night, when IR illuminators or heaters turn on and the extra current
+        increases the voltage drop along the cable.
+      </p>
+
       <h2>How this calculator works</h2>
       <p>
         Enter your supply voltage, the camera's maximum operating current, the one-way cable length, and the
@@ -359,7 +413,7 @@
         the circuit, not two separate calculations.
       </div>
 
-      <h2>What voltage drop means for CCTV cameras</h2>
+      <h2>What voltage drop means in practice</h2>
       <p>
         Every real conductor has resistance, and current flowing through that resistance uses up some of the
         supply voltage before it reaches the camera — that lost voltage is the "drop." A camera at the end of
@@ -384,7 +438,9 @@
         night-time draw increases voltage drop past what was verified — and if that pushes delivered voltage
         below the camera's real minimum, the camera can reboot, drop offline, or behave erratically specifically
         after dark. Checking the run against maximum operating current, not idle current, catches this before
-        it becomes a night-only fault that's hard to diagnose after installation.
+        it becomes a night-only fault that's hard to diagnose after installation. For a field walkthrough of
+        this exact symptom, see
+        <a href="../blog/cctv-voltage-drop-calculator-camera-offline-at-night">why a camera can go offline only after sunset</a>.
       </p>
 
       <h2>How wire gauge affects voltage drop</h2>
@@ -403,6 +459,33 @@
         Values are nominal copper resistance for a single conductor at 20&deg;C (68&deg;F), converted to an
         approximate per-100m figure for reference. See the temperature note below for why real-world
         resistance can run somewhat higher.
+      </p>
+
+      <h2>Maximum one-way run by wire gauge (example)</h2>
+      <p>
+        Example only, not a universal limit: these lengths assume a <strong>12V DC</strong> supply,
+        <strong>0.5A</strong> constant current, a <strong>10% planning threshold</strong> (1.2 V of drop), and
+        solid <strong>copper</strong> conductors at <strong>20&deg;C</strong>. Lengths are one-way, rounded down,
+        and use the same formula as Maximum Cable Length mode:
+        (supply voltage &times; threshold) &divide; (current &times; 2 &times; R per foot).
+        At double the current the distances roughly halve; at half the current they roughly double.
+      </p>
+      <table>
+        <thead><tr><th>AWG</th><th>Max one-way run (ft)</th><th>Max one-way run (m)</th></tr></thead>
+        <tbody>
+          <tr><td>24 AWG</td><td>46</td><td>14</td></tr>
+          <tr><td>22 AWG</td><td>74</td><td>22</td></tr>
+          <tr><td>20 AWG</td><td>118</td><td>36</td></tr>
+          <tr><td>18 AWG</td><td>187</td><td>57</td></tr>
+          <tr><td>16 AWG</td><td>298</td><td>91</td></tr>
+          <tr><td>14 AWG</td><td>475</td><td>144</td></tr>
+          <tr><td>12 AWG</td><td>755</td><td>230</td></tr>
+        </tbody>
+      </table>
+      <p class="hint" style="display:block; margin-top:8px;">
+        These figures do not apply to copper-clad aluminum (CCA) cable, other currents, other supply voltages,
+        or a camera minimum voltage that is stricter than the 10% planning threshold. Enter your own values in
+        the calculator above.
       </p>
 
       <h2>Why maximum operating current matters</h2>
@@ -455,6 +538,21 @@
         drop than this calculator shows. Treat the result as a planning calculation for typical conditions,
         not a guaranteed field measurement — leave yourself some margin on long or thermally exposed runs.
       </p>
+
+      <h2>Assumptions and limits of this calculator</h2>
+      <ul>
+        <li><strong>Constant current.</strong> The current you enter is treated as a constant draw at the stated
+          supply voltage. Real camera loads vary, especially when IR, heaters, motors or other loads switch on,
+          and some cameras can draw more current as their input voltage falls. Enter the maximum operating
+          current and leave margin on long runs.</li>
+        <li><strong>Copper at about 20&deg;C.</strong> The AWG resistance table assumes copper conductors at
+          roughly 20&deg;C.</li>
+        <li><strong>Solid vs stranded.</strong> Stranded conductors can differ from the tabulated solid-conductor
+          resistance.</li>
+        <li><strong>Copper-clad aluminum (CCA).</strong> CCA cable can have materially different resistance from
+          copper, so the AWG distances shown here do not apply equally to CCA. If the cable's datasheet gives a
+          conductor resistance, use the custom resistance field instead.</li>
+      </ul>
 
       <h2>DC voltage drop vs PoE</h2>
       <p>
@@ -557,6 +655,28 @@
         <a href="poe-budget-calculator">PoE Budget Calculator</a> instead for switch power budget and port
         planning.
       </p>
+      <h3>What happens when the voltage at a CCTV camera is too low?</h3>
+      <p>
+        The camera may reboot, drop offline, or behave erratically, because it is no longer receiving the
+        voltage it needs. The exact behavior and the minimum voltage depend on the camera model, so check the
+        manufacturer's datasheet. On a marginal run the problem often appears first at night, when IR
+        illuminators or heaters turn on and increase the current draw, which increases the voltage drop along
+        the cable.
+      </p>
+      <h3>How does cable length affect voltage drop?</h3>
+      <p>
+        Conductor resistance grows in direct proportion to length, so for the same current and wire gauge,
+        doubling the one-way length doubles the loop resistance and the voltage drop. That is why a camera that
+        works at 50 feet can fail at 300 feet on the same cable. The calculator counts both the outgoing and
+        return conductors.
+      </p>
+      <h3>How does wire gauge affect voltage drop?</h3>
+      <p>
+        A lower AWG number means a thicker conductor with lower resistance per foot, so it loses less voltage
+        over the same length at the same current. For example, at 12V DC and 0.5A, this calculator's copper
+        values put a 10% planning limit at about 74 ft one way for 22 AWG and about 187 ft for 18 AWG. Those
+        figures assume copper conductors at 20°C and are examples, not universal limits.
+      </p>
 
       <h2>Related CCTV tools</h2>
       <p>
@@ -643,22 +763,43 @@ function isFiniteNumber(n) {
   tbody.innerHTML = html;
 })();
 
+/* ---------- Input limits ---------- */
+
+var MAX_CURRENT_A = 10;
+var MAX_LENGTH_FT = 5000;
+var MAX_LENGTH_M = 1524; // 5,000 ft expressed in metres (1 ft = 0.3048 m exactly)
+var AWG_ORDER = ['24', '22', '20', '18', '16', '14', '12'];
+
 /* ---------- Mode toggle ---------- */
+
+// Shared toggle-group helper: sets .active + aria-pressed together so every
+// toggle-row on this page (mode, custom resistance) stays in sync.
+function setActiveToggle(container, btn) {
+  container.querySelectorAll('.toggle-btn').forEach(function (b) {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+}
 
 var mode = 'forward';
 var modeToggle = document.getElementById('modeToggle');
 var resultsForward = document.getElementById('resultsForward');
 var resultsReverse = document.getElementById('resultsReverse');
-var lengthFieldRow = document.getElementById('lengthFieldRow');
+var cableLengthField = document.getElementById('cableLengthField');
+var lengthUnitLabel = document.getElementById('lengthUnitLabel');
 
 modeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    modeToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
+    setActiveToggle(modeToggle, btn);
     mode = btn.dataset.value;
     resultsForward.style.display = mode === 'forward' ? 'block' : 'none';
     resultsReverse.style.display = mode === 'reverse' ? 'block' : 'none';
-    lengthFieldRow.style.display = mode === 'forward' ? 'grid' : 'none';
+    // Reverse mode has no length input, but the unit selector stays available
+    // because it sets the unit of the maximum-length result.
+    cableLengthField.style.display = mode === 'forward' ? '' : 'none';
+    lengthUnitLabel.textContent = mode === 'forward' ? 'Unit' : 'Result unit';
     calculate();
   });
 });
@@ -673,8 +814,7 @@ var gaugeDisabledHint = document.getElementById('gaugeDisabledHint');
 
 customRToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    customRToggle.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
+    setActiveToggle(customRToggle, btn);
     customROn = btn.dataset.value === 'on';
     customRField.style.display = customROn ? 'flex' : 'none';
     wireGaugeSelect.disabled = customROn;
@@ -693,9 +833,13 @@ var planningThresholdInput = document.getElementById('planningThreshold');
 var minVoltageInput = document.getElementById('minVoltage');
 var customRInput = document.getElementById('customR');
 
+var maxCurrentError = document.getElementById('maxCurrentError');
+var maxCurrentZeroNote = document.getElementById('maxCurrentZeroNote');
+var cableLengthError = document.getElementById('cableLengthError');
+var cableLengthHint = document.getElementById('cableLengthHint');
+var planningThresholdError = document.getElementById('planningThresholdError');
 var minVoltageError = document.getElementById('minVoltageError');
 var customRError = document.getElementById('customRError');
-var generalError = document.getElementById('generalError');
 
 [supplyVoltageSelect, maxCurrentInput, cableLengthInput, lengthUnitSelect, wireGaugeSelect,
  planningThresholdInput, minVoltageInput, customRInput].forEach(function (el) {
@@ -704,31 +848,107 @@ var generalError = document.getElementById('generalError');
 });
 
 /* ---------- Validation helpers ---------- */
+// Never silently substitutes a fallback number for an invalid entry — an invalid
+// field gets an inline error and the calculation is withheld instead.
 
-function parsePositiveOrZero(val) {
-  var n = parseFloat(val);
-  if (!isFiniteNumber(n) || n < 0) return 0;
-  return n;
+function showFieldError(el, msg) {
+  el.textContent = msg;
+  el.style.display = 'block';
 }
 
-function parseOptional(val) {
-  if (val === '' || val === null || typeof val === 'undefined') return null;
-  var n = parseFloat(val);
-  if (!isFiniteNumber(n)) return null;
-  return n;
+function clearFieldError(el) {
+  el.textContent = '';
+  el.style.display = 'none';
+}
+
+function setInvalid(input, invalid) {
+  if (invalid) input.setAttribute('aria-invalid', 'true');
+  else input.removeAttribute('aria-invalid');
+}
+
+function capFirst(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// Validates one required numeric field against its declared bounds. Returns the
+// parsed number when valid, or null (after showing the error) when not.
+function validateNumberField(input, errorEl, opts) {
+  var label = opts.label;
+  var raw = String(input.value).trim();
+  var msg = null;
+  var num = NaN;
+
+  if (input.validity && input.validity.badInput) {
+    msg = 'Enter a valid number for the ' + label + '.';
+  } else if (raw === '') {
+    msg = 'Enter the ' + label + '.';
+  } else {
+    num = parseFloat(raw);
+    if (!isFiniteNumber(num)) msg = 'Enter a valid number for the ' + label + '.';
+    else if (num < opts.min) msg = capFirst(label) + ' can’t be negative.';
+    else if (num > opts.max) msg = capFirst(label) + ' can’t exceed ' + opts.maxText + '.';
+  }
+
+  if (msg !== null) {
+    showFieldError(errorEl, msg);
+    setInvalid(input, true);
+    return null;
+  }
+  clearFieldError(errorEl);
+  setInvalid(input, false);
+  return num;
+}
+
+// Optional field: blank is valid (returns { ok: true, value: null }).
+function validateMinVoltage(vSource) {
+  var raw = minVoltageInput.value.trim();
+  var msg = null;
+  var n = null;
+
+  if (minVoltageInput.validity && minVoltageInput.validity.badInput) {
+    msg = 'Enter a valid number for the minimum operating voltage, or leave it blank.';
+  } else if (raw !== '') {
+    n = parseFloat(raw);
+    if (!isFiniteNumber(n)) msg = 'Enter a valid number for the minimum operating voltage, or leave it blank.';
+    else if (n < 0) msg = 'Minimum operating voltage can’t be negative.';
+    else if (n >= vSource) msg = 'Minimum camera voltage can’t be equal to or greater than the supply voltage (' + vSource + 'V) — check your inputs.';
+  }
+
+  if (msg !== null) {
+    showFieldError(minVoltageError, msg);
+    setInvalid(minVoltageInput, true);
+    return { ok: false, value: null };
+  }
+  clearFieldError(minVoltageError);
+  setInvalid(minVoltageInput, false);
+  return { ok: true, value: n };
 }
 
 function getResistancePerKft() {
   if (customROn) {
-    var n = parseFloat(customRInput.value);
-    if (customRInput.value.trim() === '') return { value: null, error: 'Enter a custom resistance value, or switch back to "Use AWG resistance."' };
-    if (!isFiniteNumber(n) || n <= 0 || n > MAX_CUSTOM_R) {
-      return { value: null, error: 'Custom resistance must be a positive number no greater than ' + MAX_CUSTOM_R + ' Ω/1000 ft.' };
+    var raw = customRInput.value.trim();
+    var n = parseFloat(raw);
+    var msg = null;
+    if (customRInput.validity && customRInput.validity.badInput) {
+      msg = 'Custom resistance must be a positive number no greater than ' + MAX_CUSTOM_R + ' Ω/1000 ft.';
+    } else if (raw === '') {
+      msg = 'Enter a custom resistance value, or switch back to "Use AWG resistance."';
+    } else if (!isFiniteNumber(n) || n <= 0 || n > MAX_CUSTOM_R) {
+      msg = 'Custom resistance must be a positive number no greater than ' + MAX_CUSTOM_R + ' Ω/1000 ft.';
     }
-    return { value: n, error: null, source: 'Custom resistance (' + fmtNum(n, 3) + ' Ω/1000 ft)' };
+    if (msg !== null) {
+      showFieldError(customRError, msg);
+      setInvalid(customRInput, true);
+      return { value: null, error: true };
+    }
+    clearFieldError(customRError);
+    setInvalid(customRInput, false);
+    return { value: n, error: false, source: 'Custom resistance (' + fmtNum(n, 3) + ' Ω/1000 ft)' };
   }
+  clearFieldError(customRError);
+  setInvalid(customRInput, false);
   var awg = wireGaugeSelect.value;
-  return { value: AWG_RESISTANCE[awg], error: null, source: awg + ' AWG copper, 20°C nominal' };
+  return { value: AWG_RESISTANCE[awg], error: false, source: awg + ' AWG copper, 20°C nominal' };
 }
 
 function lengthToFeet(val, unit) {
@@ -739,145 +959,124 @@ function feetToUnit(ft, unit) {
   return unit === 'm' ? ft / FT_PER_M : ft;
 }
 
-/* ---------- Forward calculation ---------- */
+// The length limit is fixed at 5,000 ft; the field's max attribute and hint
+// follow the selected unit.
+function syncLengthLimit() {
+  var metric = lengthUnitSelect.value === 'm';
+  cableLengthInput.max = metric ? MAX_LENGTH_M : MAX_LENGTH_FT;
+  cableLengthHint.textContent = metric ? 'Maximum 1,524 m (5,000 ft).' : 'Maximum 5,000 ft (1,524 m).';
+}
 
-function calculateForward() {
-  generalError.style.display = 'none';
-  minVoltageError.style.display = 'none';
-  customRError.style.display = 'none';
+/* ---------- Voltage drop model ---------- */
 
-  var vSource = parseFloat(supplyVoltageSelect.value);
-  var current = parsePositiveOrZero(maxCurrentInput.value);
-  var lengthRaw = parsePositiveOrZero(cableLengthInput.value);
-  var unit = lengthUnitSelect.value;
-  var lengthFt = lengthToFeet(lengthRaw, unit);
-  var threshold = parseFloat(planningThresholdInput.value);
-  if (!isFiniteNumber(threshold) || threshold < 0) threshold = 0;
-  if (threshold > 100) threshold = 100;
-  var vMin = parseOptional(minVoltageInput.value);
-
-  var rInfo = getResistancePerKft();
-  if (rInfo.error) {
-    customRError.textContent = rInfo.error;
-    customRError.style.display = 'block';
-    renderForwardBlocked();
-    return;
-  }
-  var rConductor = rInfo.value / 1000; // ohms per foot, single conductor
-
-  if (vMin !== null && vMin >= vSource) {
-    minVoltageError.textContent = 'Minimum camera voltage can’t be equal to or greater than the supply voltage (' + vSource + 'V) — check your inputs.';
-    minVoltageError.style.display = 'block';
-    renderForwardBlocked();
-    return;
-  }
-
+// Same formulas as always: R_loop = R_conductor x 2 x length; V_drop = I x R_loop;
+// V_camera = V_source - V_drop; drop% = V_drop / V_source x 100.
+function evaluateRun(rPerKft, lengthFt, current, vSource, threshold, vMin) {
+  var rConductor = rPerKft / 1000; // ohms per foot, single conductor
   var rLoop = rConductor * 2 * lengthFt;
   var vDrop = current * rLoop;
   var vCameraRaw = vSource - vDrop;
   var vCamera = Math.max(0, vCameraRaw);
   var dropPercent = vSource > 0 ? (vDrop / vSource) * 100 : 0;
 
-  var status, statusText, caption;
-  if (vCameraRaw < 0 || (vMin !== null && vCamera < vMin)) {
+  var status;
+  if (vCameraRaw <= 0 || (vMin !== null && vCamera < vMin)) {
     status = 'over';
-    statusText = 'FAIL';
   } else if (dropPercent <= threshold + 1e-9 && (vMin === null || vCamera >= vMin)) {
     status = 'ok';
-    statusText = 'PASS';
   } else {
     status = 'warn';
-    statusText = 'CAUTION';
+  }
+  return { rLoop: rLoop, vDrop: vDrop, vCameraRaw: vCameraRaw, vCamera: vCamera, dropPercent: dropPercent, status: status };
+}
+
+// Thinnest AWG in the existing table whose result would be PASS for the same inputs.
+function smallestPassingAwg(lengthFt, current, vSource, threshold, vMin) {
+  for (var i = 0; i < AWG_ORDER.length; i++) {
+    var ev = evaluateRun(AWG_RESISTANCE[AWG_ORDER[i]], lengthFt, current, vSource, threshold, vMin);
+    if (ev.status === 'ok') return AWG_ORDER[i];
+  }
+  return null;
+}
+
+/* ---------- Forward calculation ---------- */
+
+function calculateForward(vSource, current, length, unit, threshold, vMin, rInfo) {
+  var lengthFt = lengthToFeet(length, unit);
+  var ev = evaluateRun(rInfo.value, lengthFt, current, vSource, threshold, vMin);
+  var vMinKnown = vMin !== null;
+  var statusText = ev.status === 'over' ? 'FAIL' : (ev.status === 'ok' ? 'PASS' : 'CAUTION');
+
+  // Build the explanation first, entirely from values that are always defined,
+  // so the pill and the text can never disagree.
+  var sentence;
+  if (ev.vCameraRaw <= 0) {
+    sentence = 'Your camera starts with ' + vSource + 'V at the supply. Cable resistance would cause approximately ' +
+      fmtNum(ev.vDrop, 2) + ' V of drop (' + fmtNum(ev.dropPercent, 1) + '%), which equals or exceeds the supply voltage, so no usable voltage would reach the camera at this length, current and conductor. Shorten the run, use a larger conductor, or reduce the load.';
+  } else {
+    sentence = 'Your camera starts with ' + vSource + 'V at the supply. Cable resistance causes approximately ' +
+      fmtNum(ev.vDrop, 2) + ' V of drop, leaving approximately ' + fmtNum(ev.vCamera, 2) + ' V at the camera (' +
+      fmtNum(ev.dropPercent, 1) + '% drop).';
+    if (statusText === 'FAIL') {
+      sentence += ' This is below the minimum operating voltage you entered (' + fmtNum(vMin, 2) + ' V) — the camera may not operate reliably at this length and current.';
+    } else if (statusText === 'CAUTION' && vMinKnown) {
+      sentence += ' Delivered voltage meets the minimum you entered, but the drop exceeds your ' + fmtNum(threshold, 1) + '% planning threshold — some margin has already been used.';
+    } else if (statusText === 'CAUTION') {
+      sentence += ' The calculated voltage drop is above your selected planning threshold. Without a minimum operating voltage this tool cannot tell whether the camera will still operate, and a large drop can leave the camera below the voltage it needs. Check the camera’s minimum operating voltage and consider a larger conductor, shorter run, higher supply voltage where supported, or a different power arrangement.';
+    } else if (vMinKnown) {
+      sentence += ' This meets both your ' + fmtNum(threshold, 1) + '% planning threshold and the minimum operating voltage you entered.';
+    } else {
+      sentence += ' This meets your ' + fmtNum(threshold, 1) + '% planning threshold. The camera’s manufacturer minimum operating voltage was not provided, so this is a planning assessment only, not a confirmed pass against the camera’s real specification.';
+    }
   }
 
-  document.getElementById('resultVCamera').textContent = vCameraRaw < 0 ? '0' : fmtNum(vCamera, 2);
-  document.getElementById('resultVCameraCaption').textContent = vCameraRaw < 0 ? '0 V (exceeds supply)' : 'delivered at the camera end';
-  document.getElementById('rVDrop').textContent = fmtNum(vDrop, 2) + ' V';
-  document.getElementById('rDropPct').textContent = fmtNum(dropPercent, 1) + '%';
-  document.getElementById('rLoopR').textContent = fmtNum(rLoop, 4) + ' Ω';
+  document.getElementById('resultVCamera').textContent = ev.vCameraRaw <= 0 ? '0' : fmtNum(ev.vCamera, 2);
+  document.getElementById('resultVCameraCaption').textContent = ev.vCameraRaw <= 0 ? '0 V (drop reaches the supply voltage)' : 'delivered at the camera end';
+  document.getElementById('rVDrop').textContent = fmtNum(ev.vDrop, 2) + ' V';
+  document.getElementById('rDropPct').textContent = fmtNum(ev.dropPercent, 1) + '%';
+  document.getElementById('rLoopR').textContent = fmtNum(ev.rLoop, 4) + ' Ω';
   document.getElementById('rResistanceBasis').textContent = rInfo.source;
+
+  // Smallest standard AWG that would PASS for these inputs (AWG basis only).
+  var recRow = document.getElementById('rRecRow');
+  if (customROn) {
+    recRow.style.display = 'none';
+  } else {
+    recRow.style.display = '';
+    var rec = smallestPassingAwg(lengthFt, current, vSource, threshold, vMin);
+    document.getElementById('rRecGauge').textContent = rec ? rec + ' AWG' : 'None of 24–12 AWG';
+  }
 
   var pill = document.getElementById('statusPill');
   pill.classList.remove('ok', 'warn', 'over');
-  pill.classList.add(status);
+  pill.classList.add(ev.status);
   pill.textContent = statusText;
 
-  var explainBox = document.getElementById('explainBox');
-  var vMinKnown = vMin !== null;
-  var sentence = 'Your camera starts with ' + vSource + 'V at the supply. Cable resistance causes approximately ' +
-    fmtNum(vDrop, 2) + ' V of drop, leaving approximately ' + fmtNum(vCamera, 2) + ' V at the camera (' +
-    fmtNum(dropPercent, 1) + '% drop).';
-
-  if (statusText === 'FAIL') {
-    sentence += ' This is below the minimum operating voltage you entered (' + fmtNum(vMin, 2) + ' V) — the camera may not operate reliably at this length and current.';
-  } else if (statusText === 'CAUTION' && vMinKnown) {
-    sentence += ' Delivered voltage meets the minimum you entered, but the drop exceeds your ' + fmtNum(threshold, 1) + '% planning threshold — some margin has already been used.';
-  } else if (statusText === 'CAUTION' && !vMinKnown) {
-    sentence += ' The calculated voltage drop is above your selected planning threshold. Check the camera’s minimum operating voltage and consider a larger conductor, shorter run, higher supply voltage where supported, or a different power arrangement.';
-  } else if (statusText === 'PASS' && vMinKnown) {
-    sentence += ' This meets both your ' + fmtNum(threshold, 1) + '% planning threshold and the minimum operating voltage you entered.';
-  } else {
-    sentence += ' This meets your ' + fmtNum(threshold, 1) + '% planning threshold. The camera’s manufacturer minimum operating voltage was not provided, so this is a planning assessment only, not a confirmed pass against the camera’s real specification.';
-  }
-  explainBox.textContent = sentence;
+  document.getElementById('explainBox').textContent = sentence;
 }
 
-function renderForwardBlocked() {
+function renderForwardBlocked(message, caption) {
   document.getElementById('resultVCamera').textContent = '—';
-  document.getElementById('resultVCameraCaption').textContent = 'enter valid values';
+  document.getElementById('resultVCameraCaption').textContent = caption;
   document.getElementById('rVDrop').textContent = '—';
   document.getElementById('rDropPct').textContent = '—';
   document.getElementById('rLoopR').textContent = '—';
   document.getElementById('rResistanceBasis').textContent = '—';
+  document.getElementById('rRecGauge').textContent = '—';
   var pill = document.getElementById('statusPill');
   pill.classList.remove('ok', 'warn', 'over');
   pill.textContent = '—';
-  document.getElementById('explainBox').textContent = 'Fix the highlighted input above to see a result.';
+  document.getElementById('explainBox').textContent = message;
 }
 
 /* ---------- Reverse calculation ---------- */
 
-function calculateReverse() {
-  generalError.style.display = 'none';
-  minVoltageError.style.display = 'none';
-  customRError.style.display = 'none';
-
-  var vSource = parseFloat(supplyVoltageSelect.value);
-  var current = parsePositiveOrZero(maxCurrentInput.value);
-  var unit = lengthUnitSelect.value;
-  var threshold = parseFloat(planningThresholdInput.value);
-  if (!isFiniteNumber(threshold) || threshold < 0) threshold = 0;
-  if (threshold > 100) threshold = 100;
-  var vMin = parseOptional(minVoltageInput.value);
-
-  var rInfo = getResistancePerKft();
-  if (rInfo.error) {
-    customRError.textContent = rInfo.error;
-    customRError.style.display = 'block';
-    renderReverseBlocked();
-    return;
-  }
+function calculateReverse(vSource, current, unit, threshold, vMin, rInfo) {
   var rConductor = rInfo.value / 1000; // ohms per foot
-
-  if (vMin !== null && vMin >= vSource) {
-    minVoltageError.textContent = 'Minimum camera voltage can’t be equal to or greater than the supply voltage (' + vSource + 'V) — check your inputs.';
-    minVoltageError.style.display = 'block';
-    renderReverseBlocked();
-    return;
-  }
 
   document.getElementById('rResistanceBasisReverse').textContent = rInfo.source;
 
   var denom = current * rConductor * 2;
-
-  if (denom <= 0) {
-    document.getElementById('resultMaxLength').textContent = 'No limit';
-    document.getElementById('resultMaxLengthUnit').textContent = 'at 0A current';
-    document.getElementById('rLenThreshold').textContent = '—';
-    document.getElementById('rLenMinVRow').style.display = 'none';
-    document.getElementById('reverseLimitNote').textContent = 'No practical limit at this current — with zero current there is no voltage drop regardless of length.';
-    return;
-  }
 
   var maxDropVoltageThreshold = vSource * (threshold / 100);
   var maxLengthThresholdFt = maxDropVoltageThreshold / denom;
@@ -897,16 +1096,17 @@ function calculateReverse() {
 
   maxLengthFt = Math.max(0, maxLengthFt);
   var displayUnit = unit;
+  var unitLabel = displayUnit === 'm' ? 'm' : 'ft';
   var maxLengthDisplay = feetToUnit(maxLengthFt, displayUnit);
 
   document.getElementById('resultMaxLength').textContent = fmtNum(maxLengthDisplay, 1);
-  document.getElementById('resultMaxLengthUnit').textContent = displayUnit === 'm' ? 'm' : 'ft';
-  document.getElementById('rLenThreshold').textContent = fmtNum(feetToUnit(Math.max(0, maxLengthThresholdFt), displayUnit), 1) + ' ' + (displayUnit === 'm' ? 'm' : 'ft');
+  document.getElementById('resultMaxLengthUnit').textContent = unitLabel;
+  document.getElementById('rLenThreshold').textContent = fmtNum(feetToUnit(Math.max(0, maxLengthThresholdFt), displayUnit), 1) + ' ' + unitLabel;
 
   var lenMinVRow = document.getElementById('rLenMinVRow');
   if (maxLengthMinVFt !== null) {
     lenMinVRow.style.display = 'flex';
-    document.getElementById('rLenMinV').textContent = fmtNum(feetToUnit(Math.max(0, maxLengthMinVFt), displayUnit), 1) + ' ' + (displayUnit === 'm' ? 'm' : 'ft');
+    document.getElementById('rLenMinV').textContent = fmtNum(feetToUnit(Math.max(0, maxLengthMinVFt), displayUnit), 1) + ' ' + unitLabel;
   } else {
     lenMinVRow.style.display = 'none';
   }
@@ -921,21 +1121,72 @@ function calculateReverse() {
   }
 }
 
-function renderReverseBlocked() {
+function renderReverseBlocked(message) {
   document.getElementById('resultMaxLength').textContent = '—';
   document.getElementById('resultMaxLengthUnit').textContent = '';
   document.getElementById('rLenThreshold').textContent = '—';
   document.getElementById('rLenMinVRow').style.display = 'none';
   document.getElementById('rResistanceBasisReverse').textContent = '—';
-  document.getElementById('reverseLimitNote').textContent = 'Fix the highlighted input above to see a result.';
+  document.getElementById('reverseLimitNote').textContent = message;
 }
 
+/* ---------- Orchestration ---------- */
+
 function calculate() {
-  if (mode === 'forward') {
-    calculateForward();
+  syncLengthLimit();
+  var forward = mode === 'forward';
+  var vSource = parseFloat(supplyVoltageSelect.value);
+  var unit = lengthUnitSelect.value;
+  var valid = true;
+
+  var current = validateNumberField(maxCurrentInput, maxCurrentError, {
+    label: 'maximum operating current', min: 0, max: MAX_CURRENT_A, maxText: MAX_CURRENT_A + ' A'
+  });
+  if (current === null) valid = false;
+  maxCurrentZeroNote.style.display = current === 0 ? '' : 'none';
+
+  var length = null;
+  if (forward) {
+    length = validateNumberField(cableLengthInput, cableLengthError, {
+      label: 'one-way cable length', min: 0,
+      max: unit === 'm' ? MAX_LENGTH_M : MAX_LENGTH_FT,
+      maxText: unit === 'm' ? '1,524 m (5,000 ft)' : '5,000 ft (1,524 m)'
+    });
+    if (length === null) valid = false;
   } else {
-    calculateReverse();
+    // Length is not an input in reverse mode: don't leave a stale error behind.
+    clearFieldError(cableLengthError);
+    setInvalid(cableLengthInput, false);
   }
+
+  var threshold = validateNumberField(planningThresholdInput, planningThresholdError, {
+    label: 'planning threshold', min: 0, max: 100, maxText: '100%'
+  });
+  if (threshold === null) valid = false;
+
+  var minV = validateMinVoltage(vSource);
+  if (!minV.ok) valid = false;
+
+  var rInfo = getResistancePerKft();
+  if (rInfo.error) valid = false;
+
+  if (!valid) {
+    if (forward) renderForwardBlocked('Fix the highlighted input above to see a result.', 'enter valid values');
+    else renderReverseBlocked('Fix the highlighted input above to see a result.');
+    return;
+  }
+
+  // 0 A is accepted input, but a zero-load "calculation" is not a meaningful
+  // result, so it is withheld (with an explanation) rather than shown as a PASS.
+  if (current === 0) {
+    var zeroMsg = '0 A means no load, so there is no voltage drop to calculate. Enter the camera’s actual maximum operating current, including IR, heater or PTZ loads.';
+    if (forward) renderForwardBlocked(zeroMsg, 'enter a current above 0 A');
+    else renderReverseBlocked(zeroMsg);
+    return;
+  }
+
+  if (forward) calculateForward(vSource, current, length, unit, threshold, minV.value, rInfo);
+  else calculateReverse(vSource, current, unit, threshold, minV.value, rInfo);
 }
 
 /* ---------- Init ---------- */
