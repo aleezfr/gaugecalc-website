@@ -93,6 +93,54 @@
         "@type": "Answer",
         "text": "Yes. Bandwidth and PoE wattage are two different limits on the same switch. A switch can have bandwidth to spare while still running out of PoE budget for high-draw PTZ or IR-heavy cameras, so check both specs, not just this one."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "How much bandwidth does an IP camera use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on resolution, frame rate, codec and scene. With this calculator's planning figures, a 4MP camera at 30 fps on H.264 uses about 6 Mbps, and the same camera on H.265 at 15 fps uses about 1.95 Mbps. Real bitrates vary by manufacturer, scene activity and encoder settings, so check the camera's datasheet or configured bitrate, and enter it with the custom bitrate option if you know it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does H.265 use less bandwidth than H.264?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. H.265 (HEVC) typically needs roughly half the bitrate of H.264 for comparable image quality, and H.265+ or other smart-codec modes can reduce it further on scenes with little motion. This calculator applies factors of 1.0 for H.264, 0.5 for H.265 and 0.32 for H.265+, so a 4MP camera at 30 fps drops from 6 Mbps to 3 Mbps on H.265 and about 1.92 Mbps on H.265+. Actual savings depend on the camera, the scene and the encoder."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many cameras can a 100 Mbps or 1 Gbps link handle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Divide the usable link bandwidth by the per-camera bitrate including headroom. This calculator treats 80% of link speed as usable: 80 Mbps on a 100 Mbps link and 800 Mbps on a 1 Gbps link. For 4MP H.265 cameras at 15 fps with 25% headroom (about 2.44 Mbps each), that is roughly 32 cameras on a 100 Mbps link and 328 on a gigabit link. For 4MP H.264 at 30 fps (7.5 Mbps each) it is roughly 10 and 106. These are estimates for the uplink only; the NVR's incoming bandwidth and the switch's PoE budget often limit the camera count first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the NVR's incoming bandwidth the same as my switch uplink?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. They are separate limits. The uplink is the network link between your switch and the NVR. The NVR's rated incoming (recording) bandwidth is the total video data rate the recorder itself can ingest, and it is often much lower than a gigabit port's speed. Compare the calculated total with the rating on the NVR's datasheet: a gigabit network interface does not mean the NVR can accept a gigabit of camera traffic."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is headroom a guarantee against bitrate spikes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Headroom covers aggregate peaks and normal variation across the whole system, not the worst-case instantaneous spike of a single camera. A busy scene can briefly push one camera to 2–3 times its average bitrate, but cameras rarely peak at the same moment, so a 20–30% margin on the total is a common planning allowance. If you know a camera's configured or maximum bitrate, enter it with the custom bitrate option."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does remote viewing use the same bandwidth as recording?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not usually. Remote viewing commonly uses a lower-bitrate sub-stream rather than the full main stream, so it typically needs far less than the totals shown here. For remote access, your site's upload bandwidth and how you actually view the cameras (which stream, how many viewers) matter. This calculator sizes the local network between the cameras and the NVR and does not model remote access."
+      }
     }
   ]
 }
@@ -159,8 +207,10 @@
     <section class="hero" style="padding-block:26px 6px;">
       <h1>IP Camera Bandwidth Calculator</h1>
       <p class="lead">
-        Work out the total network bandwidth your camera install will use, so your switch uplink, NVR network
-        card, and any offsite/VPN connection are sized correctly — before you're on site finding out the hard way.
+        Estimate the total network bandwidth your camera install will use, so your switch uplink is sized
+        correctly and you can check it against your NVR's rated incoming bandwidth — before you're on site
+        finding out the hard way. With this calculator's planning figures, one 4MP H.265 camera at 15 fps uses
+        about 1.95 Mbps, so 16 of them need about 31 Mbps — 39 Mbps with 25% headroom.
       </p>
     </section>
 
@@ -171,7 +221,7 @@
         <div class="field-row">
           <div class="field">
             <label for="numCameras">Number of cameras</label>
-            <input type="number" id="numCameras" min="1" max="512" value="16">
+            <input type="number" id="numCameras" min="1" max="512" step="1" value="16" aria-describedby="camerasError">
           </div>
           <div class="field">
             <label for="resolution">Camera resolution</label>
@@ -184,14 +234,17 @@
             </select>
           </div>
         </div>
+        <p class="field-error" id="camerasError" role="alert" style="display:none;"></p>
 
         <div class="field-row" id="customBitrateRow" style="display:none;">
           <div class="field">
             <label for="customMbps">Bitrate per camera (Mbps)</label>
-            <input type="number" id="customMbps" min="0.1" step="0.1" value="6">
+            <input type="number" id="customMbps" min="0.1" max="200" step="0.1" value="6" aria-describedby="customMbpsHint customMbpsError">
+            <span class="hint" id="customMbpsHint">Final per-camera bitrate; overrides resolution, frame rate and codec.</span>
           </div>
           <div></div>
         </div>
+        <p class="field-error" id="customMbpsError" role="alert" style="display:none;"></p>
 
         <div class="field-row">
           <div class="field">
@@ -206,17 +259,18 @@
             </select>
           </div>
           <div class="field">
-            <label for="headroom">Safety headroom (%) <span class="hint">for motion spikes</span></label>
-            <input type="number" id="headroom" min="0" max="100" value="25">
+            <label for="headroom">Safety headroom (%) <span class="hint">for peaks and variation</span></label>
+            <input type="number" id="headroom" min="0" max="100" value="25" aria-describedby="headroomError">
           </div>
         </div>
+        <p class="field-error" id="headroomError" role="alert" style="display:none;"></p>
 
         <div class="field" style="margin-bottom:6px;">
-          <label>Compression / codec</label>
-          <div class="toggle-row" id="codecToggle">
-            <button type="button" class="toggle-btn" data-value="1">H.264</button>
-            <button type="button" class="toggle-btn active" data-value="0.5">H.265</button>
-            <button type="button" class="toggle-btn" data-value="0.32">H.265+ / Smart</button>
+          <label id="codecToggleLabel">Compression / codec</label>
+          <div class="toggle-row" id="codecToggle" role="group" aria-labelledby="codecToggleLabel">
+            <button type="button" class="toggle-btn" data-value="1" aria-pressed="false">H.264</button>
+            <button type="button" class="toggle-btn active" data-value="0.5" aria-pressed="true">H.265</button>
+            <button type="button" class="toggle-btn" data-value="0.32" aria-pressed="false">H.265+ / Smart</button>
           </div>
         </div>
       </div>
@@ -224,6 +278,7 @@
       <div class="panel result-panel">
         <h2>Bandwidth needed</h2>
 
+        <div id="resultsLive" aria-live="polite" role="status">
         <div class="result-hero">
           <span class="value" id="resultMbps">—</span><span class="unit">Mbps</span>
           <div class="caption">total, with safety headroom included</div>
@@ -231,12 +286,14 @@
 
         <div class="result-list">
           <div class="result-row"><span class="k">Per-camera bitrate</span><span class="v" id="rBitrate">—</span></div>
-          <div class="result-row"><span class="k">Raw total (no headroom)</span><span class="v" id="rRaw">—</span></div>
+          <div class="result-row"><span class="k">Average bandwidth (no headroom)</span><span class="v" id="rRaw" style="white-space:nowrap;">—</span></div>
           <div class="result-row"><span class="k">In Gbps</span><span class="v" id="rGbps">—</span></div>
           <div class="result-row"><span class="k">Recommended uplink</span><span class="v" id="rUplink">—</span></div>
         </div>
 
-        <div class="recommend-box" id="switchNote">—</div>
+        <div class="recommend-box"><strong>Switch guidance:</strong> <span id="switchAdvice">—</span></div>
+        <p class="hint" id="resultsInvalidNote" style="display:none; margin-top:10px;">Fix the highlighted input(s) above to see an estimate.</p>
+        </div>
       </div>
     </div>
 
@@ -249,39 +306,129 @@
     <article class="article">
       <h2>How this calculator works</h2>
       <p>
-        Every IP camera streams continuously to your NVR or VMS regardless of whether it's set to record
+        Most IP cameras stream continuously to your NVR or VMS regardless of whether they're set to record
         continuously or only on motion — recording mode changes what gets <em>written to disk</em>, not what's
-        sent over the network. So bandwidth planning always assumes every camera is streaming all the time.
+        sent over the network. So bandwidth planning normally assumes every camera is streaming all the time.
       </p>
       <div class="note-box">
         <strong>Formula:</strong> Total bandwidth = per-camera bitrate × number of cameras × (1 + headroom%).
-        Per-camera bitrate is estimated the same way as our
-        <a href="nvr-storage-calculator">NVR Storage Calculator</a>, using resolution, frame rate,
-        and codec.
+        Per-camera bitrate = base bitrate for the resolution × frame-rate factor × codec factor, estimated the
+        same way as our <a href="nvr-storage-calculator">NVR Storage Calculator</a>. Units are Mbps, decimal
+        (1 Gbps = 1,000 Mbps).
       </div>
+
+      <h2>Worked example</h2>
+      <p>
+        <strong>Illustrative only — your result depends on your own camera count, resolution, frame rate,
+        codec and headroom.</strong> This example uses the calculator's default inputs: 16 cameras, 4MP,
+        15 fps, H.265, 25% headroom.
+      </p>
+      <table>
+        <thead><tr><th scope="col">Step</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          <tr><td>Base bitrate (4MP, H.264, 30 fps)</td><td>6 Mbps</td></tr>
+          <tr><td>Frame-rate factor</td><td>0.3 + 0.7 &times; (15 &divide; 30) = 0.65</td></tr>
+          <tr><td>Per-camera bitrate</td><td>6 &times; 0.65 &times; 0.5 (H.265) = 1.95 Mbps</td></tr>
+          <tr><td>Total, no headroom</td><td>16 &times; 1.95 = 31.2 Mbps</td></tr>
+          <tr><td>Total, incl. 25% headroom</td><td>16 &times; 1.95 &times; 1.25 = 39.0 Mbps</td></tr>
+          <tr><td>Uplink</td><td>39 Mbps is under the 80 Mbps usable on a 100 Mbps link, so it technically fits — gigabit is the practical choice</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Assumptions behind the numbers</h2>
+      <table>
+        <thead><tr><th scope="col">Setting</th><th scope="col">Value used</th></tr></thead>
+        <tbody>
+          <tr><td>2MP (1080p) base bitrate</td><td>4 Mbps (H.264, 30 fps)</td></tr>
+          <tr><td>4MP base bitrate</td><td>6 Mbps (H.264, 30 fps)</td></tr>
+          <tr><td>5MP base bitrate</td><td>7 Mbps (H.264, 30 fps)</td></tr>
+          <tr><td>8MP (4K) base bitrate</td><td>12 Mbps (H.264, 30 fps)</td></tr>
+          <tr><td>Frame-rate factor</td><td>0.3 + 0.7 &times; (fps &divide; 30)</td></tr>
+          <tr><td>Codec factor</td><td>H.264 &times; 1.0 · H.265 &times; 0.5 · H.265+ / Smart &times; 0.32</td></tr>
+          <tr><td>Custom bitrate</td><td>Used as-is; resolution, frame rate and codec are ignored</td></tr>
+        </tbody>
+      </table>
+      <p>
+        These are planning estimates based on average bitrates, not guaranteed values. Real camera bitrate
+        varies with scene activity, codec and quality settings, the GOP / I-frame interval, and the
+        manufacturer's own configuration — two "4MP" cameras can differ widely. When you can, check the
+        camera's datasheet for its maximum or target bitrate, and if you know the bitrate it's actually
+        configured to, enter it with the custom bitrate option.
+      </p>
 
       <h2>Why add headroom?</h2>
       <p>
-        Real bitrates spike well above their average during motion — a camera watching a busy street can
-        briefly use 2–3x its average bitrate. A 20–30% headroom buffer on top of the calculated average keeps
-        your switch from dropping frames during exactly the moments footage matters most.
+        A camera watching a busy scene can briefly use 2–3x its average bitrate. Headroom is an allowance for
+        <strong>aggregate</strong> network peaks and normal variation across the whole system — cameras rarely
+        peak at the same moment, so 20–30% on the total is a common planning margin. It is not a guarantee
+        against one camera's worst-case instantaneous spike.
+      </p>
+
+      <h2>H.264 vs. H.265 bandwidth</h2>
+      <p>
+        H.265 (HEVC) typically needs roughly half the bitrate of H.264 for comparable image quality, so this
+        calculator applies a factor of 0.5. H.265+ and other vendor smart-codec modes cut bandwidth further on
+        scenes with little motion, and are modelled with a factor of 0.32. For a 4MP camera at 30 fps that
+        means about 6 Mbps on H.264, 3 Mbps on H.265 and 1.92 Mbps on H.265+. Real savings depend on the
+        camera, the scene and the encoder, so treat them as planning estimates.
       </p>
 
       <h2>Matching bandwidth to switch uplink speed</h2>
       <table>
-        <thead><tr><th>Total bandwidth</th><th>Minimum uplink</th><th>Notes</th></tr></thead>
+        <thead><tr><th scope="col">Total bandwidth (incl. headroom)</th><th scope="col">Minimum uplink</th><th scope="col">Notes</th></tr></thead>
         <tbody>
-          <tr><td>Up to 90 Mbps</td><td>100 Mbps (Fast Ethernet)</td><td>Fine for a handful of lower-res cameras only</td></tr>
-          <tr><td>90 Mbps – 800 Mbps</td><td>1 Gbps</td><td>Standard for most small-to-mid installs</td></tr>
-          <tr><td>800 Mbps – 8 Gbps</td><td>10 Gbps (SFP+)</td><td>Larger sites, 4K cameras, or 30+ camera counts</td></tr>
+          <tr><td>Up to 80 Mbps</td><td>100 Mbps (Fast Ethernet)</td><td>Technically fits, but gigabit is the practical choice for most multi-camera systems</td></tr>
+          <tr><td>80 Mbps – 800 Mbps</td><td>1 Gbps</td><td>Standard for most small-to-mid installs</td></tr>
+          <tr><td>800 Mbps – 8 Gbps</td><td>10 Gbps (SFP+)</td><td>Large sites, or aggregation links carrying many switches' worth of cameras</td></tr>
           <tr><td>Above 8 Gbps</td><td>Multiple 10G links / core switch</td><td>Enterprise-scale deployments — plan network topology carefully</td></tr>
         </tbody>
       </table>
       <p>
-        Remember this figure is for the <strong>uplink</strong> between your PoE switch and the NVR — individual
-        camera ports only need to handle that one camera's bitrate, which is almost always well under 100 Mbps
-        even for 4K. It's the aggregation point (the switch-to-NVR link, or the link between stacked switches)
-        where bandwidth adds up and needs checking.
+        Each ceiling is 80% of the link speed (80 Mbps, 800 Mbps, 8 Gbps), so a link is never sized to run near
+        its limit. The totals already include your headroom. Remember this figure is for the
+        <strong>uplink</strong> between your PoE switch and the NVR — individual camera ports only need to
+        handle that one camera's bitrate, which is almost always well under 100 Mbps even for 4K. It's the
+        aggregation point (the switch-to-NVR link, or the link between stacked switches) where bandwidth adds
+        up and needs checking.
+      </p>
+
+      <h2>How many cameras can a link handle?</h2>
+      <p>
+        The same formula works in reverse:
+        cameras ≈ usable link bandwidth ÷ (per-camera bitrate × (1 + headroom)), where usable bandwidth is 80%
+        of the link speed. The answer depends entirely on the resolution, frame rate, codec or custom bitrate
+        you choose, so treat it as an estimate. This calculator doesn't solve for it directly — run one camera
+        to get its per-camera bitrate, then divide. Examples at 25% headroom, rounded down:
+      </p>
+      <table>
+        <thead><tr><th scope="col">Camera setup</th><th scope="col">Per camera, incl. headroom</th><th scope="col">100 Mbps link (80 usable)</th><th scope="col">1 Gbps link (800 usable)</th></tr></thead>
+        <tbody>
+          <tr><td>4MP, H.265, 15 fps</td><td>2.44 Mbps</td><td>about 32 cameras</td><td>about 328 cameras</td></tr>
+          <tr><td>4MP, H.264, 30 fps</td><td>7.5 Mbps</td><td>about 10 cameras</td><td>about 106 cameras</td></tr>
+          <tr><td>8MP, H.264, 30 fps</td><td>15 Mbps</td><td>about 5 cameras</td><td>about 53 cameras</td></tr>
+        </tbody>
+      </table>
+      <p>
+        These figures cover the uplink only. The NVR's incoming bandwidth and the switch's PoE budget often
+        limit the camera count first.
+      </p>
+
+      <h2>Your NVR has its own bandwidth limit</h2>
+      <p>
+        Switch uplink capacity and the NVR's incoming (recording) bandwidth are two separate limits. Recorders
+        publish a rated incoming bandwidth on the datasheet — it varies widely, from around 80 Mbps on
+        entry-level units to several hundred Mbps on larger ones. Compare the total from this calculator with
+        that rating. A gigabit network interface on the NVR doesn't mean it can ingest a gigabit of camera
+        traffic; if the cameras send more than the rated figure, the NVR may drop frames or lower the recorded
+        bitrate.
+      </p>
+
+      <h2>Remote viewing and offsite access</h2>
+      <p>
+        This calculator sizes the local network between your cameras and the NVR. Remote viewing commonly uses
+        a lower-bitrate sub-stream rather than the full main stream, so it typically needs far less than the
+        totals shown here. For remote access, your site's upload bandwidth and how you actually view the
+        cameras (which stream, how many viewers) are what matter — this calculator doesn't model them.
       </p>
 
       <h2>Don't forget PoE power alongside bandwidth</h2>
@@ -289,7 +436,9 @@
         Bandwidth and power budget are two separate constraints on the same switch — a switch can have plenty
         of bandwidth headroom left while still running out of PoE wattage if you're powering high-draw PTZ
         cameras or IR-heavy bullet cameras. Check your switch's total PoE budget separately from the bandwidth
-        figure here.
+        figure here, using the <a href="poe-budget-calculator">PoE Budget Calculator</a>, and see
+        <a href="../blog/poe-budget-calculator-how-many-cameras">PoE Budget Calculator: How Many Cameras Can
+        Your Switch Run?</a> for how the power math plays out on a real job.
       </p>
 
       <h2>Frequently asked questions</h2>
@@ -310,6 +459,53 @@
         Yes. Bandwidth and PoE wattage are two different limits on the same switch. A switch can have
         bandwidth to spare while still running out of PoE budget for high-draw PTZ or IR-heavy cameras, so
         check both specs, not just this one.
+      </p>
+      <h3>How much bandwidth does an IP camera use?</h3>
+      <p>
+        It depends on resolution, frame rate, codec and scene. With this calculator's planning figures, a 4MP
+        camera at 30 fps on H.264 uses about 6 Mbps, and the same camera on H.265 at 15 fps uses about
+        1.95 Mbps. Real bitrates vary by manufacturer, scene activity and encoder settings, so check the
+        camera's datasheet or configured bitrate, and enter it with the custom bitrate option if you know it.
+      </p>
+      <h3>Does H.265 use less bandwidth than H.264?</h3>
+      <p>
+        Yes. H.265 (HEVC) typically needs roughly half the bitrate of H.264 for comparable image quality, and
+        H.265+ or other smart-codec modes can reduce it further on scenes with little motion. This calculator
+        applies factors of 1.0 for H.264, 0.5 for H.265 and 0.32 for H.265+, so a 4MP camera at 30 fps drops
+        from 6 Mbps to 3 Mbps on H.265 and about 1.92 Mbps on H.265+. Actual savings depend on the camera, the
+        scene and the encoder.
+      </p>
+      <h3>How many cameras can a 100 Mbps or 1 Gbps link handle?</h3>
+      <p>
+        Divide the usable link bandwidth by the per-camera bitrate including headroom. This calculator treats
+        80% of link speed as usable: 80 Mbps on a 100 Mbps link and 800 Mbps on a 1 Gbps link. For 4MP H.265
+        cameras at 15 fps with 25% headroom (about 2.44 Mbps each), that is roughly 32 cameras on a 100 Mbps
+        link and 328 on a gigabit link. For 4MP H.264 at 30 fps (7.5 Mbps each) it is roughly 10 and 106.
+        These are estimates for the uplink only; the NVR's incoming bandwidth and the switch's PoE budget
+        often limit the camera count first.
+      </p>
+      <h3>Is the NVR's incoming bandwidth the same as my switch uplink?</h3>
+      <p>
+        No. They are separate limits. The uplink is the network link between your switch and the NVR. The
+        NVR's rated incoming (recording) bandwidth is the total video data rate the recorder itself can
+        ingest, and it is often much lower than a gigabit port's speed. Compare the calculated total with the
+        rating on the NVR's datasheet: a gigabit network interface does not mean the NVR can accept a gigabit
+        of camera traffic.
+      </p>
+      <h3>Is headroom a guarantee against bitrate spikes?</h3>
+      <p>
+        No. Headroom covers aggregate peaks and normal variation across the whole system, not the worst-case
+        instantaneous spike of a single camera. A busy scene can briefly push one camera to 2–3 times its
+        average bitrate, but cameras rarely peak at the same moment, so a 20–30% margin on the total is a
+        common planning allowance. If you know a camera's configured or maximum bitrate, enter it with the
+        custom bitrate option.
+      </p>
+      <h3>Does remote viewing use the same bandwidth as recording?</h3>
+      <p>
+        Not usually. Remote viewing commonly uses a lower-bitrate sub-stream rather than the full main stream,
+        so it typically needs far less than the totals shown here. For remote access, your site's upload
+        bandwidth and how you actually view the cameras (which stream, how many viewers) matter. This
+        calculator sizes the local network between the cameras and the NVR and does not model remote access.
       </p>
 
       <h2>Related CCTV tools</h2>
@@ -373,22 +569,29 @@ const numCamerasInput = document.getElementById('numCameras');
 const headroomInput = document.getElementById('headroom');
 const codecToggle = document.getElementById('codecToggle');
 
+const camerasError = document.getElementById('camerasError');
+const headroomError = document.getElementById('headroomError');
+const customMbpsError = document.getElementById('customMbpsError');
+const resultsInvalidNote = document.getElementById('resultsInvalidNote');
+const switchAdvice = document.getElementById('switchAdvice');
+
 const baseBitrateByRes = { "2": 4, "4": 6, "5": 7, "8": 12 };
 let codecFactor = 0.5;
 
 codecToggle.querySelectorAll('.toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    codecToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    codecToggle.querySelectorAll('.toggle-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
     codecFactor = parseFloat(btn.dataset.value);
     calculate();
   });
 });
 
-resSelect.addEventListener('change', () => {
-  customRow.style.display = (resSelect.value === 'custom') ? 'grid' : 'none';
-  calculate();
-});
+resSelect.addEventListener('change', calculate);
 
 [fpsSelect, numCamerasInput, customMbps, headroomInput].forEach(el => {
   el.addEventListener('input', calculate);
@@ -399,28 +602,104 @@ function fmtNum(n, decimals = 2) {
   return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
 }
 
+// Each tier's ceiling is 80% of the link speed, so no link is sized to run near its limit.
+// The total passed in already includes the user's headroom.
 function recommendUplink(mbps) {
-  if (mbps <= 90) return '100 Mbps (Fast Ethernet)';
+  if (mbps <= 80) return '100 Mbps (1 Gbps preferred)';
   if (mbps <= 800) return '1 Gbps';
   if (mbps <= 8000) return '10 Gbps (SFP+)';
   return 'Multiple 10G links';
 }
 
-function switchAdvice(mbps) {
-  if (mbps <= 90) return 'A single 100 Mbps or gigabit uplink handles this comfortably.';
-  if (mbps <= 800) return 'A standard gigabit PoE switch with a gigabit uplink to your NVR will handle this fine.';
-  if (mbps <= 8000) return 'You are into 10-gigabit territory — use a switch with an SFP+ uplink port to the NVR/NVR server, not just a copper gigabit port.';
+function uplinkAdvice(mbps) {
+  if (mbps <= 80) return 'A 100 Mbps link technically fits, keeping at least 20% spare capacity. A gigabit uplink is the practical choice for most multi-camera systems: it is standard on modern PoE switches and leaves room to add cameras.';
+  if (mbps <= 800) return 'A standard gigabit PoE switch with a gigabit uplink to your NVR fits this within 80% of the link. Check the NVR\'s rated incoming bandwidth separately.';
+  if (mbps <= 8000) return 'You are into 10-gigabit territory — use a switch with an SFP+ uplink port to the NVR or server, not just a copper gigabit port. A 10 Gbps link fits this within 80% of its capacity.';
   return 'This is an enterprise-scale bandwidth load — plan a proper core/aggregation switch layer rather than a single flat switch.';
 }
 
+function showError(el, msg) {
+  if (el.textContent !== msg) el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function clearError(el) {
+  el.style.display = 'none';
+  el.textContent = '';
+}
+
+// Blank stays NaN and only plain decimal digits are accepted, so scientific notation, signs and
+// other formats are reported instead of being coerced into a different number.
+function readNumber(el, allowDecimal) {
+  const raw = el.value.trim();
+  const pattern = allowDecimal ? /^(\d+(\.\d+)?|\.\d+)$/ : /^\d+$/;
+  return pattern.test(raw) ? Number(raw) : NaN;
+}
+
+// Reads and validates every active numeric input. Returns null (and shows inline errors)
+// instead of silently clamping or substituting values. Inactive fields are ignored.
+function readAndValidate() {
+  let valid = true;
+
+  const setState = (input, errorEl, message) => {
+    if (message) {
+      showError(errorEl, message);
+      input.setAttribute('aria-invalid', 'true');
+      valid = false;
+    } else {
+      clearError(errorEl);
+      input.removeAttribute('aria-invalid');
+    }
+  };
+
+  const numCameras = readNumber(numCamerasInput, false);
+  setState(numCamerasInput, camerasError,
+    (Number.isInteger(numCameras) && numCameras >= 1 && numCameras <= 512) ? '' :
+    'Enter a whole number of cameras between 1 and 512.');
+
+  const headroomPct = readNumber(headroomInput, true);
+  setState(headroomInput, headroomError,
+    (Number.isFinite(headroomPct) && headroomPct >= 0 && headroomPct <= 100) ? '' :
+    'Enter a headroom percentage between 0 and 100.');
+
+  let customMbpsValue = null;
+  if (resSelect.value === 'custom') {
+    customMbpsValue = readNumber(customMbps, true);
+    setState(customMbps, customMbpsError,
+      (Number.isFinite(customMbpsValue) && customMbpsValue > 0 && customMbpsValue <= 200) ? '' :
+      'Enter a bitrate greater than 0 and no more than 200 Mbps.');
+  } else {
+    clearError(customMbpsError);
+    customMbps.removeAttribute('aria-invalid');
+  }
+
+  const fps = Number(fpsSelect.value);
+  if (!Number.isFinite(fps)) valid = false;
+
+  return valid ? { numCameras, headroomPct, customMbpsValue, fps } : null;
+}
+
+function blankResults() {
+  ['resultMbps', 'rBitrate', 'rRaw', 'rGbps', 'rUplink', 'switchAdvice'].forEach(id => {
+    document.getElementById(id).textContent = '—';
+  });
+  resultsInvalidNote.style.display = 'block';
+}
+
 function calculate() {
-  const numCameras = Math.max(1, parseInt(numCamerasInput.value) || 1);
-  const fps = parseInt(fpsSelect.value);
-  const headroom = Math.max(0, parseFloat(headroomInput.value) || 0) / 100;
+  // Keep the custom row in step with the select, even if a browser restored it without a change event.
+  customRow.style.display = (resSelect.value === 'custom') ? 'grid' : 'none';
+
+  const inputs = readAndValidate();
+  if (!inputs) { blankResults(); return; }
+  resultsInvalidNote.style.display = 'none';
+
+  const { numCameras, headroomPct, customMbpsValue, fps } = inputs;
+  const headroom = headroomPct / 100;
 
   let perCameraMbps;
   if (resSelect.value === 'custom') {
-    perCameraMbps = parseFloat(customMbps.value) || 1;
+    perCameraMbps = customMbpsValue;
   } else {
     const baseMbps = baseBitrateByRes[resSelect.value];
     const fpsFactor = 0.3 + 0.7 * (fps / 30);
@@ -430,12 +709,14 @@ function calculate() {
   const rawTotal = perCameraMbps * numCameras;
   const totalWithHeadroom = rawTotal * (1 + headroom);
 
+  if (!Number.isFinite(totalWithHeadroom) || totalWithHeadroom <= 0) { blankResults(); return; }
+
   document.getElementById('resultMbps').textContent = fmtNum(totalWithHeadroom, 1);
   document.getElementById('rBitrate').textContent = fmtNum(perCameraMbps, 2) + ' Mbps';
   document.getElementById('rRaw').textContent = fmtNum(rawTotal, 1) + ' Mbps';
   document.getElementById('rGbps').textContent = fmtNum(totalWithHeadroom / 1000, 2) + ' Gbps';
   document.getElementById('rUplink').textContent = recommendUplink(totalWithHeadroom);
-  document.getElementById('switchNote').innerHTML = '<strong>Switch guidance:</strong> ' + switchAdvice(totalWithHeadroom);
+  switchAdvice.textContent = uplinkAdvice(totalWithHeadroom);
 }
 
 calculate();
