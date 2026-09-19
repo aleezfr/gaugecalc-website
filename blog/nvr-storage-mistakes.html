@@ -43,7 +43,7 @@
   "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
   "datePublished": "2026-09-13",
-  "dateModified": "2026-09-13",
+  "dateModified": "2026-09-19",
   "mainEntityOfPage": "https://gaugecalc.com/blog/nvr-storage-mistakes"
 }
 </script>
@@ -137,15 +137,22 @@
       </p>
       <div class="note-box">
         <strong>Formula:</strong> Storage (GB) ≈ Total bitrate (Mbps) × 3600 × recording hours/day × retention
-        days ÷ 8 ÷ 1024.
+        days ÷ 8 ÷ 1000.
       </div>
       <p>
         Worked example: 8 cameras at 4 Mbps each, recording continuously (24 hours/day) for 30 days.
       </p>
       <p>
-        Total bitrate = 8 × 4 = 32 Mbps. Storage ≈ 32 × 3600 × 24 × 30 ÷ 8 ÷ 1024 ≈ <strong>10,125 GB</strong>,
-        roughly <strong>9.9 TB</strong>. As a rule of thumb, one camera at a steady 4 Mbps uses close to 42 GB
-        per day of continuous recording — useful to keep in your head for a fast sanity check on site.
+        Total bitrate = 8 × 4 = 32 Mbps. Storage ≈ 32 × 3600 × 24 × 30 ÷ 8 ÷ 1000 = <strong>10,368 GB</strong>,
+        roughly <strong>10.4 TB</strong>, before any safety margin. As a rule of thumb, one camera at a steady
+        4 Mbps uses about 43.2 GB per day of continuous recording — useful to keep in your head for a fast
+        sanity check on site.
+      </p>
+      <p>
+        These figures use decimal units (1 TB = 1,000 GB), the same convention drive manufacturers print on
+        the label and the <a href="../tools/nvr-storage-calculator">NVR Storage Calculator</a> uses, so the
+        result compares directly against the drive you buy. Your NVR or operating system will usually report a
+        smaller number for the same drive — see mistake 8 below.
       </p>
       <p>
         That formula is correct. The problem is that a real installation almost never matches the clean inputs
@@ -187,8 +194,10 @@
       <h3>5. Ignoring the impact of frame rate</h3>
       <p>
         Bitrate doesn't scale linearly with fps. A camera at 15 fps typically still uses roughly 60–70% of its
-        30 fps bitrate, because reference (key) frames fire on the same interval regardless of frame rate.
-        Assuming a straight half-the-fps-means-half-the-bitrate relationship undercounts storage.
+        30 fps bitrate — the NVR Storage Calculator uses about 65% as a planning approximation, not a fixed
+        rule, since the real figure varies with the camera's I-frame (GOP) settings and the scene. Assuming a
+        straight half-the-fps-means-half-the-bitrate relationship undercounts storage; check the camera's
+        datasheet or measure its actual stream for a firm number.
       </p>
 
       <h3>6. Leaving audio recording out of the calculation</h3>
