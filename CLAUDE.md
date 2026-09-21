@@ -16,7 +16,7 @@ GaugeCalc (gaugecalc.com) — static website with free calculators and field gui
 
 ## Conventions
 
-- When adding a new tool: copy the structure/styling of an existing file in `tools/`, link it from `index.html`, and add its URL to `sitemap.xml`.
+- When adding a new tool: copy the structure/styling of an existing file in `tools/`, link it from `index.html`, add it to its category in `assets/nav.js` (sidebar/menu/search data), and add its URL to `sitemap.xml`.
 - When adding a new blog post: copy the structure/styling of an existing file in `blog/`, add a card/link to `blog/index.html`, and add its URL to `sitemap.xml`.
 - Keep `sitemap.xml` in sync whenever a page is added or removed.
 - Don't introduce a build tool, bundler, or framework — the site is intentionally build-free.

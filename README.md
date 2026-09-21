@@ -19,6 +19,8 @@ No build step — plain HTML/CSS/JS served as static files.
 ├── assets/               Shared CSS, JS, icons, favicons, OG image
 │   ├── style.css
 │   ├── theme.js
+│   ├── nav.js            Sidebar / mobile menu / search (one data model, all pages)
+│   ├── calc-ux.js        Calculate button, jump-to-result, Recalculate/Reset (tool pages)
 │   └── ...icons
 ├── blog/                 Field guides / blog articles
 │   └── index.html        Blog listing page
@@ -28,8 +30,9 @@ No build step — plain HTML/CSS/JS served as static files.
 ## Adding a new tool
 
 1. Create `tools/<tool-name>.html` following the structure/styling of an existing calculator in `tools/`.
-2. Link it from the relevant nav/section on `index.html`.
-3. Add its URL to `sitemap.xml`.
+2. Link it from the relevant section on `index.html`.
+3. Add it to its category in `assets/nav.js` (the single data model behind the sidebar, mobile menu and search). A category appears publicly once it has a calculator.
+4. Add its URL to `sitemap.xml`.
 
 ## Adding a new blog post
 
