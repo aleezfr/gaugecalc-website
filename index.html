@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
-<link rel="stylesheet" href="assets/style.css?v=ee32d6b">
+<link rel="stylesheet" href="assets/style.css?v=20260922">
 
 <script type="application/ld+json">
 {
@@ -146,6 +146,14 @@
         No sign-up, no clutter. Just the numbers you need on site — NVR storage, camera bandwidth, and
         battery capacity.
       </p>
+      <div class="hero-actions">
+        <button type="button" class="hero-search" data-gc-search aria-haspopup="dialog" aria-label="Search calculators, categories and guides">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+          <span>Search calculators, categories, guides</span>
+          <kbd aria-hidden="true">/</kbd>
+        </button>
+        <a class="btn btn-ghost hero-browse" href="#calculators">Browse All Calculators</a>
+      </div>
       <div class="badge-row">
         <span class="badge">✓ Free, no account</span>
         <span class="badge">✓ Works offline once loaded</span>
@@ -153,49 +161,52 @@
       </div>
     </section>
 
-    <h2 class="category-label" id="cctv-tools">CCTV &amp; Security Systems</h2>
+    <div class="section-head">
+      <h2 class="category-label">Featured Calculators</h2>
+      <a class="view-all" href="#calculators">View All Calculators<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+    </div>
     <div class="tool-grid">
 
       <a class="tool-card" href="tools/nvr-storage-calculator">
-        <span class="code">CCTV-01</span>
+        <span class="code">CCTV &amp; IP Camera</span>
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></div>
         <h3>NVR Storage Calculator</h3>
         <p>Work out exactly how many terabytes you need for any number of cameras, resolution, and retention period.</p>
       </a>
 
       <a class="tool-card" href="tools/ip-camera-bandwidth-calculator">
-        <span class="code">CCTV-02</span>
+        <span class="code">CCTV &amp; IP Camera</span>
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></div>
         <h3>IP Camera Bandwidth Calculator</h3>
         <p>Calculate total network bandwidth for a camera install so your switch and NVR ports aren't overloaded.</p>
       </a>
 
-      <a class="tool-card" href="tools/cctv-storage-calculator">
-        <span class="code">CCTV-03</span>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></div>
-        <h3>CCTV Storage Calculator</h3>
-        <p>For analog HD-CCTV (DVR) or IP (NVR) systems — pick your hardware type and get the exact drive size.</p>
-      </a>
-
-      <a class="tool-card" href="tools/field-of-view-calculator">
-        <span class="code">CCTV-04</span>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></div>
-        <h3>Camera Field of View Calculator</h3>
-        <p>Estimate lens focal length and coverage distance for identification vs. detection.</p>
-      </a>
-
-      <a class="tool-card" href="tools/poe-budget-calculator">
-        <span class="code">CCTV-05</span>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></div>
-        <h3>PoE Budget Calculator</h3>
-        <p>Check switch power headroom, port limits, and how many cameras a PoE budget can support.</p>
-      </a>
-
       <a class="tool-card" href="tools/cctv-voltage-drop-calculator">
-        <span class="code">CCTV-06</span>
+        <span class="code">Electrical &amp; Wiring</span>
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13h5l-1 8 8-11h-5z"/></svg></div>
         <h3>CCTV Voltage Drop Calculator</h3>
         <p>Check delivered voltage, drop percentage, and maximum cable length for 12V/24V DC camera runs.</p>
+      </a>
+
+      <a class="tool-card" href="tools/battery-backup-calculator">
+        <span class="code">Battery &amp; UPS</span>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
+        <h3>Battery Backup Calculator</h3>
+        <p>Size a backup battery for alarm panels, NVRs, or PoE switches based on standby load and runtime.</p>
+      </a>
+
+      <a class="tool-card" href="tools/amp-hour-calculator">
+        <span class="code">Battery &amp; UPS</span>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Amp Hour Calculator</h3>
+        <p>Convert watts, amps, and runtime into the battery amp-hour capacity you actually need.</p>
+      </a>
+
+      <a class="tool-card" href="tools/poe-budget-calculator">
+        <span class="code">Networking &amp; PoE</span>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></div>
+        <h3>PoE Budget Calculator</h3>
+        <p>Check switch power headroom, port limits, and how many cameras a PoE budget can support.</p>
       </a>
 
     </div>
@@ -206,63 +217,94 @@
     </div>
 -->
 
-    <h2 class="category-label" id="electrical-tools">Electrical &amp; Battery</h2>
-    <div class="tool-grid">
+    <div class="section-head">
+      <h2 class="category-label" id="calculators">Browse Calculators by Category</h2>
+    </div>
+    <div class="category-grid">
 
-      <a class="tool-card" href="tools/amp-hour-calculator">
-        <span class="code">ELEC-01</span>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></div>
-        <h3>Amp Hour Calculator</h3>
-        <p>Convert watts, amps, and runtime into the battery amp-hour capacity you actually need.</p>
-      </a>
+      <div class="category-panel" id="cat-cctv-ip-camera">
+        <div class="category-panel__head">
+          <h3>CCTV &amp; IP Camera <span class="category-panel__count">4</span></h3>
+          <p>Storage sizing, bandwidth planning, and field-of-view math for camera systems.</p>
+        </div>
+        <ul class="category-panel__list">
+          <li><a href="tools/cctv-storage-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span>CCTV Storage Calculator</a></li>
+          <li><a href="tools/nvr-storage-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span>NVR Storage Calculator</a></li>
+          <li><a href="tools/ip-camera-bandwidth-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></span>IP Camera Bandwidth Calculator</a></li>
+          <li><a href="tools/field-of-view-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></span>Camera Field of View Calculator</a></li>
+        </ul>
+      </div>
 
-      <a class="tool-card" href="tools/battery-backup-calculator">
-        <span class="code">ELEC-02</span>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
-        <h3>Battery Backup Calculator</h3>
-        <p>Size a backup battery for alarm panels, NVRs, or PoE switches based on standby load and runtime.</p>
-      </a>
+      <div class="category-panel" id="cat-electrical-wiring">
+        <div class="category-panel__head">
+          <h3>Electrical &amp; Wiring <span class="category-panel__count">1</span></h3>
+          <p>Cable and voltage-drop calculations for camera and security power runs.</p>
+        </div>
+        <ul class="category-panel__list">
+          <li><a href="tools/cctv-voltage-drop-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13h5l-1 8 8-11h-5z"/></svg></span>CCTV Voltage Drop Calculator</a></li>
+        </ul>
+      </div>
 
-      <a class="tool-card" href="tools/battery-amp-hour-calculator">
-        <span class="code">ELEC-03</span>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M9 11.5h6M12 8.5v6"/></svg></div>
-        <h3>Battery Amp Hour Calculator</h3>
-        <p>Already have a battery? Enter its Ah rating and load to find out how many hours it'll actually run.</p>
-      </a>
+      <div class="category-panel" id="cat-battery-ups">
+        <div class="category-panel__head">
+          <h3>Battery &amp; UPS <span class="category-panel__count">3</span></h3>
+          <p>Backup runtime and amp-hour sizing for panels, NVRs, and switches.</p>
+        </div>
+        <ul class="category-panel__list">
+          <li><a href="tools/battery-backup-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span>Battery Backup Calculator</a></li>
+          <li><a href="tools/battery-amp-hour-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M9 11.5h6M12 8.5v6"/></svg></span>Battery Amp Hour Calculator</a></li>
+          <li><a href="tools/amp-hour-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span>Amp Hour Calculator</a></li>
+        </ul>
+      </div>
+
+      <div class="category-panel" id="cat-networking-poe">
+        <div class="category-panel__head">
+          <h3>Networking &amp; PoE <span class="category-panel__count">1</span></h3>
+          <p>Switch power budget and port planning for PoE camera installs.</p>
+        </div>
+        <ul class="category-panel__list">
+          <li><a href="tools/poe-budget-calculator"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></span>PoE Budget Calculator</a></li>
+        </ul>
+      </div>
 
     </div>
 
-    <h2 class="category-label">Field Guides</h2>
-    <div class="tool-grid">
-      <a class="tool-card" href="blog/nvr-storage-mistakes">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></div>
-        <h3>NVR Storage Calculation: 12 Mistakes That Leave You Short on Space</h3>
-        <p>The formula is simple — 12 real-world factors are why the calculated number is often wrong.</p>
+    <div class="section-head">
+      <h2 class="category-label" id="guides">Learn &amp; Guides</h2>
+      <a class="view-all" href="blog/">View All Guides<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+    </div>
+    <div class="guide-list">
+      <a class="guide-row" href="blog/nvr-storage-mistakes">
+        <span class="guide-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5l4-2.5v8l-4-2.5"/><circle cx="7.5" cy="12.5" r="1.7"/></svg></span>
+        <span class="guide-row__body">
+          <h3>NVR Storage Calculation: 12 Mistakes That Leave You Short on Space</h3>
+          <p>The formula is simple — 12 real-world factors are why the calculated number is often wrong.</p>
+        </span>
+        <svg class="guide-row__arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
       </a>
-      <a class="tool-card" href="blog/ip-camera-bandwidth-mistakes">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5a13 13 0 0 1 16 0"/><path d="M7 12.2a8.5 8.5 0 0 1 10 0"/><path d="M10 15.8a4 4 0 0 1 4 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg></div>
-        <h3>IP Camera Bandwidth: Why the Switch (and PoE Budget) Fail First</h3>
-        <p>Switch uplink overload and PoE power budget — the check most junior installers skip.</p>
+      <a class="guide-row" href="blog/poe-budget-calculator-how-many-cameras">
+        <span class="guide-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></span>
+        <span class="guide-row__body">
+          <h3>PoE Budget Calculator: How Many Cameras Can Your Switch Run?</h3>
+          <p>Port count isn't the same as power budget — the math behind cameras rebooting after dark.</p>
+        </span>
+        <svg class="guide-row__arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
       </a>
-      <a class="tool-card" href="blog/analog-vs-ip-cctv">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></div>
-        <h3>Analog vs. IP CCTV in 2026: Which Should You Actually Install</h3>
-        <p>An honest, experience-based breakdown — not just "newer is always better."</p>
+      <a class="guide-row" href="blog/analog-vs-ip-cctv">
+        <span class="guide-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M8 19h8M12 15v4"/></svg></span>
+        <span class="guide-row__body">
+          <h3>Analog vs. IP CCTV in 2026: Which Should You Actually Install</h3>
+          <p>An honest, experience-based breakdown — not just "newer is always better."</p>
+        </span>
+        <svg class="guide-row__arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
       </a>
-      <a class="tool-card" href="blog/battery-sizing-guide">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></div>
-        <h3>How to Choose the Right Battery Size for a Security Panel</h3>
-        <p>Exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.</p>
-      </a>
-      <a class="tool-card" href="blog/cctv-lens-selection-guide">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21"/></svg></div>
-        <h3>Choosing the Right CCTV Lens: Coverage vs. Identification Distance</h3>
-        <p>Why a wider lens usually means less detail — and how to actually match focal length to the job.</p>
-      </a>
-      <a class="tool-card" href="blog/poe-budget-calculator-how-many-cameras">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="10" width="10" height="7" rx="1.5"/><path d="M10 10V6M14 10V6"/><path d="M12 17v3"/></svg></div>
-        <h3>PoE Budget Calculator: How Many Cameras Can Your Switch Run?</h3>
-        <p>Port count isn't the same as power budget — the math behind cameras rebooting after dark.</p>
+      <a class="guide-row" href="blog/battery-sizing-guide">
+        <span class="guide-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9.5 4V2.6h5V4"/><path d="M13 10l-3 4.2h2.4L11 18l4-4.6h-2.6z" fill="currentColor" stroke="none"/></svg></span>
+        <span class="guide-row__body">
+          <h3>How to Choose the Right Battery Size for a Security Panel</h3>
+          <p>Exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.</p>
+        </span>
+        <svg class="guide-row__arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
       </a>
     </div>
 
@@ -297,9 +339,39 @@
 </div>
 
 <footer class="site-footer">
-  <div class="wrap">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and field guides for CCTV, PoE, and electrical installers — built on-site, not in a marketing meeting.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Calculators">
+      <p class="footer-heading">Calculators</p>
+      <a href="/">All Calculators</a>
+      <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+      <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+      <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+      <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Guides">
+      <p class="footer-heading">Guides</p>
+      <a href="/blog/">All Guides</a>
+      <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+      <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+      <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Site">
+      <p class="footer-heading">Site</p>
+      <a href="/contact">Contact</a>
+      <a href="/feedback">Feedback</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+    </nav>
+  </div>
+
+  <div class="wrap footer-bottom">
     <span>&copy; <span id="year"></span> GaugeCalc. All calculators are estimates — always confirm critical specs against manufacturer datasheets.</span>
-    <span><a href="privacy-policy">Privacy Policy</a> · <a href="contact">Contact</a> · <a href="./">Home</a></span>
   </div>
 </footer>
 
