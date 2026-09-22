@@ -1191,11 +1191,18 @@ textarea:focus {
 }
 
 /* ---------- Footer (premium, structured) ---------- */
-/* Four columns — Brand / Calculators / Guides / Site — plus a slim legal
-   bar carrying each page's own disclaimer line. Same markup and absolute
-   (leading-slash) links on every page, the same way assets/nav.js links
-   the sidebar, so Calculators/Guides here point at the same categories
-   and guides the sidebar and Home use. */
+/* Brand, plus four link columns — Calculators / Categories / Resources /
+   Site — rendered by assets/nav.js from the SAME NAV data model that
+   builds the sidebar, so every destination here matches the sidebar and
+   Home exactly. Only Site is a fixed list; the other three are "growing"
+   lists (they scale toward 25-30 calculators/categories) and use a
+   count-based CSS pattern instead of a hardcoded item cap: every item is
+   rendered into the DOM, nth-of-type shows only the first N per
+   breakpoint, and a trailing "See all" (a sibling, not one of the counted
+   items) reveals itself only once a real item exists past that N-th
+   position — so no JS ever has to know or recompute "is this list long
+   enough to truncate". A slim legal bar below carries each page's own
+   disclaimer line. */
 
 .site-footer {
   border-top: 1px solid var(--border);
@@ -1205,17 +1212,25 @@ textarea:focus {
 
 .footer-top {
   display: grid;
-  grid-template-columns: minmax(200px, 1.4fr) repeat(3, minmax(140px, 1fr));
+  grid-template-columns: minmax(220px, 1.3fr) repeat(4, minmax(112px, 1fr));
   gap: 28px;
   padding-block: 40px 28px;
 }
 
+.footer-cols { display: contents; }
+
 @media (max-width: 820px) {
-  .footer-top { grid-template-columns: repeat(2, 1fr); gap: 28px 20px; }
+  .footer-top { display: block; }
+  .footer-brand { margin-bottom: 28px; }
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 20px;
+  }
 }
 
-@media (max-width: 480px) {
-  .footer-top { grid-template-columns: 1fr; gap: 26px; }
+@media (max-width: 340px) {
+  .footer-cols { grid-template-columns: 1fr; gap: 24px; }
 }
 
 .footer-brand-link {
@@ -1249,12 +1264,13 @@ textarea:focus {
   color: var(--text-faint);
 }
 
-.footer-col { display: flex; flex-direction: column; }
+.footer-col { display: flex; flex-direction: column; min-width: 0; }
 
 .footer-col a {
-  padding: 5px 0;
+  padding: 6px 0;
   color: var(--text-muted);
   font-size: 0.87rem;
+  min-height: 24px;
 }
 
 .footer-col a:hover { color: var(--brand-dark); text-decoration: none; }
@@ -1262,6 +1278,53 @@ textarea:focus {
   :root:not([data-theme="light"]) .footer-col a:hover { color: var(--brand); }
 }
 :root[data-theme="dark"] .footer-col a:hover { color: var(--brand); }
+
+.footer-col a:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Growing lists (Calculators / Categories / Resources): show the first 6
+   items (desktop) or first 4 (mobile) via nth-of-type, and reveal "See
+   all" only once a real item exists beyond that position — pure count
+   driven, no JS threshold logic, no re-render when the list grows. */
+
+.footer-col--grow a.footer-link { display: none; }
+.footer-col--grow a.footer-link:nth-of-type(-n+6) { display: block; }
+
+/* Typography/color for "See all" is set here, independent of whichever
+   nth-of-type rule below ends up toggling its display — so it looks the
+   same whether it was revealed by the desktop (7th item) or mobile (5th
+   item) threshold. */
+.footer-col a.footer-see-all {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .footer-col a.footer-see-all { color: var(--brand); }
+}
+:root[data-theme="dark"] .footer-col a.footer-see-all { color: var(--brand); }
+
+.footer-col a.footer-see-all:hover { color: var(--text); text-decoration: none; }
+.footer-see-all svg { flex-shrink: 0; transition: transform var(--dur-fast) var(--ease); }
+.footer-see-all:hover svg { transform: translateX(2px); }
+
+.footer-col--grow a.footer-link:nth-of-type(7) ~ a.footer-see-all { display: inline-flex; }
+
+@media (max-width: 820px) {
+  .footer-col--grow a.footer-link:nth-of-type(-n+6) { display: none; }
+  .footer-col--grow a.footer-link:nth-of-type(-n+4) { display: block; }
+  .footer-col--grow a.footer-link:nth-of-type(7) ~ a.footer-see-all { display: none; }
+  .footer-col--grow a.footer-link:nth-of-type(5) ~ a.footer-see-all { display: inline-flex; }
+}
 
 .footer-bottom {
   padding-block: 16px;

@@ -78,6 +78,7 @@
 
   var ICONS = {
     chev: '<svg class="acc-chev" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    chevSm: '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>',
     search: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>',
     menu: '<svg class="ic-menu" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>' +
           '<svg class="ic-close" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>'
@@ -119,6 +120,46 @@
 
   body.innerHTML = buildBody();
   rail.classList.add('is-js');
+
+  /* ---------- footer ---------- */
+  /* Same NAV data as the sidebar, rendered into #gcFooterCols (present on
+     every page next to the static .footer-brand block). Every item for a
+     growing list is rendered — CSS (see .footer-col--grow) decides how
+     many show per breakpoint and whether "See all" appears, so this stays
+     correct with 9 calculators today or 30 later without code changes. */
+
+  function footerColumn(label, items, seeAllUrl, grow) {
+    var html = '<nav class="footer-col' + (grow ? ' footer-col--grow' : '') + '" aria-label="' + esc(label) + '">' +
+      '<p class="footer-heading">' + esc(label) + '</p>';
+    items.forEach(function (it) {
+      html += '<a class="footer-link" href="' + esc(it.url) + '">' + esc(it.label) + '</a>';
+    });
+    if (grow && seeAllUrl) {
+      html += '<a class="footer-see-all" href="' + esc(seeAllUrl) + '">See All' + ICONS.chevSm + '</a>';
+    }
+    return html + '</nav>';
+  }
+
+  function buildFooter() {
+    var mount = document.getElementById('gcFooterCols');
+    if (!mount) return;
+
+    var calcItems = [];
+    categories.forEach(function (c) {
+      c.calculators.forEach(function (k) { calcItems.push({ url: k.url, label: k.label }); });
+    });
+    var catItems = categories.map(function (c) { return { url: '/#cat-' + c.slug, label: c.name }; });
+    var resItems = NAV.guides.map(function (g) { return { url: g.url, label: g.label }; });
+    var siteItems = NAV.site.map(function (s) { return { url: s.url, label: s.label }; });
+
+    mount.innerHTML =
+      footerColumn('Calculators', calcItems, '/', true) +
+      footerColumn('Categories', catItems, '/#calculators', true) +
+      footerColumn('Resources', resItems, NAV.guidesIndex.url, true) +
+      footerColumn('Site', siteItems, null, false);
+  }
+
+  buildFooter();
 
   /* Header tools (search + menu) — icons are shown at phone/tablet widths only. */
   var top = rail.querySelector('.rail-top');
