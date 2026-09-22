@@ -584,6 +584,7 @@ input[type="number"], select,
   display: flex;
   align-items: flex-end;
   gap: 16px;
+  margin: 52px 0 16px;
 }
 
 .section-head .category-label {
@@ -597,7 +598,7 @@ input[type="number"], select,
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  margin: 52px 0 16px;
+  margin: 0;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
   font-weight: 600;
@@ -615,63 +616,7 @@ input[type="number"], select,
 .view-all:hover svg { transform: translateX(2px); }
 
 @media (max-width: 560px) {
-  .section-head { flex-wrap: wrap; }
-  .view-all { margin-top: 0; }
-}
-
-/* ---------- Home: hero search + primary CTA ---------- */
-/* .hero-search is a bigger sibling of the sidebar's .rail-search — same
-   affordance (opens the shared search dialog via [data-gc-search], wired
-   up once in assets/nav.js), sized for the hero instead of a nav rail. */
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 24px;
-  max-width: 620px;
-}
-
-.hero-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1 1 300px;
-  min-height: 48px;
-  padding: 10px 16px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text-faint);
-  font: inherit;
-  font-size: 0.92rem;
-  text-align: left;
-  cursor: pointer;
-  box-shadow: var(--shadow-1);
-  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
-}
-
-.hero-search:hover { border-color: var(--brand); color: var(--text-muted); box-shadow: var(--shadow-2); }
-.hero-search svg { flex-shrink: 0; }
-.hero-search span { flex: 1; min-width: 0; }
-
-.hero-search kbd {
-  flex-shrink: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.72rem;
-  line-height: 1;
-  padding: 3px 7px;
-  border: 1px solid var(--border-strong);
-  border-radius: 4px;
-  color: var(--text-faint);
-  background: var(--surface-alt);
-}
-
-.hero-browse { flex: 0 0 auto; }
-
-@media (max-width: 480px) {
-  .hero-actions { flex-direction: column; max-width: none; }
-  .hero-browse { width: 100%; justify-content: center; }
+  .section-head { flex-wrap: wrap; row-gap: 6px; }
 }
 
 /* ---------- Home: category panels (structured discovery) ---------- */
