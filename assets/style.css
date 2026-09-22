@@ -582,14 +582,19 @@ input[type="number"], select,
 
 .section-head {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 16px;
   margin: 52px 0 16px;
 }
 
+/* min-width:0 previously let this shrink narrower than its own text, so the
+   heading wrapped to 2 lines while .view-all stayed 1 line and bottom-aligned
+   — visually offsetting the link. nowrap + auto min-width keeps it single-line
+   so .section-head's own flex-wrap (below) governs wrapping instead. */
 .section-head .category-label {
   flex: 1;
-  min-width: 0;
+  min-width: max-content;
+  white-space: nowrap;
   margin: 0;
 }
 
