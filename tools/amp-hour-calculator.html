@@ -245,6 +245,27 @@
         safe depth of discharge — what you see here is what to buy, not just what you'll consume.
       </p>
 
+      <h2>Worked example</h2>
+      <p>
+        150W continuous load at 12V, running for 8 hours, with a 15% system-loss allowance and a lead-acid/AGM
+        battery (50% depth of discharge).
+      </p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Load current</td><td>150W ÷ 12V = 12.5 A</td></tr>
+          <tr><td>Raw Ah needed (before DoD)</td><td>12.5A × 8h = 100 Ah</td></tr>
+          <tr><td>Divide by depth of discharge (50%)</td><td>100 Ah ÷ 0.50 = 200 Ah</td></tr>
+          <tr><td>Add system losses (15%)</td><td>200 Ah × 1.15 = 230 Ah</td></tr>
+          <tr><td>Rated capacity to buy</td><td>230 Ah @ 12V</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Buy a 230 Ah battery (or bank smaller batteries in parallel to reach it) — not a 100 Ah one, which is
+        only the raw energy consumed and would push a lead-acid battery well past its safe 50% discharge limit
+        every cycle.
+      </p>
+
       <h2>Why depth of discharge (DoD) matters</h2>
       <table>
         <thead><tr><th>Battery type</th><th>Safe DoD</th><th>Typical cycle life</th></tr></thead>
@@ -356,6 +377,10 @@
           <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
           <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
           <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+          <a href="/blog/cctv-voltage-drop-calculator-camera-offline-at-night">Voltage Drop at Night</a>
         </nav>
 
         <nav class="footer-col" aria-label="Site">

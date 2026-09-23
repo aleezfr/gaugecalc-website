@@ -5,7 +5,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9125815530210447" crossorigin="anonymous"></script>
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Battery Backup Calculator for Alarm Panels & NVRs (Free) — GaugeCalc</title>
+<title>Battery Backup Calculator for Alarm Panels (Free) — GaugeCalc</title>
 <meta name="description" content="Free battery backup calculator for alarm panels, NVRs, and PoE switches. Uses the standby-hours-plus-alarm-minutes method common in fire and security code.">
 <link rel="canonical" href="https://gaugecalc.com/tools/battery-backup-calculator">
 
@@ -17,14 +17,14 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GaugeCalc">
-<meta property="og:title" content="Battery Backup Calculator for Alarm Panels & NVRs (Free) — GaugeCalc">
+<meta property="og:title" content="Battery Backup Calculator for Alarm Panels (Free) — GaugeCalc">
 <meta property="og:description" content="Free battery backup calculator for alarm panels, NVRs, and PoE switches. Uses the standby-hours-plus-alarm-minutes method common in fire and security code.">
 <meta property="og:url" content="https://gaugecalc.com/tools/battery-backup-calculator">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Battery Backup Calculator for Alarm Panels & NVRs (Free) — GaugeCalc">
+<meta name="twitter:title" content="Battery Backup Calculator for Alarm Panels (Free) — GaugeCalc">
 <meta name="twitter:description" content="Free battery backup calculator for alarm panels, NVRs, and PoE switches. Uses the standby-hours-plus-alarm-minutes method common in fire and security code.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
@@ -228,6 +228,26 @@
         alarm current)] × (1 + aging factor).
       </div>
 
+      <h2>Worked example</h2>
+      <p>
+        200mA standby draw, 24-hour required standby time, 600mA alarm draw for 5 minutes, 20% aging factor,
+        12V system.
+      </p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Standby stage</td><td>(200mA ÷ 1000) × 24h = 4.80 Ah</td></tr>
+          <tr><td>Alarm stage</td><td>(600mA ÷ 1000) × (5min ÷ 60) = 0.05 Ah</td></tr>
+          <tr><td>Subtotal (before aging factor)</td><td>4.80 + 0.05 = 4.85 Ah</td></tr>
+          <tr><td>Apply aging factor (20%)</td><td>4.85 Ah × 1.20 = 5.82 Ah</td></tr>
+          <tr><td>Minimum battery to specify</td><td>7 Ah @ 12V (nearest standard size)</td></tr>
+        </tbody>
+      </table>
+      <p>
+        A panel drawing 200mA at standby needs a 7Ah battery, not a 4.8Ah one — the alarm-stage draw and the
+        20% aging allowance are what code-compliant sizing actually requires on top of the raw standby figure.
+      </p>
+
       <h2>Why the aging factor?</h2>
       <p>
         A sealed lead-acid battery loses usable capacity as it ages — a battery rated for 7Ah when new might
@@ -336,6 +356,10 @@
           <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
           <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
           <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+          <a href="/blog/cctv-voltage-drop-calculator-camera-offline-at-night">Voltage Drop at Night</a>
         </nav>
 
         <nav class="footer-col" aria-label="Site">

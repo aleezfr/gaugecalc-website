@@ -5,7 +5,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9125815530210447" crossorigin="anonymous"></script>
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Battery Amp Hour Calculator — How Long Will It Last? (Free) — GaugeCalc</title>
+<title>Battery Amp Hour Calculator: Runtime (Free) — GaugeCalc</title>
 <meta name="description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to find out exactly how many hours it will run.">
 <link rel="canonical" href="https://gaugecalc.com/tools/battery-amp-hour-calculator">
 
@@ -17,14 +17,14 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GaugeCalc">
-<meta property="og:title" content="Battery Amp Hour Calculator — How Long Will It Last? (Free) — GaugeCalc">
+<meta property="og:title" content="Battery Amp Hour Calculator: Runtime (Free) — GaugeCalc">
 <meta property="og:description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to find out exactly how many hours it will run.">
 <meta property="og:url" content="https://gaugecalc.com/tools/battery-amp-hour-calculator">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Battery Amp Hour Calculator — How Long Will It Last? (Free) — GaugeCalc">
+<meta name="twitter:title" content="Battery Amp Hour Calculator: Runtime (Free) — GaugeCalc">
 <meta name="twitter:description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to find out exactly how many hours it will run.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
@@ -229,6 +229,26 @@
         have.
       </div>
 
+      <h2>Worked example</h2>
+      <p>
+        100Ah lead-acid/AGM battery (50% depth of discharge) at 12V, powering an 80W load, with a 15%
+        system-loss allowance.
+      </p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Load current</td><td>80W ÷ 12V = 6.67 A</td></tr>
+          <tr><td>Usable capacity (after 50% DoD)</td><td>100 Ah × 0.50 = 50 Ah</td></tr>
+          <tr><td>Effective current (after 15% losses)</td><td>6.67A ÷ (1 − 0.15) = 7.84 A</td></tr>
+          <tr><td>Runtime</td><td>50 Ah ÷ 7.84 A = 6.37 hours (≈ 6h 22m)</td></tr>
+        </tbody>
+      </table>
+      <p>
+        This 100Ah lead-acid battery runs the 80W load for about 6 hours 22 minutes before hitting its safe
+        50% discharge limit — not the roughly 15 hours you'd get by naively dividing the full 100Ah by the
+        load current.
+      </p>
+
       <h2>Why the number on the label is optimistic</h2>
       <p>
         A battery's rated Ah (say, "100Ah") is measured under lab conditions at a specific discharge rate,
@@ -332,6 +352,10 @@
           <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
           <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
           <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+          <a href="/blog/cctv-voltage-drop-calculator-camera-offline-at-night">Voltage Drop at Night</a>
         </nav>
 
         <nav class="footer-col" aria-label="Site">

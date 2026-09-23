@@ -5,7 +5,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9125815530210447" crossorigin="anonymous"></script>
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PoE Budget Calculator: How Many Cameras Can Your Switch Run? — GaugeCalc</title>
+<title>PoE Budget Calculator: How Many Cameras Fit? — GaugeCalc</title>
 <meta name="description" content="Free PoE budget calculator for CCTV installers. Find out if your switch can actually power your cameras before they start rebooting after dark.">
 <link rel="canonical" href="https://gaugecalc.com/blog/poe-budget-calculator-how-many-cameras">
 
@@ -17,14 +17,14 @@
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="GaugeCalc">
-<meta property="og:title" content="PoE Budget Calculator: How Many Cameras Can Your Switch Run?">
+<meta property="og:title" content="PoE Budget Calculator: How Many Cameras Fit?">
 <meta property="og:description" content="Free PoE budget calculator for CCTV installers. Find out if your switch can actually power your cameras before they start rebooting after dark.">
 <meta property="og:url" content="https://gaugecalc.com/blog/poe-budget-calculator-how-many-cameras">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PoE Budget Calculator: How Many Cameras Can Your Switch Run?">
+<meta name="twitter:title" content="PoE Budget Calculator: How Many Cameras Fit?">
 <meta name="twitter:description" content="Free PoE budget calculator for CCTV installers. Find out if your switch can actually power your cameras before they start rebooting after dark.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
@@ -38,12 +38,13 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "PoE Budget Calculator: How Many Cameras Can Your Switch Run?",
+  "headline": "PoE Budget Calculator: The Camera Power Math That's Easy to Miss",
   "description": "Free PoE budget calculator for CCTV installers. Find out if your switch can actually power your cameras before they start rebooting after dark.",
+  "image": "https://gaugecalc.com/assets/og-image.jpg",
   "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
   "datePublished": "2026-09-18",
-  "dateModified": "2026-09-18",
+  "dateModified": "2026-09-23",
   "mainEntityOfPage": "https://gaugecalc.com/blog/poe-budget-calculator-how-many-cameras"
 }
 </script>
@@ -172,13 +173,18 @@
       <p>
         Our switch had a 250W total PoE budget. If each of the eight PTZ cameras was planned at 30W of
         PSE-side PoE load — the 802.3at capability figure, not necessarily each camera's real full-load draw
-        — that's already 240W sitting against the budget in daylight. Once the IR array and heaters kick in
-        after dark, actual operating demand goes up across all eight cameras at once, and a power budget
-        that was already close to full during the day can become insufficient. What happens next depends on
-        the switch's own power-management implementation: when the available power budget is insufficient,
-        the switch may restrict, deny, or otherwise manage PoE power depending on how it's built, rather than
-        simply overloading. On our job it looked like random ports dropping and cycling back. A different
-        camera on the NVR log each time. It looked like a network fault. It was power.
+        — that's already 240W sitting against the budget in daylight.
+      </p>
+      <p>
+        Once the IR array and heaters kick in after dark, actual operating demand goes up across all eight
+        cameras at once, and a power budget that was already close to full during the day can become
+        insufficient. What happens next depends on the switch's own power-management implementation: when the
+        available power budget is insufficient, the switch may restrict, deny, or otherwise manage PoE power
+        depending on how it's built, rather than simply overloading.
+      </p>
+      <p>
+        On our job it looked like random ports dropping and cycling back. A different camera on the NVR log
+        each time. It looked like a network fault. It was power.
       </p>
 
       <h2>Know your PoE type, not just your port count</h2>
@@ -334,6 +340,10 @@
           <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
           <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
           <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+          <a href="/blog/cctv-voltage-drop-calculator-camera-offline-at-night">Voltage Drop at Night</a>
         </nav>
 
         <nav class="footer-col" aria-label="Site">

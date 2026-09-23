@@ -443,16 +443,22 @@
       <p>
         Every meter of twisted-pair copper has resistance, and current flowing through that resistance turns
         some power into heat along the cable run rather than delivering it to the device — this is ordinary
-        I²R power loss, the same physics behind voltage drop on any DC circuit. When the estimate is switched
-        on, this calculator uses the worst-case channel resistance each PoE standard itself assumes: 20 Ω per
-        100m for 802.3af and 12.5 Ω per 100m for 802.3at, both of which reproduce the standard's own published
-        gap between PSE and PD power exactly when combined with that standard's maximum current (for example,
-        0.35A² × 20Ω = 2.45W, matching the af PSE/PD difference of 15.4W − 12.95W). 802.3bt Type 3 and Type 4
-        both run two 2-pair feeds in parallel and share a documented worst-case channel resistance of 6.25 Ω
-        per 100m — independently verified here the same way: 1.2A² × 6.25Ω = 9W (matching Type 3's 60W − 51W
-        gap) and 1.73A² × 6.25Ω = 18.7W (matching Type 4's 90W − 71.3W gap). The calculator then estimates
-        each device's current from its wattage at a nominal 52V PSE output to turn that resistance into a
-        watts figure for your actual entered load, not the standard's theoretical maximum.
+        I²R power loss, the same physics behind voltage drop on any DC circuit.
+      </p>
+      <p>
+        When the estimate is switched on, this calculator uses the worst-case channel resistance each PoE
+        standard itself assumes: 20 Ω per 100m for 802.3af and 12.5 Ω per 100m for 802.3at, both of which
+        reproduce the standard's own published gap between PSE and PD power exactly when combined with that
+        standard's maximum current (for example, 0.35A² × 20Ω = 2.45W, matching the af PSE/PD difference of
+        15.4W − 12.95W). 802.3bt Type 3 and Type 4 both run two 2-pair feeds in parallel and share a
+        documented worst-case channel resistance of 6.25 Ω per 100m — independently verified here the same
+        way: 1.2A² × 6.25Ω = 9W (matching Type 3's 60W − 51W gap) and 1.73A² × 6.25Ω = 18.7W (matching Type
+        4's 90W − 71.3W gap).
+      </p>
+      <p>
+        The calculator then estimates each device's current from its wattage at a nominal 52V PSE output to
+        turn that resistance into a watts figure for your actual entered load, not the standard's theoretical
+        maximum.
       </p>
       <div class="warn-box">
         <strong>This is an estimate, not a guaranteed delivered-power figure — "estimated cable power loss,"
@@ -468,16 +474,18 @@
       </div>
 
       <h2>Common field mistakes</h2>
-      <p>
-        A few PoE sizing mistakes come up often enough to be worth calling out directly: planning purely from
-        port count and ignoring the total wattage budget; reading a switch's headline power rating (often the
-        switch's own consumption or a marketing figure) instead of its actual usable PoE budget; sizing PTZ
-        cameras, heaters, and IR illuminators at their idle draw instead of their peak; treating a preset or
-        datasheet "typical" wattage as a hard guarantee rather than a starting point; planning a job at
-        exactly 100% of budget with no margin for growth or measurement variance; and assuming a switch's
-        total PoE budget means any single port can deliver that much power, when the per-port maximum is
-        usually lower and switch-specific.
-      </p>
+      <p>A few PoE sizing mistakes come up often enough to be worth calling out directly:</p>
+      <ul>
+        <li>Planning purely from port count and ignoring the total wattage budget.</li>
+        <li>Reading a switch's headline power rating (often the switch's own consumption or a marketing
+          figure) instead of its actual usable PoE budget.</li>
+        <li>Sizing PTZ cameras, heaters, and IR illuminators at their idle draw instead of their peak.</li>
+        <li>Treating a preset or datasheet "typical" wattage as a hard guarantee rather than a starting
+          point.</li>
+        <li>Planning a job at exactly 100% of budget with no margin for growth or measurement variance.</li>
+        <li>Assuming a switch's total PoE budget means any single port can deliver that much power, when the
+          per-port maximum is usually lower and switch-specific.</li>
+      </ul>
 
       <h2>Frequently asked questions</h2>
       <h3>How much PoE power does an IP camera use?</h3>
@@ -614,6 +622,10 @@
           <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
           <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
           <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+          <a href="/blog/cctv-voltage-drop-calculator-camera-offline-at-night">Voltage Drop at Night</a>
         </nav>
 
         <nav class="footer-col" aria-label="Site">
