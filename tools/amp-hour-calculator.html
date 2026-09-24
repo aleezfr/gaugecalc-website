@@ -5,8 +5,8 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9125815530210447" crossorigin="anonymous"></script>
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amp Hour Calculator (Free) — GaugeCalc</title>
-<meta name="description" content="Free amp-hour calculator. Convert your load in watts or amps, runtime, and battery chemistry into the exact battery capacity (Ah) you need.">
+<title>Amp Hour Calculator: Ah, Amps, Hours &amp; Watt-Hours — GaugeCalc</title>
+<meta name="description" content="Free amp hour calculator. Find amp-hours from amps and hours, solve for current or runtime, convert Ah to Wh at 12V, 24V or any voltage, and size a battery.">
 <link rel="canonical" href="https://gaugecalc.com/tools/amp-hour-calculator">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -17,15 +17,15 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GaugeCalc">
-<meta property="og:title" content="Amp Hour Calculator (Free) — GaugeCalc">
-<meta property="og:description" content="Free amp-hour calculator. Convert your load in watts or amps, runtime, and battery chemistry into the exact battery capacity (Ah) you need.">
+<meta property="og:title" content="Amp Hour Calculator: Ah, Amps, Hours &amp; Watt-Hours — GaugeCalc">
+<meta property="og:description" content="Free amp hour calculator. Find amp-hours from amps and hours, solve for current or runtime, convert Ah to Wh at 12V, 24V or any voltage, and size a battery.">
 <meta property="og:url" content="https://gaugecalc.com/tools/amp-hour-calculator">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Amp Hour Calculator (Free) — GaugeCalc">
-<meta name="twitter:description" content="Free amp-hour calculator. Convert your load in watts or amps, runtime, and battery chemistry into the exact battery capacity (Ah) you need.">
+<meta name="twitter:title" content="Amp Hour Calculator: Ah, Amps, Hours &amp; Watt-Hours — GaugeCalc">
+<meta name="twitter:description" content="Free amp hour calculator. Find amp-hours from amps and hours, solve for current or runtime, convert Ah to Wh at 12V, 24V or any voltage, and size a battery.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +40,7 @@
   "@type": "SoftwareApplication",
   "name": "Amp Hour Calculator",
   "url": "https://gaugecalc.com/tools/amp-hour-calculator",
-  "description": "Calculates required battery capacity in amp-hours from load (watts or amps), runtime, system voltage, losses, and battery chemistry depth of discharge.",
+  "description": "Calculates amp-hours from current and time, solves for current or runtime, converts between amp-hours and watt-hours at a given voltage, and sizes battery capacity from load, runtime, system losses and depth of discharge.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any (runs in browser)",
   "offers": {
@@ -70,6 +70,30 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many amps is 200W at 12V?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 16.7 A. Current is watts divided by volts, so 200 W ÷ 12 V = 16.67 A. Over one hour, that load uses about 16.7 Ah from a 12 V battery. If the 200 W is an AC load running through an inverter, the battery current will be higher because of inverter losses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many watt-hours are in a 100Ah 12V battery?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 1,200 Wh nominal (100 Ah × 12 V). A 12 V LiFePO4 battery has a nominal voltage of 12.8 V, so 100 Ah is closer to 1,280 Wh. Usable energy is lower: roughly 600 Wh at the 50% depth of discharge recommended for lead-acid, or about 1,000 Wh at 80% for lithium."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long will a 12V 300Ah battery last?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on the load current, because runtime = Ah ÷ amps. At a 10 A load (about 120 W at 12 V), 300 Ah ÷ 10 A = 30 hours in theory. Usable runtime is shorter: about 15 hours from lead-acid at 50% depth of discharge, or about 24 hours from lithium at 80%, before wiring or inverter losses."
+      }
+    },
     {
       "@type": "Question",
       "name": "Should I size the battery around the raw Ah or the rated Ah?",
@@ -142,86 +166,99 @@
     <section class="hero" style="padding-block:26px 6px;">
       <h1>Amp Hour Calculator</h1>
       <p class="lead">
-        Work out exactly how many amp-hours (Ah) of battery capacity your load needs — for solar setups, RVs,
-        backup power, or any 12V/24V/48V system. Accounts for battery chemistry and depth of discharge, not
-        just a raw watts-to-amps conversion.
+        Calculate amp-hours from current and time, solve for amps or runtime, and convert between amp-hours (Ah)
+        and watt-hours (Wh) at 12V, 24V or any battery voltage. Need the battery size to buy once depth of
+        discharge and losses are included? Use the <a href="#battery-sizing">battery sizing calculator</a> further down.
       </p>
     </section>
 
-    <div class="calc-layout">
+    <div class="calc-layout" id="ahConverter">
       <div class="panel">
-        <h2>Your load</h2>
+        <h2>Amp-hour calculator</h2>
 
         <div class="field" style="margin-bottom:16px;">
-          <label>Load given as</label>
-          <div class="toggle-row" id="loadTypeToggle">
-            <button type="button" class="toggle-btn active" data-value="watts">Watts</button>
-            <button type="button" class="toggle-btn" data-value="amps">Amps</button>
+          <label id="solveLabel">What do you want to find?</label>
+          <div class="toggle-row" id="solveToggle" role="group" aria-labelledby="solveLabel">
+            <button type="button" class="toggle-btn active" data-value="ah" aria-pressed="true">Amp-hours (Ah)</button>
+            <button type="button" class="toggle-btn" data-value="amps" aria-pressed="false">Current (A)</button>
+            <button type="button" class="toggle-btn" data-value="hours" aria-pressed="false">Runtime (h)</button>
+            <button type="button" class="toggle-btn" data-value="wh" aria-pressed="false">Ah ↔ Wh</button>
           </div>
+        </div>
+
+        <div id="capGroup" style="display:none;">
+          <div class="field-row">
+            <div class="field">
+              <label for="capValue">Battery capacity</label>
+              <input type="number" id="capValue" min="0.001" step="any" value="100" inputmode="decimal" aria-describedby="capError">
+            </div>
+            <div class="field">
+              <label for="capUnit">Capacity unit</label>
+              <select id="capUnit">
+                <option value="ah" selected>Amp-hours (Ah)</option>
+                <option value="wh">Watt-hours (Wh)</option>
+              </select>
+            </div>
+          </div>
+          <p class="field-error" id="capError" role="alert" style="display:none;"></p>
+        </div>
+
+        <div id="curGroup">
+          <div class="field-row">
+            <div class="field">
+              <label for="curValue">Load</label>
+              <input type="number" id="curValue" min="0.001" step="any" value="5" inputmode="decimal" aria-describedby="curError">
+            </div>
+            <div class="field">
+              <label for="curUnit">Load unit</label>
+              <select id="curUnit">
+                <option value="a" selected>Amps (A)</option>
+                <option value="w">Watts (W)</option>
+              </select>
+            </div>
+          </div>
+          <p class="field-error" id="curError" role="alert" style="display:none;"></p>
+        </div>
+
+        <div id="hrsGroup">
+          <div class="field-row">
+            <div class="field">
+              <label for="hrsValue">Time (hours) <span class="hint">1.5 = 1 h 30 min</span></label>
+              <input type="number" id="hrsValue" min="0.001" step="any" value="20" inputmode="decimal" aria-describedby="hrsError">
+            </div>
+            <div></div>
+          </div>
+          <p class="field-error" id="hrsError" role="alert" style="display:none;"></p>
         </div>
 
         <div class="field-row">
           <div class="field">
-            <label for="loadValue" id="loadValueLabel">Load (Watts)</label>
-            <input type="number" id="loadValue" min="0" step="0.1" value="150">
-          </div>
-          <div class="field">
-            <label for="voltage">System voltage</label>
-            <select id="voltage">
-              <option value="12" selected>12V</option>
-              <option value="24">24V</option>
-              <option value="48">48V</option>
-              <option value="custom">Custom</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field-row" id="customVoltRow" style="display:none;">
-          <div class="field">
-            <label for="customVolt">Custom voltage (V)</label>
-            <input type="number" id="customVolt" min="1" step="0.1" value="12">
+            <label for="voltValue">Battery voltage (V) <span class="hint">nominal: 12, 24, 48…</span></label>
+            <input type="number" id="voltValue" min="0.1" max="1000" step="any" value="12" inputmode="decimal" aria-describedby="voltError">
           </div>
           <div></div>
         </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="runtime">Runtime needed (hours)</label>
-            <input type="number" id="runtime" min="0.1" step="0.1" value="8">
-          </div>
-          <div class="field">
-            <label for="losses">System losses (%) <span class="hint">wiring/inverter</span></label>
-            <input type="number" id="losses" min="0" max="90" value="15">
-          </div>
-        </div>
-
-        <div class="field" style="margin-bottom:6px;">
-          <label>Battery chemistry (sets safe depth of discharge)</label>
-          <div class="toggle-row" id="chemToggle">
-            <button type="button" class="toggle-btn active" data-value="50">Lead-acid / AGM (50% DoD)</button>
-            <button type="button" class="toggle-btn" data-value="80">Lithium LiFePO4 (80% DoD)</button>
-            <button type="button" class="toggle-btn" data-value="100">Custom / 100%</button>
-          </div>
-        </div>
+        <p class="field-error" id="voltError" role="alert" style="display:none;"></p>
       </div>
 
       <div class="panel result-panel">
-        <h2>Battery capacity needed</h2>
+        <h2>Result</h2>
 
-        <div class="result-hero">
-          <span class="value" id="resultAh">—</span><span class="unit">Ah</span>
-          <div class="caption">rated capacity to buy, at your system voltage</div>
+        <div class="result-hero" aria-live="polite" aria-atomic="true">
+          <span class="value" id="cvValue">—</span><span class="unit" id="cvUnit">Ah</span>
+          <div class="caption" id="cvCaption">—</div>
         </div>
 
         <div class="result-list">
-          <div class="result-row"><span class="k">Load current</span><span class="v" id="rAmps">—</span></div>
-          <div class="result-row"><span class="k">Raw Ah needed (before DoD)</span><span class="v" id="rRawAh">—</span></div>
-          <div class="result-row"><span class="k">Total energy</span><span class="v" id="rWh">—</span></div>
-          <div class="result-row"><span class="k">Usable capacity (after DoD)</span><span class="v" id="rUsable">—</span></div>
+          <div class="result-row"><span class="k">Capacity</span><span class="v" id="cvCap">—</span></div>
+          <div class="result-row"><span class="k">Energy</span><span class="v" id="cvEnergy">—</span></div>
+          <div class="result-row" id="cvRowCur"><span class="k">Current</span><span class="v" id="cvCur">—</span></div>
+          <div class="result-row" id="cvRowPow"><span class="k">Power</span><span class="v" id="cvPow">—</span></div>
+          <div class="result-row" id="cvRowTime"><span class="k">Runtime</span><span class="v" id="cvTime">—</span></div>
         </div>
 
         <div class="recommend-box">
-          Nearest standard battery: <strong id="rBattery">—</strong>
+          Working: <strong id="cvFormula">—</strong>
         </div>
       </div>
     </div>
@@ -233,7 +270,210 @@
 -->
 
     <article class="article">
-      <h2>How this calculator works</h2>
+      <h2>What is an amp-hour?</h2>
+      <p>
+        An amp-hour (Ah) is one amp of current flowing for one hour. It measures how much charge a battery
+        can deliver, so a 100 Ah battery can in theory supply 5 A for 20 hours, 10 A for 10 hours, or 1 A for
+        100 hours.
+      </p>
+      <p>
+        You'll often hear "amps per hour", but that isn't a real unit. Amps are already a rate (charge per
+        second), so a battery doesn't deliver "amps per hour". It delivers a current in amps for a number of
+        hours, and current multiplied by time gives amp-hours.
+      </p>
+
+      <h2>How to use the calculator</h2>
+      <ol>
+        <li>Choose what you want to find: amp-hours, current, runtime, or an Ah ↔ Wh conversion.</li>
+        <li>Enter the values shown. Enter the load in amps, or in watts if that's what the device label gives.</li>
+        <li>Set the battery's nominal voltage. You need it for any watt or watt-hour figure.</li>
+      </ol>
+      <p>
+        The result is ideal arithmetic, with no allowance for depth of discharge, temperature or losses. The
+        Working line under the result shows the numbers that were used.
+      </p>
+
+      <h2>Amp-hour formulas</h2>
+      <table>
+        <thead><tr><th>To find</th><th>Formula</th></tr></thead>
+        <tbody>
+          <tr><td>Amp-hours</td><td>Ah = A × h</td></tr>
+          <tr><td>Current</td><td>A = Ah ÷ h</td></tr>
+          <tr><td>Runtime</td><td>h = Ah ÷ A</td></tr>
+          <tr><td>Watt-hours</td><td>Wh = Ah × V</td></tr>
+          <tr><td>Amp-hours from watt-hours</td><td>Ah = Wh ÷ V</td></tr>
+          <tr><td>Power</td><td>W = V × A</td></tr>
+          <tr><td>Current from watts</td><td>A = W ÷ V</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Where A is current in amps, h is time in hours, Ah is capacity in amp-hours, V is the battery's nominal
+        voltage in volts, W is power in watts, and Wh is energy in watt-hours.
+      </p>
+      <p>
+        A battery's Ah rating is measured at a specific discharge rate. For lead-acid and AGM batteries this is
+        usually the 20-hour rate, so a 100 Ah battery is rated for about 5 A over 20 hours. At higher currents,
+        lead-acid batteries deliver noticeably less than their label (the Peukert effect). Lithium (LiFePO4)
+        batteries are much less affected.
+      </p>
+
+      <h2>Worked examples</h2>
+      <table>
+        <thead><tr><th>Question</th><th>Working</th><th>Answer</th></tr></thead>
+        <tbody>
+          <tr><td>5 A load for 20 hours</td><td>5 A × 20 h</td><td>100 Ah</td></tr>
+          <tr><td>Draining 100 Ah evenly over 8 hours</td><td>100 Ah ÷ 8 h</td><td>12.5 A</td></tr>
+          <tr><td>24V 50 Ah battery in watt-hours</td><td>50 Ah × 24 V</td><td>1,200 Wh</td></tr>
+          <tr><td>2,000 Wh power station at 12V</td><td>2,000 Wh ÷ 12 V</td><td>≈ 166.7 Ah</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Amp-hours vs watt-hours</h2>
+      <p>
+        Amp-hours measure charge, and watt-hours measure energy. The two are linked by voltage (Wh = Ah × V),
+        so you can only compare amp-hour ratings between batteries of the same voltage. A 12V 100 Ah battery
+        and a 24V 50 Ah battery both store about 1,200 Wh. The 24V battery has half the amp-hours but the same
+        energy.
+      </p>
+      <p>
+        Use the battery's nominal voltage for conversions: 12 V for a 6-cell lead-acid battery and 12.8 V for a
+        4-cell LiFePO4 battery. Actual voltage falls during discharge, so any Wh figure is an estimate.
+      </p>
+
+      <h2>Series vs parallel battery banks</h2>
+      <table>
+        <thead><tr><th>Two 12V 100 Ah batteries</th><th>Voltage</th><th>Capacity</th><th>Energy</th></tr></thead>
+        <tbody>
+          <tr><td>Wired in series</td><td>24 V</td><td>100 Ah</td><td>2,400 Wh</td></tr>
+          <tr><td>Wired in parallel</td><td>12 V</td><td>200 Ah</td><td>2,400 Wh</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Series wiring adds voltage and keeps the amp-hours the same. Parallel wiring adds amp-hours and keeps
+        the voltage the same. Either way the total watt-hours is the same, which is another reason to compare
+        banks in Wh. Build a bank from identical batteries of the same chemistry, capacity, age and state of
+        charge. With lithium batteries, check that the manufacturer supports series or parallel connection and
+        how many units are allowed.
+      </p>
+
+      <h2>Amp-hours vs CCA</h2>
+      <p>
+        CCA (cold cranking amps) is a rating for starting batteries. It's the current a 12V battery can deliver
+        for 30 seconds at −18 °C (0 °F) while staying at or above 7.2 V. It describes a short, high-current
+        burst, not how much charge the battery stores.
+      </p>
+      <p>
+        There's no formula that converts CCA to amp-hours. Two batteries with the same CCA can have very
+        different capacities, because starting batteries are built with many thin plates for burst current
+        and deep-cycle batteries with thicker plates for sustained discharge. If a starting or marine battery
+        lists reserve capacity (RC), use that instead. RC is the number of minutes the battery can supply 25 A
+        before falling to 10.5 V, so RC × 25 ÷ 60 gives the amp-hours delivered at that 25 A rate. For standby or
+        backup power, choose a deep-cycle battery with a stated Ah rating.
+      </p>
+
+      <h2 id="battery-sizing">Battery sizing calculator</h2>
+      <p>
+        The calculator above gives the amp-hours a load actually draws. The battery you buy needs to be bigger,
+        because most chemistries shouldn't be fully drained and some energy is lost in wiring and inverters.
+        This calculator adds those allowances.
+      </p>
+    </article>
+
+    <div class="calc-layout">
+      <div class="panel">
+        <h2>Your load</h2>
+
+        <div class="field" style="margin-bottom:16px;">
+          <label id="loadTypeLabel">Load given as</label>
+          <div class="toggle-row" id="loadTypeToggle" role="group" aria-labelledby="loadTypeLabel">
+            <button type="button" class="toggle-btn active" data-value="watts" aria-pressed="true">Watts</button>
+            <button type="button" class="toggle-btn" data-value="amps" aria-pressed="false">Amps</button>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="loadValue" id="loadValueLabel">Load (Watts)</label>
+            <input type="number" id="loadValue" min="0.001" step="any" value="150" inputmode="decimal" aria-describedby="loadError">
+          </div>
+          <div class="field">
+            <label for="voltage">System voltage</label>
+            <select id="voltage">
+              <option value="12" selected>12V</option>
+              <option value="24">24V</option>
+              <option value="48">48V</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+        </div>
+        <p class="field-error" id="loadError" role="alert" style="display:none;"></p>
+
+        <div id="customVoltRow" style="display:none;">
+          <div class="field-row">
+            <div class="field">
+              <label for="customVolt">Custom voltage (V)</label>
+              <input type="number" id="customVolt" min="1" max="1000" step="any" value="12" inputmode="decimal" aria-describedby="customVoltError">
+            </div>
+            <div></div>
+          </div>
+          <p class="field-error" id="customVoltError" role="alert" style="display:none;"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="runtime">Runtime needed (hours)</label>
+            <input type="number" id="runtime" min="0.01" step="any" value="8" inputmode="decimal" aria-describedby="runtimeError">
+          </div>
+          <div class="field">
+            <label for="losses">System losses (%) <span class="hint">wiring/inverter</span></label>
+            <input type="number" id="losses" min="0" max="90" step="any" value="15" inputmode="decimal" aria-describedby="lossesError">
+          </div>
+        </div>
+        <p class="field-error" id="runtimeError" role="alert" style="display:none;"></p>
+        <p class="field-error" id="lossesError" role="alert" style="display:none;"></p>
+
+        <div class="field" style="margin-bottom:6px;">
+          <label id="chemLabel">Battery chemistry (sets safe depth of discharge)</label>
+          <div class="toggle-row" id="chemToggle" role="group" aria-labelledby="chemLabel">
+            <button type="button" class="toggle-btn active" data-value="50" aria-pressed="true">Lead-acid / AGM (50% DoD)</button>
+            <button type="button" class="toggle-btn" data-value="80" aria-pressed="false">Lithium LiFePO4 (80% DoD)</button>
+            <button type="button" class="toggle-btn" data-value="100" aria-pressed="false">Custom / 100%</button>
+          </div>
+        </div>
+
+        <div class="calc-actions">
+          <button type="button" class="btn calc-cta" id="sizingCalcBtn">Calculate</button>
+        </div>
+      </div>
+
+      <div class="panel result-panel" id="sizingResult" role="region" tabindex="-1" aria-labelledby="sizingResultHeading">
+        <h2 id="sizingResultHeading">Battery capacity needed</h2>
+
+        <div class="result-hero" aria-live="polite" aria-atomic="true">
+          <span class="value" id="resultAh">—</span><span class="unit">Ah</span>
+          <div class="caption" id="sizingCaption">rated capacity to buy, at your system voltage</div>
+        </div>
+
+        <div class="result-list">
+          <div class="result-row"><span class="k">Load current</span><span class="v" id="rAmps">—</span></div>
+          <div class="result-row"><span class="k">Raw Ah needed (before DoD)</span><span class="v" id="rRawAh">—</span></div>
+          <div class="result-row"><span class="k">Load energy (before losses)</span><span class="v" id="rWh">—</span></div>
+          <div class="result-row"><span class="k">Usable capacity (after DoD)</span><span class="v" id="rUsable">—</span></div>
+        </div>
+
+        <div class="recommend-box">
+          Nearest standard battery: <strong id="rBattery">—</strong>
+        </div>
+
+        <div class="result-actions">
+          <button type="button" class="btn btn-ghost" id="sizingRecalcBtn">Recalculate</button>
+          <button type="button" class="btn btn-ghost" id="sizingResetBtn">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <article class="article">
+      <h2>How the sizing calculator works</h2>
       <div class="note-box">
         <strong>Formula:</strong> Amps = Watts ÷ Voltage. Raw Ah = Amps × runtime hours. Rated Ah needed =
         Raw Ah ÷ (Depth of Discharge %) × (1 + system losses %).
@@ -245,7 +485,7 @@
         safe depth of discharge — what you see here is what to buy, not just what you'll consume.
       </p>
 
-      <h2>Worked example</h2>
+      <h2>Sizing worked example</h2>
       <p>
         150W continuous load at 12V, running for 8 hours, with a 15% system-loss allowance and a lead-acid/AGM
         battery (50% depth of discharge).
@@ -290,7 +530,34 @@
         alarm panel) can use a lower figure, closer to 5–10%.
       </p>
 
+      <h2>Common mistakes</h2>
+      <ul>
+        <li><strong>Comparing Ah across voltages.</strong> A 24V 100 Ah battery holds twice the energy of a 12V 100 Ah one. Compare in watt-hours.</li>
+        <li><strong>Treating the label Ah as usable Ah.</strong> Lead-acid and AGM batteries should normally only be discharged to about 50%. Size with the calculator above.</li>
+        <li><strong>Using peak current instead of average.</strong> Ah depends on average draw over time. A camera's night-time IR current, a PTZ's motor current or a power supply's maximum rating overstates the average if you apply it to the whole day.</li>
+        <li><strong>Converting AC watts at the wrong voltage.</strong> For a load on an inverter, divide the AC watts by the battery voltage (not 120 V or 230 V) to get battery current, then allow for inverter losses.</li>
+        <li><strong>Reading CCA as capacity.</strong> A high CCA figure says nothing about how long a battery will run a load.</li>
+      </ul>
+
       <h2>Frequently asked questions</h2>
+      <h3>How many amps is 200W at 12V?</h3>
+      <p>
+        About 16.7 A. Current is watts divided by volts, so 200 W ÷ 12 V = 16.67 A. Over one hour, that load
+        uses about 16.7 Ah from a 12 V battery. If the 200 W is an AC load running through an inverter, the
+        battery current will be higher because of inverter losses.
+      </p>
+      <h3>How many watt-hours are in a 100Ah 12V battery?</h3>
+      <p>
+        About 1,200 Wh nominal (100 Ah × 12 V). A 12 V LiFePO4 battery has a nominal voltage of 12.8 V, so
+        100 Ah is closer to 1,280 Wh. Usable energy is lower: roughly 600 Wh at the 50% depth of discharge
+        recommended for lead-acid, or about 1,000 Wh at 80% for lithium.
+      </p>
+      <h3>How long will a 12V 300Ah battery last?</h3>
+      <p>
+        It depends on the load current, because runtime = Ah ÷ amps. At a 10 A load (about 120 W at 12 V),
+        300 Ah ÷ 10 A = 30 hours in theory. Usable runtime is shorter: about 15 hours from lead-acid at 50%
+        depth of discharge, or about 24 hours from lithium at 80%, before wiring or inverter losses.
+      </p>
       <h3>Should I size the battery around the raw Ah or the rated Ah?</h3>
       <p>
         Always buy based on the rated Ah figure, the one already divided by your chemistry's depth of
@@ -317,9 +584,10 @@
         it's built around the standby-hours-plus-alarm-minutes method used in fire and security code compliance.
       </p>
       <p>
-        Already own a battery and want to know how long it'll run your load instead of what size to buy? Use
-        the <a href="battery-amp-hour-calculator">Battery Amp Hour Calculator</a> — it works in the
-        opposite direction from this tool.
+        Already own a battery and want a realistic runtime that allows for chemistry and losses, rather than
+        the theoretical Ah ÷ A figure above? Use the
+        <a href="battery-amp-hour-calculator">Battery Amp Hour Calculator</a>. It works in the opposite
+        direction from the sizing calculator on this page.
       </p>
       <p>
         Not sure whether to wire batteries in series or parallel once you've got your Ah figure, or which
@@ -401,6 +669,205 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
+/* ---------- shared helpers ---------- */
+
+function fmtNum(n, decimals = 2) {
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
+}
+
+// Keeps small values readable (0.025, not 0.03) without long tails on big ones.
+function fmtSmart(n) {
+  const abs = Math.abs(n);
+  if (abs > 0 && abs < 1) return n.toLocaleString(undefined, { maximumSignificantDigits: 3 });
+  return fmtNum(n, abs >= 100 ? 1 : 2);
+}
+
+function withKilo(n, unit) {
+  return fmtSmart(n) + ' ' + unit + (n >= 1000 ? ' (' + fmtSmart(n / 1000) + ' k' + unit + ')' : '');
+}
+
+function fmtDuration(h) {
+  const base = fmtSmart(h) + ' h';
+  if (h >= 48) return base + ' (≈ ' + fmtSmart(h / 24) + ' days)';
+  const totalMin = Math.round(h * 60);
+  if (totalMin < 1) return base + ' (under 1 min)';
+  const hh = Math.floor(totalMin / 60), mm = totalMin % 60;
+  if (mm === 0) return base;
+  return base + ' (' + (hh ? hh + ' h ' : '') + mm + ' min)';
+}
+
+// Blank stays NaN (Number('') would be 0), so an empty field is reported, never coerced.
+function readNumber(el) {
+  const raw = el.value.trim();
+  return raw === '' ? NaN : Number(raw);
+}
+
+function showError(el, msg) {
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function clearErrors(errorEls, inputEls) {
+  errorEls.forEach(el => { el.style.display = 'none'; el.textContent = ''; });
+  inputEls.forEach(el => el.removeAttribute('aria-invalid'));
+}
+
+// Returns the value if it is a finite number within [min, max]; otherwise flags the field and returns NaN.
+function checkField(input, errorEl, min, max, msg) {
+  const v = readNumber(input);
+  if (!Number.isFinite(v) || v < min || v > max) {
+    showError(errorEl, msg);
+    input.setAttribute('aria-invalid', 'true');
+    return NaN;
+  }
+  return v;
+}
+
+function wireToggle(row, onSelect) {
+  row.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      row.querySelectorAll('.toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      onSelect(btn.dataset.value);
+    });
+  });
+}
+
+function onEdit(els, fn) {
+  els.forEach(el => {
+    el.addEventListener('input', fn);
+    el.addEventListener('change', fn);
+  });
+}
+
+/* ---------- amp-hour calculator (Ah / A / h / Wh) ---------- */
+
+const capGroup = document.getElementById('capGroup');
+const curGroup = document.getElementById('curGroup');
+const hrsGroup = document.getElementById('hrsGroup');
+const capValue = document.getElementById('capValue');
+const capUnit = document.getElementById('capUnit');
+const curValue = document.getElementById('curValue');
+const curUnit = document.getElementById('curUnit');
+const hrsValue = document.getElementById('hrsValue');
+const voltValue = document.getElementById('voltValue');
+const capError = document.getElementById('capError');
+const curError = document.getElementById('curError');
+const hrsError = document.getElementById('hrsError');
+const voltError = document.getElementById('voltError');
+
+const CAPTIONS = {
+  ah: 'capacity this load draws over this time',
+  amps: 'average current that draws this capacity over this time',
+  hours: 'theoretical time to fully drain this capacity; usable runtime is shorter',
+  whFromAh: 'energy stored at this nominal voltage',
+  ahFromWh: 'capacity at this nominal voltage'
+};
+
+let solveFor = 'ah';
+
+wireToggle(document.getElementById('solveToggle'), value => {
+  solveFor = value;
+  calculate();
+});
+onEdit([capValue, capUnit, curValue, curUnit, hrsValue, voltValue], calculate);
+
+function setConverterOutputs(o) {
+  document.getElementById('cvValue').textContent = o.value;
+  document.getElementById('cvUnit').textContent = o.unit;
+  document.getElementById('cvCaption').textContent = o.caption;
+  document.getElementById('cvCap').textContent = o.cap;
+  document.getElementById('cvEnergy').textContent = o.energy;
+  document.getElementById('cvCur').textContent = o.cur;
+  document.getElementById('cvPow').textContent = o.pow;
+  document.getElementById('cvTime').textContent = o.time;
+  document.getElementById('cvFormula').textContent = o.formula;
+}
+
+function calculate() {
+  const needCap = solveFor !== 'ah';
+  const needCur = solveFor === 'ah' || solveFor === 'hours';
+  const needHrs = solveFor === 'ah' || solveFor === 'amps';
+
+  capGroup.style.display = needCap ? '' : 'none';
+  curGroup.style.display = needCur ? '' : 'none';
+  hrsGroup.style.display = needHrs ? '' : 'none';
+  ['cvRowCur', 'cvRowPow', 'cvRowTime'].forEach(id => {
+    document.getElementById(id).style.display = solveFor === 'wh' ? 'none' : '';
+  });
+
+  clearErrors([capError, curError, hrsError, voltError], [capValue, curValue, hrsValue, voltValue]);
+
+  // Validate in on-screen order so the first flagged field is the first one the user sees.
+  const capIsWh = capUnit.value === 'wh';
+  const curIsW = curUnit.value === 'w';
+  const cap = needCap ? checkField(capValue, capError, 0.001, capIsWh ? 10000000 : 100000,
+    capIsWh ? 'Enter a capacity between 0.001 and 10,000,000 Wh.' : 'Enter a capacity between 0.001 and 100,000 Ah.') : 0;
+  const cur = needCur ? checkField(curValue, curError, 0.001, curIsW ? 1000000 : 10000,
+    curIsW ? 'Enter a load between 0.001 and 1,000,000 W.' : 'Enter a load between 0.001 and 10,000 A.') : 0;
+  const hrs = needHrs ? checkField(hrsValue, hrsError, 0.001, 10000, 'Enter a time between 0.001 and 10,000 hours.') : 0;
+  const volts = checkField(voltValue, voltError, 0.1, 1000, 'Enter a battery voltage between 0.1 and 1,000 V.');
+
+  const unitFor = { ah: 'Ah', amps: 'A', hours: 'h', wh: capIsWh ? 'Ah' : 'Wh' };
+
+  if ([cap, cur, hrs, volts].some(Number.isNaN)) {
+    setConverterOutputs({
+      value: '—', unit: unitFor[solveFor], caption: 'Fix the highlighted input above to see a result.',
+      cap: '—', energy: '—', cur: '—', pow: '—', time: '—', formula: '—'
+    });
+    return;
+  }
+
+  const V = fmtSmart(volts) + ' V';
+  const steps = [];
+  let ah = needCap ? (capIsWh ? cap / volts : cap) : 0;
+  let amps = needCur ? (curIsW ? cur / volts : cur) : 0;
+  let hours = hrs;
+
+  if (needCap && capIsWh) steps.push(fmtSmart(cap) + ' Wh ÷ ' + V + ' = ' + fmtSmart(ah) + ' Ah');
+  if (needCur && curIsW) steps.push(fmtSmart(cur) + ' W ÷ ' + V + ' = ' + fmtSmart(amps) + ' A');
+
+  let value, caption;
+  if (solveFor === 'ah') {
+    ah = amps * hours;
+    steps.push(fmtSmart(amps) + ' A × ' + fmtSmart(hours) + ' h = ' + fmtSmart(ah) + ' Ah');
+    value = ah; caption = CAPTIONS.ah;
+  } else if (solveFor === 'amps') {
+    amps = ah / hours;
+    steps.push(fmtSmart(ah) + ' Ah ÷ ' + fmtSmart(hours) + ' h = ' + fmtSmart(amps) + ' A');
+    value = amps; caption = CAPTIONS.amps;
+  } else if (solveFor === 'hours') {
+    hours = ah / amps;
+    steps.push(fmtSmart(ah) + ' Ah ÷ ' + fmtSmart(amps) + ' A = ' + fmtSmart(hours) + ' h');
+    value = hours; caption = CAPTIONS.hours;
+  } else if (capIsWh) {
+    value = ah; caption = CAPTIONS.ahFromWh;
+  } else {
+    steps.push(fmtSmart(ah) + ' Ah × ' + V + ' = ' + fmtSmart(ah * volts) + ' Wh');
+    value = ah * volts; caption = CAPTIONS.whFromAh;
+  }
+
+  const wh = ah * volts;
+  const watts = amps * volts;
+  const noLoad = solveFor === 'wh'; // a plain Ah ↔ Wh conversion has no current or time
+
+  setConverterOutputs({
+    value: fmtSmart(value), unit: unitFor[solveFor], caption,
+    cap: fmtSmart(ah) + ' Ah',
+    energy: withKilo(wh, 'Wh'),
+    cur: noLoad ? '—' : fmtSmart(amps) + ' A',
+    pow: noLoad ? '—' : withKilo(watts, 'W'),
+    time: noLoad ? '—' : fmtDuration(hours),
+    formula: steps.join('; ')
+  });
+}
+
+/* ---------- battery sizing calculator ---------- */
+
 const loadTypeToggle = document.getElementById('loadTypeToggle');
 const loadValueLabel = document.getElementById('loadValueLabel');
 const loadValueInput = document.getElementById('loadValue');
@@ -409,71 +876,145 @@ const customVoltRow = document.getElementById('customVoltRow');
 const customVolt = document.getElementById('customVolt');
 const runtimeInput = document.getElementById('runtime');
 const lossesInput = document.getElementById('losses');
-const chemToggle = document.getElementById('chemToggle');
+const loadError = document.getElementById('loadError');
+const customVoltError = document.getElementById('customVoltError');
+const runtimeError = document.getElementById('runtimeError');
+const lossesError = document.getElementById('lossesError');
 
 let loadType = 'watts';
 let dod = 50;
 
-loadTypeToggle.querySelectorAll('.toggle-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    loadTypeToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    loadType = btn.dataset.value;
-    loadValueLabel.textContent = loadType === 'watts' ? 'Load (Watts)' : 'Load (Amps)';
-    calculate();
-  });
+wireToggle(loadTypeToggle, value => {
+  loadType = value;
+  loadValueLabel.textContent = loadType === 'watts' ? 'Load (Watts)' : 'Load (Amps)';
+  calculateSizing();
 });
 
-chemToggle.querySelectorAll('.toggle-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    chemToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    dod = parseFloat(btn.dataset.value);
-    calculate();
-  });
+wireToggle(document.getElementById('chemToggle'), value => {
+  dod = parseFloat(value);
+  calculateSizing();
 });
 
 voltageSelect.addEventListener('change', () => {
-  customVoltRow.style.display = (voltageSelect.value === 'custom') ? 'grid' : 'none';
-  calculate();
+  customVoltRow.style.display = (voltageSelect.value === 'custom') ? '' : 'none';
+  calculateSizing();
 });
 
-[loadValueInput, customVolt, runtimeInput, lossesInput].forEach(el => {
-  el.addEventListener('input', calculate);
-  el.addEventListener('change', calculate);
-});
-
-function fmtNum(n, decimals = 2) {
-  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
-}
+onEdit([loadValueInput, customVolt, runtimeInput, lossesInput], calculateSizing);
 
 function nearestBattery(ah) {
   const sizes = [7, 9, 12, 18, 20, 26, 33, 35, 50, 55, 75, 100, 120, 150, 200, 230, 300, 400];
   for (const s of sizes) if (ah <= s) return s + ' Ah';
-  return Math.ceil(ah / 50) * 50 + ' Ah (or bank multiple batteries in parallel)';
+  return (Math.ceil(ah / 50) * 50).toLocaleString() + ' Ah (or bank multiple batteries in parallel)';
 }
 
-function calculate() {
-  const voltage = voltageSelect.value === 'custom' ? (parseFloat(customVolt.value) || 12) : parseFloat(voltageSelect.value);
-  const loadValue = Math.max(0, parseFloat(loadValueInput.value) || 0);
-  const runtime = Math.max(0, parseFloat(runtimeInput.value) || 0);
-  const losses = Math.max(0, parseFloat(lossesInput.value) || 0) / 100;
+function calculateSizing() {
+  clearErrors([loadError, customVoltError, runtimeError, lossesError], [loadValueInput, customVolt, runtimeInput, lossesInput]);
 
-  const amps = loadType === 'watts' ? (loadValue / voltage) : loadValue;
+  const inWatts = loadType === 'watts';
+  const loadValue = checkField(loadValueInput, loadError, 0.001, inWatts ? 1000000 : 10000,
+    inWatts ? 'Enter a load between 0.001 and 1,000,000 W.' : 'Enter a load between 0.001 and 10,000 A.');
+  const voltage = voltageSelect.value === 'custom'
+    ? checkField(customVolt, customVoltError, 1, 1000, 'Enter a custom voltage between 1 and 1,000 V.')
+    : parseFloat(voltageSelect.value);
+  const runtime = checkField(runtimeInput, runtimeError, 0.01, 10000, 'Enter a runtime between 0.01 and 10,000 hours.');
+  const lossesPct = checkField(lossesInput, lossesError, 0, 90, 'Enter system losses between 0% and 90%.');
+
+  const outIds = ['resultAh', 'rAmps', 'rRawAh', 'rWh', 'rUsable', 'rBattery'];
+  const caption = document.getElementById('sizingCaption');
+  if ([loadValue, voltage, runtime, lossesPct].some(Number.isNaN)) {
+    outIds.forEach(id => { document.getElementById(id).textContent = '—'; });
+    caption.textContent = 'Fix the highlighted input above to see a result.';
+    return;
+  }
+  caption.textContent = 'rated capacity to buy, at your system voltage';
+
+  const losses = lossesPct / 100;
+  const amps = inWatts ? (loadValue / voltage) : loadValue;
   const rawAh = amps * runtime;
   const ratedAh = (rawAh / (dod / 100)) * (1 + losses);
   const wh = rawAh * voltage;
   const usableAh = ratedAh * (dod / 100);
 
-  document.getElementById('resultAh').textContent = fmtNum(ratedAh, ratedAh < 10 ? 2 : 1);
-  document.getElementById('rAmps').textContent = fmtNum(amps, 2) + ' A';
-  document.getElementById('rRawAh').textContent = fmtNum(rawAh, 2) + ' Ah';
-  document.getElementById('rWh').textContent = fmtNum(wh, 1) + ' Wh';
-  document.getElementById('rUsable').textContent = fmtNum(usableAh, 1) + ' Ah';
+  document.getElementById('resultAh').textContent = fmtSizing(ratedAh, ratedAh < 10 ? 2 : 1);
+  document.getElementById('rAmps').textContent = fmtSizing(amps, 2) + ' A';
+  document.getElementById('rRawAh').textContent = fmtSizing(rawAh, 2) + ' Ah';
+  document.getElementById('rWh').textContent = fmtSizing(wh, 1) + ' Wh';
+  document.getElementById('rUsable').textContent = fmtSizing(usableAh, 1) + ' Ah';
   document.getElementById('rBattery').textContent = nearestBattery(ratedAh) + ' @ ' + voltage + 'V';
 }
 
+// Display only: normal values keep their usual rounding, but a tiny valid value that
+// would round to "0" is shown to 3 significant digits instead.
+function fmtSizing(n, decimals) {
+  return n > 0 && n < 0.5 * Math.pow(10, -decimals)
+    ? n.toLocaleString(undefined, { maximumSignificantDigits: 3 })
+    : fmtNum(n, decimals);
+}
+
+/* ---------- sizing calculator: Calculate / Recalculate / Reset ----------
+   calc-ux.js only wires up the first calculator on a page, so this one mirrors
+   its behaviour locally: validate first, focus the first invalid field, otherwise
+   move focus to the result. */
+
+const sizingPanel = loadValueInput.closest('.panel');
+const sizingResult = document.getElementById('sizingResult');
+const sizingFields = [loadValueInput, voltageSelect, customVolt, runtimeInput, lossesInput];
+const sizingToggleDefaults = [loadTypeToggle, document.getElementById('chemToggle')]
+  .map(row => row.querySelector('.toggle-btn.active'));
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function firstSizingInvalid() {
+  return Array.from(sizingPanel.querySelectorAll('[aria-invalid="true"]'))
+    .find(el => el.getClientRects().length) || null;
+}
+
+function stickyOffset() {
+  const rail = document.querySelector('.rail');
+  return rail && getComputedStyle(rail).position === 'sticky' && rail.getBoundingClientRect().top <= 0 && window.innerWidth <= 820
+    ? rail.offsetHeight : 0;
+}
+
+function runSizing(scroll) {
+  calculateSizing();
+  const bad = firstSizingInvalid();
+  if (bad) {
+    sizingResult.classList.remove('is-focused');
+    bad.focus();
+    return;
+  }
+  sizingResult.focus({ preventScroll: true });
+  sizingResult.classList.add('is-focused');
+  const top = sizingResult.getBoundingClientRect().top;
+  if (scroll && (top < stickyOffset() || top > window.innerHeight * 0.55)) {
+    sizingResult.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+  }
+}
+
+function resetSizing() {
+  // Toggles through their own click handlers so loadType / dod and the load label follow.
+  sizingToggleDefaults.forEach(btn => { if (btn && !btn.classList.contains('active')) btn.click(); });
+  sizingFields.forEach(el => {
+    if (el.tagName === 'SELECT') {
+      const def = Array.from(el.options).find(o => o.defaultSelected);
+      if (def) el.value = def.value;
+    } else {
+      el.value = el.defaultValue;
+    }
+  });
+  // Re-syncs the custom-voltage row visibility and recalculates.
+  voltageSelect.dispatchEvent(new Event('change'));
+  sizingResult.classList.remove('is-focused');
+  loadValueInput.focus();
+}
+
+document.getElementById('sizingCalcBtn').addEventListener('click', () => runSizing(true));
+document.getElementById('sizingRecalcBtn').addEventListener('click', () => runSizing(false));
+document.getElementById('sizingResetBtn').addEventListener('click', resetSizing);
+sizingResult.addEventListener('blur', () => sizingResult.classList.remove('is-focused'));
+
 calculate();
+calculateSizing();
 </script>
 <script src="../assets/nav.js?v=20260923" defer></script>
 <script src="../assets/theme.js" defer></script>
