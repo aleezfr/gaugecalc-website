@@ -958,6 +958,7 @@ function fmtSizing(n, decimals) {
    move focus to the result. */
 
 const sizingPanel = loadValueInput.closest('.panel');
+const sizingLayout = sizingPanel.closest('.calc-layout');
 const sizingResult = document.getElementById('sizingResult');
 const sizingFields = [loadValueInput, voltageSelect, customVolt, runtimeInput, lossesInput];
 const sizingToggleDefaults = [loadTypeToggle, document.getElementById('chemToggle')]
@@ -1005,7 +1006,13 @@ function resetSizing() {
   // Re-syncs the custom-voltage row visibility and recalculates.
   voltageSelect.dispatchEvent(new Event('change'));
   sizingResult.classList.remove('is-focused');
-  loadValueInput.focus();
+  // preventScroll so native focus-scroll can't fight the explicit scroll below.
+  loadValueInput.focus({ preventScroll: true });
+  const top = sizingLayout.getBoundingClientRect().top;
+  const offset = stickyOffset();
+  if (top < offset - 4 || top > offset + 80) {
+    sizingLayout.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+  }
 }
 
 document.getElementById('sizingCalcBtn').addEventListener('click', () => runSizing(true));
@@ -1018,6 +1025,6 @@ calculateSizing();
 </script>
 <script src="../assets/nav.js?v=20260925" defer></script>
 <script src="../assets/theme.js" defer></script>
-<script src="../assets/calc-ux.js?v=ee32d6b" defer></script>
+<script src="../assets/calc-ux.js?v=20260925-2" defer></script>
 </body>
 </html>

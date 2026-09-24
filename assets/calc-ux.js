@@ -87,6 +87,16 @@
     }
   }
 
+  // Mirrors showResult()'s "already in a good spot? don't jump" check, but
+  // for landing back on the calculator itself after Reset.
+  function scrollToCalculator() {
+    var top = layout.getBoundingClientRect().top;
+    var offset = stickyOffset();
+    if (top < offset - 4 || top > offset + 80) {
+      layout.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+
   function calculateAndShow() {
     runCalculation();
     var bad = firstInvalid();
@@ -160,9 +170,13 @@
 
   resultActions.querySelector('.calc-reset').addEventListener('click', function () {
     resetToDefaults();
-    // Back to the first input so the next run starts at the top of the form.
-    var first = inputPanel.querySelector('input:not([type="hidden"]), select');
     result.classList.remove('is-focused');
-    if (first && visible(first)) first.focus();
+    // Back to the first input so the next run starts at the top of the form —
+    // preventScroll so the browser's own focus-scroll can't fight the explicit
+    // scrollToCalculator() below (e.g. jump to a field that shifted position
+    // when toggles/device rows reset).
+    var first = inputPanel.querySelector('input:not([type="hidden"]), select');
+    if (first && visible(first)) first.focus({ preventScroll: true });
+    scrollToCalculator();
   });
 })();
