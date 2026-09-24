@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9125815530210447" crossorigin="anonymous"></script>
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voltage Drop Calculator (Free) — GaugeCalc</title>
+<meta name="description" content="Free DC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs. AC single-phase and three-phase modes are in development.">
+<link rel="canonical" href="https://gaugecalc.com/tools/voltage-drop-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Voltage Drop Calculator (Free) — GaugeCalc">
+<meta property="og:description" content="Free DC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs. AC single-phase and three-phase modes are in development.">
+<meta property="og:url" content="https://gaugecalc.com/tools/voltage-drop-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Voltage Drop Calculator (Free) — GaugeCalc">
+<meta name="twitter:description" content="Free DC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs. AC single-phase and three-phase modes are in development.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20260923">
+<style>
+  .toggle-btn[disabled] { opacity: 0.55; cursor: not-allowed; }
+  .toggle-btn[disabled]:hover { border-color: var(--border-strong); color: var(--text-muted); }
+  .gated-note { font-size: 0.82rem; color: var(--text-muted); margin: 8px 0 18px; line-height: 1.5; }
+  .size-result-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px dashed var(--border-strong); }
+  .size-result-row:last-child { border-bottom: none; }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Voltage Drop Calculator",
+  "url": "https://gaugecalc.com/tools/voltage-drop-calculator",
+  "description": "Calculates DC voltage drop, delivered voltage, drop percentage, maximum cable length, and thinnest passing cable size for a given AWG or mm² conductor, or a custom conductor resistance, in copper or aluminum. AC single-phase and three-phase modes are visible but not yet enabled pending a verified conductor reactance dataset.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Voltage Drop Calculator", "item": "https://gaugecalc.com/tools/voltage-drop-calculator" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you calculate DC voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Take the resistance of one conductor at your wire size, double it to account for the outgoing and return legs of the run, and multiply by the one-way cable length to get total loop resistance. Multiply loop resistance by current to get voltage drop, then subtract that from the supply voltage to get the voltage delivered at the load. This calculator runs that exact formula for you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between AWG and mm²?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AWG and mm² are two independent conductor sizing systems. AWG is numbered so that a lower number means a thicker conductor — the opposite direction from mm², where a larger number is always a thicker conductor. This calculator looks up resistance from whichever system you select using its own independently sourced data, rather than converting one system's size into the other."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much voltage drop is acceptable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no single universal limit. 3% and 5% are commonly used planning figures in various contexts, but the applicable limit depends on the governing standard, the specific equipment, and the system design. When you know the load's actual minimum operating voltage, entering it directly gives a more accurate check than any percentage guideline."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate 12V CCTV camera voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use DC mode with your camera's maximum current draw (including IR illuminators or heaters, not just idle current), your one-way cable length, and your wire gauge. The same loop-resistance formula used for any DC circuit applies directly to 12V and 24V camera runs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this calculator support AC or three-phase circuits yet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not yet as a working calculation. DC voltage drop is fully supported. AC single-phase and three-phase modes are visible in the mode selector but intentionally disabled, because they require a verified conductor reactance dataset that has not yet been sourced. Showing an AC result without that data would be misleading, so those modes remain gated until the data is in place."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does cable length affect voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Conductor resistance grows in direct proportion to length, so for the same current and wire size, doubling the one-way length doubles the loop resistance and the voltage drop. The calculator counts both the outgoing and return conductors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I enter a custom cable resistance instead of a wire size?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Switch the conductor system to \"Custom resistance\" and enter your cable's known resistance per unit length, choosing whether your figure is in ohms per 1000 feet or ohms per kilometer. This is useful when a cable's datasheet gives a resistance that differs from the standard AWG or mm² table."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / Voltage Drop Calculator</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>Voltage Drop Calculator</h1>
+      <p class="lead">
+        Check whether a DC cable run will deliver enough voltage at the load, find the maximum one-way cable
+        length a current and wire size can support, or find the thinnest cable size that still passes your
+        planning threshold. Supports AWG, mm&sup2;, and custom conductor resistance, in copper or aluminum.
+        AC single-phase and three-phase modes are shown below but not yet enabled.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <div class="panel">
+        <h2 id="elecModeHeading">Electrical mode</h2>
+        <div class="field" style="margin-bottom:6px;">
+          <div class="toggle-row" id="elecModeToggle" role="group" aria-labelledby="elecModeHeading">
+            <button type="button" class="toggle-btn active" data-value="dc" aria-pressed="true">DC</button>
+            <button type="button" class="toggle-btn" data-value="ac1" aria-pressed="false" aria-disabled="true" disabled>AC Single Phase</button>
+            <button type="button" class="toggle-btn" data-value="ac3" aria-pressed="false" aria-disabled="true" disabled>AC Three Phase</button>
+          </div>
+        </div>
+        <p class="gated-note" id="acGatedNote">
+          AC calculation is coming soon. Verified reactance data is required before this mode can calculate
+          results, so AC Single Phase and AC Three Phase are shown for context but cannot be selected yet. DC
+          voltage drop is fully functional below.
+        </p>
+
+        <h2 id="calcModeHeading">Calculation mode</h2>
+        <div class="field" style="margin-bottom:18px;">
+          <div class="toggle-row" id="calcModeToggle" role="group" aria-labelledby="calcModeHeading">
+            <button type="button" class="toggle-btn active" data-value="voltageDrop" aria-pressed="true">Voltage Drop</button>
+            <button type="button" class="toggle-btn" data-value="maxLength" aria-pressed="false">Maximum Cable Length</button>
+            <button type="button" class="toggle-btn" data-value="thinnestSize" aria-pressed="false">Thinnest Passing Cable Size</button>
+          </div>
+        </div>
+
+        <h2>Supply &amp; load</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="vSource">Supply voltage (V)</label>
+            <input type="number" id="vSource" min="0.1" max="1000" step="0.1" value="12" aria-describedby="vSourceError">
+          </div>
+          <div class="field">
+            <label for="currentBasis" id="currentBasisLabel">Load input</label>
+            <select id="currentBasis" aria-describedby="currentBasisHint">
+              <option value="amps" selected>Current (A)</option>
+              <option value="watts">Power (W)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field" id="currentField">
+            <label for="currentInput">Current (A)</label>
+            <input type="number" id="currentInput" min="0" max="1000" step="0.01" value="0.5" aria-describedby="currentHint currentError">
+            <span class="hint" id="currentHint">Use the load's maximum operating current, not an idle or typical figure.</span>
+            <span class="hint" id="currentZeroNote" style="display:none; color:var(--warn-text);">0 A means no load, so there is no voltage drop to calculate.</span>
+          </div>
+        </div>
+        <p class="field-error" id="currentError" role="alert" style="display:none;"></p>
+        <p class="field-error" id="vSourceError" role="alert" style="display:none;"></p>
+
+        <div class="field-row" id="lengthFieldRow">
+          <div class="field" id="cableLengthField">
+            <label for="cableLength">One-way cable length</label>
+            <input type="number" id="cableLength" min="0" max="50000" step="1" value="150" aria-describedby="cableLengthHint cableLengthError">
+            <span class="hint" id="cableLengthHint">Maximum 50,000 ft (15,240 m). Length is one-way — the formula already accounts for the return conductor.</span>
+          </div>
+          <div class="field">
+            <label for="lengthUnit" id="lengthUnitLabel">Unit</label>
+            <select id="lengthUnit">
+              <option value="ft" selected>Feet</option>
+              <option value="m">Meters</option>
+            </select>
+          </div>
+        </div>
+        <p class="field-error" id="cableLengthError" role="alert" style="display:none;"></p>
+
+        <h2 style="margin-top:18px;">Conductor</h2>
+        <div class="field" style="margin-bottom:14px;">
+          <div class="toggle-row" id="conductorSystemToggle" role="group" aria-label="Conductor system">
+            <button type="button" class="toggle-btn active" data-value="awg" aria-pressed="true">AWG</button>
+            <button type="button" class="toggle-btn" data-value="mm2" aria-pressed="false">mm&sup2;</button>
+            <button type="button" class="toggle-btn" data-value="custom" aria-pressed="false">Custom resistance</button>
+          </div>
+        </div>
+
+        <div class="field-row" id="sizeMaterialRow">
+          <div class="field">
+            <label for="conductorMaterial">Conductor material</label>
+            <select id="conductorMaterial" aria-describedby="materialHint">
+              <option value="copper" selected>Copper</option>
+              <option value="aluminum">Aluminum</option>
+            </select>
+            <span class="hint" id="materialHint" style="display:none;">Aluminum AWG data is not currently available in this calculator's verified 20&deg;C reference dataset. Switch to mm&sup2; for aluminum, or use custom resistance from your cable's datasheet.</span>
+          </div>
+          <div class="field">
+            <label for="conductorSize" id="conductorSizeLabel">Wire size (AWG)</label>
+            <select id="conductorSize"></select>
+          </div>
+        </div>
+
+        <div class="field-row" id="customRRow" style="display:none;">
+          <div class="field">
+            <label for="customR">Custom resistance (per unit length)</label>
+            <input type="number" id="customR" min="0" step="0.0001" placeholder="e.g. 6.385" aria-describedby="customRHint customRError">
+          </div>
+          <div class="field">
+            <label for="customRBasis">Resistance basis</label>
+            <select id="customRBasis">
+              <option value="per1000ft" selected>&Omega; / 1000 ft</option>
+              <option value="perKm">&Omega; / km</option>
+            </select>
+          </div>
+        </div>
+        <span class="hint" id="customRHint" style="display:none;">This is resistance per unit length for one conductor, not the total resistance of the run. The calculator doubles it for the return conductor and multiplies by length.</span>
+        <p class="field-error" id="customRError" role="alert" style="display:none;"></p>
+
+        <h2 style="margin-top:18px;">Limits</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="allowablePct" id="allowablePctLabel">Allowable voltage drop (%)</label>
+            <input type="number" id="allowablePct" min="0" max="100" step="0.5" value="10" aria-describedby="allowablePctHint allowablePctError">
+            <span class="hint" id="allowablePctHint">3% and 5% are common planning figures, not universal requirements — check the applicable standard or equipment spec.</span>
+          </div>
+          <div class="field">
+            <label for="minVoltage">Minimum/target end voltage (V) <span class="hint">optional</span></label>
+            <input type="number" id="minVoltage" min="0" step="0.1" placeholder="Leave blank if unknown" aria-describedby="minVoltageHint minVoltageError">
+            <span class="hint" id="minVoltageHint">If known from the load's datasheet, this is a more accurate check than a percentage alone.</span>
+          </div>
+        </div>
+        <p class="field-error" id="allowablePctError" role="alert" style="display:none;"></p>
+        <p class="field-error" id="minVoltageError" role="alert" style="display:none;"></p>
+      </div>
+
+      <div class="panel result-panel">
+        <!-- ================= VOLTAGE DROP RESULTS ================= -->
+        <div id="resultsVoltageDrop" aria-live="polite" role="status">
+          <h2>Voltage at load</h2>
+          <div class="result-hero">
+            <span class="value" id="resultVEnd">&mdash;</span><span class="unit">V</span>
+            <div class="caption" id="resultVEndCaption">delivered at the load</div>
+          </div>
+
+          <p style="margin:10px 0 16px;"><span class="status-pill ok" id="statusPill">&mdash;</span></p>
+
+          <div class="result-list">
+            <div class="result-row"><span class="k">Voltage drop</span><span class="v" id="rVDrop">&mdash;</span></div>
+            <div class="result-row"><span class="k">Voltage drop percentage</span><span class="v" id="rDropPct">&mdash;</span></div>
+            <div class="result-row"><span class="k">Loop resistance</span><span class="v" id="rLoopR">&mdash;</span></div>
+            <div class="result-row"><span class="k">Resistance basis</span><span class="v" id="rResistanceBasis">&mdash;</span></div>
+          </div>
+
+          <div class="recommend-box" id="explainBox">&mdash;</div>
+        </div>
+
+        <!-- ================= MAX LENGTH RESULTS ================= -->
+        <div id="resultsMaxLength" style="display:none;" aria-live="polite" role="status">
+          <h2>Maximum one-way cable length</h2>
+          <div class="result-hero">
+            <span class="value" id="resultMaxLength">&mdash;</span><span class="unit" id="resultMaxLengthUnit">ft</span>
+            <div class="caption">at this current, conductor, and limits</div>
+          </div>
+
+          <div class="result-list">
+            <div class="result-row"><span class="k">Limited by allowable %</span><span class="v" id="rLenPct">&mdash;</span></div>
+            <div class="result-row" id="rLenMinVRow" style="display:none;"><span class="k">Limited by minimum end voltage</span><span class="v" id="rLenMinV">&mdash;</span></div>
+            <div class="result-row"><span class="k">Resistance basis</span><span class="v" id="rResistanceBasisMaxLen">&mdash;</span></div>
+          </div>
+
+          <div class="recommend-box" id="maxLenNote">&mdash;</div>
+        </div>
+
+        <!-- ================= THINNEST PASSING SIZE RESULTS ================= -->
+        <div id="resultsThinnest" style="display:none;" aria-live="polite" role="status">
+          <h2>Thinnest passing cable size</h2>
+          <div class="result-hero">
+            <span class="value" id="resultThinnestSize">&mdash;</span>
+            <div class="caption" id="resultThinnestCaption">thinnest size that meets your limits</div>
+          </div>
+
+          <div class="result-list">
+            <div class="result-row"><span class="k">Voltage drop</span><span class="v" id="rThinDrop">&mdash;</span></div>
+            <div class="result-row"><span class="k">Voltage at load</span><span class="v" id="rThinVEnd">&mdash;</span></div>
+            <div class="result-row"><span class="k">Drop percentage</span><span class="v" id="rThinPct">&mdash;</span></div>
+            <div class="result-row"><span class="k">Resistance basis</span><span class="v" id="rResistanceBasisThin">&mdash;</span></div>
+          </div>
+
+          <div class="recommend-box" id="thinNextSizeBox">&mdash;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:8px;">
+      Calculations use nominal conductor resistance at 20&deg;C (68&deg;F). Actual resistance rises somewhat
+      with temperature, so hot or thermally exposed runs can show more real-world drop than shown here. AWG
+      and mm&sup2; are independent sizing systems with independently sourced resistance data — they are
+      never converted from one to the other. This is a planning calculation, not a field measurement, and it
+      does not certify compliance with any electrical code or standard.
+    </div>
+
+    <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot" role="complementary" aria-label="Advertisement">
+      <span class="ad-slot__label">Advertisement</span>
+    </div>
+-->
+
+    <article class="article">
+      <h2>How voltage drop is calculated</h2>
+      <p>
+        Current flowing through a conductor's resistance uses up some of the source voltage before it reaches
+        the load. The more current a load draws and the longer or thinner the cable, the more voltage is lost
+        in the wire itself, so the load receives less voltage than the supply puts out. This calculator's DC
+        mode runs that relationship directly; AC single-phase and three-phase modes use the same underlying
+        idea but also need a load's power factor and the conductor's reactance, which is why those modes stay
+        disabled until a verified reactance dataset is in place (see the assumptions section below).
+      </p>
+
+      <h2>DC voltage drop</h2>
+      <p>
+        Enter the supply voltage, the load's maximum current (or its power in watts, if you don't have the
+        current figure), the one-way cable length, and the conductor. The calculator looks up single-conductor
+        resistance from the AWG or mm&sup2; table (or uses a custom resistance you supply), doubles it to
+        account for the outgoing and return legs of the circuit, and multiplies by the one-way length to get
+        total loop resistance. Loop resistance multiplied by current gives the voltage drop; subtracting that
+        from the supply voltage gives the voltage actually delivered at the load.
+      </p>
+      <div class="note-box">
+        <strong>Formulas:</strong> R_loop = R_conductor &times; 2 &times; one-way length. V_drop = I &times;
+        R_loop. V_load = V_source &minus; V_drop. drop_percent = (V_drop / V_source) &times; 100. When current
+        isn't known directly: I = P / V, where P is the load's power in watts. R_conductor is the resistance
+        of <em>one</em> conductor &mdash; the &times;2 represents the outgoing and return legs of the circuit.
+      </div>
+      <p>
+        This is the same relationship that applies to any two-conductor DC circuit &mdash; a 12V or 24V
+        camera, a fire alarm initiating device circuit, a battery-charging run, or a solar DC distribution
+        run. Low-voltage systems are more sensitive to voltage drop than high-voltage ones because the same
+        1V of drop is a much larger fraction of a 12V supply than of a 120V one.
+      </p>
+
+      <h2>Cable size and conductor selection</h2>
+      <p>
+        AWG (American Wire Gauge) and mm&sup2; (cross-sectional area in square millimeters) are two
+        independent sizing systems, and this calculator supports both. In AWG, a <strong>lower</strong> number
+        means a <strong>thicker</strong> conductor with lower resistance &mdash; 12 AWG is thicker than 18
+        AWG. In mm&sup2;, it's the reverse: a <strong>larger</strong> number is always a thicker conductor.
+        Resistance is looked up independently from whichever system you select; the calculator does not
+        convert an AWG size into an approximate mm&sup2; equivalent or vice versa, because manufactured cable
+        in each system is specified and tested against its own standard, and treating the two as
+        interchangeable can understate or overstate real resistance.
+      </p>
+      <p>
+        Both copper and aluminum are supported where the underlying resistance data has been independently
+        verified at this calculator's 20&deg;C reference basis. Copper has lower resistance than aluminum at
+        the same size, so a copper conductor shows less drop than an aluminum one of the same size, length,
+        and current. <strong>Aluminum is currently only available with mm&sup2; sizing</strong>, not AWG
+        &mdash; selecting Aluminum while AWG is chosen will show why, rather than silently substituting a
+        copper value or an unverified figure.
+      </p>
+      <p>
+        If your cable's datasheet gives a resistance different from the standard tables &mdash; for a
+        specific manufacturer's construction, for example &mdash; switch the conductor system to
+        <strong>Custom resistance</strong> and enter it directly. Custom resistance is always resistance
+        <em>per unit length</em> for one conductor, never the total resistance of the run, and you choose
+        whether your figure is in ohms per 1000 feet or ohms per kilometer; the calculator converts both to a
+        common internal unit before calculating, so either entry method gives the same result for the same
+        physical cable.
+      </p>
+      <table>
+        <thead><tr><th>AWG</th><th>&Omega; / 1000 ft (copper, 20&deg;C)</th></tr></thead>
+        <tbody id="awgTableBody"></tbody>
+      </table>
+      <table style="margin-top:14px;">
+        <thead><tr><th>mm&sup2;</th><th>&Omega; / km (copper, 20&deg;C)</th><th>&Omega; / km (aluminum, 20&deg;C)</th></tr></thead>
+        <tbody id="mm2TableBody"></tbody>
+      </table>
+
+      <h2>How much voltage drop is acceptable</h2>
+      <p>
+        There is no single universal answer. 3% and 5% are commonly used as planning figures in various
+        contexts &mdash; 5% is often cited as a general guideline for a full circuit, 3% for a stricter split
+        or for more voltage-sensitive equipment &mdash; but neither is a blanket electrical code requirement
+        for every circuit. The correct limit for a specific job depends on the applicable standard, the
+        equipment's own tolerance, and the system design. This calculator lets you set 3%, 5%, or any custom
+        percentage, and separately lets you enter a minimum or target end voltage when you know it from the
+        equipment's datasheet &mdash; that direct figure is a stricter and more accurate check than any
+        percentage guideline.
+      </p>
+
+      <h2>Maximum cable length</h2>
+      <p>
+        Maximum Cable Length mode runs the same relationship backward: instead of computing drop from a known
+        length, it solves for the one-way length at which the drop would first reach your allowable
+        percentage, your entered minimum end voltage, or both. Because voltage drop is directly proportional
+        to length in this formula, solving for length is a direct calculation, not an estimate. If you supply
+        both a percentage and a minimum voltage, the calculator shows both limits separately and reports
+        which one is actually more restrictive for your inputs, rather than silently combining them into one
+        number.
+      </p>
+
+      <h2>Thinnest passing cable size</h2>
+      <p>
+        Thinnest Passing Cable Size mode checks each available conductor size, from thinnest to thickest, and
+        reports the first one whose calculated drop passes your selected limit, along with the next thicker
+        size for comparison. It's called "thinnest," not "smallest AWG," because a smaller AWG <em>number</em>
+        is actually a thicker conductor &mdash; the thinnest passing size is the one with the highest AWG
+        number (or the smallest mm&sup2; figure) that still meets your limit. If none of the available sizes
+        pass, the calculator says so directly rather than guessing at an unsupported larger size.
+      </p>
+
+      <h2>CCTV and ELV applications</h2>
+      <p>
+        CCTV cameras, fire alarm circuits, access control equipment, and other extra-low-voltage (ELV)
+        systems are all ordinary DC circuits from a voltage-drop standpoint, and this calculator applies to
+        all of them the same way.
+      </p>
+      <p>
+        <strong>12V and 24V CCTV cameras</strong> are especially sensitive to voltage drop because the supply
+        voltage is small to begin with. Many cameras draw noticeably more current at night, when IR
+        illuminators (and sometimes heaters) switch on. A run checked only against a camera's idle daytime
+        current can look fine and still fail after dark, once the added IR current pushes the actual drop
+        past what was verified. Always enter the camera's maximum operating current, including IR and any
+        other auxiliary load, not a typical or idle figure.
+      </p>
+      <p>
+        <strong>Fire alarm and access control circuits</strong> commonly apply their own voltage and current
+        requirements from the specific panel or device manufacturer, which can be stricter than a general
+        planning percentage. Check the applicable documentation for the actual system before relying on a
+        default threshold. <strong>Other low-voltage DC systems</strong> &mdash; battery charging runs, solar
+        DC distribution, general signaling circuits &mdash; use the same loop-resistance model shown above.
+        Always verify actual equipment requirements against the manufacturer's own documentation rather than
+        relying on this calculator's defaults alone.
+      </p>
+
+      <h2>Worked examples</h2>
+      <p>
+        <strong>Illustrative only.</strong> Your actual result depends on your own supply voltage, current,
+        length, conductor, and limits.
+      </p>
+      <h3>Example 1 &mdash; 12V CCTV camera</h3>
+      <p>12V DC supply, 0.5A maximum current, 150 ft one-way run, 18 AWG copper (6.385 &Omega;/1000 ft), 10% allowable drop, no minimum voltage entered.</p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Loop resistance</td><td>6.385 &Omega;/1000 ft &times; 2 &times; 150 ft = 1.9155 &Omega;</td></tr>
+          <tr><td>Voltage drop</td><td>0.5A &times; 1.9155 &Omega; = 0.958 V</td></tr>
+          <tr><td>Voltage at load</td><td>12V &minus; 0.958V = 11.04 V</td></tr>
+          <tr><td>Drop percentage</td><td>0.958 / 12 &times; 100 = 7.98%</td></tr>
+          <tr><td>Status</td><td>PASS against the 10% allowable drop (minimum voltage not provided)</td></tr>
+        </tbody>
+      </table>
+      <h3>Example 2 &mdash; 24V ELV run</h3>
+      <p>24V DC supply, 1A maximum current, 250 ft one-way run, 16 AWG copper (4.016 &Omega;/1000 ft), 10% allowable drop, no minimum voltage entered.</p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Loop resistance</td><td>4.016 &Omega;/1000 ft &times; 2 &times; 250 ft = 2.008 &Omega;</td></tr>
+          <tr><td>Voltage drop</td><td>1A &times; 2.008 &Omega; = 2.008 V</td></tr>
+          <tr><td>Voltage at load</td><td>24V &minus; 2.008V = 21.99 V</td></tr>
+          <tr><td>Drop percentage</td><td>2.008 / 24 &times; 100 = 8.37%</td></tr>
+          <tr><td>Status</td><td>PASS against the 10% allowable drop (minimum voltage not provided)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Assumptions and limitations</h2>
+      <ul>
+        <li><strong>20&deg;C reference temperature.</strong> All resistance values assume nominal conductor
+          resistance at 20&deg;C (68&deg;F). Real installation temperature (hot attics, direct sun, bundled
+          cable, conduit) raises actual resistance and therefore actual drop above what's shown here.</li>
+        <li><strong>Resistance is independently sourced per system and material.</strong> AWG copper, mm&sup2;
+          copper, and mm&sup2; aluminum each come from their own reference data at the same 20&deg;C basis;
+          none is derived from another by conversion.</li>
+        <li><strong>One-way length.</strong> Cable length is always the one-way distance from source to load
+          &mdash; the formula's &times;2 factor already accounts for the return conductor. Entering a
+          there-and-back total would double-count it.</li>
+        <li><strong>Copper vs aluminum.</strong> Aluminum is currently only available in mm&sup2; sizing; AWG
+          aluminum data has not been independently verified at the 20&deg;C basis this calculator uses, so it
+          is not offered rather than estimated.</li>
+        <li><strong>AC single-phase and three-phase are not yet enabled.</strong> Both modes require a
+          verified conductor reactance dataset that has not yet been sourced from an authoritative reference
+          covering the needed sizes and materials. Rather than showing an AC result built on incomplete or
+          approximated reactance data, those modes stay visibly disabled until that data is in place.</li>
+        <li><strong>Planning calculation, not a field measurement.</strong> Real connections, splices, and
+          supply voltage variation are not modeled. This calculator does not certify compliance with any
+          electrical code or standard &mdash; check the standard that actually applies to your installation.</li>
+      </ul>
+
+      <h2>Common mistakes</h2>
+      <p>
+        Recurring mistakes worth watching for: using the total there-and-back length instead of one-way
+        length; assuming a percentage-based PASS means the load is guaranteed to work when its actual minimum
+        voltage was never checked; treating an AWG size and its approximately similar mm&sup2; size as having
+        identical real resistance; misreading AWG numbering (a smaller number is a thicker, not thinner,
+        conductor); checking a CCTV run only against idle current and missing the night-time IR/heater
+        increase; applying one voltage-drop percentage to every circuit without checking what the applicable
+        standard or equipment actually requires; and treating this calculator's output as a field measurement
+        rather than a planning estimate.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How do you calculate DC voltage drop?</h3>
+      <p>Take the resistance of one conductor at your wire size, double it to account for the outgoing and return legs of the run, and multiply by the one-way cable length to get total loop resistance. Multiply loop resistance by current to get voltage drop, then subtract that from the supply voltage to get the voltage delivered at the load. This calculator runs that exact formula for you.</p>
+      <h3>What is the difference between AWG and mm&sup2;?</h3>
+      <p>AWG and mm&sup2; are two independent conductor sizing systems. AWG is numbered so that a lower number means a thicker conductor &mdash; the opposite direction from mm&sup2;, where a larger number is always a thicker conductor. This calculator looks up resistance from whichever system you select using its own independently sourced data, rather than converting one system's size into the other.</p>
+      <h3>How much voltage drop is acceptable?</h3>
+      <p>There is no single universal limit. 3% and 5% are commonly used planning figures in various contexts, but the applicable limit depends on the governing standard, the specific equipment, and the system design. When you know the load's actual minimum operating voltage, entering it directly gives a more accurate check than any percentage guideline.</p>
+      <h3>How do I calculate 12V CCTV camera voltage drop?</h3>
+      <p>Use DC mode with your camera's maximum current draw (including IR illuminators or heaters, not just idle current), your one-way cable length, and your wire gauge. The same loop-resistance formula used for any DC circuit applies directly to 12V and 24V camera runs.</p>
+      <h3>Does this calculator support AC or three-phase circuits yet?</h3>
+      <p>Not yet as a working calculation. DC voltage drop is fully supported. AC single-phase and three-phase modes are visible in the mode selector but intentionally disabled, because they require a verified conductor reactance dataset that has not yet been sourced. Showing an AC result without that data would be misleading, so those modes remain gated until the data is in place.</p>
+      <h3>How does cable length affect voltage drop?</h3>
+      <p>Conductor resistance grows in direct proportion to length, so for the same current and wire size, doubling the one-way length doubles the loop resistance and the voltage drop. The calculator counts both the outgoing and return conductors.</p>
+      <h3>Can I enter a custom cable resistance instead of a wire size?</h3>
+      <p>Yes. Switch the conductor system to "Custom resistance" and enter your cable's known resistance per unit length, choosing whether your figure is in ohms per 1000 feet or ohms per kilometer. This is useful when a cable's datasheet gives a resistance that differs from the standard AWG or mm&sup2; table.</p>
+
+      <h2>Related tools</h2>
+      <p>
+        Running CCTV cameras over PoE instead of DC? Check switch headroom with the
+        <a href="poe-budget-calculator">PoE Budget Calculator</a>. Sizing a battery for the same run? Use the
+        <a href="battery-backup-calculator">Battery Backup Calculator</a> or the
+        <a href="amp-hour-calculator">Amp Hour Calculator</a>. Planning a full CCTV install? See the
+        <a href="cctv-storage-calculator">CCTV Storage Calculator</a> and the
+        <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a>.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=Voltage%20Drop%20Calculator">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
+
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </aside>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and field guides for CCTV, PoE, and electrical installers — built on-site, not in a marketing meeting.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your equipment manufacturer's own datasheet.</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ==========================================================================
+   CONDUCTOR_DATA
+   Two independent, non-interchangeable sizing systems. AWG and mm2 values are
+   never derived from one another. Aluminum AWG intentionally has no `values`
+   entry -- see Step 4/5 engineering verification: no 20C-native source was
+   found, so it is not offered rather than estimated or converted from the
+   75C NEC Table 8 figures.
+   ========================================================================== */
+
+var CONDUCTOR_DATA = {
+  awg: {
+    // thickest -> thinnest
+    sizes: ['4/0','3/0','2/0','1/0','1','2','3','4','6','8','10','12','14','16','18','20','22','24'],
+    copper: {
+      unit: 'ohm_per_1000ft', temperatureBasisC: 20, basis: 'nominal annealed copper',
+      values: {
+        '24':25.67,'22':16.14,'20':10.15,'18':6.385,'16':4.016,'14':2.525,'12':1.588,
+        '10':0.9989,'8':0.6282,'6':0.3951,'4':0.2485,'3':0.1970,'2':0.1563,'1':0.1239,
+        '1/0':0.09827,'2/0':0.07793,'3/0':0.06180,'4/0':0.04901
+      }
+    },
+    aluminum: { available: false }
+  },
+  mm2: {
+    // thickest -> thinnest
+    sizes: ['95','70','50','35','25','16','10','6','4','2.5','1.5'],
+    copper: {
+      unit: 'ohm_per_km', temperatureBasisC: 20, basis: 'IEC 60228 max. DC resistance, Class 1 solid',
+      values: { '1.5':12.1,'2.5':7.41,'4':4.61,'6':3.08,'10':1.83,'16':1.15,'25':0.727,'35':0.524,'50':0.387,'70':0.268,'95':0.193 }
+    },
+    aluminum: {
+      unit: 'ohm_per_km', temperatureBasisC: 20, basis: 'IEC 60228 max. DC resistance',
+      values: { '10':3.08,'16':1.91,'25':1.20,'35':0.868,'50':0.641,'70':0.443,'95':0.320 }
+    }
+  }
+};
+
+var FT_PER_M = 3.28084;
+var FT_PER_KM = 3280.839895;
+
+function isFiniteNumber(n) { return typeof n === 'number' && isFinite(n) && !isNaN(n); }
+
+function fmtNum(n, decimals) {
+  decimals = decimals === undefined ? 2 : decimals;
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
+}
+
+/* ==========================================================================
+   Unit normalization -- all internal calculation uses ohms per foot and feet.
+   ========================================================================== */
+
+function resistancePerFt(value, basisUnit) {
+  // basisUnit: 'ohm_per_1000ft' | 'ohm_per_km'
+  if (basisUnit === 'ohm_per_km') return value / FT_PER_KM;
+  return value / 1000; // ohm_per_1000ft
+}
+
+function lengthToFeet(val, unit) { return unit === 'm' ? val * FT_PER_M : val; }
+function feetToUnit(ft, unit) { return unit === 'm' ? ft / FT_PER_M : ft; }
+
+/* ==========================================================================
+   Pure calculation engines
+   ========================================================================== */
+
+// DC: rLoop = rPerFt * 2 * lengthFt ; vDrop = current * rLoop ; vEnd = vSource - vDrop
+function calculateDCVoltageDrop(params) {
+  var vSource = params.vSource, current = params.current, lengthFt = params.lengthFt, rPerFt = params.rPerFt;
+  var rLoop = rPerFt * 2 * lengthFt;
+  var vDrop = current * rLoop;
+  var vEndRaw = vSource - vDrop;
+  var vEnd = Math.max(0, vEndRaw);
+  var dropPercent = vSource > 0 ? (vDrop / vSource) * 100 : 0;
+  return {
+    vSource: vSource, current: current, lengthFt: lengthFt, rPerFt: rPerFt,
+    rLoop: rLoop, vDrop: vDrop, vEndRaw: vEndRaw, vEnd: vEnd, dropPercent: dropPercent
+  };
+}
+
+// AC single phase: Vdrop = 2 * I * L * (R*PF + X*sqrt(1-PF^2))
+// PF and X are REQUIRED parameters with no internal default. This function is
+// implemented and unit-testable but is not wired to the user-facing UI until
+// a verified reactance (X) dataset is available -- see AC_GATED below.
+function calculateACSinglePhaseVoltageDrop(params) {
+  var vSource = params.vSource, current = params.current, lengthFt = params.lengthFt;
+  var r = params.r, x = params.x, pf = params.pf;
+  if (!isFiniteNumber(pf) || pf <= 0 || pf > 1) throw new Error('calculateACSinglePhaseVoltageDrop: pf must satisfy 0 < PF <= 1');
+  if (!isFiniteNumber(x)) throw new Error('calculateACSinglePhaseVoltageDrop: x is required (no silent default)');
+  var sinPhi = Math.sqrt(Math.max(0, 1 - pf * pf));
+  var rContribution = r * pf;
+  var xContribution = x * sinPhi;
+  var vDrop = 2 * current * lengthFt * (rContribution + xContribution);
+  var vEndRaw = vSource - vDrop;
+  var vEnd = Math.max(0, vEndRaw);
+  var dropPercent = vSource > 0 ? (vDrop / vSource) * 100 : 0;
+  return { vSource: vSource, current: current, lengthFt: lengthFt, pf: pf, r: r, x: x,
+    rContribution: rContribution, xContribution: xContribution,
+    vDrop: vDrop, vEndRaw: vEndRaw, vEnd: vEnd, dropPercent: dropPercent };
+}
+
+// AC three phase: Vdrop = sqrt(3) * I * L * (R*PF + X*sqrt(1-PF^2)) ; VLL basis
+function calculateACThreePhaseVoltageDrop(params) {
+  var vLL = params.vLL, current = params.current, lengthFt = params.lengthFt;
+  var r = params.r, x = params.x, pf = params.pf;
+  if (!isFiniteNumber(pf) || pf <= 0 || pf > 1) throw new Error('calculateACThreePhaseVoltageDrop: pf must satisfy 0 < PF <= 1');
+  if (!isFiniteNumber(x)) throw new Error('calculateACThreePhaseVoltageDrop: x is required (no silent default)');
+  var sinPhi = Math.sqrt(Math.max(0, 1 - pf * pf));
+  var rContribution = r * pf;
+  var xContribution = x * sinPhi;
+  var vDrop = Math.sqrt(3) * current * lengthFt * (rContribution + xContribution);
+  var vEndRaw = vLL - vDrop;
+  var vEnd = Math.max(0, vEndRaw);
+  var dropPercent = vLL > 0 ? (vDrop / vLL) * 100 : 0;
+  return { vLL: vLL, current: current, lengthFt: lengthFt, pf: pf, r: r, x: x,
+    rContribution: rContribution, xContribution: xContribution,
+    vDrop: vDrop, vEndRaw: vEndRaw, vEnd: vEnd, dropPercent: dropPercent };
+}
+
+// I = P / V (DC) ; I = P / (V * PF) (AC1) ; I = P / (sqrt(3) * VLL * PF) (AC3)
+function calculateCurrentFromWatts(params) {
+  var watts = params.watts, mode = params.mode, pf = params.pf;
+  if (mode === 'dc') {
+    var v = params.vSource;
+    if (!isFiniteNumber(v) || v <= 0) throw new Error('calculateCurrentFromWatts: vSource must be > 0');
+    return watts / v;
+  }
+  if (mode === 'ac1') {
+    if (!isFiniteNumber(pf) || pf <= 0 || pf > 1) throw new Error('calculateCurrentFromWatts: pf required, 0 < PF <= 1');
+    var v1 = params.vSource;
+    if (!isFiniteNumber(v1) || v1 <= 0) throw new Error('calculateCurrentFromWatts: vSource must be > 0');
+    return watts / (v1 * pf);
+  }
+  if (mode === 'ac3') {
+    if (!isFiniteNumber(pf) || pf <= 0 || pf > 1) throw new Error('calculateCurrentFromWatts: pf required, 0 < PF <= 1');
+    var vll = params.vLL;
+    if (!isFiniteNumber(vll) || vll <= 0) throw new Error('calculateCurrentFromWatts: vLL must be > 0');
+    return watts / (Math.sqrt(3) * vll * pf);
+  }
+  throw new Error('calculateCurrentFromWatts: unknown mode');
+}
+
+// Solves for one-way length given allowable % and/or a minimum end voltage.
+// Currently used in DC-only form from the UI (denom = current * rPerFt * 2).
+function calculateMaximumLength(params) {
+  var vSource = params.vSource, current = params.current, denomPerFt = params.denomPerFt;
+  var thresholdPercent = params.thresholdPercent, minVoltage = params.minVoltage;
+
+  if (!isFiniteNumber(current) || current <= 0 || !isFiniteNumber(denomPerFt) || denomPerFt <= 0) {
+    return { noLimit: true, reason: 'Zero current or zero resistance has no defined maximum length.' };
+  }
+
+  var lengthByThreshold = null, lengthByMinVoltage = null;
+  if (isFiniteNumber(thresholdPercent)) {
+    var maxDropVoltageThreshold = vSource * (thresholdPercent / 100);
+    lengthByThreshold = Math.max(0, maxDropVoltageThreshold / denomPerFt);
+  }
+  if (isFiniteNumber(minVoltage)) {
+    var maxAllowedDropMinV = vSource - minVoltage;
+    lengthByMinVoltage = Math.max(0, maxAllowedDropMinV / denomPerFt);
+  }
+
+  var effectiveLength, limitedBy;
+  if (lengthByThreshold !== null && lengthByMinVoltage !== null) {
+    if (lengthByMinVoltage < lengthByThreshold) { effectiveLength = lengthByMinVoltage; limitedBy = 'minVoltage'; }
+    else { effectiveLength = lengthByThreshold; limitedBy = 'threshold'; }
+  } else if (lengthByThreshold !== null) { effectiveLength = lengthByThreshold; limitedBy = 'threshold'; }
+  else if (lengthByMinVoltage !== null) { effectiveLength = lengthByMinVoltage; limitedBy = 'minVoltage'; }
+  else { return { noLimit: true, reason: 'No allowable percentage or minimum voltage was supplied.' }; }
+
+  return { noLimit: false, lengthByThreshold: lengthByThreshold, lengthByMinVoltage: lengthByMinVoltage,
+    effectiveLength: effectiveLength, limitedBy: limitedBy };
+}
+
+// Iterates a conductor table thinnest -> thickest, returns first PASS plus next-thicker comparison.
+// `sizesThinnestFirst` is ordered thinnest (index 0) to thickest (last index), so a higher index is
+// always a thicker conductor regardless of size system -- the next-thicker comparison must move to a
+// HIGHER index, never a lower one (a lower index would be thinner, e.g. a higher AWG number).
+function calculateThinnestPassingSize(params) {
+  var sizesThinnestFirst = params.sizesThinnestFirst; // already ordered thinnest -> thickest by caller
+  var evaluateFn = params.evaluateFn; // (size) => { passes: bool, result: {...} }
+  var passing = null, passingIndex = -1;
+  for (var i = 0; i < sizesThinnestFirst.length; i++) {
+    var outcome = evaluateFn(sizesThinnestFirst[i]);
+    if (outcome.passes) { passing = { size: sizesThinnestFirst[i], result: outcome.result }; passingIndex = i; break; }
+  }
+  if (!passing) {
+    var thickest = sizesThinnestFirst[sizesThinnestFirst.length - 1];
+    var thickestOutcome = evaluateFn(thickest);
+    return { passingSize: null, thickestAvailable: { size: thickest, result: thickestOutcome.result } };
+  }
+  var nextThicker = passingIndex < sizesThinnestFirst.length - 1 ? sizesThinnestFirst[passingIndex + 1] : null;
+  var nextThickerOutcome = nextThicker ? evaluateFn(nextThicker) : null;
+  return { passingSize: passing.size, result: passing.result,
+    nextThicker: nextThicker, nextThickerResult: nextThickerOutcome ? nextThickerOutcome.result : null };
+}
+
+/* ==========================================================================
+   AC engine self-test (internal only, synthetic PF=1/X=0 inputs).
+   Verifies formula architecture -- never used for a user-facing result.
+   Runs once at load; logs to console only, never touches the DOM.
+   ========================================================================== */
+(function acEngineSelfTest() {
+  try {
+    // PF=1, X=0 single-phase should reduce to 2*I*L*R, matching DC's *2*R form.
+    var ac1 = calculateACSinglePhaseVoltageDrop({ vSource: 12, current: 0.5, lengthFt: 150, r: 6.385/1000, x: 0, pf: 1 });
+    var dcEquiv = calculateDCVoltageDrop({ vSource: 12, current: 0.5, lengthFt: 150, rPerFt: 6.385/1000 });
+    console.assert(Math.abs(ac1.vDrop - dcEquiv.vDrop) < 1e-9, 'AC1 PF=1/X=0 should match DC vDrop');
+
+    // Three phase PF=1, X=0 should be sqrt(3)/2 times the single-phase PF=1 result for the same R/I/L.
+    var ac3 = calculateACThreePhaseVoltageDrop({ vLL: 208, current: 0.5, lengthFt: 150, r: 6.385/1000, x: 0, pf: 1 });
+    var expectedRatio = Math.sqrt(3) / 2;
+    console.assert(Math.abs(ac3.vDrop - ac1.vDrop * expectedRatio) < 1e-9, 'AC3/AC1 ratio should be sqrt(3)/2 at equal R/I/L/PF=1');
+
+    // Invalid PF must throw, never silently clamp.
+    var threw = false;
+    try { calculateACSinglePhaseVoltageDrop({ vSource: 12, current: 0.5, lengthFt: 150, r: 0.001, x: 0, pf: 1.5 }); }
+    catch (e) { threw = true; }
+    console.assert(threw, 'PF > 1 must throw, not silently clamp');
+
+    // Missing X must throw, never silently default to 0.
+    var threwX = false;
+    try { calculateACSinglePhaseVoltageDrop({ vSource: 12, current: 0.5, lengthFt: 150, r: 0.001, pf: 1 }); }
+    catch (e) { threwX = true; }
+    console.assert(threwX, 'Missing x must throw, not silently default');
+
+    console.log('[voltage-drop-calculator] AC engine self-test passed (internal architecture check only, not user-facing).');
+  } catch (e) {
+    console.error('[voltage-drop-calculator] AC engine self-test failed:', e);
+  }
+})();
+
+/* ==========================================================================
+   UI state
+   ========================================================================== */
+
+var elecMode = 'dc'; // 'ac1' / 'ac3' are architecturally supported but never reachable from the UI (Step 6 AC gating)
+var calcMode = 'voltageDrop';
+var conductorSystem = 'awg';
+
+var elecModeToggle = document.getElementById('elecModeToggle');
+var calcModeToggle = document.getElementById('calcModeToggle');
+var conductorSystemToggle = document.getElementById('conductorSystemToggle');
+
+var resultsVoltageDrop = document.getElementById('resultsVoltageDrop');
+var resultsMaxLength = document.getElementById('resultsMaxLength');
+var resultsThinnest = document.getElementById('resultsThinnest');
+
+var vSourceInput = document.getElementById('vSource');
+var currentBasisSelect = document.getElementById('currentBasis');
+var currentField = document.getElementById('currentField');
+var currentInput = document.getElementById('currentInput');
+var currentZeroNote = document.getElementById('currentZeroNote');
+var cableLengthField = document.getElementById('cableLengthField');
+var cableLengthInput = document.getElementById('cableLength');
+var lengthUnitSelect = document.getElementById('lengthUnit');
+var lengthUnitLabel = document.getElementById('lengthUnitLabel');
+var sizeMaterialRow = document.getElementById('sizeMaterialRow');
+var conductorMaterialSelect = document.getElementById('conductorMaterial');
+var conductorSizeSelect = document.getElementById('conductorSize');
+var conductorSizeLabel = document.getElementById('conductorSizeLabel');
+var materialHint = document.getElementById('materialHint');
+var customRRow = document.getElementById('customRRow');
+var customRInput = document.getElementById('customR');
+var customRBasisSelect = document.getElementById('customRBasis');
+var customRHint = document.getElementById('customRHint');
+var allowablePctInput = document.getElementById('allowablePct');
+var minVoltageInput = document.getElementById('minVoltage');
+
+var vSourceError = document.getElementById('vSourceError');
+var currentError = document.getElementById('currentError');
+var cableLengthError = document.getElementById('cableLengthError');
+var customRError = document.getElementById('customRError');
+var allowablePctError = document.getElementById('allowablePctError');
+var minVoltageError = document.getElementById('minVoltageError');
+
+function showFieldError(el, msg) { el.textContent = msg; el.style.display = 'block'; }
+function clearFieldError(el) { el.textContent = ''; el.style.display = 'none'; }
+function setInvalid(input, invalid) { if (invalid) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid'); }
+function capFirst(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function setActiveToggle(container, btn) {
+  container.querySelectorAll('.toggle-btn').forEach(function (b) {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+}
+
+/* ---------- Electrical mode toggle: DC only is activatable (Step 6 AC gating) ---------- */
+
+elecModeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    if (btn.disabled || btn.getAttribute('aria-disabled') === 'true') return; // disabled AC buttons never change state
+    if (btn.dataset.value !== 'dc') return; // only DC is selectable in this step
+    setActiveToggle(elecModeToggle, btn);
+    elecMode = 'dc';
+    calculate();
+  });
+  btn.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && (btn.disabled || btn.getAttribute('aria-disabled') === 'true')) {
+      e.preventDefault(); // disabled AC buttons never activate via keyboard either
+    }
+  });
+});
+
+/* ---------- Calculation mode toggle ---------- */
+
+calcModeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    setActiveToggle(calcModeToggle, btn);
+    calcMode = btn.dataset.value;
+    resultsVoltageDrop.style.display = calcMode === 'voltageDrop' ? 'block' : 'none';
+    resultsMaxLength.style.display = calcMode === 'maxLength' ? 'block' : 'none';
+    resultsThinnest.style.display = calcMode === 'thinnestSize' ? 'block' : 'none';
+    cableLengthField.style.display = calcMode === 'voltageDrop' ? '' : 'none';
+    lengthUnitLabel.textContent = calcMode === 'voltageDrop' ? 'Unit' : 'Result unit';
+    calculate();
+  });
+});
+
+/* ---------- Conductor system toggle: AWG / mm2 / Custom resistance ---------- */
+
+conductorSystemToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    setActiveToggle(conductorSystemToggle, btn);
+    conductorSystem = btn.dataset.value;
+    sizeMaterialRow.style.display = conductorSystem === 'custom' ? 'none' : '';
+    customRRow.style.display = conductorSystem === 'custom' ? '' : 'none';
+    customRHint.style.display = conductorSystem === 'custom' ? 'block' : 'none';
+    conductorSizeLabel.textContent = conductorSystem === 'mm2' ? 'Wire size (mm²)' : 'Wire size (AWG)';
+    populateSizeOptions();
+    syncMaterialAvailability();
+    calculate();
+  });
+});
+
+conductorMaterialSelect.addEventListener('change', function () { populateSizeOptions(); calculate(); });
+
+function syncMaterialAvailability() {
+  var alOption = conductorMaterialSelect.querySelector('option[value="aluminum"]');
+  if (conductorSystem === 'awg') {
+    alOption.disabled = true;
+    materialHint.style.display = 'block';
+    if (conductorMaterialSelect.value === 'aluminum') conductorMaterialSelect.value = 'copper';
+  } else {
+    alOption.disabled = false;
+    materialHint.style.display = 'none';
+  }
+}
+
+function populateSizeOptions() {
+  var sys = conductorSystem === 'mm2' ? 'mm2' : 'awg';
+  var sizes = CONDUCTOR_DATA[sys].sizes; // thickest -> thinnest, matches natural size-selector order
+  conductorSizeSelect.innerHTML = '';
+  sizes.forEach(function (s) {
+    var opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = sys === 'mm2' ? (s + ' mm²') : (s + ' AWG');
+    conductorSizeSelect.appendChild(opt);
+  });
+  // default selection: keep a mid-range value so the initial demo state matches the worked example (18 AWG)
+  if (sys === 'awg') conductorSizeSelect.value = '18';
+}
+
+/* ---------- Inputs triggering recalculation ---------- */
+
+[vSourceInput, currentBasisSelect, currentInput, cableLengthInput, lengthUnitSelect,
+ conductorSizeSelect, customRInput, customRBasisSelect, allowablePctInput, minVoltageInput].forEach(function (el) {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+currentBasisSelect.addEventListener('change', function () {
+  var isWatts = currentBasisSelect.value === 'watts';
+  document.querySelector('label[for="currentInput"]').textContent = isWatts ? 'Power (W)' : 'Current (A)';
+  document.getElementById('currentHint').textContent = isWatts
+    ? "Use the load's rated power, not a typical or average figure."
+    : "Use the load's maximum operating current, not an idle or typical figure.";
+});
+
+/* ---------- Validation ---------- */
+
+function validateNumberField(input, errorEl, opts) {
+  var label = opts.label;
+  var raw = String(input.value).trim();
+  var msg = null, num = NaN;
+
+  if (input.validity && input.validity.badInput) {
+    msg = 'Enter a valid number for the ' + label + '.';
+  } else if (raw === '') {
+    msg = 'Enter the ' + label + '.';
+  } else {
+    num = parseFloat(raw);
+    if (!isFiniteNumber(num)) msg = 'Enter a valid number for the ' + label + '.';
+    else if (num < opts.min) msg = capFirst(label) + (opts.min === 0 ? ' can’t be negative.' : ' is below the minimum allowed value.');
+    else if (opts.max !== undefined && num > opts.max) msg = capFirst(label) + ' can’t exceed ' + opts.maxText + '.';
+  }
+
+  if (msg !== null) { showFieldError(errorEl, msg); setInvalid(input, true); return null; }
+  clearFieldError(errorEl); setInvalid(input, false); return num;
+}
+
+function validateOptionalVoltage(input, errorEl, vSource) {
+  var raw = input.value.trim();
+  if (input.validity && input.validity.badInput) {
+    showFieldError(errorEl, 'Enter a valid number, or leave it blank.'); setInvalid(input, true); return { ok: false, value: null };
+  }
+  if (raw === '') { clearFieldError(errorEl); setInvalid(input, false); return { ok: true, value: null }; }
+  var n = parseFloat(raw);
+  var msg = null;
+  if (!isFiniteNumber(n)) msg = 'Enter a valid number, or leave it blank.';
+  else if (n < 0) msg = 'Minimum/target voltage can’t be negative.';
+  else if (isFiniteNumber(vSource) && n >= vSource) msg = 'Minimum/target voltage can’t be equal to or greater than the supply voltage.';
+  if (msg !== null) { showFieldError(errorEl, msg); setInvalid(input, true); return { ok: false, value: null }; }
+  clearFieldError(errorEl); setInvalid(input, false); return { ok: true, value: n };
+}
+
+function getResistancePerFt() {
+  if (conductorSystem === 'custom') {
+    var raw = customRInput.value.trim();
+    if (customRInput.validity && customRInput.validity.badInput) {
+      showFieldError(customRError, 'Enter a valid positive resistance per unit length.'); setInvalid(customRInput, true);
+      return { error: true };
+    }
+    if (raw === '') {
+      showFieldError(customRError, 'Enter a custom resistance value, or switch to AWG or mm².'); setInvalid(customRInput, true);
+      return { error: true };
+    }
+    var n = parseFloat(raw);
+    if (!isFiniteNumber(n) || n <= 0 || n > 100000) {
+      showFieldError(customRError, 'Custom resistance must be a positive number.'); setInvalid(customRInput, true);
+      return { error: true };
+    }
+    clearFieldError(customRError); setInvalid(customRInput, false);
+    var basisUnit = customRBasisSelect.value === 'perKm' ? 'ohm_per_km' : 'ohm_per_1000ft';
+    var basisLabel = customRBasisSelect.value === 'perKm' ? 'Ω/km' : 'Ω/1000ft';
+    return { error: false, rPerFt: resistancePerFt(n, basisUnit),
+      source: 'Custom resistance (' + fmtNum(n, 4) + ' ' + basisLabel + ')' };
+  }
+
+  var sys = conductorSystem === 'mm2' ? 'mm2' : 'awg';
+  var material = conductorMaterialSelect.value;
+  var matData = CONDUCTOR_DATA[sys][material];
+  if (!matData || matData.available === false || !matData.values) {
+    return { error: true, unavailable: true };
+  }
+  var size = conductorSizeSelect.value;
+  var raw2 = matData.values[size];
+  if (raw2 === undefined) return { error: true, unavailable: true };
+  clearFieldError(customRError); setInvalid(customRInput, false);
+  var label = sys === 'mm2' ? (size + ' mm²') : (size + ' AWG');
+  var matLabel = material === 'aluminum' ? 'aluminum' : 'copper';
+  var unitLabel = matData.unit === 'ohm_per_km' ? 'Ω/km' : 'Ω/1000ft';
+  return { error: false, rPerFt: resistancePerFt(raw2, matData.unit),
+    source: label + ' ' + matLabel + ' (' + fmtNum(raw2, 4) + ' ' + unitLabel + ', ' + matData.temperatureBasisC + '°C)' };
+}
+
+/* ---------- Rendering helpers ---------- */
+
+function renderVoltageDropResult(ev, vSource, thresholdPct, minV, rInfo) {
+  var vMinKnown = minV !== null;
+  var status;
+  if (ev.vEndRaw <= 0 || (vMinKnown && ev.vEnd < minV)) status = 'over';
+  else if (ev.dropPercent <= thresholdPct + 1e-9 && (!vMinKnown || ev.vEnd >= minV)) status = 'ok';
+  else status = 'warn';
+  var statusText = status === 'over' ? 'FAIL' : (status === 'ok' ? 'PASS' : 'CAUTION');
+
+  var sentence;
+  if (ev.vEndRaw <= 0) {
+    sentence = 'The supply starts at ' + fmtNum(vSource, 2) + 'V. Cable resistance would cause approximately ' +
+      fmtNum(ev.vDrop, 2) + ' V of drop (' + fmtNum(ev.dropPercent, 1) + '%), which equals or exceeds the supply voltage, so no usable voltage would reach the load at this length, current and conductor. Shorten the run, use a larger conductor, or reduce the load.';
+  } else {
+    sentence = 'The supply starts at ' + fmtNum(vSource, 2) + 'V. Cable resistance causes approximately ' +
+      fmtNum(ev.vDrop, 2) + ' V of drop, leaving approximately ' + fmtNum(ev.vEnd, 2) + ' V at the load (' +
+      fmtNum(ev.dropPercent, 1) + '% drop).';
+    if (statusText === 'FAIL') {
+      sentence += ' This is below the minimum/target voltage you entered (' + fmtNum(minV, 2) + ' V).';
+    } else if (statusText === 'CAUTION' && vMinKnown) {
+      sentence += ' Delivered voltage meets the minimum you entered, but the drop exceeds your ' + fmtNum(thresholdPct, 1) + '% allowable limit — some margin has already been used.';
+    } else if (statusText === 'CAUTION') {
+      sentence += ' The calculated voltage drop is above your selected allowable percentage. Without a minimum voltage entered, this tool cannot tell whether the load will still operate reliably.';
+    } else if (vMinKnown) {
+      sentence += ' This meets both your ' + fmtNum(thresholdPct, 1) + '% allowable limit and the minimum/target voltage you entered.';
+    } else {
+      sentence += ' This meets your ' + fmtNum(thresholdPct, 1) + '% allowable limit. No minimum/target voltage was provided, so this is a planning assessment only.';
+    }
+  }
+
+  document.getElementById('resultVEnd').textContent = ev.vEndRaw <= 0 ? '0' : fmtNum(ev.vEnd, 2);
+  document.getElementById('resultVEndCaption').textContent = ev.vEndRaw <= 0 ? '0 V (drop reaches the supply voltage)' : 'delivered at the load';
+  document.getElementById('rVDrop').textContent = fmtNum(ev.vDrop, 2) + ' V';
+  document.getElementById('rDropPct').textContent = fmtNum(ev.dropPercent, 1) + '%';
+  document.getElementById('rLoopR').textContent = fmtNum(ev.rLoop, 4) + ' Ω';
+  document.getElementById('rResistanceBasis').textContent = rInfo.source;
+  var pill = document.getElementById('statusPill');
+  pill.classList.remove('ok', 'warn', 'over'); pill.classList.add(status); pill.textContent = statusText;
+  document.getElementById('explainBox').textContent = sentence;
+}
+
+function renderVoltageDropBlocked(message, caption) {
+  document.getElementById('resultVEnd').textContent = '—';
+  document.getElementById('resultVEndCaption').textContent = caption;
+  document.getElementById('rVDrop').textContent = '—';
+  document.getElementById('rDropPct').textContent = '—';
+  document.getElementById('rLoopR').textContent = '—';
+  document.getElementById('rResistanceBasis').textContent = '—';
+  var pill = document.getElementById('statusPill');
+  pill.classList.remove('ok', 'warn', 'over'); pill.textContent = '—';
+  document.getElementById('explainBox').textContent = message;
+}
+
+function renderMaxLengthResult(res, unit, rInfo) {
+  document.getElementById('rResistanceBasisMaxLen').textContent = rInfo.source;
+  if (res.noLimit) {
+    document.getElementById('resultMaxLength').textContent = '—';
+    document.getElementById('rLenPct').textContent = '—';
+    document.getElementById('rLenMinVRow').style.display = 'none';
+    document.getElementById('maxLenNote').textContent = res.reason;
+    return;
+  }
+  var unitLabel = unit === 'm' ? 'm' : 'ft';
+  document.getElementById('resultMaxLength').textContent = fmtNum(feetToUnit(res.effectiveLength, unit), 1);
+  document.getElementById('resultMaxLengthUnit').textContent = unitLabel;
+  document.getElementById('rLenPct').textContent = res.lengthByThreshold !== null ? fmtNum(feetToUnit(res.lengthByThreshold, unit), 1) + ' ' + unitLabel : '—';
+  var minVRow = document.getElementById('rLenMinVRow');
+  if (res.lengthByMinVoltage !== null) {
+    minVRow.style.display = 'flex';
+    document.getElementById('rLenMinV').textContent = fmtNum(feetToUnit(res.lengthByMinVoltage, unit), 1) + ' ' + unitLabel;
+  } else { minVRow.style.display = 'none'; }
+  var note = document.getElementById('maxLenNote');
+  if (res.limitedBy === 'minVoltage') note.innerHTML = '<strong>Limited by your minimum/target end voltage.</strong> The allowable percentage would permit a longer run, but the entered minimum voltage is more restrictive.';
+  else if (res.lengthByMinVoltage !== null) note.innerHTML = '<strong>Limited by your allowable percentage.</strong> The minimum/target voltage would permit a longer run, but the percentage limit is more restrictive.';
+  else note.innerHTML = '<strong>Limited by your allowable percentage.</strong> No minimum/target voltage was entered, so this is a planning-only limit.';
+}
+
+function renderMaxLengthBlocked(message) {
+  document.getElementById('resultMaxLength').textContent = '—';
+  document.getElementById('resultMaxLengthUnit').textContent = '';
+  document.getElementById('rLenPct').textContent = '—';
+  document.getElementById('rLenMinVRow').style.display = 'none';
+  document.getElementById('rResistanceBasisMaxLen').textContent = '—';
+  document.getElementById('maxLenNote').textContent = message;
+}
+
+function renderThinnestResult(outcome, sys, thresholdPct, minV) {
+  if (!outcome.passingSize) {
+    document.getElementById('resultThinnestSize').textContent = 'None pass';
+    document.getElementById('resultThinnestCaption').textContent = 'no available size meets your limits';
+    document.getElementById('rThinDrop').textContent = '—';
+    document.getElementById('rThinVEnd').textContent = '—';
+    document.getElementById('rThinPct').textContent = '—';
+    document.getElementById('rResistanceBasisThin').textContent = '—';
+    var thickR = outcome.thickestAvailable.result;
+    document.getElementById('thinNextSizeBox').textContent = 'Even the thickest available size (' +
+      (sys === 'mm2' ? outcome.thickestAvailable.size + ' mm²' : outcome.thickestAvailable.size + ' AWG') +
+      ') shows ' + fmtNum(thickR.dropPercent, 1) + '% drop, which does not meet your selected limit. Shorten the run or reduce the current.';
+    return;
+  }
+  var r = outcome.result;
+  var sizeLabel = sys === 'mm2' ? outcome.passingSize + ' mm²' : outcome.passingSize + ' AWG';
+  document.getElementById('resultThinnestSize').textContent = sizeLabel;
+  document.getElementById('resultThinnestCaption').textContent = 'thinnest size that meets your limits (a lower AWG number is thicker; a larger mm² number is thicker)';
+  document.getElementById('rThinDrop').textContent = fmtNum(r.vDrop, 2) + ' V';
+  document.getElementById('rThinVEnd').textContent = fmtNum(r.vEnd, 2) + ' V';
+  document.getElementById('rThinPct').textContent = fmtNum(r.dropPercent, 1) + '%';
+  document.getElementById('rResistanceBasisThin').textContent = sizeLabel + ' (' + fmtNum(r.dropPercent,1) + '% at this current/length)';
+  var box = document.getElementById('thinNextSizeBox');
+  if (outcome.nextThicker) {
+    var nr = outcome.nextThickerResult;
+    var nextLabel = sys === 'mm2' ? outcome.nextThicker + ' mm²' : outcome.nextThicker + ' AWG';
+    box.textContent = 'The next thicker size, ' + nextLabel + ', would show ' + fmtNum(nr.dropPercent, 1) + '% drop instead — more margin, at a larger conductor.';
+  } else {
+    box.textContent = 'This is already the thickest size in the table.';
+  }
+}
+
+function renderThinnestBlocked(message) {
+  document.getElementById('resultThinnestSize').textContent = '—';
+  document.getElementById('resultThinnestCaption').textContent = message;
+  document.getElementById('rThinDrop').textContent = '—';
+  document.getElementById('rThinVEnd').textContent = '—';
+  document.getElementById('rThinPct').textContent = '—';
+  document.getElementById('rResistanceBasisThin').textContent = '—';
+  document.getElementById('thinNextSizeBox').textContent = message;
+}
+
+/* ---------- Orchestration ---------- */
+
+function calculate() {
+  var vSource = validateNumberField(vSourceInput, vSourceError, { label: 'supply voltage', min: 0.1, max: 1000, maxText: '1000 V' });
+  var valid = vSource !== null;
+
+  var isWatts = currentBasisSelect.value === 'watts';
+  var currentRaw = validateNumberField(currentInput, currentError, {
+    label: isWatts ? 'power' : 'current', min: 0, max: isWatts ? 100000 : 1000, maxText: isWatts ? '100,000 W' : '1000 A'
+  });
+  if (currentRaw === null) valid = false;
+
+  var current = null;
+  if (valid) {
+    if (isWatts) {
+      current = vSource > 0 ? calculateCurrentFromWatts({ watts: currentRaw, mode: 'dc', vSource: vSource }) : null;
+    } else {
+      current = currentRaw;
+    }
+  }
+  currentZeroNote.style.display = (current === 0) ? '' : 'none';
+
+  var forward = calcMode === 'voltageDrop';
+  var length = null;
+  if (forward) {
+    var unit = lengthUnitSelect.value;
+    cableLengthInput.max = unit === 'm' ? 15240 : 50000;
+    length = validateNumberField(cableLengthInput, cableLengthError, {
+      label: 'one-way cable length', min: 0, max: unit === 'm' ? 15240 : 50000,
+      maxText: unit === 'm' ? '15,240 m' : '50,000 ft'
+    });
+    if (length === null) valid = false;
+  } else {
+    clearFieldError(cableLengthError); setInvalid(cableLengthInput, false);
+  }
+
+  var thresholdPct = validateNumberField(allowablePctInput, allowablePctError, { label: 'allowable voltage drop', min: 0, max: 100, maxText: '100%' });
+  if (thresholdPct === null) valid = false;
+
+  var minV = validateOptionalVoltage(minVoltageInput, minVoltageError, vSource);
+  if (!minV.ok) valid = false;
+
+  var rInfo = getResistancePerFt();
+  if (rInfo.error) valid = false;
+
+  if (!valid) {
+    var blockedMsg = rInfo.unavailable
+      ? 'Select a material this calculator has verified data for, or switch to custom resistance.'
+      : 'Fix the highlighted input above to see a result.';
+    if (calcMode === 'voltageDrop') renderVoltageDropBlocked(blockedMsg, 'enter valid values');
+    else if (calcMode === 'maxLength') renderMaxLengthBlocked(blockedMsg);
+    else renderThinnestBlocked(blockedMsg);
+    return;
+  }
+
+  if (current === 0) {
+    var zeroMsg = '0 means no load, so there is no voltage drop to calculate. Enter the load’s actual maximum current or power.';
+    if (calcMode === 'voltageDrop') renderVoltageDropBlocked(zeroMsg, 'enter a current above 0');
+    else if (calcMode === 'maxLength') renderMaxLengthBlocked(zeroMsg);
+    else renderThinnestBlocked(zeroMsg);
+    return;
+  }
+
+  if (calcMode === 'voltageDrop') {
+    var lengthFt = lengthToFeet(length, unit);
+    var ev = calculateDCVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt, rPerFt: rInfo.rPerFt });
+    renderVoltageDropResult(ev, vSource, thresholdPct, minV.value, rInfo);
+  } else if (calcMode === 'maxLength') {
+    var denomPerFt = current * rInfo.rPerFt * 2;
+    var res = calculateMaximumLength({ vSource: vSource, current: current, denomPerFt: denomPerFt, thresholdPercent: thresholdPct, minVoltage: minV.value });
+    renderMaxLengthResult(res, lengthUnitSelect.value, rInfo);
+  } else {
+    if (conductorSystem === 'custom') {
+      renderThinnestBlocked('Thinnest passing cable size requires AWG or mm² conductor selection, not a custom resistance.');
+      return;
+    }
+    var sys = conductorSystem === 'mm2' ? 'mm2' : 'awg';
+    var material = conductorMaterialSelect.value;
+    var matData = CONDUCTOR_DATA[sys][material];
+    if (!matData || matData.available === false || !matData.values) {
+      renderThinnestBlocked('Select a material this calculator has verified data for.');
+      return;
+    }
+    var sizesThickestFirst = CONDUCTOR_DATA[sys].sizes;
+    var sizesThinnestFirst = sizesThickestFirst.slice().reverse();
+    var lengthFt2 = lengthToFeet(length !== null ? length : cableLengthInput.value, lengthUnitSelect.value);
+    // Thinnest Passing Cable Size still needs a length; if calc mode was switched without a length field shown, use the last entered value.
+    var outcome = calculateThinnestPassingSize({
+      sizesThinnestFirst: sizesThinnestFirst,
+      evaluateFn: function (size) {
+        var rPerFtCandidate = resistancePerFt(matData.values[size], matData.unit);
+        var evc = calculateDCVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt2, rPerFt: rPerFtCandidate });
+        var passes = evc.vEndRaw > 0 && evc.dropPercent <= thresholdPct + 1e-9 && (minV.value === null || evc.vEnd >= minV.value);
+        return { passes: passes, result: evc };
+      }
+    });
+    renderThinnestResult(outcome, sys, thresholdPct, minV.value);
+  }
+}
+
+/* ---------- Reference tables (article) ---------- */
+
+(function buildReferenceTables() {
+  var awgBody = document.getElementById('awgTableBody');
+  var awgHtml = '';
+  CONDUCTOR_DATA.awg.sizes.forEach(function (g) {
+    awgHtml += '<tr><td>' + g + ' AWG</td><td>' + fmtNum(CONDUCTOR_DATA.awg.copper.values[g], 4) + '</td></tr>';
+  });
+  awgBody.innerHTML = awgHtml;
+
+  var mm2Body = document.getElementById('mm2TableBody');
+  var mm2Html = '';
+  CONDUCTOR_DATA.mm2.sizes.forEach(function (g) {
+    var cu = CONDUCTOR_DATA.mm2.copper.values[g];
+    var al = CONDUCTOR_DATA.mm2.aluminum.values[g];
+    mm2Html += '<tr><td>' + g + ' mm²</td><td>' + fmtNum(cu, 3) + '</td><td>' + (al !== undefined ? fmtNum(al, 3) : '—') + '</td></tr>';
+  });
+  mm2Body.innerHTML = mm2Html;
+})();
+
+/* ---------- Init ---------- */
+
+populateSizeOptions();
+syncMaterialAvailability();
+calculate();
+</script>
+<script src="../assets/nav.js?v=20260923" defer></script>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/calc-ux.js?v=ee32d6b" defer></script>
+</body>
+</html>
