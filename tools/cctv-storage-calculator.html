@@ -400,6 +400,14 @@
         above. This calculator doesn't solve for retention days directly; run your setup above to get that
         per-day figure, then divide it into your drive's capacity for an estimate.
       </p>
+      <p>
+        For example, using this page's own default setup — 8 cameras, 4MP, 15 fps, H.265, continuous 24/7
+        recording — storage works out to about 168.5 GB per day for all 8 cameras combined. A 1 TB drive would
+        hold roughly 1,000 ÷ 168.5 ≈ 5.9 days of footage, and a 4 TB drive roughly 4,000 ÷ 168.5 ≈ 23.7 days.
+        These figures apply only to this exact setup — change the camera count, resolution, fps, codec,
+        recording mode/activity, or recording hours per day, and both the storage-per-day figure and the
+        number of days a 1 TB or 4 TB drive lasts will change with it.
+      </p>
 
       <h2>Frequently asked questions</h2>
       <h3>Should I use this or the NVR Storage Calculator?</h3>
@@ -669,20 +677,26 @@ function clearErrors() {
   [numCamerasInput, retentionInput, motionPctInput, customBitrateInput].forEach(el => el.removeAttribute('aria-invalid'));
 }
 
+// Blank stays NaN (Number('') would be 0), so an empty field is reported, never coerced.
+function readNumber(el) {
+  const raw = el.value.trim();
+  return raw === '' ? NaN : Number(raw);
+}
+
 // Reads and validates all numeric inputs. Returns null (and shows inline errors)
-// instead of silently clamping obviously invalid values.
+// instead of silently clamping or truncating obviously invalid values.
 function readAndValidate() {
   clearErrors();
   let valid = true;
 
-  const numCameras = parseInt(numCamerasInput.value, 10);
+  const numCameras = readNumber(numCamerasInput);
   if (!Number.isInteger(numCameras) || numCameras < 1 || numCameras > 256) {
     showError(camerasError, 'Enter a whole number of cameras between 1 and 256.');
     numCamerasInput.setAttribute('aria-invalid', 'true');
     valid = false;
   }
 
-  const retention = parseInt(retentionInput.value, 10);
+  const retention = readNumber(retentionInput);
   if (!Number.isInteger(retention) || retention < 1 || retention > 365) {
     showError(retentionError, 'Enter a whole number of retention days between 1 and 365.');
     retentionInput.setAttribute('aria-invalid', 'true');
