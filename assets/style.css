@@ -1046,6 +1046,19 @@ textarea:focus {
   font-size: 0.87rem;
 }
 
+/* Reference tables (PoE standards, NVR bitrate, etc.) can be wider than a
+   narrow viewport can hold without squeezing every column unreadable. Let
+   the table itself scroll horizontally instead of the page — content,
+   columns and formatting stay exactly as authored. */
+@media (max-width: 560px) {
+  .article table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+}
+
 .article th, .article td {
   text-align: left;
   padding: 9px 10px;
