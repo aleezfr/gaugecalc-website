@@ -6,7 +6,7 @@
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Battery Amp Hour Calculator: Runtime (Free) — GaugeCalc</title>
-<meta name="description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to find out exactly how many hours it will run.">
+<meta name="description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to estimate how many hours it will run.">
 <link rel="canonical" href="https://gaugecalc.com/tools/battery-amp-hour-calculator">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -18,14 +18,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GaugeCalc">
 <meta property="og:title" content="Battery Amp Hour Calculator: Runtime (Free) — GaugeCalc">
-<meta property="og:description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to find out exactly how many hours it will run.">
+<meta property="og:description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to estimate how many hours it will run.">
 <meta property="og:url" content="https://gaugecalc.com/tools/battery-amp-hour-calculator">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Battery Amp Hour Calculator: Runtime (Free) — GaugeCalc">
-<meta name="twitter:description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to find out exactly how many hours it will run.">
+<meta name="twitter:description" content="Free battery amp hour calculator. Enter your battery's Ah rating and your load to estimate how many hours it will run.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,7 +146,7 @@
         <div class="field-row">
           <div class="field">
             <label for="battAh">Battery capacity (Ah)</label>
-            <input type="number" id="battAh" min="0.1" step="0.1" value="100">
+            <input type="number" id="battAh" min="0.001" max="100000" step="any" value="100" inputmode="decimal" aria-describedby="battAhError">
           </div>
           <div class="field">
             <label for="voltage">Battery voltage</label>
@@ -158,58 +158,65 @@
             </select>
           </div>
         </div>
+        <p class="field-error" id="battAhError" role="alert" style="display:none;"></p>
 
-        <div class="field-row" id="customVoltRow" style="display:none;">
-          <div class="field">
-            <label for="customVolt">Custom voltage (V)</label>
-            <input type="number" id="customVolt" min="1" step="0.1" value="12">
+        <div id="customVoltRow" style="display:none;">
+          <div class="field-row">
+            <div class="field">
+              <label for="customVolt">Custom voltage (V)</label>
+              <input type="number" id="customVolt" min="1" max="1000" step="any" value="12" inputmode="decimal" aria-describedby="customVoltError">
+            </div>
+            <div></div>
           </div>
-          <div></div>
+          <p class="field-error" id="customVoltError" role="alert" style="display:none;"></p>
         </div>
 
         <div class="field" style="margin-bottom:16px;">
-          <label>Load given as</label>
-          <div class="toggle-row" id="loadTypeToggle">
-            <button type="button" class="toggle-btn active" data-value="watts">Watts</button>
-            <button type="button" class="toggle-btn" data-value="amps">Amps</button>
+          <label id="loadTypeLabel">Load given as</label>
+          <div class="toggle-row" id="loadTypeToggle" role="group" aria-labelledby="loadTypeLabel">
+            <button type="button" class="toggle-btn active" data-value="watts" aria-pressed="true">Watts</button>
+            <button type="button" class="toggle-btn" data-value="amps" aria-pressed="false">Amps</button>
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="loadValue" id="loadValueLabel">Load (Watts)</label>
-            <input type="number" id="loadValue" min="0" step="0.1" value="80">
+            <input type="number" id="loadValue" min="0.001" step="any" value="80" inputmode="decimal" aria-describedby="loadError">
           </div>
           <div class="field">
             <label for="losses">System losses (%) <span class="hint">wiring/inverter</span></label>
-            <input type="number" id="losses" min="0" max="90" value="15">
+            <input type="number" id="losses" min="0" max="90" step="any" value="15" inputmode="decimal" aria-describedby="lossesError">
           </div>
         </div>
+        <p class="field-error" id="loadError" role="alert" style="display:none;"></p>
+        <p class="field-error" id="lossesError" role="alert" style="display:none;"></p>
 
         <div class="field" style="margin-bottom:6px;">
-          <label>Battery chemistry (sets safe depth of discharge)</label>
-          <div class="toggle-row" id="chemToggle">
-            <button type="button" class="toggle-btn active" data-value="50">Lead-acid / AGM (50% DoD)</button>
-            <button type="button" class="toggle-btn" data-value="80">Lithium LiFePO4 (80% DoD)</button>
-            <button type="button" class="toggle-btn" data-value="100">Custom / 100%</button>
+          <label id="chemLabel">Battery chemistry (sets usable depth of discharge)</label>
+          <div class="toggle-row" id="chemToggle" role="group" aria-labelledby="chemLabel">
+            <button type="button" class="toggle-btn active" data-value="50" aria-pressed="true">Lead-acid / AGM (50% DoD)</button>
+            <button type="button" class="toggle-btn" data-value="80" aria-pressed="false">Lithium LiFePO4 (80% DoD)</button>
+            <button type="button" class="toggle-btn" data-value="100" aria-pressed="false">Custom / 100%</button>
           </div>
         </div>
       </div>
 
       <div class="panel result-panel">
         <h2>Runtime estimate</h2>
-        <div class="result-hero">
-          <span class="caption">how long this battery will run this load</span>
+        <div class="result-hero" aria-live="polite" aria-atomic="true">
+          <span class="caption" id="resultCaption">estimated time to reach the selected depth of discharge</span>
           <span class="value" id="resultHours">—</span><span class="unit">hours</span>
         </div>
 
         <div class="result-list">
           <div class="result-row"><span class="k">Load current</span><span class="v" id="rAmps">—</span></div>
+          <div class="result-row"><span class="k">Effective current (after losses)</span><span class="v" id="rEffAmps">—</span></div>
           <div class="result-row"><span class="k">Usable capacity (after DoD)</span><span class="v" id="rUsable">—</span></div>
           <div class="result-row"><span class="k">Usable energy</span><span class="v" id="rWh">—</span></div>
         </div>
 
-        <div class="recommend-box" id="rNote">—</div>
+        <div class="recommend-box" id="rNote"><strong id="rNoteTime">—</strong><span id="rNoteText"></span></div>
       </div>
     </div>
 
@@ -220,14 +227,43 @@
 -->
 
     <article class="article">
-      <h2>How this calculator works</h2>
+      <h2>How to use this battery amp-hour calculator</h2>
+      <ol>
+        <li>Enter the battery capacity in Ah (for a parallel bank, the total Ah).</li>
+        <li>Select the battery voltage, or choose Custom and enter it.</li>
+        <li>Enter the load in watts or amps, whichever the equipment label or your meter gives.</li>
+        <li>Enter an estimated system-loss percentage for wiring, inverter or UPS inefficiency.</li>
+        <li>Select the usable depth of discharge (DoD) for the battery chemistry.</li>
+        <li>Press Calculate to see the estimated runtime.</li>
+        <li>Compare the estimate with real operating conditions: see <a href="#real-world-runtime">what affects real-world runtime</a> below.</li>
+      </ol>
+
+      <h2>Battery runtime formula</h2>
       <div class="note-box">
-        <strong>Formula:</strong> Runtime (hours) = usable Ah ÷ effective load current, where usable Ah =
-        battery Ah × depth of discharge%, and effective current accounts for system losses. This is the
-        reverse of our <a href="amp-hour-calculator">Amp Hour Calculator</a>, which starts from your
-        required runtime and tells you what size battery to buy — this one starts from the battery you already
-        have.
+        Usable capacity (Ah) = Battery capacity × DoD<br>
+        Load current (A) = Load watts ÷ Battery voltage<br>
+        Effective current (A) = Load current ÷ (1 − losses)<br>
+        Runtime (hours) = Usable capacity ÷ Effective current<br>
+        Usable energy (Wh) = Usable capacity × Battery voltage
       </div>
+      <ul>
+        <li><strong>Battery capacity</strong>: the rated amp-hour (Ah) capacity on the battery label.</li>
+        <li><strong>DoD</strong>: depth of discharge, the fraction of rated capacity you plan to use (0.5 for 50%).</li>
+        <li><strong>Load watts / load current</strong>: the average power or current the equipment draws. If you enter amps, the watts-to-amps step is skipped.</li>
+        <li><strong>Battery voltage</strong>: the nominal battery or bank voltage.</li>
+        <li><strong>Losses</strong>: the system-loss percentage as a fraction (0.15 for 15%).</li>
+      </ul>
+      <p>
+        The loss percentage is treated as extra demand on the battery. Dividing the load current by
+        (1 − losses) means a 15% loss setting reduces the estimated runtime by exactly 15%. The sizing
+        calculator on our <a href="amp-hour-calculator">Amp Hour Calculator</a> works in the opposite
+        direction, from a required runtime to the battery size to buy, and adds losses as a margin
+        (× (1 + losses)). A battery sized there for exactly 8 hours will therefore show slightly less than
+        8 hours here.
+      </p>
+      <p>
+        The result is an estimate for planning, not a guaranteed runtime.
+      </p>
 
       <h2>Worked example</h2>
       <p>
@@ -249,12 +285,37 @@
         load current.
       </p>
 
+      <h2>How long will a 100Ah battery last?</h2>
+      <p>
+        It depends on the load, the usable depth of discharge and the losses. For a 12V 100Ah battery with a
+        15% loss allowance, the calculator gives:
+      </p>
+      <table>
+        <thead><tr><th>Load</th><th>Lead-acid / AGM (50% DoD)</th><th>LiFePO4 (80% DoD)</th></tr></thead>
+        <tbody>
+          <tr><td>20 W</td><td>25.5 h</td><td>40.8 h</td></tr>
+          <tr><td>50 W</td><td>10.2 h</td><td>16.3 h</td></tr>
+          <tr><td>100 W</td><td>5.1 h</td><td>8.16 h</td></tr>
+          <tr><td>200 W</td><td>2.55 h</td><td>4.08 h</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Doubling the load halves the runtime, and doubling the battery's Ah doubles it. At high loads,
+        lead-acid batteries will usually fall short of these figures because of the Peukert effect.
+      </p>
+      <p>
+        There's no single answer to "how long will a 12V 300Ah battery last" — it depends entirely on the
+        load. As an example, at the same 100W load and 15% losses used above, a 300Ah battery runs for about
+        15.3 hours (15h 18m) at 50% DoD, or about 24.5 hours (24h 29m) at 80% DoD. Use the calculator above with
+        your own load to get a figure for your setup.
+      </p>
+
       <h2>Why the number on the label is optimistic</h2>
       <p>
         A battery's rated Ah (say, "100Ah") is measured under lab conditions at a specific discharge rate,
         usually a slow 20-hour rate. Draw more current than that (a bigger load) and the usable capacity drops
-        — plus you should never fully drain lead-acid or AGM batteries anyway. This calculator applies your
-        chemistry's safe depth of discharge and your stated system losses so the runtime figure reflects real
+        — plus you should never fully drain lead-acid or AGM batteries anyway. This calculator applies the
+        depth of discharge you select and your stated system losses so the runtime figure reflects real
         use, not the lab number.
       </p>
 
@@ -267,6 +328,22 @@
           <tr><td>Lithium (LiFePO4)</td><td>~80% (some rated to 100%)</td><td>Tolerates much deeper, more frequent discharge</td></tr>
         </tbody>
       </table>
+      <p>
+        Runtime scales directly with DoD: the same battery and load run 1.6 times longer at 80% DoD than at
+        50%. The selected DoD is only an assumption about how much capacity you'll use. The Custom / 100%
+        option uses the full rated capacity, which suits only batteries whose manufacturer allows it. Always
+        follow the manufacturer's discharge limits.
+      </p>
+
+      <h2 id="real-world-runtime">What affects real-world runtime</h2>
+      <ul>
+        <li><strong>Actual average load.</strong> Equipment rarely draws its nameplate figure all the time. Cameras with IR at night, PTZ movement, disk activity in an NVR, or a charging device all change the draw. A clamp meter or the UPS load reading gives a better average.</li>
+        <li><strong>Inverter or UPS efficiency.</strong> AC loads run through an inverter draw more from the battery than the load's rated watts, and most inverters also draw their own idle (no-load) power just to stay on. That idle draw can take a large share of the battery at light loads, so where possible use the inverter or UPS's actual measured input draw rather than just the connected load's rating.</li>
+        <li><strong>Battery age and condition.</strong> Capacity falls as a battery ages. A sealed lead-acid battery a few years into service in a warm cabinet may deliver well under its rating.</li>
+        <li><strong>Temperature.</strong> Cold reduces available capacity, especially for lead-acid batteries.</li>
+        <li><strong>Discharge rate.</strong> Ah ratings are usually quoted at a slow rate (often 20 hours). Faster discharge reduces the capacity lead-acid batteries deliver (the Peukert effect).</li>
+        <li><strong>Manufacturer limits.</strong> Battery-management cut-offs, low-voltage disconnects and UPS shutdown thresholds can end the runtime before the calculated DoD is reached.</li>
+      </ul>
 
       <h2>Common uses</h2>
       <p>
@@ -274,6 +351,17 @@
         (how long between charges), portable power stations, and job-site backup batteries for alarm panels or
         NVRs where you already know the installed battery's rating and just need the runtime.
       </p>
+
+      <h2>Common mistakes</h2>
+      <ul>
+        <li><strong>Treating the nameplate Ah as fully usable.</strong> Only the capacity down to your chosen DoD counts. For lead-acid, that's usually about half.</li>
+        <li><strong>Forgetting to convert watts to amps.</strong> Runtime uses current. Divide watts by the battery voltage, not by 120V or 230V mains voltage.</li>
+        <li><strong>Assuming a constant load.</strong> Use the average draw over the whole period, not a single reading taken when the equipment was idle.</li>
+        <li><strong>Entering an unrealistic loss figure.</strong> 0% is optimistic for any inverter or UPS system. Around 5–10% suits direct DC loads, and 10–20% suits inverter-fed AC loads.</li>
+        <li><strong>Ignoring battery age and temperature.</strong> An old battery or a cold location can both cut runtime noticeably.</li>
+        <li><strong>Confusing Ah with Wh.</strong> Ah only compares batteries of the same voltage. A 24V 100Ah battery stores twice the energy of a 12V 100Ah battery.</li>
+        <li><strong>Treating the result as guaranteed.</strong> Test the actual runtime on critical systems, such as fire, security or life-safety backup.</li>
+      </ul>
 
       <div class="warn-box">
         <strong>Note:</strong> real-world runtime is usually a little lower than this estimate at high discharge
@@ -300,6 +388,16 @@
         Yes. Add up the Ah ratings of batteries wired in parallel and enter that total, the voltage and
         runtime math work the same way. For batteries wired in series, enter the bank's total voltage instead
         and keep the single battery's Ah rating.
+      </p>
+
+      <h2>Related tools</h2>
+      <p>
+        Need to find what size battery to buy for a required runtime, or convert between Ah, amps, hours and
+        watt-hours? Use the <a href="amp-hour-calculator">Amp Hour Calculator</a>.
+      </p>
+      <p>
+        Sizing backup for an alarm panel, NVR or PoE switch using a standby-plus-alarm specification? Use the
+        <a href="battery-backup-calculator">Battery Backup Calculator</a>.
       </p>
 
       <p style="margin-top:24px;"><a href="../feedback?tool=Battery%20Amp%20Hour%20Calculator">Found a wrong result on this calculator? Send feedback →</a></p>
@@ -385,31 +483,43 @@ const loadValueLabel = document.getElementById('loadValueLabel');
 const loadValueInput = document.getElementById('loadValue');
 const lossesInput = document.getElementById('losses');
 const chemToggle = document.getElementById('chemToggle');
+const battAhError = document.getElementById('battAhError');
+const customVoltError = document.getElementById('customVoltError');
+const loadError = document.getElementById('loadError');
+const lossesError = document.getElementById('lossesError');
+const resultCaption = document.getElementById('resultCaption');
+const CAPTION = resultCaption.textContent;
 
 let loadType = 'watts';
 let dod = 50;
 
-loadTypeToggle.querySelectorAll('.toggle-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    loadTypeToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    loadType = btn.dataset.value;
-    loadValueLabel.textContent = loadType === 'watts' ? 'Load (Watts)' : 'Load (Amps)';
-    calculate();
+function wireToggle(row, onSelect) {
+  row.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      row.querySelectorAll('.toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      onSelect(btn.dataset.value);
+    });
   });
+}
+
+wireToggle(loadTypeToggle, value => {
+  loadType = value;
+  loadValueLabel.textContent = loadType === 'watts' ? 'Load (Watts)' : 'Load (Amps)';
+  calculate();
 });
 
-chemToggle.querySelectorAll('.toggle-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    chemToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    dod = parseFloat(btn.dataset.value);
-    calculate();
-  });
+wireToggle(chemToggle, value => {
+  dod = parseFloat(value);
+  calculate();
 });
 
 voltageSelect.addEventListener('change', () => {
-  customVoltRow.style.display = (voltageSelect.value === 'custom') ? 'grid' : 'none';
+  customVoltRow.style.display = (voltageSelect.value === 'custom') ? '' : 'none';
   calculate();
 });
 
@@ -422,33 +532,95 @@ function fmtNum(n, decimals = 2) {
   return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
 }
 
+// Display only: a tiny valid value that would round to "0" is shown to 3 significant digits.
+function fmtSmall(n, decimals) {
+  return n > 0 && n < 0.5 * Math.pow(10, -decimals)
+    ? n.toLocaleString(undefined, { maximumSignificantDigits: 3 })
+    : fmtNum(n, decimals);
+}
+
 function fmtHours(h) {
   if (h >= 100) return fmtNum(h, 0);
   if (h >= 10) return fmtNum(h, 1);
-  return fmtNum(h, 2);
+  return fmtSmall(h, 2);
+}
+
+// Rounds to whole minutes first, so the result can never read "2h 60m".
+function fmtDuration(h) {
+  const totalMin = Math.round(h * 60);
+  if (totalMin < 1) return 'under 1 min';
+  if (h >= 24 * 365) return fmtNum(h / (24 * 365), 1) + ' years';
+  if (h >= 48) return fmtNum(h / 24, 1) + ' days';
+  const hh = Math.floor(totalMin / 60), mm = totalMin % 60;
+  if (hh === 0) return mm + 'm';
+  return mm === 0 ? hh + 'h' : hh + 'h ' + mm + 'm';
+}
+
+// Blank stays NaN (Number('') would be 0), so an empty field is reported, never coerced.
+function readNumber(el) {
+  const raw = el.value.trim();
+  return raw === '' ? NaN : Number(raw);
+}
+
+function showError(el, msg) {
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// Returns the value if it is a finite number within [min, max]; otherwise flags the field and returns NaN.
+function checkField(input, errorEl, min, max, msg) {
+  const v = readNumber(input);
+  if (!Number.isFinite(v) || v < min || v > max) {
+    showError(errorEl, msg);
+    input.setAttribute('aria-invalid', 'true');
+    return NaN;
+  }
+  return v;
 }
 
 function calculate() {
-  const voltage = voltageSelect.value === 'custom' ? (parseFloat(customVolt.value) || 12) : parseFloat(voltageSelect.value);
-  const battAh = Math.max(0.1, parseFloat(battAhInput.value) || 0.1);
-  const loadValue = Math.max(0, parseFloat(loadValueInput.value) || 0);
-  const losses = Math.max(0, Math.min(90, parseFloat(lossesInput.value) || 0)) / 100;
+  [battAhError, customVoltError, loadError, lossesError].forEach(el => { el.style.display = 'none'; el.textContent = ''; });
+  [battAhInput, customVolt, loadValueInput, lossesInput].forEach(el => el.removeAttribute('aria-invalid'));
 
-  const amps = loadType === 'watts' ? (loadValue / voltage) : loadValue;
+  // Validated in on-screen order so the first flagged field is the first one the user sees.
+  const battAh = checkField(battAhInput, battAhError, 0.001, 100000, 'Enter a battery capacity between 0.001 and 100,000 Ah.');
+  const voltage = voltageSelect.value === 'custom'
+    ? checkField(customVolt, customVoltError, 1, 1000, 'Enter a custom voltage between 1 and 1,000 V.')
+    : parseFloat(voltageSelect.value);
+  const inWatts = loadType === 'watts';
+  const loadValue = checkField(loadValueInput, loadError, 0.001, inWatts ? 1000000 : 10000,
+    inWatts ? 'Enter a load between 0.001 and 1,000,000 W.' : 'Enter a load between 0.001 and 10,000 A.');
+  const lossesPct = checkField(lossesInput, lossesError, 0, 90, 'Enter system losses between 0% and 90%.');
+
+  if ([battAh, voltage, loadValue, lossesPct].some(Number.isNaN)) {
+    ['resultHours', 'rAmps', 'rEffAmps', 'rUsable', 'rWh', 'rNoteTime'].forEach(id => {
+      document.getElementById(id).textContent = '—';
+    });
+    resultCaption.textContent = 'Fix the highlighted input above to see an estimate.';
+    document.getElementById('rNoteText').textContent = '';
+    return;
+  }
+  resultCaption.textContent = CAPTION;
+
+  const losses = lossesPct / 100;
+  const amps = inWatts ? (loadValue / voltage) : loadValue;
   const usableAh = battAh * (dod / 100);
   const usableWh = usableAh * voltage;
   const effectiveAmps = amps / (1 - losses);
 
-  const hours = effectiveAmps > 0 ? usableAh / effectiveAmps : 0;
+  const hours = usableAh / effectiveAmps;
 
   document.getElementById('resultHours').textContent = fmtHours(hours);
-  document.getElementById('rAmps').textContent = fmtNum(amps, 2) + ' A';
-  document.getElementById('rUsable').textContent = fmtNum(usableAh, 1) + ' Ah';
-  document.getElementById('rWh').textContent = fmtNum(usableWh, 1) + ' Wh';
+  document.getElementById('rAmps').textContent = fmtSmall(amps, 2) + ' A';
+  document.getElementById('rEffAmps').textContent = fmtSmall(effectiveAmps, 2) + ' A';
+  document.getElementById('rUsable').textContent = fmtSmall(usableAh, 1) + ' Ah';
+  document.getElementById('rWh').textContent = fmtSmall(usableWh, 1) + ' Wh';
 
-  const wholeHours = Math.floor(hours);
-  const minutes = Math.round((hours - wholeHours) * 60);
-  document.getElementById('rNote').innerHTML = `<strong>≈ ${wholeHours}h ${minutes}m</strong> of runtime at this load, within safe discharge limits for this chemistry.`;
+  const duration = fmtDuration(hours);
+  document.getElementById('rNoteTime').textContent = duration === 'under 1 min' ? 'Under 1 min' : '≈ ' + duration;
+  document.getElementById('rNoteText').textContent =
+    ' of runtime at this load before reaching the selected ' + dod + '% depth of discharge. ' +
+    "Check the battery manufacturer's discharge limits.";
 }
 
 calculate();
