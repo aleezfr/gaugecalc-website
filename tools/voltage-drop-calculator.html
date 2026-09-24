@@ -6,7 +6,7 @@
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Voltage Drop Calculator (Free) — GaugeCalc</title>
-<meta name="description" content="Free DC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs. AC single-phase and three-phase modes are in development.">
+<meta name="description" content="Free DC and AC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs, single-phase or three-phase. AC uses NEC Chapter 9 Table 9 at 60 Hz.">
 <link rel="canonical" href="https://gaugecalc.com/tools/voltage-drop-calculator">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -18,14 +18,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GaugeCalc">
 <meta property="og:title" content="Voltage Drop Calculator (Free) — GaugeCalc">
-<meta property="og:description" content="Free DC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs. AC single-phase and three-phase modes are in development.">
+<meta property="og:description" content="Free DC and AC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs, single-phase or three-phase. AC uses NEC Chapter 9 Table 9 at 60 Hz.">
 <meta property="og:url" content="https://gaugecalc.com/tools/voltage-drop-calculator">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Voltage Drop Calculator (Free) — GaugeCalc">
-<meta name="twitter:description" content="Free DC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs. AC single-phase and three-phase modes are in development.">
+<meta name="twitter:description" content="Free DC and AC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs, single-phase or three-phase. AC uses NEC Chapter 9 Table 9 at 60 Hz.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +47,7 @@
   "@type": "SoftwareApplication",
   "name": "Voltage Drop Calculator",
   "url": "https://gaugecalc.com/tools/voltage-drop-calculator",
-  "description": "Calculates DC voltage drop, delivered voltage, drop percentage, maximum cable length, and thinnest passing cable size for a given AWG or mm² conductor, or a custom conductor resistance, in copper or aluminum. AC single-phase and three-phase modes are visible but not yet enabled pending a verified conductor reactance dataset.",
+  "description": "Calculates DC and AC (single-phase and three-phase) voltage drop, delivered voltage, drop percentage, maximum cable length, and thinnest passing cable size for a given AWG or mm² conductor, or a custom conductor resistance, in copper or aluminum. AC uses NEC Chapter 9 Table 9 reference data at 60 Hz, 75°C.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any (runs in browser)",
   "offers": {
@@ -111,10 +111,10 @@
     },
     {
       "@type": "Question",
-      "name": "Does this calculator support AC or three-phase circuits yet?",
+      "name": "Does this calculator support AC or three-phase circuits?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Not yet as a working calculation. DC voltage drop is fully supported. AC single-phase and three-phase modes are visible in the mode selector but intentionally disabled, because they require a verified conductor reactance dataset that has not yet been sourced. Showing an AC result without that data would be misleading, so those modes remain gated until the data is in place."
+        "text": "Yes. AC Single Phase and AC Three Phase modes use NEC (NFPA 70) Chapter 9 Table 9 resistance and reactance data at 60 Hz and 75°C, three single conductors in conduit, combined with your entered power factor. Coverage is 14 AWG through 4/0 (12 AWG through 4/0 for aluminum) and requires picking a conduit type, since steel conduit's magnetic reactance differs from PVC or aluminum conduit. 50 Hz is not supported — no verified reactance dataset was found for that basis, so only 60 Hz is offered."
       }
     },
     {
@@ -181,10 +181,10 @@
     <section class="hero" style="padding-block:26px 6px;">
       <h1>Voltage Drop Calculator</h1>
       <p class="lead">
-        Check whether a DC cable run will deliver enough voltage at the load, find the maximum one-way cable
-        length a current and wire size can support, or find the thinnest cable size that still passes your
-        planning threshold. Supports AWG, mm&sup2;, and custom conductor resistance, in copper or aluminum.
-        AC single-phase and three-phase modes are shown below but not yet enabled.
+        Check whether a DC or AC cable run will deliver enough voltage at the load, find the maximum one-way
+        cable length a current and wire size can support, or find the thinnest cable size that still passes
+        your planning threshold. Supports AWG, mm&sup2;, and custom conductor resistance, in copper or
+        aluminum. AC Single Phase and AC Three Phase use NEC Chapter 9 Table 9 reference data at 60&nbsp;Hz.
       </p>
     </section>
 
@@ -194,15 +194,36 @@
         <div class="field" style="margin-bottom:6px;">
           <div class="toggle-row" id="elecModeToggle" role="group" aria-labelledby="elecModeHeading">
             <button type="button" class="toggle-btn active" data-value="dc" aria-pressed="true">DC</button>
-            <button type="button" class="toggle-btn" data-value="ac1" aria-pressed="false" aria-disabled="true" disabled>AC Single Phase</button>
-            <button type="button" class="toggle-btn" data-value="ac3" aria-pressed="false" aria-disabled="true" disabled>AC Three Phase</button>
+            <button type="button" class="toggle-btn" data-value="ac1" aria-pressed="false">AC Single Phase</button>
+            <button type="button" class="toggle-btn" data-value="ac3" aria-pressed="false">AC Three Phase</button>
           </div>
         </div>
-        <p class="gated-note" id="acGatedNote">
-          AC calculation is coming soon. Verified reactance data is required before this mode can calculate
-          results, so AC Single Phase and AC Three Phase are shown for context but cannot be selected yet. DC
-          voltage drop is fully functional below.
+        <p class="gated-note" id="acGatedNote" style="display:none;">
+          <strong>AC reference basis: 60 Hz, NEC (NFPA 70) Chapter 9 Table 9 — 75&deg;C, three single conductors in
+          conduit.</strong> This is a different temperature and construction basis than the 20&deg;C DC tables
+          below, so AC and DC results are not directly comparable size-for-size. AC covers 14 AWG through 4/0 only
+          (aluminum has no 14 AWG row) and requires the AWG conductor system and a conduit type — mm&sup2; and
+          custom resistance aren't available in AC mode. <strong>50 Hz is not supported</strong>: no verified
+          reactance dataset was found for that basis, so only 60 Hz is offered.
         </p>
+
+        <div class="field-row" id="acParamsRow" style="display:none;">
+          <div class="field">
+            <label for="conduitType" id="conduitTypeLabel">Conduit type</label>
+            <select id="conduitType" aria-describedby="conduitTypeHint">
+              <option value="pvc" selected>PVC (non-magnetic)</option>
+              <option value="aluminumConduit">Aluminum conduit</option>
+              <option value="steel">Steel (magnetic)</option>
+            </select>
+            <span class="hint" id="conduitTypeHint">Steel conduit is magnetic and raises reactance; NEC Table 9 gives different values per conduit type.</span>
+          </div>
+          <div class="field">
+            <label for="powerFactor">Power factor (PF)</label>
+            <input type="number" id="powerFactor" min="0.01" max="1" step="0.01" value="0.9" aria-describedby="powerFactorHint powerFactorError">
+            <span class="hint" id="powerFactorHint">0 &lt; PF &le; 1. PF = 1 is valid (purely resistive load, no reactance contribution).</span>
+          </div>
+        </div>
+        <p class="field-error" id="powerFactorError" role="alert" style="display:none;"></p>
 
         <h2 id="calcModeHeading">Calculation mode</h2>
         <div class="field" style="margin-bottom:18px;">
@@ -216,8 +237,9 @@
         <h2>Supply &amp; load</h2>
         <div class="field-row">
           <div class="field">
-            <label for="vSource">Supply voltage (V)</label>
-            <input type="number" id="vSource" min="0.1" max="1000" step="0.1" value="12" aria-describedby="vSourceError">
+            <label for="vSource" id="vSourceLabel">Supply voltage (V)</label>
+            <input type="number" id="vSource" min="0.1" max="1000" step="0.1" value="12" aria-describedby="vSourceHint vSourceError">
+            <span class="hint" id="vSourceHint" style="display:none;">Three-phase uses line-to-line voltage (V<sub>LL</sub>), not phase voltage — check your supply's nameplate or panel schedule.</span>
           </div>
           <div class="field">
             <label for="currentBasis" id="currentBasisLabel">Load input</label>
@@ -271,7 +293,7 @@
               <option value="copper" selected>Copper</option>
               <option value="aluminum">Aluminum</option>
             </select>
-            <span class="hint" id="materialHint" style="display:none;">Aluminum AWG data is not currently available in this calculator's verified 20&deg;C reference dataset. Switch to mm&sup2; for aluminum, or use custom resistance from your cable's datasheet.</span>
+            <span class="hint" id="materialHint" style="display:none;"></span>
           </div>
           <div class="field">
             <label for="conductorSize" id="conductorSizeLabel">Wire size (AWG)</label>
@@ -326,7 +348,7 @@
           <div class="result-list">
             <div class="result-row"><span class="k">Voltage drop</span><span class="v" id="rVDrop">&mdash;</span></div>
             <div class="result-row"><span class="k">Voltage drop percentage</span><span class="v" id="rDropPct">&mdash;</span></div>
-            <div class="result-row"><span class="k">Loop resistance</span><span class="v" id="rLoopR">&mdash;</span></div>
+            <div class="result-row"><span class="k" id="rLoopRLabel">Loop resistance</span><span class="v" id="rLoopR">&mdash;</span></div>
             <div class="result-row"><span class="k">Resistance basis</span><span class="v" id="rResistanceBasis">&mdash;</span></div>
           </div>
 
@@ -367,15 +389,24 @@
 
           <div class="recommend-box" id="thinNextSizeBox">&mdash;</div>
         </div>
+
+        <p class="gated-note" id="acDisclosureNote" style="display:none; margin-top:14px;">
+          AC planning result based on the selected reference conductor data (NEC Chapter 9 Table 9, 60 Hz, 75&deg;C)
+          and installation assumptions (conduit type, stranding). Verify conductor specifications, installation
+          conditions, applicable electrical codes, manufacturer data, and final sizing with a qualified electrical
+          professional. This calculator is an engineering planning aid, not a substitute for field measurement,
+          code compliance review, or final engineering approval.
+        </p>
       </div>
     </div>
 
     <div class="warn-box" style="margin-top:8px;">
-      Calculations use nominal conductor resistance at 20&deg;C (68&deg;F). Actual resistance rises somewhat
-      with temperature, so hot or thermally exposed runs can show more real-world drop than shown here. AWG
-      and mm&sup2; are independent sizing systems with independently sourced resistance data — they are
-      never converted from one to the other. This is a planning calculation, not a field measurement, and it
-      does not certify compliance with any electrical code or standard.
+      DC calculations use nominal conductor resistance at 20&deg;C (68&deg;F). AC calculations use NEC Chapter 9
+      Table 9 at 60 Hz and 75&deg;C, three single conductors in conduit &mdash; a different temperature and
+      construction basis than DC, so the two are not directly comparable size-for-size. AWG and mm&sup2; are
+      independent sizing systems with independently sourced resistance data — they are never converted from one
+      to the other. This is a planning calculation, not a field measurement, and it does not certify compliance
+      with any electrical code or standard.
     </div>
 
     <!-- AdSense placeholder disabled pending approval:
@@ -391,8 +422,7 @@
         the load. The more current a load draws and the longer or thinner the cable, the more voltage is lost
         in the wire itself, so the load receives less voltage than the supply puts out. This calculator's DC
         mode runs that relationship directly; AC single-phase and three-phase modes use the same underlying
-        idea but also need a load's power factor and the conductor's reactance, which is why those modes stay
-        disabled until a verified reactance dataset is in place (see the assumptions section below).
+        idea but also factor in the load's power factor and the conductor's reactance (see the AC section below).
       </p>
 
       <h2>DC voltage drop</h2>
@@ -429,12 +459,12 @@
         interchangeable can understate or overstate real resistance.
       </p>
       <p>
-        Both copper and aluminum are supported where the underlying resistance data has been independently
-        verified at this calculator's 20&deg;C reference basis. Copper has lower resistance than aluminum at
-        the same size, so a copper conductor shows less drop than an aluminum one of the same size, length,
-        and current. <strong>Aluminum is currently only available with mm&sup2; sizing</strong>, not AWG
-        &mdash; selecting Aluminum while AWG is chosen will show why, rather than silently substituting a
-        copper value or an unverified figure.
+        Both copper and aluminum are supported, in both AWG and mm&sup2;, where the underlying resistance data
+        has been independently verified at this calculator's 20&deg;C reference basis. Copper has lower
+        resistance than aluminum at the same size, so a copper conductor shows less drop than an aluminum one of
+        the same size, length, and current. AWG aluminum uses NIST Handbook 109's EC-0 resistivity constant
+        derived across the standard AWG size progression (see the assumptions section below); it is a derived
+        dataset, not a transcription of a published per-size table, and is documented as such.
       </p>
       <p>
         If your cable's datasheet gives a resistance different from the standard tables &mdash; for a
@@ -446,13 +476,46 @@
         physical cable.
       </p>
       <table>
-        <thead><tr><th>AWG</th><th>&Omega; / 1000 ft (copper, 20&deg;C)</th></tr></thead>
+        <thead><tr><th>AWG</th><th>&Omega; / 1000 ft (copper, 20&deg;C)</th><th>&Omega; / 1000 ft (aluminum, 20&deg;C)</th></tr></thead>
         <tbody id="awgTableBody"></tbody>
       </table>
       <table style="margin-top:14px;">
         <thead><tr><th>mm&sup2;</th><th>&Omega; / km (copper, 20&deg;C)</th><th>&Omega; / km (aluminum, 20&deg;C)</th></tr></thead>
         <tbody id="mm2TableBody"></tbody>
       </table>
+
+      <h2>AC voltage drop</h2>
+      <p>
+        AC Single Phase and AC Three Phase modes account for both conductor resistance (R) and inductive
+        reactance (X), combined through the circuit's power factor (PF), since an AC load's current and voltage
+        are not necessarily in phase. The reference data is NEC (NFPA 70) Chapter 9, Table 9 &mdash;
+        &ldquo;Alternating-Current Resistance and Reactance for 600-Volt Cables, 3-Phase, 60 Hz, 75&deg;C &mdash;
+        Three Single Conductors in Conduit.&rdquo; That basis is fixed and disclosed on screen whenever an AC
+        mode is selected: <strong>60 Hz only, 75&deg;C, stranded conductors in conduit</strong> &mdash; it is
+        not the same temperature or construction as the 20&deg;C solid-wire DC tables above, so AC and DC
+        results for the same nominal size are not directly comparable.
+      </p>
+      <div class="note-box">
+        <strong>Formulas:</strong> Single phase: V_drop = 2 &times; I &times; L &times; (R &times; PF + X
+        &times; &radic;(1&minus;PF&sup2;)) / 1000. Three phase: V_drop = &radic;3 &times; I &times; L &times;
+        (R &times; PF + X &times; &radic;(1&minus;PF&sup2;)) / 1000, where V_source is line-to-line. R and X are
+        looked up in &Omega;/1000&nbsp;ft from Table 9 for your selected size, material, and conduit; PF is
+        entered directly (0 &lt; PF &le; 1). This matches NEC Table 9's own Note 2 definition of effective
+        impedance, Z_e = R&times;PF + X&times;sin(arccos(PF)), since sin(arccos(PF)) = &radic;(1&minus;PF&sup2;).
+      </div>
+      <p>
+        <strong>Conduit matters for AC.</strong> Steel conduit is magnetic and raises reactance measurably
+        compared to PVC or aluminum conduit, so this calculator requires you to pick a conduit type rather than
+        assuming one &mdash; there is no single universal AC reactance value for a given wire size.
+        <strong>Conductor coverage is narrower than DC:</strong> NEC Table 9 has no data below 14 AWG, and
+        aluminum has no 14 AWG row at all (14 AWG aluminum conductor is not manufactured per NEC Table 10), so
+        AC mode's size list is 14 AWG through 4/0, with 12 AWG through 4/0 for aluminum. AC mode requires the
+        AWG conductor system; mm&sup2; and custom resistance don't have a verified AC dataset, so they're not
+        offered while an AC mode is selected. <strong>50 Hz is not supported.</strong> No verified reactance
+        dataset was found for 50 Hz at the same conductor construction and installation basis as Table 9, and
+        scaling the 60 Hz reactance by 50/60 is not something this calculator's sources support &mdash; rather
+        than show an unverified approximation, AC stays 60 Hz only, and the page says so on screen.
+      </p>
 
       <h2>How much voltage drop is acceptable</h2>
       <p>
@@ -543,22 +606,26 @@
 
       <h2>Assumptions and limitations</h2>
       <ul>
-        <li><strong>20&deg;C reference temperature.</strong> All resistance values assume nominal conductor
-          resistance at 20&deg;C (68&deg;F). Real installation temperature (hot attics, direct sun, bundled
-          cable, conduit) raises actual resistance and therefore actual drop above what's shown here.</li>
-        <li><strong>Resistance is independently sourced per system and material.</strong> AWG copper, mm&sup2;
-          copper, and mm&sup2; aluminum each come from their own reference data at the same 20&deg;C basis;
-          none is derived from another by conversion.</li>
+        <li><strong>DC uses 20&deg;C; AC uses 75&deg;C.</strong> DC resistance values assume nominal conductor
+          resistance at 20&deg;C (68&deg;F). AC resistance and reactance come from NEC Table 9 at 75&deg;C. Real
+          installation temperature (hot attics, direct sun, bundled cable, conduit) can push actual resistance
+          above either reference figure, and the two temperature bases are never mixed.</li>
+        <li><strong>Resistance is independently sourced per system, material, and electrical mode.</strong> AWG
+          copper, AWG aluminum, mm&sup2; copper, mm&sup2; aluminum, and the AC NEC Table 9 dataset each come
+          from their own reference data; none is derived from another by conversion.</li>
+        <li><strong>AWG aluminum (DC) is a derived dataset.</strong> It comes from NIST Handbook 109's EC-0
+          resistivity constant (16.782 &Omega;&middot;cmil/ft @20&deg;C) applied across the standard AWG size
+          progression &mdash; not a transcription of a published per-size table, because NIST's own per-size
+          aluminum table could not be reliably extracted. See the research notes for the full derivation.</li>
         <li><strong>One-way length.</strong> Cable length is always the one-way distance from source to load
-          &mdash; the formula's &times;2 factor already accounts for the return conductor. Entering a
-          there-and-back total would double-count it.</li>
-        <li><strong>Copper vs aluminum.</strong> Aluminum is currently only available in mm&sup2; sizing; AWG
-          aluminum data has not been independently verified at the 20&deg;C basis this calculator uses, so it
-          is not offered rather than estimated.</li>
-        <li><strong>AC single-phase and three-phase are not yet enabled.</strong> Both modes require a
-          verified conductor reactance dataset that has not yet been sourced from an authoritative reference
-          covering the needed sizes and materials. Rather than showing an AC result built on incomplete or
-          approximated reactance data, those modes stay visibly disabled until that data is in place.</li>
+          &mdash; the formula's &times;2 (single phase) or &radic;3 (three phase) factor already accounts for
+          the circuit's other conductor(s). Entering a there-and-back total would double-count it.</li>
+        <li><strong>AC is 60 Hz only.</strong> No verified reactance dataset was found for 50 Hz at the same
+          conductor construction and installation basis as NEC Table 9, so 50 Hz is not offered rather than
+          approximated by scaling the 60 Hz figures.</li>
+        <li><strong>AC conductor coverage is narrower than DC.</strong> NEC Table 9 only covers 14 AWG through
+          4/0 (12 AWG through 4/0 for aluminum), and only the AWG conductor system &mdash; mm&sup2; and custom
+          resistance have no verified AC dataset and aren't offered in AC mode.</li>
         <li><strong>Planning calculation, not a field measurement.</strong> Real connections, splices, and
           supply voltage variation are not modeled. This calculator does not certify compliance with any
           electrical code or standard &mdash; check the standard that actually applies to your installation.</li>
@@ -585,8 +652,8 @@
       <p>There is no single universal limit. 3% and 5% are commonly used planning figures in various contexts, but the applicable limit depends on the governing standard, the specific equipment, and the system design. When you know the load's actual minimum operating voltage, entering it directly gives a more accurate check than any percentage guideline.</p>
       <h3>How do I calculate 12V CCTV camera voltage drop?</h3>
       <p>Use DC mode with your camera's maximum current draw (including IR illuminators or heaters, not just idle current), your one-way cable length, and your wire gauge. The same loop-resistance formula used for any DC circuit applies directly to 12V and 24V camera runs.</p>
-      <h3>Does this calculator support AC or three-phase circuits yet?</h3>
-      <p>Not yet as a working calculation. DC voltage drop is fully supported. AC single-phase and three-phase modes are visible in the mode selector but intentionally disabled, because they require a verified conductor reactance dataset that has not yet been sourced. Showing an AC result without that data would be misleading, so those modes remain gated until the data is in place.</p>
+      <h3>Does this calculator support AC or three-phase circuits?</h3>
+      <p>Yes. AC Single Phase and AC Three Phase modes use NEC (NFPA 70) Chapter 9 Table 9 resistance and reactance data at 60 Hz and 75&deg;C, three single conductors in conduit, combined with your entered power factor. Coverage is 14 AWG through 4/0 (12 AWG through 4/0 for aluminum) and requires picking a conduit type, since steel conduit's magnetic reactance differs from PVC or aluminum conduit. 50 Hz is not supported &mdash; no verified reactance dataset was found for that basis, so only 60 Hz is offered.</p>
       <h3>How does cable length affect voltage drop?</h3>
       <p>Conductor resistance grows in direct proportion to length, so for the same current and wire size, doubling the one-way length doubles the loop resistance and the voltage drop. The calculator counts both the outgoing and return conductors.</p>
       <h3>Can I enter a custom cable resistance instead of a wire size?</h3>
@@ -678,10 +745,25 @@ document.getElementById('year').textContent = new Date().getFullYear();
 /* ==========================================================================
    CONDUCTOR_DATA
    Two independent, non-interchangeable sizing systems. AWG and mm2 values are
-   never derived from one another. Aluminum AWG intentionally has no `values`
-   entry -- see Step 4/5 engineering verification: no 20C-native source was
-   found, so it is not offered rather than estimated or converted from the
-   75C NEC Table 8 figures.
+   never derived from one another.
+
+   AWG aluminum (DC, 20C): NIST Handbook 109 Table 1, EC-0 resistivity
+   (16.782 ohm-cmil/ft @ 20C), derived via R = resistivity / area, using the
+   standard ASTM B258 AWG geometric progression (same formula basis the
+   existing copper AWG table above already uses -- confirmed to within 0.03%
+   against NIST's 10.371 ohm-cmil/ft copper constant). See Step 10/11
+   research. This is a DERIVED dataset, not a transcription of NIST's own
+   (corrupted/unreadable) Table 3 -- see the source-data handoff for the full
+   derivation and cross-check.
+
+   AC (ac.necTable9): NEC (NFPA 70) Chapter 9, Table 9, "Alternating-Current
+   Resistance and Reactance for 600-Volt Cables, 3-Phase, 60 Hz, 75C --
+   Three Single Conductors in Conduit." This is a DIFFERENT temperature basis
+   (75C) and a DIFFERENT conductor construction (stranded, Class B, in
+   conduit) than the 20C solid-wire DC tables above -- never mix the two.
+   AC only covers 14 AWG through 4/0 (Table 9 has no smaller AWG data), and
+   aluminum has no 14 AWG row (not manufactured per NEC Table 10 note c).
+   See the source-data handoff for the full extraction and cross-check.
    ========================================================================== */
 
 var CONDUCTOR_DATA = {
@@ -696,7 +778,67 @@ var CONDUCTOR_DATA = {
         '1/0':0.09827,'2/0':0.07793,'3/0':0.06180,'4/0':0.04901
       }
     },
-    aluminum: { available: false }
+    aluminum: {
+      unit: 'ohm_per_1000ft', temperatureBasisC: 20, basis: 'NIST HB109 Table 1 EC-0 resistivity (16.782 Ω·cmil/ft @20°C), derived via standard AWG area',
+      values: {
+        '24':41.535,'22':26.122,'20':16.428,'18':10.332,'16':6.4977,'14':4.0865,'12':2.5700,
+        '10':1.6163,'8':1.0165,'6':0.63928,'4':0.40205,'3':0.31884,'2':0.25285,'1':0.20052,
+        '1/0':0.15902,'2/0':0.12611,'3/0':0.10001,'4/0':0.079310
+      }
+    }
+  },
+  ac: {
+    necTable9: {
+      freqHz: 60, temperatureBasisC: 75,
+      basis: 'NEC (NFPA 70) Chapter 9 Table 9 -- 60 Hz, 75°C, three single conductors in conduit, uncoated copper/aluminum, Class B stranding',
+      // thickest -> thinnest. Narrower than the DC AWG range above: Table 9 has no data below 14 AWG.
+      sizes: ['4/0','3/0','2/0','1/0','1','2','3','4','6','8','10','12','14'],
+      conduits: ['pvc', 'aluminumConduit', 'steel'],
+      copper: {
+        pvc: { values: {
+          '14': { R: 3.1, X: 0.058 }, '12': { R: 2, X: 0.054 }, '10': { R: 1.2, X: 0.05 },
+          '8': { R: 0.78, X: 0.052 }, '6': { R: 0.49, X: 0.051 }, '4': { R: 0.31, X: 0.048 },
+          '3': { R: 0.25, X: 0.047 }, '2': { R: 0.19, X: 0.045 }, '1': { R: 0.15, X: 0.046 },
+          '1/0': { R: 0.12, X: 0.044 }, '2/0': { R: 0.1, X: 0.043 }, '3/0': { R: 0.077, X: 0.042 },
+          '4/0': { R: 0.062, X: 0.041 }
+        } },
+        aluminumConduit: { values: {
+          '14': { R: 3.1, X: 0.058 }, '12': { R: 2, X: 0.054 }, '10': { R: 1.2, X: 0.05 },
+          '8': { R: 0.78, X: 0.052 }, '6': { R: 0.49, X: 0.051 }, '4': { R: 0.31, X: 0.048 },
+          '3': { R: 0.25, X: 0.047 }, '2': { R: 0.2, X: 0.045 }, '1': { R: 0.16, X: 0.046 },
+          '1/0': { R: 0.13, X: 0.044 }, '2/0': { R: 0.1, X: 0.043 }, '3/0': { R: 0.082, X: 0.042 },
+          '4/0': { R: 0.067, X: 0.041 }
+        } },
+        steel: { values: {
+          '14': { R: 3.1, X: 0.073 }, '12': { R: 2, X: 0.068 }, '10': { R: 1.2, X: 0.063 },
+          '8': { R: 0.78, X: 0.065 }, '6': { R: 0.49, X: 0.064 }, '4': { R: 0.31, X: 0.06 },
+          '3': { R: 0.25, X: 0.059 }, '2': { R: 0.2, X: 0.057 }, '1': { R: 0.16, X: 0.057 },
+          '1/0': { R: 0.12, X: 0.055 }, '2/0': { R: 0.1, X: 0.054 }, '3/0': { R: 0.079, X: 0.052 },
+          '4/0': { R: 0.063, X: 0.051 }
+        } }
+      },
+      // aluminum intentionally has no '14' key -- NEC Table 9/10 do not provide 14 AWG aluminum
+      aluminum: {
+        pvc: { values: {
+          '12': { R: 3.2, X: 0.054 }, '10': { R: 2, X: 0.05 }, '8': { R: 1.3, X: 0.052 },
+          '6': { R: 0.81, X: 0.051 }, '4': { R: 0.51, X: 0.048 }, '3': { R: 0.4, X: 0.047 },
+          '2': { R: 0.32, X: 0.045 }, '1': { R: 0.25, X: 0.046 }, '1/0': { R: 0.2, X: 0.044 },
+          '2/0': { R: 0.16, X: 0.043 }, '3/0': { R: 0.13, X: 0.042 }, '4/0': { R: 0.1, X: 0.041 }
+        } },
+        aluminumConduit: { values: {
+          '12': { R: 3.2, X: 0.054 }, '10': { R: 2, X: 0.05 }, '8': { R: 1.3, X: 0.052 },
+          '6': { R: 0.81, X: 0.051 }, '4': { R: 0.51, X: 0.048 }, '3': { R: 0.41, X: 0.047 },
+          '2': { R: 0.32, X: 0.045 }, '1': { R: 0.26, X: 0.046 }, '1/0': { R: 0.21, X: 0.044 },
+          '2/0': { R: 0.16, X: 0.043 }, '3/0': { R: 0.13, X: 0.042 }, '4/0': { R: 0.11, X: 0.041 }
+        } },
+        steel: { values: {
+          '12': { R: 3.2, X: 0.068 }, '10': { R: 2, X: 0.063 }, '8': { R: 1.3, X: 0.065 },
+          '6': { R: 0.81, X: 0.064 }, '4': { R: 0.51, X: 0.06 }, '3': { R: 0.4, X: 0.059 },
+          '2': { R: 0.32, X: 0.057 }, '1': { R: 0.25, X: 0.057 }, '1/0': { R: 0.2, X: 0.055 },
+          '2/0': { R: 0.16, X: 0.054 }, '3/0': { R: 0.13, X: 0.052 }, '4/0': { R: 0.1, X: 0.051 }
+        } }
+      }
+    }
   },
   mm2: {
     // thickest -> thinnest
@@ -909,7 +1051,7 @@ function calculateThinnestPassingSize(params) {
    UI state
    ========================================================================== */
 
-var elecMode = 'dc'; // 'ac1' / 'ac3' are architecturally supported but never reachable from the UI (Step 6 AC gating)
+var elecMode = 'dc'; // 'dc' | 'ac1' | 'ac3'
 var calcMode = 'voltageDrop';
 var conductorSystem = 'awg';
 
@@ -922,6 +1064,8 @@ var resultsMaxLength = document.getElementById('resultsMaxLength');
 var resultsThinnest = document.getElementById('resultsThinnest');
 
 var vSourceInput = document.getElementById('vSource');
+var vSourceLabel = document.getElementById('vSourceLabel');
+var vSourceHint = document.getElementById('vSourceHint');
 var currentBasisSelect = document.getElementById('currentBasis');
 var currentField = document.getElementById('currentField');
 var currentInput = document.getElementById('currentInput');
@@ -941,6 +1085,10 @@ var customRBasisSelect = document.getElementById('customRBasis');
 var customRHint = document.getElementById('customRHint');
 var allowablePctInput = document.getElementById('allowablePct');
 var minVoltageInput = document.getElementById('minVoltage');
+var acGatedNote = document.getElementById('acGatedNote');
+var acParamsRow = document.getElementById('acParamsRow');
+var conduitTypeSelect = document.getElementById('conduitType');
+var powerFactorInput = document.getElementById('powerFactor');
 
 var vSourceError = document.getElementById('vSourceError');
 var currentError = document.getElementById('currentError');
@@ -948,6 +1096,7 @@ var cableLengthError = document.getElementById('cableLengthError');
 var customRError = document.getElementById('customRError');
 var allowablePctError = document.getElementById('allowablePctError');
 var minVoltageError = document.getElementById('minVoltageError');
+var powerFactorError = document.getElementById('powerFactorError');
 
 function showFieldError(el, msg) { el.textContent = msg; el.style.display = 'block'; }
 function clearFieldError(el) { el.textContent = ''; el.style.display = 'none'; }
@@ -963,20 +1112,41 @@ function setActiveToggle(container, btn) {
   btn.setAttribute('aria-pressed', 'true');
 }
 
-/* ---------- Electrical mode toggle: DC only is activatable (Step 6 AC gating) ---------- */
+/* ---------- Electrical mode toggle: DC / AC Single Phase / AC Three Phase ---------- */
 
 elecModeToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    if (btn.disabled || btn.getAttribute('aria-disabled') === 'true') return; // disabled AC buttons never change state
-    if (btn.dataset.value !== 'dc') return; // only DC is selectable in this step
     setActiveToggle(elecModeToggle, btn);
-    elecMode = 'dc';
-    calculate();
-  });
-  btn.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && (btn.disabled || btn.getAttribute('aria-disabled') === 'true')) {
-      e.preventDefault(); // disabled AC buttons never activate via keyboard either
+    elecMode = btn.dataset.value;
+    var isAc = elecMode !== 'dc';
+
+    acGatedNote.style.display = isAc ? 'block' : 'none';
+    acParamsRow.style.display = isAc ? '' : 'none';
+    document.getElementById('acDisclosureNote').style.display = isAc ? 'block' : 'none';
+    document.getElementById('rLoopRLabel').textContent = isAc ? 'Effective loop impedance' : 'Loop resistance';
+    vSourceHint.style.display = elecMode === 'ac3' ? 'block' : 'none';
+    vSourceLabel.textContent = elecMode === 'ac3' ? 'Supply voltage, line-to-line (V)' : 'Supply voltage (V)';
+
+    // AC only has a verified dataset for AWG (NEC Table 9); force AWG and lock out mm2/custom.
+    if (isAc && conductorSystem !== 'awg') {
+      conductorSystem = 'awg';
+      var awgBtn = conductorSystemToggle.querySelector('.toggle-btn[data-value="awg"]');
+      setActiveToggle(conductorSystemToggle, awgBtn);
+      sizeMaterialRow.style.display = '';
+      customRRow.style.display = 'none';
+      customRHint.style.display = 'none';
+      conductorSizeLabel.textContent = 'Wire size (AWG)';
     }
+    conductorSystemToggle.querySelectorAll('.toggle-btn').forEach(function (b) {
+      if (b.dataset.value === 'mm2' || b.dataset.value === 'custom') {
+        b.disabled = isAc;
+        b.setAttribute('aria-disabled', isAc ? 'true' : 'false');
+      }
+    });
+
+    populateSizeOptions();
+    syncMaterialAvailability();
+    calculate();
   });
 });
 
@@ -1011,14 +1181,21 @@ conductorSystemToggle.querySelectorAll('.toggle-btn').forEach(function (btn) {
   });
 });
 
-conductorMaterialSelect.addEventListener('change', function () { populateSizeOptions(); calculate(); });
-
 function syncMaterialAvailability() {
   var alOption = conductorMaterialSelect.querySelector('option[value="aluminum"]');
-  if (conductorSystem === 'awg') {
-    alOption.disabled = true;
-    materialHint.style.display = 'block';
-    if (conductorMaterialSelect.value === 'aluminum') conductorMaterialSelect.value = 'copper';
+  var isAc = elecMode !== 'dc';
+  if (!isAc && conductorSystem === 'awg') {
+    // DC AWG aluminum is fully available (NIST HB109 Table 1 EC-0 derivation) -- no gating needed.
+    alOption.disabled = false;
+    materialHint.style.display = 'none';
+  } else if (isAc) {
+    alOption.disabled = false;
+    if (conductorMaterialSelect.value === 'aluminum' && conductorSizeSelect.value === '14') {
+      materialHint.textContent = '14 AWG aluminum is not in NEC Table 9 (not manufactured per NEC Table 10). Choose 12 AWG or thicker for aluminum in AC mode.';
+      materialHint.style.display = 'block';
+    } else {
+      materialHint.style.display = 'none';
+    }
   } else {
     alOption.disabled = false;
     materialHint.style.display = 'none';
@@ -1027,7 +1204,19 @@ function syncMaterialAvailability() {
 
 function populateSizeOptions() {
   var sys = conductorSystem === 'mm2' ? 'mm2' : 'awg';
-  var sizes = CONDUCTOR_DATA[sys].sizes; // thickest -> thinnest, matches natural size-selector order
+  var isAc = elecMode !== 'dc';
+  var sizes;
+  if (isAc) {
+    var material = conductorMaterialSelect.value === 'aluminum' ? 'aluminum' : 'copper';
+    var conduit = conduitTypeSelect ? conduitTypeSelect.value : 'pvc';
+    sizes = Object.keys(CONDUCTOR_DATA.ac.necTable9[material][conduit].values);
+    // sort thickest -> thinnest using the full AC size order as reference
+    var order = CONDUCTOR_DATA.ac.necTable9.sizes;
+    sizes = order.filter(function (s) { return sizes.indexOf(s) !== -1; });
+  } else {
+    sizes = CONDUCTOR_DATA[sys].sizes; // thickest -> thinnest, matches natural size-selector order
+  }
+  var prevValue = conductorSizeSelect.value;
   conductorSizeSelect.innerHTML = '';
   sizes.forEach(function (s) {
     var opt = document.createElement('option');
@@ -1035,17 +1224,26 @@ function populateSizeOptions() {
     opt.textContent = sys === 'mm2' ? (s + ' mm²') : (s + ' AWG');
     conductorSizeSelect.appendChild(opt);
   });
-  // default selection: keep a mid-range value so the initial demo state matches the worked example (18 AWG)
-  if (sys === 'awg') conductorSizeSelect.value = '18';
+  if (sizes.indexOf(prevValue) !== -1) {
+    conductorSizeSelect.value = prevValue;
+  } else if (sys === 'awg') {
+    // default selection: keep a mid-range value so the initial demo state matches the worked example (18 AWG),
+    // falling back to 14 (the thinnest AC-available size) when 18 AWG isn't in the current AC size list.
+    conductorSizeSelect.value = sizes.indexOf('18') !== -1 ? '18' : (sizes.indexOf('14') !== -1 ? '14' : sizes[sizes.length - 1]);
+  }
 }
 
 /* ---------- Inputs triggering recalculation ---------- */
 
 [vSourceInput, currentBasisSelect, currentInput, cableLengthInput, lengthUnitSelect,
- conductorSizeSelect, customRInput, customRBasisSelect, allowablePctInput, minVoltageInput].forEach(function (el) {
+ conductorSizeSelect, customRInput, customRBasisSelect, allowablePctInput, minVoltageInput,
+ powerFactorInput].forEach(function (el) {
   el.addEventListener('input', calculate);
   el.addEventListener('change', calculate);
 });
+
+conduitTypeSelect.addEventListener('change', function () { populateSizeOptions(); syncMaterialAvailability(); calculate(); });
+conductorMaterialSelect.addEventListener('change', function () { populateSizeOptions(); syncMaterialAvailability(); calculate(); });
 
 currentBasisSelect.addEventListener('change', function () {
   var isWatts = currentBasisSelect.value === 'watts';
@@ -1130,6 +1328,43 @@ function getResistancePerFt() {
   var unitLabel = matData.unit === 'ohm_per_km' ? 'Ω/km' : 'Ω/1000ft';
   return { error: false, rPerFt: resistancePerFt(raw2, matData.unit),
     source: label + ' ' + matLabel + ' (' + fmtNum(raw2, 4) + ' ' + unitLabel + ', ' + matData.temperatureBasisC + '°C)' };
+}
+
+// AC: looks up R and X (ohm/1000ft, NEC Table 9 basis) for the current material/conduit/size and
+// converts to ohm/ft. Returns { error: true, unavailable: true } for any unsupported combination
+// (e.g. 14 AWG aluminum) rather than substituting a nearby size's value.
+function getACRX() {
+  var material = conductorMaterialSelect.value === 'aluminum' ? 'aluminum' : 'copper';
+  var conduit = conduitTypeSelect.value;
+  var t9 = CONDUCTOR_DATA.ac.necTable9;
+  var matData = t9[material] && t9[material][conduit];
+  if (!matData) return { error: true, unavailable: true };
+  var size = conductorSizeSelect.value;
+  var cell = matData.values[size];
+  if (!cell) return { error: true, unavailable: true };
+  var conduitLabel = conduit === 'pvc' ? 'PVC conduit' : (conduit === 'steel' ? 'steel conduit' : 'aluminum conduit');
+  var matLabel = material === 'aluminum' ? 'aluminum' : 'copper';
+  return {
+    error: false,
+    rPerFt: cell.R / 1000,
+    xPerFt: cell.X / 1000,
+    source: size + ' AWG ' + matLabel + ', ' + conduitLabel + ' (R=' + fmtNum(cell.R, 4) + ', X=' + fmtNum(cell.X, 4) +
+      ' Ω/1000ft, ' + t9.temperatureBasisC + '°C, NEC Ch.9 Table 9, ' + t9.freqHz + ' Hz)'
+  };
+}
+
+function validatePowerFactor() {
+  var raw = powerFactorInput.value.trim();
+  if (powerFactorInput.validity && powerFactorInput.validity.badInput) {
+    showFieldError(powerFactorError, 'Enter a valid power factor.'); setInvalid(powerFactorInput, true); return null;
+  }
+  if (raw === '') { showFieldError(powerFactorError, 'Enter a power factor (0 < PF ≤ 1).'); setInvalid(powerFactorInput, true); return null; }
+  var n = parseFloat(raw);
+  if (!isFiniteNumber(n) || n <= 0 || n > 1) {
+    showFieldError(powerFactorError, 'Power factor must be greater than 0 and at most 1.'); setInvalid(powerFactorInput, true); return null;
+  }
+  clearFieldError(powerFactorError); setInvalid(powerFactorInput, false);
+  return n;
 }
 
 /* ---------- Rendering helpers ---------- */
@@ -1264,8 +1499,17 @@ function renderThinnestBlocked(message) {
 /* ---------- Orchestration ---------- */
 
 function calculate() {
+  var isAc = elecMode !== 'dc';
   var vSource = validateNumberField(vSourceInput, vSourceError, { label: 'supply voltage', min: 0.1, max: 1000, maxText: '1000 V' });
   var valid = vSource !== null;
+
+  var pf = null;
+  if (isAc) {
+    pf = validatePowerFactor();
+    if (pf === null) valid = false;
+  } else {
+    clearFieldError(powerFactorError); setInvalid(powerFactorInput, false);
+  }
 
   var isWatts = currentBasisSelect.value === 'watts';
   var currentRaw = validateNumberField(currentInput, currentError, {
@@ -1276,7 +1520,13 @@ function calculate() {
   var current = null;
   if (valid) {
     if (isWatts) {
-      current = vSource > 0 ? calculateCurrentFromWatts({ watts: currentRaw, mode: 'dc', vSource: vSource }) : null;
+      if (elecMode === 'dc') {
+        current = vSource > 0 ? calculateCurrentFromWatts({ watts: currentRaw, mode: 'dc', vSource: vSource }) : null;
+      } else if (elecMode === 'ac1') {
+        current = (vSource > 0 && pf !== null) ? calculateCurrentFromWatts({ watts: currentRaw, mode: 'ac1', vSource: vSource, pf: pf }) : null;
+      } else {
+        current = (vSource > 0 && pf !== null) ? calculateCurrentFromWatts({ watts: currentRaw, mode: 'ac3', vLL: vSource, pf: pf }) : null;
+      }
     } else {
       current = currentRaw;
     }
@@ -1284,9 +1534,9 @@ function calculate() {
   currentZeroNote.style.display = (current === 0) ? '' : 'none';
 
   var forward = calcMode === 'voltageDrop';
-  var length = null;
+  var length = null, unit;
   if (forward) {
-    var unit = lengthUnitSelect.value;
+    unit = lengthUnitSelect.value;
     cableLengthInput.max = unit === 'm' ? 15240 : 50000;
     length = validateNumberField(cableLengthInput, cableLengthError, {
       label: 'one-way cable length', min: 0, max: unit === 'm' ? 15240 : 50000,
@@ -1303,12 +1553,13 @@ function calculate() {
   var minV = validateOptionalVoltage(minVoltageInput, minVoltageError, vSource);
   if (!minV.ok) valid = false;
 
-  var rInfo = getResistancePerFt();
+  var rInfo = isAc ? getACRX() : getResistancePerFt();
   if (rInfo.error) valid = false;
 
   if (!valid) {
     var blockedMsg = rInfo.unavailable
-      ? 'Select a material this calculator has verified data for, or switch to custom resistance.'
+      ? (isAc ? 'Select an AWG size, material, and conduit combination this calculator has verified NEC Table 9 data for.'
+              : 'Select a material this calculator has verified data for, or switch to custom resistance.')
       : 'Fix the highlighted input above to see a result.';
     if (calcMode === 'voltageDrop') renderVoltageDropBlocked(blockedMsg, 'enter valid values');
     else if (calcMode === 'maxLength') renderMaxLengthBlocked(blockedMsg);
@@ -1326,37 +1577,74 @@ function calculate() {
 
   if (calcMode === 'voltageDrop') {
     var lengthFt = lengthToFeet(length, unit);
-    var ev = calculateDCVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt, rPerFt: rInfo.rPerFt });
+    var ev;
+    if (elecMode === 'dc') {
+      ev = calculateDCVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt, rPerFt: rInfo.rPerFt });
+    } else if (elecMode === 'ac1') {
+      ev = calculateACSinglePhaseVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt, r: rInfo.rPerFt, x: rInfo.xPerFt, pf: pf });
+      ev.rLoop = ev.vDrop / current;
+    } else {
+      ev = calculateACThreePhaseVoltageDrop({ vLL: vSource, current: current, lengthFt: lengthFt, r: rInfo.rPerFt, x: rInfo.xPerFt, pf: pf });
+      ev.rLoop = ev.vDrop / current;
+    }
     renderVoltageDropResult(ev, vSource, thresholdPct, minV.value, rInfo);
   } else if (calcMode === 'maxLength') {
-    var denomPerFt = current * rInfo.rPerFt * 2;
+    var denomPerFt;
+    if (elecMode === 'dc') {
+      denomPerFt = current * rInfo.rPerFt * 2;
+    } else {
+      var sinPhi = Math.sqrt(Math.max(0, 1 - pf * pf));
+      var perUnitDrop = current * (rInfo.rPerFt * pf + rInfo.xPerFt * sinPhi);
+      denomPerFt = elecMode === 'ac1' ? 2 * perUnitDrop : Math.sqrt(3) * perUnitDrop;
+    }
     var res = calculateMaximumLength({ vSource: vSource, current: current, denomPerFt: denomPerFt, thresholdPercent: thresholdPct, minVoltage: minV.value });
     renderMaxLengthResult(res, lengthUnitSelect.value, rInfo);
   } else {
-    if (conductorSystem === 'custom') {
+    if (!isAc && conductorSystem === 'custom') {
       renderThinnestBlocked('Thinnest passing cable size requires AWG or mm² conductor selection, not a custom resistance.');
       return;
     }
-    var sys = conductorSystem === 'mm2' ? 'mm2' : 'awg';
-    var material = conductorMaterialSelect.value;
-    var matData = CONDUCTOR_DATA[sys][material];
-    if (!matData || matData.available === false || !matData.values) {
-      renderThinnestBlocked('Select a material this calculator has verified data for.');
-      return;
-    }
-    var sizesThickestFirst = CONDUCTOR_DATA[sys].sizes;
-    var sizesThinnestFirst = sizesThickestFirst.slice().reverse();
+    var sys = isAc ? 'awg' : (conductorSystem === 'mm2' ? 'mm2' : 'awg');
+    var material = conductorMaterialSelect.value === 'aluminum' ? 'aluminum' : 'copper';
     var lengthFt2 = lengthToFeet(length !== null ? length : cableLengthInput.value, lengthUnitSelect.value);
-    // Thinnest Passing Cable Size still needs a length; if calc mode was switched without a length field shown, use the last entered value.
-    var outcome = calculateThinnestPassingSize({
-      sizesThinnestFirst: sizesThinnestFirst,
-      evaluateFn: function (size) {
-        var rPerFtCandidate = resistancePerFt(matData.values[size], matData.unit);
-        var evc = calculateDCVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt2, rPerFt: rPerFtCandidate });
-        var passes = evc.vEndRaw > 0 && evc.dropPercent <= thresholdPct + 1e-9 && (minV.value === null || evc.vEnd >= minV.value);
-        return { passes: passes, result: evc };
+    var outcome;
+
+    if (isAc) {
+      var conduit = conduitTypeSelect.value;
+      var t9data = CONDUCTOR_DATA.ac.necTable9[material][conduit];
+      if (!t9data) { renderThinnestBlocked('Select a material/conduit combination this calculator has verified NEC Table 9 data for.'); return; }
+      var acOrder = CONDUCTOR_DATA.ac.necTable9.sizes; // thickest -> thinnest
+      var acSizesAvail = acOrder.filter(function (s) { return t9data.values[s] !== undefined; });
+      var acSizesThinnestFirst = acSizesAvail.slice().reverse();
+      outcome = calculateThinnestPassingSize({
+        sizesThinnestFirst: acSizesThinnestFirst,
+        evaluateFn: function (size) {
+          var cell = t9data.values[size];
+          var evc = elecMode === 'ac1'
+            ? calculateACSinglePhaseVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt2, r: cell.R / 1000, x: cell.X / 1000, pf: pf })
+            : calculateACThreePhaseVoltageDrop({ vLL: vSource, current: current, lengthFt: lengthFt2, r: cell.R / 1000, x: cell.X / 1000, pf: pf });
+          var passes = evc.vEndRaw > 0 && evc.dropPercent <= thresholdPct + 1e-9 && (minV.value === null || evc.vEnd >= minV.value);
+          return { passes: passes, result: evc };
+        }
+      });
+    } else {
+      var matData = CONDUCTOR_DATA[sys][material];
+      if (!matData || matData.available === false || !matData.values) {
+        renderThinnestBlocked('Select a material this calculator has verified data for.');
+        return;
       }
-    });
+      var sizesThickestFirst = CONDUCTOR_DATA[sys].sizes;
+      var sizesThinnestFirst = sizesThickestFirst.slice().reverse();
+      outcome = calculateThinnestPassingSize({
+        sizesThinnestFirst: sizesThinnestFirst,
+        evaluateFn: function (size) {
+          var rPerFtCandidate = resistancePerFt(matData.values[size], matData.unit);
+          var evc = calculateDCVoltageDrop({ vSource: vSource, current: current, lengthFt: lengthFt2, rPerFt: rPerFtCandidate });
+          var passes = evc.vEndRaw > 0 && evc.dropPercent <= thresholdPct + 1e-9 && (minV.value === null || evc.vEnd >= minV.value);
+          return { passes: passes, result: evc };
+        }
+      });
+    }
     renderThinnestResult(outcome, sys, thresholdPct, minV.value);
   }
 }
@@ -1367,7 +1655,9 @@ function calculate() {
   var awgBody = document.getElementById('awgTableBody');
   var awgHtml = '';
   CONDUCTOR_DATA.awg.sizes.forEach(function (g) {
-    awgHtml += '<tr><td>' + g + ' AWG</td><td>' + fmtNum(CONDUCTOR_DATA.awg.copper.values[g], 4) + '</td></tr>';
+    var cuAwg = CONDUCTOR_DATA.awg.copper.values[g];
+    var alAwg = CONDUCTOR_DATA.awg.aluminum.values[g];
+    awgHtml += '<tr><td>' + g + ' AWG</td><td>' + fmtNum(cuAwg, 4) + '</td><td>' + (alAwg !== undefined ? fmtNum(alAwg, 4) : '—') + '</td></tr>';
   });
   awgBody.innerHTML = awgHtml;
 
