@@ -20,7 +20,7 @@
         { title: 'Field of View Calculator', label: 'Field of View', url: '/tools/field-of-view-calculator' }
       ] },
       { slug: 'electrical-wiring', name: 'Electrical & Wiring', url: null, calculators: [
-        { title: 'CCTV Voltage Drop Calculator', label: 'CCTV Voltage Drop', url: '/tools/cctv-voltage-drop-calculator' }
+        { title: 'Voltage Drop Calculator', label: 'Voltage Drop', url: '/tools/voltage-drop-calculator' }
       ] },
       { slug: 'fire-alarm-elv', name: 'Fire Alarm & ELV', url: null, calculators: [] },
       { slug: 'battery-ups', name: 'Battery & UPS', url: null, calculators: [
