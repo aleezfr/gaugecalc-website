@@ -1651,8 +1651,11 @@ function calculate() {
 }
 
 /* ---------- Reference tables (article) ---------- */
+// Purely informational (AWG/mm² resistance reference, far below the fold) —
+// deferred off the initial-render path so it can't compete with the
+// interactive calculator above it for main-thread time on load.
 
-(function buildReferenceTables() {
+function buildReferenceTables() {
   var awgBody = document.getElementById('awgTableBody');
   var awgHtml = '';
   CONDUCTOR_DATA.awg.sizes.forEach(function (g) {
@@ -1670,7 +1673,13 @@ function calculate() {
     mm2Html += '<tr><td>' + g + ' mm²</td><td>' + fmtNum(cu, 3) + '</td><td>' + (al !== undefined ? fmtNum(al, 3) : '—') + '</td></tr>';
   });
   mm2Body.innerHTML = mm2Html;
-})();
+}
+
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(buildReferenceTables, { timeout: 2000 });
+} else {
+  setTimeout(buildReferenceTables, 200);
+}
 
 /* ---------- Init ---------- */
 
