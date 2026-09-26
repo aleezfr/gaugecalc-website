@@ -444,6 +444,7 @@
 
         <div class="calc-actions">
           <button type="button" class="btn calc-cta" id="sizingCalcBtn">Calculate</button>
+          <button type="button" class="btn btn-ghost calc-reset" id="sizingResetBtn">Reset</button>
         </div>
       </div>
 
@@ -467,8 +468,7 @@
         </div>
 
         <div class="result-actions">
-          <button type="button" class="btn btn-ghost" id="sizingRecalcBtn">Recalculate</button>
-          <button type="button" class="btn btn-ghost" id="sizingResetBtn">Reset</button>
+          <button type="button" class="btn btn-ghost calc-recalc" id="sizingRecalcBtn">Recalculate</button>
         </div>
       </div>
     </div>
@@ -966,6 +966,11 @@ const sizingToggleDefaults = [loadTypeToggle, document.getElementById('chemToggl
   .map(row => row.querySelector('.toggle-btn.active'));
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// No Calculate = no result: mirrors calc-ux.js's gating on the top converter.
+// Hidden until Calculate succeeds; hidden again on Reset.
+sizingLayout.classList.add('is-pending');
+sizingResult.classList.add('is-pending');
+
 function firstSizingInvalid() {
   return Array.from(sizingPanel.querySelectorAll('[aria-invalid="true"]'))
     .find(el => el.getClientRects().length) || null;
@@ -977,20 +982,43 @@ function stickyOffset() {
     ? rail.offsetHeight : 0;
 }
 
-function runSizing(scroll) {
+function runSizing() {
   calculateSizing();
   const bad = firstSizingInvalid();
   if (bad) {
+    // Validation failed: keep the result hidden — no result until Calculate succeeds.
     sizingResult.classList.remove('is-focused');
     bad.focus();
     return;
   }
+  sizingLayout.classList.remove('is-pending');
+  sizingResult.classList.remove('is-pending');
   sizingResult.focus({ preventScroll: true });
   sizingResult.classList.add('is-focused');
   const top = sizingResult.getBoundingClientRect().top;
-  if (scroll && (top < stickyOffset() || top > window.innerHeight * 0.55)) {
+  if (top < stickyOffset() || top > window.innerHeight * 0.55) {
     sizingResult.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
   }
+}
+
+// Scrolls back to the sizing calculator's inputs, accounting for the sticky
+// rail offset — shared by Recalculate (navigation only) and Reset.
+function scrollToSizingCalculator() {
+  const top = sizingLayout.getBoundingClientRect().top;
+  const offset = stickyOffset();
+  if (top < offset - 4 || top > offset + 80) {
+    sizingLayout.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+  }
+}
+
+// Recalculate is a navigation action, not Reset: it does not touch input
+// values, mode, or the displayed result — it just takes the user back to the
+// inputs so they can review/change values and press Calculate again.
+function navigateToSizingInputs() {
+  sizingResult.classList.remove('is-focused');
+  // preventScroll so native focus-scroll can't fight the explicit scroll below.
+  loadValueInput.focus({ preventScroll: true });
+  scrollToSizingCalculator();
 }
 
 function resetSizing() {
@@ -1004,20 +1032,19 @@ function resetSizing() {
       el.value = el.defaultValue;
     }
   });
-  // Re-syncs the custom-voltage row visibility and recalculates.
+  // Re-syncs the custom-voltage row visibility.
   voltageSelect.dispatchEvent(new Event('change'));
   sizingResult.classList.remove('is-focused');
+  // Reset returns to the pre-Calculate state: no result until Calculate is pressed again.
+  sizingLayout.classList.add('is-pending');
+  sizingResult.classList.add('is-pending');
   // preventScroll so native focus-scroll can't fight the explicit scroll below.
   loadValueInput.focus({ preventScroll: true });
-  const top = sizingLayout.getBoundingClientRect().top;
-  const offset = stickyOffset();
-  if (top < offset - 4 || top > offset + 80) {
-    sizingLayout.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
-  }
+  scrollToSizingCalculator();
 }
 
-document.getElementById('sizingCalcBtn').addEventListener('click', () => runSizing(true));
-document.getElementById('sizingRecalcBtn').addEventListener('click', () => runSizing(false));
+document.getElementById('sizingCalcBtn').addEventListener('click', runSizing);
+document.getElementById('sizingRecalcBtn').addEventListener('click', navigateToSizingInputs);
 document.getElementById('sizingResetBtn').addEventListener('click', resetSizing);
 sizingResult.addEventListener('blur', () => sizingResult.classList.remove('is-focused'));
 

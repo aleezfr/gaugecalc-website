@@ -1855,6 +1855,9 @@ html.gc-search-open body { overflow: hidden; }
 /* ---------- Calculator actions: Calculate CTA, Recalculate, Reset ---------- */
 
 .calc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 22px;
   padding-top: 18px;
   border-top: 1px solid var(--border);
@@ -1862,14 +1865,16 @@ html.gc-search-open body { overflow: hidden; }
 
 .calc-cta {
   justify-content: center;
-  width: 100%;
+  flex: 1 1 200px;
   min-height: 48px;
   padding: 12px 24px;
   font-size: 1rem;
 }
 
-@media (min-width: 641px) {
-  .calc-cta { width: auto; min-width: 200px; }
+.calc-actions .calc-reset {
+  flex: 0 1 130px;
+  justify-content: center;
+  min-height: 48px;
 }
 
 /* White-on-brand falls below 4.5:1 on the lighter dark-mode blue, so the CTA uses the dark panel colour there. */
@@ -1900,6 +1905,14 @@ html.gc-search-open body { overflow: hidden; }
 @media (max-width: 820px) {
   .result-panel { scroll-margin-top: 72px; }
 }
+
+/* No Calculate = no result: the result panel stays out of the layout (and out
+   of the accessibility tree, so its aria-live region can't announce) until
+   the user explicitly presses Calculate. The input panel takes the full
+   width while it's pending, then the layout reflows to its normal two-column
+   form the moment a result exists. */
+.calc-layout.is-pending { grid-template-columns: 1fr; }
+.result-panel.is-pending { display: none; }
 
 /* ---------- Device rows & budget bar (additive — PoE Budget Calculator) ---------- */
 /* Purely additive: nothing above this point is touched. Reuses existing

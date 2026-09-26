@@ -1,9 +1,12 @@
-// GaugeCalc calculator UX layer — Calculate CTA, jump-to-result, Recalculate / Reset.
+// GaugeCalc calculator UX layer — Calculate/Reset in the input panel,
+// Recalculate in the result panel, jump-to-result.
 //
 // Loaded on tool pages only. It never contains or changes a formula: the
 // calculators still update live as you type, exactly as before. This layer adds
 // an explicit "Calculate" action that re-runs the page's own calculate(),
 // then (only if the inputs are valid) scrolls to and focuses the result.
+// Recalculate is a navigation action, not a reset: it just scrolls the user
+// back to the inputs to review/change values before calculating again.
 (function () {
   'use strict';
 
@@ -18,14 +21,14 @@
 
   var actions = document.createElement('div');
   actions.className = 'calc-actions';
-  actions.innerHTML = '<button type="button" class="btn calc-cta">Calculate</button>';
+  actions.innerHTML =
+    '<button type="button" class="btn calc-cta">Calculate</button>' +
+    '<button type="button" class="btn btn-ghost calc-reset">Reset</button>';
   inputPanel.appendChild(actions);
 
   var resultActions = document.createElement('div');
   resultActions.className = 'result-actions';
-  resultActions.innerHTML =
-    '<button type="button" class="btn btn-ghost calc-recalc">Recalculate</button>' +
-    '<button type="button" class="btn btn-ghost calc-reset">Reset</button>';
+  resultActions.innerHTML = '<button type="button" class="btn btn-ghost calc-recalc">Recalculate</button>';
   result.appendChild(resultActions);
 
   // The result panel becomes a labelled, focusable landmark so keyboard and
@@ -34,6 +37,24 @@
   result.setAttribute('tabindex', '-1');
   result.addEventListener('blur', function () { result.classList.remove('is-focused'); });
   nameResult();
+
+  // No Calculate = no result: hide the result panel (and everything inside
+  // it, including its aria-live region) until the user explicitly presses
+  // Calculate. Calculators still compute live under the hood as inputs
+  // change — only the panel's visibility is gated, so the values shown the
+  // moment it's revealed are already current.
+  layout.classList.add('is-pending');
+  result.classList.add('is-pending');
+
+  function revealResult() {
+    layout.classList.remove('is-pending');
+    result.classList.remove('is-pending');
+  }
+
+  function hideResult() {
+    layout.classList.add('is-pending');
+    result.classList.add('is-pending');
+  }
 
   /* ---------- helpers ---------- */
 
@@ -101,11 +122,13 @@
     runCalculation();
     var bad = firstInvalid();
     if (bad) {
-      // Validation failed: keep the user in the inputs, on the first problem.
+      // Validation failed: keep the user in the inputs, on the first problem,
+      // and keep the result panel hidden — no result until Calculate succeeds.
       result.classList.remove('is-focused');
       bad.focus();
       return false;
     }
+    revealResult();
     showResult();
     return true;
   }
@@ -153,24 +176,30 @@
       // Removing the last remaining row resets it to its defaults.
       if (rows.length === 1) rows[0].querySelector('.device-row-remove').click();
     }
-    runCalculation();
   }
 
   /* ---------- wiring ---------- */
 
   actions.querySelector('.calc-cta').addEventListener('click', calculateAndShow);
 
+  // Recalculate is a navigation action, not Reset: it doesn't touch input
+  // values, mode, or the displayed result — it just takes the user back to
+  // the inputs so they can review/change values and press Calculate again.
   resultActions.querySelector('.calc-recalc').addEventListener('click', function () {
-    runCalculation();
-    if (firstInvalid()) { result.classList.remove('is-focused'); firstInvalid().focus(); return; }
-    nameResult();
-    result.focus({ preventScroll: true });
-    result.classList.add('is-focused');
+    result.classList.remove('is-focused');
+    // Back to the first input, preventScroll so the browser's own focus-scroll
+    // can't fight the explicit scrollToCalculator() below.
+    var first = inputPanel.querySelector('input:not([type="hidden"]), select');
+    if (first && visible(first)) first.focus({ preventScroll: true });
+    scrollToCalculator();
   });
 
-  resultActions.querySelector('.calc-reset').addEventListener('click', function () {
+  actions.querySelector('.calc-reset').addEventListener('click', function () {
     resetToDefaults();
     result.classList.remove('is-focused');
+    // Reset returns to the pre-Calculate state: no result until the user
+    // explicitly calculates again.
+    hideResult();
     // Back to the first input so the next run starts at the top of the form —
     // preventScroll so the browser's own focus-scroll can't fight the explicit
     // scrollToCalculator() below (e.g. jump to a field that shifted position
