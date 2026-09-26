@@ -849,7 +849,16 @@ function resetRow(row) {
   row.querySelector('.dr-qty').value = 1;
   row.querySelector('.dr-standard').value = DEVICE_PRESETS.cam4mp.standard;
   row.querySelector('.dr-watts').value = DEVICE_PRESETS.cam4mp.watts;
+  row.querySelector('.dr-length').value = 30;
+  row.querySelector('.dr-length-unit').value = 'm';
+  row.querySelector('.dr-cable-type').value = 'standard';
+  row.querySelector('.dr-custom-r').value = DEFAULT_CH_OHMS_100M;
+  row.querySelector('.dr-custom-r-field').style.display = 'none';
   updateRowHint(row);
+  row.querySelectorAll('.field-error').forEach(function (el) { clearFieldError(el); });
+  row.querySelectorAll('input').forEach(function (el) { setInvalid(el, false); });
+  var wattsWarning = row.querySelector('.dr-watts-warning');
+  if (wattsWarning) { wattsWarning.style.display = 'none'; wattsWarning.textContent = ''; }
 }
 
 addDeviceBtn.addEventListener('click', function () { addRow('cam4mp'); });
