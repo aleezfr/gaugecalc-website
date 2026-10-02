@@ -45,7 +45,7 @@
   "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
   "datePublished": "2026-09-13",
-  "dateModified": "2026-09-13",
+  "dateModified": "2026-10-02",
   "mainEntityOfPage": "https://gaugecalc.com/blog/analog-vs-ip-cctv"
 }
 </script>
@@ -123,6 +123,153 @@
         when upgrading an existing analog system without replacing every camera is the practical path.
       </p>
 
+      <h2>How each system works</h2>
+      <p>
+        <strong>Analog CCTV</strong> sends a video signal from each camera down its own coaxial cable to a
+        DVR (digital video recorder). The camera mostly captures and transmits; the DVR digitises, compresses
+        and records the signal and drives the monitor. Camera power is usually supplied separately, from a
+        12V DC supply or a power distribution box.
+      </p>
+      <p>
+        <strong>IP CCTV</strong> works differently: each camera digitises and compresses its own video and
+        sends it as a data stream over an Ethernet network to an NVR (network video recorder). Cameras
+        connect through a switch, or through the PoE ports on some NVRs, and PoE can carry power over the same
+        cable as the data. Anything else on the same network, such as a viewing PC or phone, can reach the
+        streams.
+      </p>
+
+      <figure style="margin:20px 0;">
+        <svg viewBox="0 0 360 360" width="360" height="360" role="img" aria-labelledby="cmpTitle cmpDesc"
+             style="display:block;width:100%;max-width:460px;height:auto;margin:0 auto;font-family:'IBM Plex Sans',system-ui,sans-serif;">
+          <title id="cmpTitle">Signal path of an analog DVR system compared with an IP NVR system</title>
+          <desc id="cmpDesc">Two vertical flow diagrams. Analog: camera, coaxial cable carrying video, DVR, then monitor, with each camera needing its own cable run back to the DVR and power usually supplied separately. IP: camera, Ethernet cable carrying data and PoE power, PoE switch, Ethernet uplink to the NVR, then a network connection to viewing clients.</desc>
+          <style>
+            .cmp-n{fill:var(--surface);stroke:var(--border-strong);stroke-width:1.5}
+            .cmp-t{font-size:13px;font-weight:700;fill:var(--text)}
+            .cmp-s{font-size:11.5px;fill:var(--text-muted)}
+            .cmp-h{font-size:11.5px;font-weight:700;letter-spacing:.06em;fill:var(--text)}
+            .cmp-l{stroke:var(--text-muted);stroke-width:1.5;fill:none}
+            .cmp-ah{fill:var(--text-muted)}
+            .cmp-note{fill:none;stroke:var(--text-muted);stroke-width:1.2;stroke-dasharray:4 3}
+          </style>
+          <defs>
+            <marker id="cmpArr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path class="cmp-ah" d="M0,0 L8,4 L0,8 z"/>
+            </marker>
+          </defs>
+
+          <text class="cmp-h" x="88" y="15" text-anchor="middle">ANALOG + DVR</text>
+          <rect x="10" y="21" width="156" height="3" style="fill:var(--accent)"/>
+          <text class="cmp-h" x="272" y="15" text-anchor="middle">IP + NVR</text>
+          <rect x="194" y="21" width="156" height="3" style="fill:var(--brand)"/>
+
+          <!-- Analog column -->
+          <rect class="cmp-n" x="10" y="36" width="156" height="44" rx="6"/>
+          <text class="cmp-t" x="88" y="55" text-anchor="middle">Analog HD camera</text>
+          <text class="cmp-s" x="88" y="70" text-anchor="middle">power usually separate</text>
+          <line class="cmp-l" x1="58" y1="80" x2="58" y2="124" marker-end="url(#cmpArr)"/>
+          <text class="cmp-s" x="68" y="98">Coax cable</text>
+          <text class="cmp-s" x="68" y="111">video signal</text>
+
+          <rect class="cmp-n" x="10" y="126" width="156" height="44" rx="6"/>
+          <text class="cmp-t" x="88" y="145" text-anchor="middle">DVR</text>
+          <text class="cmp-s" x="88" y="160" text-anchor="middle">digitises &amp; records</text>
+          <line class="cmp-l" x1="58" y1="170" x2="58" y2="214" marker-end="url(#cmpArr)"/>
+          <text class="cmp-s" x="68" y="188">Video output</text>
+          <text class="cmp-s" x="68" y="201">to monitor</text>
+
+          <rect class="cmp-n" x="10" y="216" width="156" height="44" rx="6"/>
+          <text class="cmp-t" x="88" y="235" text-anchor="middle">Monitor</text>
+          <text class="cmp-s" x="88" y="250" text-anchor="middle">local viewing</text>
+
+          <rect class="cmp-note" x="10" y="276" width="156" height="74" rx="6"/>
+          <text class="cmp-s" x="88" y="299" text-anchor="middle">Each camera needs its</text>
+          <text class="cmp-s" x="88" y="314" text-anchor="middle">own cable run back to</text>
+          <text class="cmp-s" x="88" y="329" text-anchor="middle">the DVR</text>
+
+          <!-- IP column -->
+          <rect class="cmp-n" x="194" y="36" width="156" height="44" rx="6"/>
+          <text class="cmp-t" x="272" y="55" text-anchor="middle">IP camera</text>
+          <text class="cmp-s" x="272" y="70" text-anchor="middle">encodes video itself</text>
+          <line class="cmp-l" x1="242" y1="80" x2="242" y2="124" marker-end="url(#cmpArr)"/>
+          <text class="cmp-s" x="252" y="98">Ethernet cable</text>
+          <text class="cmp-s" x="252" y="111">data + PoE power</text>
+
+          <rect class="cmp-n" x="194" y="126" width="156" height="44" rx="6"/>
+          <text class="cmp-t" x="272" y="145" text-anchor="middle">PoE switch</text>
+          <text class="cmp-s" x="272" y="160" text-anchor="middle">connects &amp; powers cameras</text>
+          <line class="cmp-l" x1="242" y1="170" x2="242" y2="214" marker-end="url(#cmpArr)"/>
+          <text class="cmp-s" x="252" y="188">Ethernet</text>
+          <text class="cmp-s" x="252" y="201">uplink to NVR</text>
+
+          <rect class="cmp-n" x="194" y="216" width="156" height="44" rx="6"/>
+          <text class="cmp-t" x="272" y="235" text-anchor="middle">NVR</text>
+          <text class="cmp-s" x="272" y="250" text-anchor="middle">records the streams</text>
+          <line class="cmp-l" x1="242" y1="260" x2="242" y2="304" marker-end="url(#cmpArr)"/>
+          <text class="cmp-s" x="252" y="278">Network</text>
+          <text class="cmp-s" x="252" y="291">LAN or internet</text>
+
+          <rect class="cmp-n" x="194" y="306" width="156" height="44" rx="6"/>
+          <text class="cmp-t" x="272" y="325" text-anchor="middle">Network / client</text>
+          <text class="cmp-s" x="272" y="340" text-anchor="middle">PC or phone viewing</text>
+        </svg>
+        <figcaption style="font-size:.85rem;color:var(--text-muted);margin-top:8px;text-align:center;">
+          Signal path in each system. In analog, the recorder does the digitising; in IP, the camera does it
+          and the video travels as network data.
+        </figcaption>
+      </figure>
+
+      <h2>DVR vs. NVR: the practical difference</h2>
+      <table>
+        <thead><tr><th></th><th>DVR (analog)</th><th>NVR (IP)</th></tr></thead>
+        <tbody>
+          <tr><td>What the recorder receives</td><td>A video signal from each camera</td><td>Already-compressed video streams over the network</td></tr>
+          <tr><td>Where encoding happens</td><td>In the recorder</td><td>In each camera</td></tr>
+          <tr><td>Camera connection</td><td>One coax cable per camera, straight to the recorder</td><td>Over the network, through a switch or the recorder's PoE ports</td></tr>
+          <tr><td>Adding cameras later</td><td>Limited by free video inputs on the recorder</td><td>Limited by recorder channels, free switch ports and available bandwidth</td></tr>
+          <tr><td>Camera placement</td><td>Within the usable coax run of the recorder</td><td>Anywhere the network reaches</td></tr>
+          <tr><td>Mixing both types</td><td colspan="2">Some hybrid recorders accept analog and IP cameras. Check the exact model's channel specification before relying on it.</td></tr>
+        </tbody>
+      </table>
+      <p>
+        On image quality: analog HD resolution is bounded by the analog format and the recorder, while IP
+        resolution depends on the camera and recorder you choose. Higher resolution on either side means more
+        storage, and on IP it also means more network bandwidth.
+      </p>
+
+      <h2>Cabling and power</h2>
+      <ul>
+        <li>
+          <strong>Analog:</strong> coax for video plus a separate power run. The usable coax distance depends
+          on the cable type and the camera format, so check the manufacturer's rated distance rather than
+          assuming. Long 12V DC power runs can lose enough voltage to cause night-time dropouts; the
+          <a href="../tools/voltage-drop-calculator">Voltage Drop Calculator</a> checks that for a given run.
+        </li>
+        <li>
+          <strong>IP:</strong> one Ethernet cable can carry data and PoE power. A copper Ethernet segment is
+          limited to 100 m under the standard, so longer runs need an intermediate switch, an extender or
+          fibre. The switch's total PoE budget also matters, which the
+          <a href="../tools/poe-budget-calculator">PoE Budget Calculator</a> covers.
+        </li>
+      </ul>
+
+      <h2>Installation considerations</h2>
+      <ul>
+        <li><strong>Analog:</strong> no network configuration is needed. The work is pulling one coax run per camera back to a central recorder and keeping connectors and terminations sound.</li>
+        <li><strong>IP:</strong> needs basic network planning: IP addressing, enough switch capacity, changed default passwords and up-to-date firmware. Keeping the camera network separate from untrusted devices is good practice where the site allows it.</li>
+        <li><strong>Both:</strong> decide the recorder location, size the storage, and consider backup power so the recorder stays up during an outage (see the <a href="../tools/battery-backup-calculator">Battery Backup Calculator</a>).</li>
+      </ul>
+
+      <h2>Upgrading an existing analog system</h2>
+      <p>
+        There are three realistic routes, and which one fits depends on the site:
+      </p>
+      <ul>
+        <li><strong>Stay analog but go HD:</strong> keep the coax and swap to compatible HD-analog cameras and a matching DVR. Recorder and cameras must support the same format, and the existing cable should be tested first.</li>
+        <li><strong>Add IP cameras alongside:</strong> a hybrid recorder, if the model supports it, lets existing analog cameras stay while new IP cameras are added.</li>
+        <li><strong>Move fully to IP:</strong> usually means new cabling. Ethernet-over-coax adapters exist for reusing coax, but check the adapter's rated distance and bandwidth against your camera bitrate, and test one run before committing the whole site.</li>
+      </ul>
+
       <h2>Why IP/NVR is usually the stronger choice today</h2>
       <ul>
         <li>Higher resolution and generally better image quality</li>
@@ -152,6 +299,8 @@
           <tr><td>New installation, no existing cabling</td><td>IP / NVR</td></tr>
           <tr><td>Existing coaxial system, limited budget</td><td>DVR / Analog</td></tr>
           <tr><td>Future AI, analytics, or expansion plans</td><td>IP / NVR</td></tr>
+          <tr><td>Cameras spread across buildings or far from the recorder</td><td>IP / NVR, since the network can carry the video between locations</td></tr>
+          <tr><td>Existing coax system where you want to add a few IP cameras</td><td>A hybrid recorder, if the specific model supports both</td></tr>
         </tbody>
       </table>
       <p>

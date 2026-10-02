@@ -94,6 +94,30 @@
         "@type": "Answer",
         "text": "A sealed lead-acid battery loses usable capacity as it ages, sometimes 15 to 20 percent within a couple of years in a warm cabinet. Building that margin in up front means the system still meets its requirement after the battery has aged, not just on the day it's installed."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the system voltage change the required Ah?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The calculation uses the currents you enter, so the Ah result is the same for 12V and 24V. The voltage selector only labels the recommendation. A 24V system built from two 12V batteries in series uses the same Ah rating per battery."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is this different from the Battery Amp Hour Calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This calculator works backwards from required standby and alarm durations to a battery size. The Battery Amp Hour Calculator works forwards: given a battery and a load, it estimates how long the battery will run."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do I find the standby and alarm current?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually in the installation manual or datasheet for the panel and each device on the battery. Add up every device powered from the same battery. If a figure is not published, measure it rather than guess."
+      }
     }
   ]
 }
@@ -230,6 +254,54 @@
         alarm current)] × (1 + aging factor).
       </div>
 
+      <figure style="margin:20px 0;">
+        <svg viewBox="0 0 360 356" width="360" height="356" role="img" aria-labelledby="bbTitle bbDesc"
+             style="display:block;width:100%;max-width:460px;height:auto;margin:0 auto;font-family:'IBM Plex Sans',system-ui,sans-serif;">
+          <title id="bbTitle">How standby load, alarm load and aging margin add up to the battery capacity</title>
+          <desc id="bbDesc">Top: a current-versus-time sketch, not to scale, showing a long low standby load of 200 mA for 24 hours followed by a short higher alarm load of 600 mA for 5 minutes. Bottom: a bar for the worked example where standby 4.80 Ah, alarm 0.05 Ah and a 20 percent aging margin of 0.97 Ah total 5.82 Ah, which fits inside a 7 Ah standard battery.</desc>
+          <style>
+            .bb-h{font-size:12px;font-weight:700;fill:var(--text)}
+            .bb-s{font-size:11.5px;fill:var(--text-muted)}
+            .bb-t{font-size:11.5px;fill:var(--text)}
+            .bb-ax{stroke:var(--text-muted);stroke-width:1.5}
+          </style>
+
+          <text class="bb-h" x="30" y="16">1. What the battery supplies over time (not to scale)</text>
+          <rect x="36" y="100" width="222" height="24" style="fill:var(--brand)"/>
+          <rect x="258" y="52" width="16" height="72" style="fill:var(--accent)"/>
+          <line class="bb-ax" x1="30" y1="124" x2="340" y2="124"/>
+          <text class="bb-t" x="147" y="92" text-anchor="middle">Standby 200 mA</text>
+          <text class="bb-t" x="280" y="68">Alarm</text>
+          <text class="bb-t" x="280" y="82">600 mA</text>
+          <text class="bb-s" x="36" y="139">0</text>
+          <text class="bb-s" x="147" y="139" text-anchor="middle">24 h</text>
+          <text class="bb-s" x="266" y="139" text-anchor="middle">5 min</text>
+
+          <text class="bb-h" x="30" y="176">2. Capacity to specify (worked example)</text>
+          <text class="bb-s" x="30" y="190">0</text>
+          <text class="bb-s" x="330" y="190" text-anchor="end">7 Ah standard battery</text>
+          <rect x="30" y="196" width="300" height="30" fill="none" style="stroke:var(--text-muted);stroke-width:1.5;stroke-dasharray:4 3"/>
+          <rect x="30" y="196" width="205.71" height="30" style="fill:var(--brand)"/>
+          <rect x="235.71" y="196" width="2.14" height="30" style="fill:var(--accent)"/>
+          <rect x="237.86" y="196" width="41.57" height="30" style="fill:var(--accent-light);stroke:var(--accent);stroke-width:1.2"/>
+          <text class="bb-s" x="305" y="215" text-anchor="middle">spare</text>
+          <line class="bb-ax" x1="279.43" y1="226" x2="279.43" y2="236"/>
+          <text class="bb-t" x="279.43" y="249" text-anchor="middle">5.82 Ah needed</text>
+
+          <rect x="30" y="268" width="10" height="10" style="fill:var(--brand)"/>
+          <text class="bb-t" x="46" y="277">Standby: 200 mA × 24 h = 4.80 Ah</text>
+          <rect x="30" y="290" width="10" height="10" style="fill:var(--accent)"/>
+          <text class="bb-t" x="46" y="299">Alarm: 600 mA × 5/60 h = 0.05 Ah (thin sliver)</text>
+          <rect x="30" y="312" width="10" height="10" style="fill:var(--accent-light);stroke:var(--accent);stroke-width:1.2"/>
+          <text class="bb-t" x="46" y="321">Aging margin: 20% of 4.85 = +0.97 Ah</text>
+          <text class="bb-h" x="30" y="345">4.85 + 0.97 = 5.82 Ah → next standard size: 7 Ah</text>
+        </svg>
+        <figcaption style="font-size:.85rem;color:var(--text-muted);margin-top:8px;text-align:center;">
+          The standby stage dominates the result because it runs for hours; the alarm stage adds only a small
+          amount. Figures match the worked example below.
+        </figcaption>
+      </figure>
+
       <h2>Worked example</h2>
       <p>
         200mA standby draw, 24-hour required standby time, 600mA alarm draw for 5 minutes, 20% aging factor,
@@ -275,6 +347,25 @@
         or life-safety system are set by code and your local authority having jurisdiction, not by this page.
       </div>
 
+      <h2>Common mistakes</h2>
+      <ul>
+        <li><strong>Using the alarm current for the whole standby period.</strong> Standby current runs for hours; alarm current runs only for the alarm minutes. Entering alarm current as standby oversizes the battery badly.</li>
+        <li><strong>Entering only the panel's draw.</strong> Standby current should be the total drawn from that battery: panel, power supply, sounders, relays, and any NVR or switch on the same supply.</li>
+        <li><strong>Mixing units.</strong> The current fields are in mA, not amps. 0.2 A is 200 mA.</li>
+        <li><strong>Rounding down to the calculated Ah.</strong> The result is a minimum. Specify the next standard size up, as the calculator's recommendation does.</li>
+        <li><strong>Using this as a runtime estimate.</strong> This sizes a battery for required standby and alarm durations. To estimate how long an existing battery will run on a load, use the <a href="battery-amp-hour-calculator">Battery Amp Hour Calculator</a>.</li>
+        <li><strong>Assuming a 24V system needs double the Ah.</strong> Two 12V batteries in series give 24V at the same Ah; wiring them in parallel adds Ah instead.</li>
+      </ul>
+
+      <h2>Assumptions &amp; limitations</h2>
+      <ul>
+        <li>Currents are entered in mA at the battery's system voltage, and the result is in Ah at that same voltage. The voltage selector labels the recommendation (for example "7 Ah @ 12V"); it does not change the Ah figure. If equipment is rated in watts, divide by the battery voltage to get amps first. Converter losses are not modelled.</li>
+        <li>Each stage uses one constant current: standby for the standby hours, then a single alarm period. Varying loads and repeated alarm events are not modelled.</li>
+        <li>The aging factor is a single percentage margin (default 20%). The calculator does not model temperature, battery chemistry, discharge-rate effects, end-of-discharge voltage or the charger.</li>
+        <li>The recommended size is rounded up from a fixed list of common capacities (4, 5, 7, 9, 12, 18, 26, 33, 35, 55, 75 and 100 Ah). Above 100 Ah it rounds up in 25 Ah steps and suggests banking batteries. Available sizes vary by supplier.</li>
+        <li>This is a planning tool, not a code-compliance determination. Required standby and alarm times come from your local code and AHJ.</li>
+      </ul>
+
       <h2>Frequently asked questions</h2>
       <h3>What standby time should I actually use?</h3>
       <p>
@@ -293,6 +384,24 @@
         A sealed lead-acid battery loses usable capacity as it ages, sometimes 15 to 20 percent within a
         couple of years in a warm cabinet. Building that margin in up front means the system still meets its
         requirement after the battery has aged, not just on the day it's installed.
+      </p>
+
+      <h3>Does the system voltage change the required Ah?</h3>
+      <p>
+        No. The calculation uses the currents you enter, so the Ah result is the same for 12V and 24V. The
+        voltage selector only labels the recommendation. A 24V system built from two 12V batteries in series
+        uses the same Ah rating per battery.
+      </p>
+      <h3>How is this different from the Battery Amp Hour Calculator?</h3>
+      <p>
+        This calculator works backwards from required standby and alarm durations to a battery size. The
+        <a href="battery-amp-hour-calculator">Battery Amp Hour Calculator</a> works forwards: given a battery
+        and a load, it estimates how long the battery will run.
+      </p>
+      <h3>Where do I find the standby and alarm current?</h3>
+      <p>
+        Usually in the installation manual or datasheet for the panel and each device on the battery. Add up
+        every device powered from the same battery. If a figure isn't published, measure it rather than guess.
       </p>
 
       <h2>Sizing backup for an NVR or PoE switch</h2>
