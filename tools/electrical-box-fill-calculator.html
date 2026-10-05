@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electrical Box Fill Calculator (NEC 314.16, Free) — GaugeCalc</title>
+<meta name="description" content="Free NEC 314.16 box fill calculator. Check if your electrical box is big enough or find the minimum box, with a line-by-line allowance breakdown.">
+<link rel="canonical" href="https://gaugecalc.com/tools/electrical-box-fill-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Electrical Box Fill Calculator (NEC 314.16, Free) — GaugeCalc">
+<meta property="og:description" content="Free NEC 314.16 box fill calculator. Check if your electrical box is big enough or find the minimum box, with a line-by-line allowance breakdown.">
+<meta property="og:url" content="https://gaugecalc.com/tools/electrical-box-fill-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Electrical Box Fill Calculator (NEC 314.16, Free) — GaugeCalc">
+<meta name="twitter:description" content="Free NEC 314.16 box fill calculator. Check if your electrical box is big enough or find the minimum box, with a line-by-line allowance breakdown.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20260923">
+<style>
+  /* Box-fill palette: one hue per allowance category, light + dark. Each category also has a
+     pattern so colour is never the only code. */
+  :root {
+    --bf-conductors: #2f7fd1; --bf-loops: #1c4f93; --bf-grounds: #2a9468; --bf-clamp: #d9790a;
+    --bf-support: #b4543a; --bf-devices: #7352c9; --bf-terminals: #12808f;
+    --bf-line: rgba(10, 20, 30, 0.38);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bf-conductors: #4aa8ff; --bf-loops: #93b8ff; --bf-grounds: #4cc790; --bf-clamp: #ffb020;
+      --bf-support: #f0896a; --bf-devices: #a994f4; --bf-terminals: #3cc3d6;
+      --bf-line: rgba(255, 255, 255, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bf-conductors: #4aa8ff; --bf-loops: #93b8ff; --bf-grounds: #4cc790; --bf-clamp: #ffb020;
+    --bf-support: #f0896a; --bf-devices: #a994f4; --bf-terminals: #3cc3d6;
+    --bf-line: rgba(255, 255, 255, 0.4);
+  }
+
+  .bf-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .bf-step { font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin: 26px 0 10px; padding-top: 18px; border-top: 1px solid var(--border); display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .bf-step:first-of-type { border-top: none; padding-top: 0; margin-top: 4px; }
+  .bf-step .bf-rule { margin-left: auto; }
+  .bf-help { font-size: 0.82rem; color: var(--text-muted); margin: 0 0 12px; line-height: 1.5; }
+  .bf-rule { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--brand-light); color: var(--brand-dark); white-space: nowrap; letter-spacing: 0; text-transform: none; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bf-rule { color: var(--brand); } }
+  :root[data-theme="dark"] .bf-rule { color: var(--brand); }
+
+  fieldset.bf-fieldset { border: 0; margin: 0 0 4px; padding: 0; min-width: 0; }
+  fieldset.bf-fieldset > legend { font-size: 0.83rem; font-weight: 600; color: var(--text-muted); padding: 0; margin-bottom: 8px; }
+
+  .bf-seg { display: flex; gap: 8px; flex-wrap: wrap; }
+  .bf-seg label { position: relative; flex: 1 1 150px; display: block; cursor: pointer; }
+  .bf-seg input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .bf-seg span { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 46px; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); font-size: 0.9rem; font-weight: 600; transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+  .bf-seg input:hover + span { border-color: var(--brand); color: var(--text); }
+  .bf-seg input:checked + span { background: linear-gradient(155deg, var(--brand) 0%, var(--brand-dark) 100%); border-color: var(--brand); color: #fff; box-shadow: 0 3px 10px -4px color-mix(in srgb, var(--brand) 55%, transparent); }
+  .bf-seg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .bf-rows { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+  .bf-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 12px; align-items: end; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-alt); }
+  .bf-row .field { min-width: 0; }
+  .bf-row .bf-remove { align-self: end; justify-self: start; min-height: 42px; padding-inline: 14px; font-size: 0.82rem; }
+  .bf-row .bf-custom { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 12px; align-items: end; padding-top: 10px; border-top: 1px dashed var(--border-strong); }
+  .bf-row .bf-custom[hidden] { display: none; }
+  .bf-row .bf-err { grid-column: 1 / -1; margin: 0; }
+  .bf-row .bf-err[hidden] { display: none; }
+  .bf-check { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-alt); font-size: 0.9rem; cursor: pointer; }
+  .bf-check input { width: 20px; height: 20px; margin: 2px 0 0; flex: none; accent-color: var(--brand); }
+  .bf-check small { display: block; color: var(--text-muted); font-size: 0.78rem; margin-top: 2px; }
+  .bf-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .bf-add { margin-bottom: 4px; }
+  details.bf-more { margin: 4px 0 0; border: 1px solid var(--border); border-radius: var(--radius); padding: 0 14px; background: var(--surface); }
+  details.bf-more > summary { cursor: pointer; padding: 12px 0; font-weight: 600; font-size: 0.9rem; color: var(--text); }
+  details.bf-more[open] > summary { border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  details.bf-more > div { padding-bottom: 12px; }
+  .bf-note-sm { font-size: 0.8rem; margin: 10px 0 0; padding: 10px 12px; }
+
+  /* result panel */
+  .bf-pill { display: inline-flex; align-items: center; gap: 8px; font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 0.9rem; padding: 7px 14px; border-radius: 999px; }
+  .bf-pill.pass { background: var(--brand-light); color: var(--brand-dark); border: 1px solid var(--brand); }
+  .bf-pill.fail { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+  .bf-pill.info { background: var(--surface-alt); color: var(--text); border: 1px solid var(--border-strong); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bf-pill.pass { color: var(--brand); } }
+  :root[data-theme="dark"] .bf-pill.pass { color: var(--brand); }
+  .bf-summary { font-size: 0.95rem; line-height: 1.55; margin: 14px 0; }
+  .bf-key { display: flex; flex-direction: column; gap: 8px; margin: 0 0 14px; }
+  .bf-key .result-row .k { max-width: 62%; }
+  .bf-meter { height: 14px; border-radius: 999px; background: var(--surface-alt); border: 1px solid var(--border); overflow: hidden; margin: 4px 0 4px; }
+  .bf-meter > i { display: block; height: 100%; width: 0; background: linear-gradient(155deg, var(--brand) 0%, var(--brand-dark) 100%); transition: width var(--dur) var(--ease); }
+  .bf-meter.over > i { background: repeating-linear-gradient(45deg, var(--warn-border) 0 6px, var(--warn-text) 6px 12px); }
+  .bf-result-block { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.88rem; line-height: 1.55; }
+  .bf-result-block h3 { font-size: 0.8rem; margin: 0 0 6px; font-family: "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+  .bf-result-block ul { margin: 6px 0 0; padding-left: 18px; }
+  .bf-result-block li { margin-bottom: 4px; }
+
+  /* breakdown section */
+  .bf-detail { margin-top: 22px; }
+  .bf-detail > h2 { margin-bottom: 6px; }
+  .bf-detail .bf-lede { font-size: 0.9rem; color: var(--text-muted); margin: 0 0 16px; }
+  .bf-visual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px 26px; align-items: start; margin-bottom: 18px; }
+  .bf-figure { margin: 0; }
+  .bf-figure svg { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+  .bf-figure figcaption { font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; text-align: center; }
+  .bf-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; }
+  .bf-legend li { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 6px; border: 1px solid transparent; }
+  .bf-legend li.is-active, .bf-table tr.is-active { background: var(--brand-light); border-color: var(--brand); }
+  .bf-legend .sw { width: 22px; height: 22px; border-radius: 4px; flex: none; border: 1px solid var(--bf-line); }
+  .bf-legend .nm { flex: 1; min-width: 0; }
+  .bf-legend .vl { font-family: "IBM Plex Mono", monospace; font-weight: 600; white-space: nowrap; }
+  .sw.c-conductors { background: var(--bf-conductors) repeating-linear-gradient(45deg, transparent 0 4px, var(--bf-line) 4px 5px); }
+  .sw.c-loops { background: var(--bf-loops) radial-gradient(circle, var(--bf-line) 1.2px, transparent 1.6px) 0 0 / 6px 6px; }
+  .sw.c-grounds { background: var(--bf-grounds) repeating-linear-gradient(0deg, transparent 0 4px, var(--bf-line) 4px 5px); }
+  .sw.c-clamp { background: var(--bf-clamp) repeating-linear-gradient(90deg, transparent 0 4px, var(--bf-line) 4px 5px); }
+  .sw.c-support { background: var(--bf-support) repeating-linear-gradient(135deg, transparent 0 4px, var(--bf-line) 4px 5px); }
+  .sw.c-devices { background: repeating-linear-gradient(45deg, transparent 0 3px, var(--bf-line) 3px 4px), repeating-linear-gradient(135deg, transparent 0 3px, var(--bf-line) 3px 4px), var(--bf-devices); }
+  .sw.c-terminals { background: var(--bf-terminals) radial-gradient(circle, var(--bf-line) 2px, transparent 2.5px) 0 0 / 8px 8px; }
+  .bf-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--radius); }
+  .bf-table-wrap:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .bf-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 0.84rem; margin: 0; }
+  .bf-table caption { text-align: left; padding: 10px 12px; font-size: 0.82rem; color: var(--text-muted); caption-side: top; }
+  .bf-table th, .bf-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+  .bf-table th { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); background: var(--surface-alt); white-space: nowrap; }
+  .bf-table td.n, .bf-table th.n { text-align: right; font-family: "IBM Plex Mono", monospace; white-space: nowrap; }
+  .bf-table tr[data-cat] { cursor: default; }
+  .bf-table tr[data-cat]:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+  .bf-table tfoot td, .bf-table tfoot th { font-weight: 700; background: var(--surface-alt); border-bottom: none; text-transform: none; font-size: 0.86rem; letter-spacing: 0; color: var(--text); }
+  .bf-table tfoot tr.pass td, .bf-table tfoot tr.pass th { color: var(--brand-dark); }
+  .bf-table tfoot tr.fail td, .bf-table tfoot tr.fail th { color: var(--warn-text); background: var(--warn-bg); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bf-table tfoot tr.pass td, :root:not([data-theme="light"]) .bf-table tfoot tr.pass th { color: var(--brand); } }
+  :root[data-theme="dark"] .bf-table tfoot tr.pass td, :root[data-theme="dark"] .bf-table tfoot tr.pass th { color: var(--brand); }
+  @container page-content (max-width: 700px) {
+    .bf-detail { padding: 18px 12px; }
+    .bf-table.stack { min-width: 0 !important; }
+    .bf-table.stack thead { position: absolute; left: -9999px; }
+    .bf-table.stack, .bf-table.stack tbody, .bf-table.stack tfoot, .bf-table.stack tr { display: block; }
+    .bf-table.stack caption { display: block; }
+    .bf-table.stack tbody tr { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .bf-table.stack tbody td { display: flex; justify-content: space-between; gap: 12px; border: 0; padding: 3px 0; text-align: right; white-space: normal; }
+    .bf-table.stack tbody td::before { content: attr(data-label); font-weight: 600; color: var(--text-muted); text-align: left; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.03em; flex: none; }
+    .bf-table.stack tbody td:first-child { display: block; font-weight: 700; text-align: left; padding-bottom: 6px; }
+    .bf-table.stack tbody td:first-child::before { display: none; }
+    .bf-table.stack tfoot tr { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; background: var(--surface-alt); border-top: 1px solid var(--border); }
+    .bf-table.stack tfoot th { display: block; padding: 0; border: 0; background: none; flex: 1; }
+    .bf-table.stack tfoot td { display: block; padding: 0; border: 0; background: none; white-space: nowrap; }
+    .bf-table.stack tfoot tr.fail { background: var(--warn-bg); }
+  }
+  .bf-notcounted { font-size: 0.85rem; color: var(--text-muted); margin: 12px 0 0; }
+  .bf-bar { display: inline-block; vertical-align: middle; height: 10px; border-radius: 5px; background: var(--brand); min-width: 2px; }
+  .bf-bar.fail { background: repeating-linear-gradient(45deg, var(--warn-border) 0 4px, var(--warn-text) 4px 8px); }
+  .bf-empty { font-size: 0.92rem; color: var(--text-muted); padding: 14px; border: 1px dashed var(--border-strong); border-radius: var(--radius); margin: 0; }
+  .bf-band { transition: opacity var(--dur-fast) var(--ease); }
+  .bf-band.is-active { opacity: 1; }
+  .bf-figure.has-active .bf-band:not(.is-active) { opacity: 0.45; }
+  @media (prefers-reduced-motion: reduce) { .bf-meter > i, .bf-band { transition: none; } }
+  .article table.plain td, .article table.plain th { font-family: inherit; }
+  .bf-illus { margin: 18px 0; }
+  .bf-illus svg { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+  .bf-illus figcaption { font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; text-align: center; }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Electrical Box Fill Calculator",
+  "url": "https://gaugecalc.com/tools/electrical-box-fill-calculator",
+  "description": "Calculates the required volume for an electrical box under NEC 314.16 from conductors (18 AWG to 6 AWG), grounding conductors, internal clamps, support fittings, device yokes and terminal blocks, checks it against a standard or marked box volume, and finds the smallest standard box that fits.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Electrical Box Fill Calculator", "item": "https://gaugecalc.com/tools/electrical-box-fill-calculator" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is electrical box fill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Box fill is the free space an electrical box needs for everything inside it. NEC 314.16 requires the box volume to be at least the total of the volume allowances for its conductors, grounds, clamps, fittings and devices."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you calculate electrical box fill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add one Table 314.16(B)(1) allowance for each conductor that enters and ends or is spliced in the box, and one for each that passes through. Add one allowance for all grounding conductors up to four, plus a quarter allowance for each beyond four, one for internal clamps, one for each type of luminaire stud or hickey, two for each device yoke, and one for each terminal block. The total must not exceed the box volume."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many 12 AWG wires fit in a 4-inch square box?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 4 × 2⅛ in square box is 30.3 in³, so it holds 13 conductors at 2.25 in³ each when nothing else is counted. Device yokes, clamps, grounds and fittings each use part of that space, so the practical number is lower."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do ground wires count in box fill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Up to four equipment grounding conductors share one allowance, based on the largest one, and each additional grounding conductor adds a quarter allowance. A proposal to change this for the 2026 NEC was rejected by the code-making panel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do wire nuts count in box fill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Small fittings such as locknuts, splicing connectors and bushings need no allowance, and the 2026 wording names splicing connectors explicitly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a pigtail count in box fill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A conductor with no part leaving the box, such as a pigtail with both ends inside, is not counted, whatever its length. The conductors of the cables entering the box still count normally."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a receptacle or switch count as two wires?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In volume terms, yes. Each yoke or strap that carries one or more devices gets a double allowance based on the largest conductor connected to it, and a device wider than a single 2 in device box gets a double allowance for each gang it needs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What size electrical box do I need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Calculate the required volume, then choose a box whose volume, from Table 314.16(A) or marked on the box, is at least that value. Box depth under 314.24 is a separate check that this calculator does not make."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When does NEC 314.28 apply instead of box fill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Box fill under 314.16 covers conductors from 18 AWG through 6 AWG. A box with 4 AWG or larger conductors must also meet 314.28, which sets dimension rules for pull and junction boxes. This calculator does not calculate 314.28."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / Electrical Box Fill Calculator</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Engineer Ali Zafar</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>Electrical Box Fill Calculator (NEC 314.16)</h1>
+      <p class="lead">
+        Check whether the wires, grounds, clamps and devices in an electrical box fit its volume, or find the
+        smallest standard box for them. Pick the cables you pulled; the calculator applies each NEC 314.16
+        allowance and shows the arithmetic line by line.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <div class="panel" id="bfInputs">
+        <h2>Your box contents</h2>
+
+        <fieldset class="bf-fieldset">
+          <legend>What do you want to do?</legend>
+          <div class="bf-seg">
+            <label><input type="radio" name="bfMode" value="check" checked><span>Check my box</span></label>
+            <label><input type="radio" name="bfMode" value="min"><span>Find the minimum box</span></label>
+          </div>
+        </fieldset>
+
+        <h3 class="bf-step">1. Cables entering the box <span class="bf-rule">314.16(B)(1)</span></h3>
+        <p class="bf-help">Choose each cable type and how many. A cable's ground is counted for you. Conductors of 4&nbsp;AWG and larger are not supported here (see the scope note below).</p>
+        <div class="bf-rows" id="bfCableRows"></div>
+        <button type="button" class="btn btn-ghost bf-add" id="bfAddCable">+ Add another cable type</button>
+
+        <details class="bf-more" id="bfLooseWrap">
+          <summary>Loose single conductors (advanced)</summary>
+          <div>
+            <p class="bf-help">Individual wires, including separate ground wires or bonding jumpers, that enter the box and end or are spliced in it. A pigtail with both ends inside the box adds nothing, so do not enter it.</p>
+            <div class="bf-rows" id="bfLooseRows"></div>
+            <button type="button" class="btn btn-ghost bf-add" id="bfAddLoose">+ Add loose conductors</button>
+          </div>
+        </details>
+
+        <h3 class="bf-step">2. Fittings <span class="bf-rule">314.16(B)(2), (B)(3)</span></h3>
+        <div class="bf-checks">
+          <label class="bf-check"><input type="checkbox" id="bfClamp"><span>Internal cable clamps<small>One allowance, however many clamps.</small></span></label>
+          <label class="bf-check"><input type="checkbox" id="bfStud"><span>Luminaire (fixture) stud<small>One allowance per type of fitting.</small></span></label>
+          <label class="bf-check"><input type="checkbox" id="bfHickey"><span>Hickey<small>One allowance per type of fitting.</small></span></label>
+        </div>
+
+        <h3 class="bf-step">3. Devices and terminal blocks <span class="bf-rule">314.16(B)(4), (B)(6)</span></h3>
+        <p class="bf-help">Each yoke or strap (switch, receptacle, dimmer, GFCI) is counted twice, based on the largest conductor connected to it. A device wider than a single 2&nbsp;in device box counts twice for each gang it needs.</p>
+        <div class="bf-rows" id="bfYokeRows"></div>
+        <button type="button" class="btn btn-ghost bf-add" id="bfAddYoke">+ Add device yokes</button>
+        <details class="bf-more" id="bfTermWrap" style="margin-top:12px;">
+          <summary>Terminal blocks</summary>
+          <div>
+            <p class="bf-help">One allowance for each terminal block assembly, based on the largest conductor terminated on it. Enter the wires that land on it in step 1 as well.</p>
+            <div class="bf-rows" id="bfTermRows"></div>
+            <button type="button" class="btn btn-ghost bf-add" id="bfAddTerm">+ Add terminal blocks</button>
+          </div>
+        </details>
+
+        <div id="bfBoxSection">
+          <h3 class="bf-step">4. Your box <span class="bf-rule">314.16(A)</span></h3>
+          <div class="field" style="margin-bottom:14px;">
+            <label for="bfBoxType">Box type</label>
+            <select id="bfBoxType" data-path="box.type"></select>
+          </div>
+          <div class="field-row" id="bfCustomRow" hidden>
+            <div class="field">
+              <label for="bfCustomVol">Volume stamped on the box (in&sup3;)</label>
+              <input type="number" id="bfCustomVol" inputmode="decimal" min="0.01" max="5000" step="0.01" data-path="box.custom" placeholder="e.g. 22.5">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="bfAddOn">Marked ring / extension / cover volume to add (in&sup3;) <span class="hint">optional</span></label>
+              <input type="number" id="bfAddOn" inputmode="decimal" min="0" max="1000" step="0.01" value="0" data-path="box.addon">
+            </div>
+          </div>
+          <p class="bf-help bf-note-sm note-box" style="margin-top:0;">Box with a barrier? Each space is calculated separately, and a barrier not marked with its volume takes up &frac12;&nbsp;in&sup3; (metal) or 1.0&nbsp;in&sup3; (nonmetallic). This version calculates one space at a time: enter that space's volume as a marked volume.</p>
+        </div>
+        <p class="bf-help" id="bfMinNote" hidden>Find-the-minimum mode ignores the box fields: it compares your contents against every standard box in Table 314.16(A).</p>
+      </div>
+
+      <div class="panel result-panel">
+        <h2 id="bfResultHeading">Result</h2>
+        <div id="bfResult"></div>
+      </div>
+    </div>
+    <div class="bf-sr" id="bfAnnounce" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <section class="panel bf-detail" id="bfDetail" aria-labelledby="bfDetailH">
+      <h2 id="bfDetailH">Calculation breakdown</h2>
+      <p class="bf-lede">Every line below is one NEC 314.16 rule applied to your input. Hover or focus a row to find its band in the cutaway, and the other way round.</p>
+      <div id="bfDetailBody"></div>
+    </section>
+
+    <div class="warn-box" style="margin-top:22px;">
+      This is a planning aid. It applies NEC 314.16 volume rules (18&nbsp;AWG through 6&nbsp;AWG) as published in NFPA's code-development record for the 2026 NEC, and it is not an official NFPA or NEC tool. It does not check box depth (314.24), conductors of 4&nbsp;AWG and larger (314.28), conduit bodies, or listing and manufacturer limits. Confirm the adopted code edition and requirements with your inspector.
+    </div>
+
+    <article class="article">
+      <h2>What electrical box fill means</h2>
+      <p>
+        <strong>Box fill</strong> is the free space an electrical box needs for everything inside it. NEC 314.16 requires boxes to be
+        large enough to give free space for all the enclosed conductors, and the volume of the box, calculated under 314.16(A),
+        can never be less than the fill calculated under 314.16(B). In practice you add up a volume allowance for each wire,
+        ground, clamp, fitting and device, then compare the total with the box's volume in cubic inches.
+      </p>
+
+      <h2>How NEC 314.16 works</h2>
+      <p>
+        There are two halves to the calculation. <strong>314.16(A)</strong> gives the volume of the box: the table value
+        for standard metal boxes in Table 314.16(A), or the volume marked on the box, plus the marked volume of any plaster
+        ring, extension ring or domed cover. <strong>314.16(B)</strong> gives the volume you need, by adding the allowances from
+        (B)(1) through (B)(6), each taken from the conductor table below. Locknuts, splicing connectors and bushings need no
+        allowance. If the required volume is no more than the box volume, the box passes; an exact fit passes.
+      </p>
+
+      <h2>Conductor volume allowances</h2>
+      <p>The same table sets the allowance for conductors, grounds, clamps, fittings, devices and terminal blocks. The size used for each item is stated in its rule below.</p>
+      <table class="plain">
+        <thead><tr><th>Conductor size</th><th>Allowance (in&sup3;)</th><th>Allowance (cm&sup3;)</th></tr></thead>
+        <tbody>
+          <tr><td>18 AWG</td><td>1.50</td><td>24.6</td></tr>
+          <tr><td>16 AWG</td><td>1.75</td><td>28.7</td></tr>
+          <tr><td>14 AWG</td><td>2.00</td><td>32.8</td></tr>
+          <tr><td>12 AWG</td><td>2.25</td><td>36.9</td></tr>
+          <tr><td>10 AWG</td><td>2.50</td><td>41.0</td></tr>
+          <tr><td>8 AWG</td><td>3.00</td><td>49.2</td></tr>
+          <tr><td>6 AWG</td><td>5.00</td><td>81.9</td></tr>
+        </tbody>
+      </table>
+
+      <h2>How to count a cable</h2>
+      <p>
+        Each conductor that comes from outside the box and ends or is spliced inside it counts <strong>once</strong>, at its own size. A
+        conductor that passes through the box without a splice or termination also counts <strong>once</strong>. An unbroken conductor that
+        is looped or coiled in the box, with a length of at least twice the free-conductor length required by 300.14 (6&nbsp;in,
+        so 12&nbsp;in), counts <strong>twice</strong>. A conductor with no part leaving the box, such as a pigtail with both ends inside, is
+        <strong>not counted</strong>, whatever its length.
+      </p>
+      <figure class="bf-illus">
+        <svg viewBox="0 0 300 372" role="img" aria-labelledby="cntTitle cntDesc">
+          <title id="cntTitle">How a conductor is counted in a box</title>
+          <desc id="cntDesc">Four small boxes. Ends or is spliced in the box: counts once. Passes through unspliced: counts once. Unbroken loop of 12 inches or more: counts twice. Pigtail with both ends inside the box: counts zero.</desc>
+          <style>
+            .cn-box { fill: var(--surface-alt); stroke: var(--text-muted); stroke-width: 2; }
+            .cn-w { fill: none; stroke: var(--bf-conductors); stroke-width: 4; stroke-linecap: round; }
+            .cn-w2 { fill: none; stroke: var(--bf-grounds); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 7; }
+            .cn-h { font-size: 15px; font-weight: 700; fill: var(--text); }
+            .cn-s { font-size: 13.5px; fill: var(--text-muted); }
+            .cn-m { font-size: 26px; font-weight: 700; fill: var(--text); font-family: "IBM Plex Mono", monospace; }
+          </style>
+          <g transform="translate(10,6)">
+            <rect class="cn-box" x="0" y="10" width="130" height="84" rx="4"/>
+            <path class="cn-w" d="M-6 52 H76"/>
+            <circle cx="76" cy="52" r="5" fill="var(--bf-conductors)"/>
+            <text class="cn-m" x="65" y="130" text-anchor="middle">×1</text>
+            <text class="cn-h" x="65" y="152" text-anchor="middle">Ends or spliced</text>
+            <text class="cn-s" x="65" y="170" text-anchor="middle">in the box</text>
+          </g>
+          <g transform="translate(160,6)">
+            <rect class="cn-box" x="0" y="10" width="130" height="84" rx="4"/>
+            <path class="cn-w" d="M-6 52 H136"/>
+            <text class="cn-m" x="65" y="130" text-anchor="middle">×1</text>
+            <text class="cn-h" x="65" y="152" text-anchor="middle">Passes through</text>
+            <text class="cn-s" x="65" y="170" text-anchor="middle">no splice</text>
+          </g>
+          <g transform="translate(10,192)">
+            <rect class="cn-box" x="0" y="10" width="130" height="84" rx="4"/>
+            <path class="cn-w" d="M-6 70 H24 C24 28 96 28 96 54 C96 80 56 80 56 54 C56 36 90 36 136 36"/>
+            <text class="cn-m" x="65" y="130" text-anchor="middle">×2</text>
+            <text class="cn-h" x="65" y="152" text-anchor="middle">Unbroken loop</text>
+            <text class="cn-s" x="65" y="170" text-anchor="middle">12 in or longer</text>
+          </g>
+          <g transform="translate(160,192)">
+            <rect class="cn-box" x="0" y="10" width="130" height="84" rx="4"/>
+            <path class="cn-w2" d="M22 66 C22 28 108 28 108 66"/>
+            <text class="cn-m" x="65" y="130" text-anchor="middle">0</text>
+            <text class="cn-h" x="65" y="152" text-anchor="middle">Pigtail</text>
+            <text class="cn-s" x="65" y="170" text-anchor="middle">never leaves the box</text>
+          </g>
+        </svg>
+        <figcaption>Counting multipliers for conductors under 314.16(B)(1). Wire connectors add nothing.</figcaption>
+      </figure>
+
+      <h2>Equipment grounding conductors</h2>
+      <p>
+        Up to four equipment grounding conductors (or equipment bonding jumpers) that enter the box share <strong>one</strong> allowance, based on the largest
+        grounding conductor. Each additional one adds <strong>&frac14; of that allowance</strong> (314.16(B)(5)). For example, nine 12&nbsp;AWG
+        grounds cost 2.25 + 5 &times; 0.5625 = 5.0625&nbsp;in&sup3;. A proposal to charge a full allowance for each additional group of four was
+        submitted for the 2026 NEC and was rejected by the code-making panel, so this calculator keeps the quarter-allowance rule.
+      </p>
+
+      <h2>Internal clamps and support fittings</h2>
+      <p>
+        If the box has one or more internal cable clamps, whether factory or field supplied, make a <strong>single</strong> allowance based on the
+        largest conductor present in the box (314.16(B)(2)). Luminaire studs and hickeys get <strong>one allowance for each type</strong> of fitting,
+        also based on the largest conductor in the box (314.16(B)(3)); a stud and a hickey together are two allowances, and two studs are still one.
+      </p>
+
+      <h2>Devices, yokes and wide devices</h2>
+      <p>
+        Each yoke or strap that carries one or more devices gets a <strong>double</strong> allowance, based on the largest conductor connected to a device
+        on that yoke (314.16(B)(4)). It is the yoke that is counted, not each device on it. A device or equipment wider than a single 2&nbsp;in device
+        box gets a double allowance for each gang needed to mount it. GFCI and other large devices are not treated differently by the code; box depth
+        for them is a separate 314.24 question.
+      </p>
+
+      <h2>Terminal blocks</h2>
+      <p>
+        Where a terminal block is present, make one allowance for each terminal block assembly, based on the largest conductor terminated on it (314.16(B)(6)).
+        The wires that land on it still count under (B)(1). This applies to all terminal blocks, including grounding terminal blocks.
+      </p>
+
+      <h2>Standard box volumes and how many wires fit</h2>
+      <p>
+        Table 314.16(A) gives the volume of standard metal boxes. The last seven columns are the most conductors of each size the box holds
+        <strong>when nothing else is counted</strong>: no devices, clamps, fittings or grounds. Any of those reduce the count.
+      </p>
+      <div class="bf-table-wrap" tabindex="0" role="region" aria-label="Standard box volumes table, scrolls sideways on narrow screens">
+        <table class="bf-table plain" style="min-width:720px;">
+          <thead><tr><th>Box</th><th class="n">in&sup3;</th><th class="n">cm&sup3;</th><th class="n">18</th><th class="n">16</th><th class="n">14</th><th class="n">12</th><th class="n">10</th><th class="n">8</th><th class="n">6</th></tr></thead>
+          <tbody>
+            <tr><td>3 × 2 × 1½ in device box</td><td class="n">7.50</td><td class="n">123</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td class="n">1</td></tr>
+            <tr><td>3 × 2 × 2 in device box</td><td class="n">10.00</td><td class="n">164</td><td class="n">6</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td class="n">2</td></tr>
+            <tr><td>3 × 2 × 2¼ in device box</td><td class="n">10.50</td><td class="n">172</td><td class="n">7</td><td class="n">6</td><td class="n">5</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td class="n">2</td></tr>
+            <tr><td>3 × 2 × 2½ in device box</td><td class="n">12.50</td><td class="n">205</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">2</td></tr>
+            <tr><td>3 × 2 × 2¾ in device box</td><td class="n">14.00</td><td class="n">230</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">5</td><td class="n">4</td><td class="n">2</td></tr>
+            <tr><td>3 × 2 × 3½ in device box</td><td class="n">18.00</td><td class="n">295</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">3</td></tr>
+            <tr><td>4 × 2⅛ × 1½ in device box</td><td class="n">10.30</td><td class="n">169</td><td class="n">6</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td class="n">2</td></tr>
+            <tr><td>4 × 2⅛ × 1⅞ in device box</td><td class="n">13.00</td><td class="n">213</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">2</td></tr>
+            <tr><td>4 × 2⅛ × 2⅛ in device box</td><td class="n">14.50</td><td class="n">238</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">5</td><td class="n">4</td><td class="n">2</td></tr>
+            <tr><td>4 × 1¼ in round/octagonal</td><td class="n">12.50</td><td class="n">205</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">2</td></tr>
+            <tr><td>4 × 1½ in round/octagonal</td><td class="n">15.50</td><td class="n">254</td><td class="n">10</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">6</td><td class="n">5</td><td class="n">3</td></tr>
+            <tr><td>4 × 2⅛ in round/octagonal</td><td class="n">21.50</td><td class="n">353</td><td class="n">14</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">4</td></tr>
+            <tr><td>4 × 1¼ in square</td><td class="n">18.00</td><td class="n">295</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">3</td></tr>
+            <tr><td>4 × 1½ in square</td><td class="n">21.00</td><td class="n">344</td><td class="n">14</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">4</td></tr>
+            <tr><td>4 × 2⅛ in square</td><td class="n">30.30</td><td class="n">497</td><td class="n">20</td><td class="n">17</td><td class="n">15</td><td class="n">13</td><td class="n">12</td><td class="n">10</td><td class="n">6</td></tr>
+            <tr><td>4-11/16 × 1¼ in square</td><td class="n">25.50</td><td class="n">418</td><td class="n">17</td><td class="n">14</td><td class="n">12</td><td class="n">11</td><td class="n">10</td><td class="n">8</td><td class="n">5</td></tr>
+            <tr><td>4-11/16 × 1½ in square</td><td class="n">29.50</td><td class="n">484</td><td class="n">19</td><td class="n">16</td><td class="n">14</td><td class="n">13</td><td class="n">11</td><td class="n">9</td><td class="n">5</td></tr>
+            <tr><td>4-11/16 × 2⅛ in square</td><td class="n">42.00</td><td class="n">689</td><td class="n">28</td><td class="n">24</td><td class="n">21</td><td class="n">18</td><td class="n">16</td><td class="n">14</td><td class="n">8</td></tr>
+            <tr><td>3¾ × 2 × 2½ in masonry box/gang</td><td class="n">14.00</td><td class="n">230</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">5</td><td class="n">4</td><td class="n">2</td></tr>
+            <tr><td>3¾ × 2 × 3½ in masonry box/gang</td><td class="n">21.00</td><td class="n">344</td><td class="n">14</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">4</td></tr>
+            <tr><td>FS single cover/gang (min. depth 1¾ in)</td><td class="n">13.50</td><td class="n">221</td><td class="n">9</td><td class="n">7</td><td class="n">6</td><td class="n">6</td><td class="n">5</td><td class="n">4</td><td class="n">2</td></tr>
+            <tr><td>FD single cover/gang (min. depth 2⅜ in)</td><td class="n">18.00</td><td class="n">295</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">3</td></tr>
+            <tr><td>FS multiple cover/gang (min. depth 1¾ in)</td><td class="n">18.00</td><td class="n">295</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">3</td></tr>
+            <tr><td>FD multiple cover/gang (min. depth 2⅜ in)</td><td class="n">24.00</td><td class="n">395</td><td class="n">16</td><td class="n">13</td><td class="n">12</td><td class="n">10</td><td class="n">9</td><td class="n">8</td><td class="n">4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Worked examples</h2>
+      <h3>Example 1 &mdash; receptacle fed by two 12/2 cables</h3>
+      <p>
+        Two 12/2 cables end in the box (4 insulated conductors and 2 grounds), with one single-gang receptacle.
+        Conductors: 4 &times; 2.25 = 9.00. Grounds: one allowance for both = 2.25. Receptacle yoke: 2 &times; 2.25 = 4.50.
+        Total required = <strong>15.75&nbsp;in&sup3;</strong>. A 4 &times; 2&#8539; &times; 2&#8539; device box (14.5&nbsp;in&sup3;) is 1.25&nbsp;in&sup3; short;
+        a 3 &times; 2 &times; 3&frac12; device box (18.0&nbsp;in&sup3;) passes with 2.25&nbsp;in&sup3; to spare.
+      </p>
+      <h3>Example 2 &mdash; mixed 12 and 14 AWG with a clamp</h3>
+      <p>
+        One 12/3 cable and one 14/2 cable end in the box (3 &times; #12 and 2 &times; #14 conductors, two grounds, the larger being #12),
+        with internal clamps and one #12 receptacle. Conductors: 3 &times; 2.25 + 2 &times; 2.00 = 10.75. Grounds: 2.25. Clamps (largest
+        conductor #12): 2.25. Receptacle: 4.50. Total required = <strong>19.75&nbsp;in&sup3;</strong>. A 4 in square box 1&frac12; in deep (21.0&nbsp;in&sup3;)
+        passes with 1.25&nbsp;in&sup3; to spare.
+      </p>
+      <h3>Example 3 &mdash; junction box with three 12/3 cables</h3>
+      <p>
+        Three 12/3 cables are spliced in the box: 9 &times; 2.25 = 20.25, plus one allowance for the three grounds = 2.25, for
+        <strong>22.50&nbsp;in&sup3;</strong> with no devices. The common 4 &times; 2&#8539; in square box (30.3&nbsp;in&sup3;) passes at 74.3&nbsp;% full;
+        the smallest standard volume that fits is 24.0&nbsp;in&sup3; (an FD multiple-cover box), and the smallest standard square box that fits is the 4-11/16 &times; 1&frac14; (25.5&nbsp;in&sup3;).
+      </p>
+
+      <h2>Minimum box sizing</h2>
+      <p>
+        The <strong>calculated required volume</strong> is a property of your contents. The <strong>box capacity</strong> is a property of the box. The calculator
+        sorts all 24 standard boxes by volume and reports the smallest volume that is at least what you need, lists the smaller boxes with how
+        far each falls short, and gives the smallest fit in each box family because families are not interchangeable (a device box cannot replace a
+        square box). Boxes marked with a larger volume than the table can be used at their marked volume. The result is about volume only; it does not
+        say a particular manufacturer or product is required.
+      </p>
+
+      <h2>Common mistakes</h2>
+      <ul>
+        <li><strong>Counting every wire nut.</strong> Splicing connectors, locknuts and bushings add nothing.</li>
+        <li><strong>Forgetting the grounds.</strong> They are one allowance for up to four, and a quarter allowance each beyond that.</li>
+        <li><strong>Counting a device as one wire.</strong> A yoke is two allowances, and a wide device is two for each gang.</li>
+        <li><strong>Counting a pigtail.</strong> A conductor that never leaves the box is not counted. Its length does not matter.</li>
+        <li><strong>Sizing a clamp or fitting by its own conductor.</strong> They use the largest conductor present in the box.</li>
+        <li><strong>Using the nominal box size.</strong> Use the Table 314.16(A) volume or the volume marked on the box.</li>
+        <li><strong>Forgetting a ring or cover.</strong> Its marked volume adds to the box volume.</li>
+        <li><strong>Using this for 4&nbsp;AWG and larger.</strong> Those boxes must also meet 314.28, which is a different calculation.</li>
+      </ul>
+
+      <h2>Assumptions and limitations</h2>
+      <ul>
+        <li>Rules follow NEC 314.16 as shown in NFPA's code-development record for the 2026 edition; the clamp, support-fitting and conductor-counting wording is supported by earlier-edition code text with no 2026 revision found.</li>
+        <li>Only conductors from 18&nbsp;AWG through 6&nbsp;AWG are supported. Boxes with 4&nbsp;AWG or larger conductors must also comply with 314.28, which is not calculated.</li>
+        <li>"Largest conductor present" means the largest size among all counted conductors, grounds, yoke-connected conductors and terminal-block conductors.</li>
+        <li>A cable that passes through counts its conductors once, and its ground counts as one entering ground.</li>
+        <li>Loops apply to insulated conductors. Looped grounds, the domed-luminaire exception and conduit bodies are not calculated.</li>
+        <li>A box with a barrier is treated one space at a time: enter that space's volume as a marked volume. Each space must pass on its own.</li>
+        <li>This is a volume check only. Box depth (314.24), listing, derating, heat and manufacturer limits are separate.</li>
+        <li>Volumes are computed with exact integer arithmetic, so a requirement exactly equal to the box volume passes.</li>
+      </ul>
+
+      <h2>NEC edition and scope</h2>
+      <p>
+        The current edition is <strong>NFPA 70-2026</strong>. For every rule used here, the 2020, 2023 and 2026 editions give the same numbers. Older
+        editions differ: the 2017 NEC counted all grounds as one allowance, and terminal blocks were added in the 2023 NEC. Jurisdictions adopt new
+        editions on their own schedule, so check which edition your inspector enforces.
+      </p>
+
+      <h2>References</h2>
+      <ul>
+        <li><a href="https://www.nfpa.org/codes-and-standards/nfpa-70-standard-development/70" rel="noopener" target="_blank">NFPA 70, National Electrical Code (2026 edition), Article 314</a></li>
+        <li><a href="https://docinfofiles.nfpa.org/files/AboutTheCodes/70/70_A2025_NEC_P08_FD_PIResponses.pdf" rel="noopener" target="_blank">NFPA 70 Code-Making Panel 8, first draft public inputs and panel responses (PDF)</a></li>
+        <li><a href="https://docinfofiles.nfpa.org/files/AboutTheCodes/70/70_A2025_NEC_P08_FD_PrelimFR.pdf" rel="noopener" target="_blank">NFPA 70 Code-Making Panel 8, first revisions working draft (PDF)</a></li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What is electrical box fill?</h3>
+      <p>Box fill is the free space an electrical box needs for everything inside it. NEC 314.16 requires the box volume to be at least the total of the volume allowances for its conductors, grounds, clamps, fittings and devices.</p>
+      <h3>How do you calculate electrical box fill?</h3>
+      <p>Add one Table 314.16(B)(1) allowance for each conductor that enters and ends or is spliced in the box, and one for each that passes through. Add one allowance for all grounding conductors up to four, plus a quarter allowance for each beyond four, one for internal clamps, one for each type of luminaire stud or hickey, two for each device yoke, and one for each terminal block. The total must not exceed the box volume.</p>
+      <h3>How many 12 AWG wires fit in a 4-inch square box?</h3>
+      <p>A 4 × 2⅛ in square box is 30.3 in³, so it holds 13 conductors at 2.25 in³ each when nothing else is counted. Device yokes, clamps, grounds and fittings each use part of that space, so the practical number is lower.</p>
+      <h3>Do ground wires count in box fill?</h3>
+      <p>Yes. Up to four equipment grounding conductors share one allowance, based on the largest one, and each additional grounding conductor adds a quarter allowance. A proposal to change this for the 2026 NEC was rejected by the code-making panel.</p>
+      <h3>Do wire nuts count in box fill?</h3>
+      <p>No. Small fittings such as locknuts, splicing connectors and bushings need no allowance, and the 2026 wording names splicing connectors explicitly.</p>
+      <h3>Does a pigtail count in box fill?</h3>
+      <p>A conductor with no part leaving the box, such as a pigtail with both ends inside, is not counted, whatever its length. The conductors of the cables entering the box still count normally.</p>
+      <h3>Does a receptacle or switch count as two wires?</h3>
+      <p>In volume terms, yes. Each yoke or strap that carries one or more devices gets a double allowance based on the largest conductor connected to it, and a device wider than a single 2 in device box gets a double allowance for each gang it needs.</p>
+      <h3>What size electrical box do I need?</h3>
+      <p>Calculate the required volume, then choose a box whose volume, from Table 314.16(A) or marked on the box, is at least that value. Box depth under 314.24 is a separate check that this calculator does not make.</p>
+      <h3>When does NEC 314.28 apply instead of box fill?</h3>
+      <p>Box fill under 314.16 covers conductors from 18 AWG through 6 AWG. A box with 4 AWG or larger conductors must also meet 314.28, which sets dimension rules for pull and junction boxes. This calculator does not calculate 314.28.</p>
+
+      <h2>Related tools</h2>
+      <p>
+        Sizing the conductors for the same circuit? Check the run with the
+        <a href="voltage-drop-calculator">Voltage Drop Calculator</a>. Wiring a security system into the box? Size its backup supply with the
+        <a href="battery-backup-calculator">Battery Backup Calculator</a>.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=Electrical%20Box%20Fill%20Calculator">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+    </aside>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and field guides for CCTV, PoE, and electrical installers — built on-site, not in a marketing meeting.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your equipment manufacturer's own datasheet.</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* @@ENGINE_START@@ */
+/* ==========================================================================
+   BoxFill — NEC 314.16 calculation engine (no DOM access).
+   Sections: NEC DATA · input normalization + validation · calculation ·
+   box selection · result model. All volumes are integers in units of
+   1/10000 in^3 (SCALE), so quarter allowances and sums are exact.
+   Source status: rules follow the NFPA 70-2026 code-development record and
+   corroborating code text; see docs/electrical-box-fill-calculator-spec.md.
+   ========================================================================== */
+var BoxFill = (function () {
+  'use strict';
+
+  /* ======================= NEC DATA (single source) ======================= */
+  var SCALE = 10000;
+  var SIZES = [18, 16, 14, 12, 10, 8, 6];
+  // Table 314.16(B)(1): volume allowance per conductor, in^3 x SCALE.
+  var ALLOWANCE = { 18: 15000, 16: 17500, 14: 20000, 12: 22500, 10: 25000, 8: 30000, 6: 50000 };
+  var ALLOWANCE_CM3 = { 18: '24.6', 16: '28.7', 14: '32.8', 12: '36.9', 10: '41.0', 8: '49.2', 6: '81.9' };
+  var EGC_FIRST_GROUP = 4;      // up to four EGCs share one allowance (314.16(B)(5))
+  var EGC_EXTRA_DIVISOR = 4;    // each additional EGC adds 1/4 of the allowance
+  var LOOP_MULTIPLIER = 2;      // looped unbroken conductor >= 2 x 300.14 length counts twice
+  var YOKE_MULTIPLIER = 2;      // double allowance per yoke/strap (and per gang)
+  var LOOP_MIN_INCHES = 12;
+  var BARRIER_UNMARKED_METAL = 5000;        // 1/2 in^3
+  var BARRIER_UNMARKED_NONMETALLIC = 10000; // 1.0 in^3
+  var REF = {
+    general: '314.16(B)', volume: '314.16(A)', conductor: '314.16(B)(1)', clamp: '314.16(B)(2)',
+    support: '314.16(B)(3)', device: '314.16(B)(4)', egc: '314.16(B)(5)', terminal: '314.16(B)(6)',
+    boxTable: 'Table 314.16(A)', allowTable: 'Table 314.16(B)(1)', largeConductors: '314.28'
+  };
+  var LIMITS = {
+    cableRows: 20, cableQty: 50, looseRows: 10, looseCount: 200, yokeRows: 10, yokeQty: 10,
+    gangs: 6, terminalRows: 10, terminalCount: 20, customInsulated: 12, customVolume: 5000, addOnVolume: 1000
+  };
+  var FAMILIES = [
+    { id: 'device', label: '3 × 2 device boxes' },
+    { id: 'handy', label: '4 × 2⅛ device ("handy") boxes' },
+    { id: 'round', label: '4 in round / octagonal boxes' },
+    { id: 'square4', label: '4 in square boxes' },
+    { id: 'square411', label: '4-11/16 in square boxes' },
+    { id: 'masonry', label: 'Masonry boxes' },
+    { id: 'fsfd', label: 'FS / FD boxes' }
+  ];
+  // Table 314.16(A): standard metal boxes. in3 in 1/10000 in^3; cm3 as printed.
+  var BOXES = [
+    { id: 'dev-1.5',   family: 'device',    label: '3 × 2 × 1½ in device box',  in3: 75000,  cm3: 123 },
+    { id: 'dev-2',     family: 'device',    label: '3 × 2 × 2 in device box',   in3: 100000, cm3: 164 },
+    { id: 'dev-2.25',  family: 'device',    label: '3 × 2 × 2¼ in device box',  in3: 105000, cm3: 172 },
+    { id: 'dev-2.5',   family: 'device',    label: '3 × 2 × 2½ in device box',  in3: 125000, cm3: 205 },
+    { id: 'dev-2.75',  family: 'device',    label: '3 × 2 × 2¾ in device box',  in3: 140000, cm3: 230 },
+    { id: 'dev-3.5',   family: 'device',    label: '3 × 2 × 3½ in device box',  in3: 180000, cm3: 295 },
+    { id: 'hdy-1.5',   family: 'handy',     label: '4 × 2⅛ × 1½ in device box', in3: 103000, cm3: 169 },
+    { id: 'hdy-1.875', family: 'handy',     label: '4 × 2⅛ × 1⅞ in device box', in3: 130000, cm3: 213 },
+    { id: 'hdy-2.125', family: 'handy',     label: '4 × 2⅛ × 2⅛ in device box', in3: 145000, cm3: 238 },
+    { id: 'rnd-1.25',  family: 'round',     label: '4 × 1¼ in round/octagonal', in3: 125000, cm3: 205 },
+    { id: 'rnd-1.5',   family: 'round',     label: '4 × 1½ in round/octagonal', in3: 155000, cm3: 254 },
+    { id: 'rnd-2.125', family: 'round',     label: '4 × 2⅛ in round/octagonal', in3: 215000, cm3: 353 },
+    { id: 'sq4-1.25',  family: 'square4',   label: '4 × 1¼ in square',          in3: 180000, cm3: 295 },
+    { id: 'sq4-1.5',   family: 'square4',   label: '4 × 1½ in square',          in3: 210000, cm3: 344 },
+    { id: 'sq4-2.125', family: 'square4',   label: '4 × 2⅛ in square',          in3: 303000, cm3: 497 },
+    { id: 'sq411-1.25',  family: 'square411', label: '4-11/16 × 1¼ in square',  in3: 255000, cm3: 418 },
+    { id: 'sq411-1.5',   family: 'square411', label: '4-11/16 × 1½ in square',  in3: 295000, cm3: 484 },
+    { id: 'sq411-2.125', family: 'square411', label: '4-11/16 × 2⅛ in square',  in3: 420000, cm3: 689 },
+    { id: 'msn-2.5',   family: 'masonry',   label: '3¾ × 2 × 2½ in masonry box/gang', in3: 140000, cm3: 230 },
+    { id: 'msn-3.5',   family: 'masonry',   label: '3¾ × 2 × 3½ in masonry box/gang', in3: 210000, cm3: 344 },
+    { id: 'fs-single', family: 'fsfd',      label: 'FS single cover/gang (min. depth 1¾ in)', in3: 135000, cm3: 221 },
+    { id: 'fd-single', family: 'fsfd',      label: 'FD single cover/gang (min. depth 2⅜ in)', in3: 180000, cm3: 295 },
+    { id: 'fs-multi',  family: 'fsfd',      label: 'FS multiple cover/gang (min. depth 1¾ in)', in3: 180000, cm3: 295 },
+    { id: 'fd-multi',  family: 'fsfd',      label: 'FD multiple cover/gang (min. depth 2⅜ in)', in3: 240000, cm3: 395 }
+  ];
+  // Cable presets: conductor count excludes the ground; the ground is the same AWG size as the circuit conductors.
+  var CABLES = [
+    { id: '14/2', label: '14/2 with ground', insulated: 2, size: 14, egcSize: 14 },
+    { id: '14/3', label: '14/3 with ground', insulated: 3, size: 14, egcSize: 14 },
+    { id: '12/2', label: '12/2 with ground', insulated: 2, size: 12, egcSize: 12 },
+    { id: '12/3', label: '12/3 with ground', insulated: 3, size: 12, egcSize: 12 },
+    { id: '10/2', label: '10/2 with ground', insulated: 2, size: 10, egcSize: 10 },
+    { id: '10/3', label: '10/3 with ground', insulated: 3, size: 10, egcSize: 10 }
+  ];
+  var HANDLING = ['terminate', 'pass', 'loop'];
+  var CATEGORIES = [
+    { id: 'conductors', label: 'Insulated conductors', rule: REF.conductor },
+    { id: 'loops', label: 'Looped conductors (counted twice)', rule: REF.conductor },
+    { id: 'grounds', label: 'Equipment grounding conductors', rule: REF.egc },
+    { id: 'clamp', label: 'Internal cable clamps', rule: REF.clamp },
+    { id: 'support', label: 'Support fittings', rule: REF.support },
+    { id: 'devices', label: 'Device yokes', rule: REF.device },
+    { id: 'terminals', label: 'Terminal blocks', rule: REF.terminal }
+  ];
+
+  /* ===================== formatting helpers ===================== */
+  function fmt(units) {
+    var neg = units < 0; var u = Math.abs(units);
+    var whole = Math.floor(u / SCALE); var frac = String(u % SCALE);
+    while (frac.length < 4) frac = '0' + frac;
+    frac = frac.replace(/0+$/, '');
+    while (frac.length < 2) frac += '0';
+    return (neg ? '-' : '') + whole + '.' + frac;
+  }
+  function percent(num, den) { return den > 0 ? Math.round(num * 1000 / den) / 10 : 0; }
+
+  /* ===================== input normalization + validation ===================== */
+  function parseCount(value, min, max, allowEmpty) {
+    var s = String(value == null ? '' : value).trim();
+    if (s === '') return allowEmpty ? { ok: true, value: 0 } : { ok: false, message: 'Enter a whole number from ' + min + ' to ' + max + '.' };
+    if (!/^\d{1,7}$/.test(s)) return { ok: false, message: 'Use a whole number, with no decimals, signs or letters.' };
+    var v = parseInt(s, 10);
+    if (v < min || v > max) return { ok: false, message: 'Enter a whole number from ' + min + ' to ' + max + '.' };
+    return { ok: true, value: v };
+  }
+  function parseVolume(value, minExclusive, max, allowEmpty) {
+    var s = String(value == null ? '' : value).trim();
+    if (s === '') return allowEmpty ? { ok: true, units: 0 } : { ok: false, message: 'Enter the volume in cubic inches.' };
+    var m = /^(\d{1,4})(?:\.(\d{1,2}))?$/.exec(s);
+    if (!m) return { ok: false, message: 'Enter a positive number of cubic inches (up to 2 decimals).' };
+    var frac = (m[2] || '') + '00';
+    var units = parseInt(m[1], 10) * SCALE + parseInt(frac.slice(0, 2), 10) * 100;
+    if (minExclusive && units <= 0) return { ok: false, message: 'The volume must be greater than 0.' };
+    if (units > max * SCALE) return { ok: false, message: 'The volume cannot be more than ' + max + ' in³.' };
+    return { ok: true, units: units };
+  }
+  function parseSize(value) {
+    var s = String(value == null ? '' : value).trim();
+    var n = /^\d{1,2}$/.test(s) ? parseInt(s, 10) : NaN;
+    if (SIZES.indexOf(n) === -1) {
+      return { ok: false, message: 'Only 18 AWG through 6 AWG are supported. Conductors of 4 AWG and larger must also meet NEC ' + REF.largeConductors + ', which this calculator does not calculate.' };
+    }
+    return { ok: true, value: n };
+  }
+  function findCable(id) { for (var i = 0; i < CABLES.length; i++) if (CABLES[i].id === id) return CABLES[i]; return null; }
+  function findBox(id) { for (var i = 0; i < BOXES.length; i++) if (BOXES[i].id === id) return BOXES[i]; return null; }
+
+  // raw: strings/booleans straight from the form. Returns { ok, errors:[{path,message}], model }.
+  function normalize(raw) {
+    var errors = [];
+    var model = { mode: raw && raw.mode === 'min' ? 'min' : 'check', cables: [], loose: [], clamp: !!(raw && raw.clamp), stud: !!(raw && raw.stud), hickey: !!(raw && raw.hickey), yokes: [], terminals: [], box: null };
+    function err(path, message) { errors.push({ path: path, message: message }); }
+    raw = raw || {};
+    var cables = raw.cables || [], loose = raw.loose || [], yokes = raw.yokes || [], terms = raw.terminals || [];
+    if (cables.length > LIMITS.cableRows) err('cables', 'Too many cable rows (maximum ' + LIMITS.cableRows + ').');
+    if (loose.length > LIMITS.looseRows) err('loose', 'Too many loose-conductor rows (maximum ' + LIMITS.looseRows + ').');
+    if (yokes.length > LIMITS.yokeRows) err('yokes', 'Too many device rows (maximum ' + LIMITS.yokeRows + ').');
+    if (terms.length > LIMITS.terminalRows) err('terminals', 'Too many terminal-block rows (maximum ' + LIMITS.terminalRows + ').');
+
+    cables.slice(0, LIMITS.cableRows).forEach(function (c, i) {
+      var p = 'cables.' + i + '.';
+      var q = parseCount(c.qty, 0, LIMITS.cableQty, true); if (!q.ok) { err(p + 'qty', q.message); return; }
+      if (HANDLING.indexOf(c.handling) === -1) { err(p + 'handling', 'Choose how the cable sits in the box.'); return; }
+      var insulated, size, egcSize = null, ok = true;
+      if (c.preset === 'custom') {
+        var ni = parseCount(c.insulated, 1, LIMITS.customInsulated, false); if (!ni.ok) { err(p + 'insulated', ni.message); ok = false; } else insulated = ni.value;
+        var ns = parseSize(c.size); if (!ns.ok) { err(p + 'size', ns.message); ok = false; } else size = ns.value;
+        if (c.egc) { var ne = parseSize(c.egcSize); if (!ne.ok) { err(p + 'egcSize', ne.message); ok = false; } else egcSize = ne.value; }
+      } else {
+        var preset = findCable(c.preset);
+        if (!preset) { err(p + 'preset', 'Choose a cable type.'); return; }
+        insulated = preset.insulated; size = preset.size; egcSize = preset.egcSize;
+      }
+      if (ok) model.cables.push({ qty: q.value, handling: c.handling, insulated: insulated, size: size, egcSize: egcSize, label: c.preset === 'custom' ? 'Custom cable (' + insulated + ' × #' + size + (egcSize ? ' + #' + egcSize + ' ground' : '') + ')' : c.preset + ' cable' });
+    });
+    loose.slice(0, LIMITS.looseRows).forEach(function (l, i) {
+      var p = 'loose.' + i + '.';
+      var n = parseCount(l.count, 0, LIMITS.looseCount, true); if (!n.ok) { err(p + 'count', n.message); return; }
+      var s = parseSize(l.size); if (!s.ok) { err(p + 'size', s.message); return; }
+      var kind = l.kind == null || l.kind === '' ? 'cond' : l.kind;
+      if (kind !== 'cond' && kind !== 'egc') { err(p + 'kind', 'Choose a conductor type.'); return; }
+      model.loose.push({ size: s.value, count: n.value, kind: kind });
+    });
+    yokes.slice(0, LIMITS.yokeRows).forEach(function (y, i) {
+      var p = 'yokes.' + i + '.';
+      var n = parseCount(y.qty, 0, LIMITS.yokeQty, true); if (!n.ok) { err(p + 'qty', n.message); return; }
+      var g = parseCount(y.gangs, 1, LIMITS.gangs, false); if (!g.ok) { err(p + 'gangs', g.message); return; }
+      var s = parseSize(y.size); if (!s.ok) { err(p + 'size', s.message); return; }
+      model.yokes.push({ size: s.value, qty: n.value, gangs: g.value });
+    });
+    terms.slice(0, LIMITS.terminalRows).forEach(function (t, i) {
+      var p = 'terminals.' + i + '.';
+      var n = parseCount(t.count, 0, LIMITS.terminalCount, true); if (!n.ok) { err(p + 'count', n.message); return; }
+      var s = parseSize(t.size); if (!s.ok) { err(p + 'size', s.message); return; }
+      model.terminals.push({ size: s.value, count: n.value });
+    });
+    if (model.mode === 'check') {
+      var b = raw.box || {};
+      var addon = parseVolume(b.addon, false, LIMITS.addOnVolume, true);
+      if (!addon.ok) err('box.addon', addon.message);
+      if (b.type === 'custom') {
+        var cv = parseVolume(b.custom, true, LIMITS.customVolume, false);
+        if (!cv.ok) err('box.custom', cv.message);
+        else if (addon.ok) model.box = { type: 'custom', label: 'Box with marked volume', units: cv.units, addOn: addon.units };
+      } else {
+        var std = findBox(b.type);
+        if (!std) err('box.type', 'Choose a box.');
+        else if (addon.ok) model.box = { type: std.id, label: std.label, units: std.in3, addOn: addon.units };
+      }
+    }
+    return { ok: errors.length === 0, errors: errors, model: model };
+  }
+
+  /* ===================== NEC calculation engine ===================== */
+  function allowance(size) { return ALLOWANCE[size]; }
+
+  function compute(m) {
+    var ins = {}, loopIns = {}, i;
+    SIZES.forEach(function (s) { ins[s] = 0; loopIns[s] = 0; });
+    var egcTotal = 0, egcLargest = null;
+    m.cables.forEach(function (c) {
+      if (!c.qty) return;
+      var n = c.qty * c.insulated;
+      if (c.handling === 'loop') loopIns[c.size] += n; else ins[c.size] += n;
+      if (c.egcSize) { egcTotal += c.qty; egcLargest = egcLargest === null ? c.egcSize : Math.min(egcLargest, c.egcSize); }
+    });
+    m.loose.forEach(function (l) {
+      if (l.kind === 'egc') { if (l.count > 0) { egcTotal += l.count; egcLargest = egcLargest === null ? l.size : Math.min(egcLargest, l.size); } }
+      else ins[l.size] += l.count;
+    });
+
+    var sizesPresent = [], conductorSizes = [];
+    SIZES.forEach(function (s) { if (ins[s] > 0 || loopIns[s] > 0) { sizesPresent.push(s); conductorSizes.push(s); } });
+    if (egcTotal > 0) sizesPresent.push(egcLargest);
+    var hasYoke = false, hasTerm = false;
+    m.yokes.forEach(function (y) { if (y.qty > 0) { sizesPresent.push(y.size); hasYoke = true; } });
+    m.terminals.forEach(function (t) { if (t.count > 0) { sizesPresent.push(t.size); hasTerm = true; } });
+
+    var out = { status: 'ok', lines: [], categories: [], totalUnits: 0, largestSize: null, egcTotal: egcTotal, egcLargest: egcLargest, warnings: [], insByTotal: {}, notCounted: [
+      'Wire connectors and other splicing connectors', 'Locknuts and bushings', 'Pigtails and jumpers with both ends inside the box'
+    ] };
+    SIZES.forEach(function (s) { out.insByTotal[s] = ins[s]; });
+    if (sizesPresent.length === 0) {
+      out.status = 'needs-input';
+      out.message = (m.clamp || m.stud || m.hickey)
+        ? 'Add at least one conductor, device or terminal block so the fittings can be sized.'
+        : 'Add at least one cable, conductor or device to calculate.';
+      return out;
+    }
+    out.largestSize = Math.min.apply(null, sizesPresent);
+    var largestA = allowance(out.largestSize);
+    var running = 0;
+    function push(cat, key, input, rule, qtyLabel, basis, each, multLabel, volume) {
+      running += volume;
+      out.lines.push({ cat: cat, key: key, input: input, rule: rule, qtyLabel: qtyLabel, basis: basis, eachUnits: each, mult: multLabel, volumeUnits: volume, subtotalUnits: running });
+    }
+    SIZES.forEach(function (s) {
+      if (ins[s] > 0) push('conductors', 'cond-' + s, 'Insulated conductors', REF.conductor, String(ins[s]), '#' + s, allowance(s), '×1', ins[s] * allowance(s));
+    });
+    SIZES.forEach(function (s) {
+      if (loopIns[s] > 0) push('loops', 'loop-' + s, 'Conductors in unbroken loops (' + LOOP_MIN_INCHES + ' in or longer)', REF.conductor, String(loopIns[s]), '#' + s, allowance(s), '×' + LOOP_MULTIPLIER, loopIns[s] * LOOP_MULTIPLIER * allowance(s));
+    });
+    if (egcTotal > 0) {
+      var eA = allowance(egcLargest);
+      var first = Math.min(egcTotal, EGC_FIRST_GROUP);
+      push('grounds', 'egc-first', 'Equipment grounding conductors, one shared allowance for up to ' + EGC_FIRST_GROUP, REF.egc, String(first), '#' + egcLargest + ' (largest ground)', eA, '×1 for the group', eA);
+      if (egcTotal > EGC_FIRST_GROUP) {
+        var extra = egcTotal - EGC_FIRST_GROUP;
+        push('grounds', 'egc-extra', 'Each ground beyond ' + EGC_FIRST_GROUP + ' adds a quarter allowance', REF.egc, String(extra), '#' + egcLargest + ' (largest ground)', eA, '×¼', extra * eA / EGC_EXTRA_DIVISOR);
+      }
+    }
+    var basisLargest = '#' + out.largestSize + ' (largest in box)';
+    if (m.clamp) push('clamp', 'clamp', 'Internal cable clamps, one allowance for any number', REF.clamp, 'any', basisLargest, largestA, '×1', largestA);
+    if (m.stud) push('support', 'stud', 'Luminaire stud, one allowance for the type', REF.support, 'any', basisLargest, largestA, '×1', largestA);
+    if (m.hickey) push('support', 'hickey', 'Hickey, one allowance for the type', REF.support, 'any', basisLargest, largestA, '×1', largestA);
+    m.yokes.forEach(function (y, idx) {
+      if (y.qty <= 0) return;
+      var yokes = y.qty * y.gangs;
+      var label = y.qty + (y.qty === 1 ? ' yoke' : ' yokes') + (y.gangs > 1 ? ', each ' + y.gangs + ' gangs wide' : '');
+      push('devices', 'yoke-' + idx, 'Device ' + label, REF.device, String(yokes) + (yokes === 1 ? ' gang' : ' gangs'), '#' + y.size + ' (largest connected)', allowance(y.size), '×' + YOKE_MULTIPLIER, yokes * YOKE_MULTIPLIER * allowance(y.size));
+      if (conductorSizes.concat(egcTotal > 0 ? [egcLargest] : []).concat(m.terminals.filter(function (t) { return t.count > 0; }).map(function (t) { return t.size; })).indexOf(y.size) === -1) {
+        out.warnings.push('You chose #' + y.size + ' as the largest conductor connected to a device, but no #' + y.size + ' conductor is entered in this box. The calculator uses #' + y.size + ' as you selected.');
+      }
+    });
+    m.terminals.forEach(function (t, idx) {
+      if (t.count <= 0) return;
+      push('terminals', 'tb-' + idx, 'Terminal block assemblies', REF.terminal, String(t.count), '#' + t.size + ' (largest terminated)', allowance(t.size), '×1', t.count * allowance(t.size));
+    });
+    out.totalUnits = running;
+    CATEGORIES.forEach(function (c) {
+      var sum = 0; out.lines.forEach(function (l) { if (l.cat === c.id) sum += l.volumeUnits; });
+      if (sum > 0) out.categories.push({ id: c.id, label: c.label, rule: c.rule, units: sum });
+    });
+    return out;
+  }
+
+  /* ===================== box selection ===================== */
+  function sortedBoxes() {
+    return BOXES.map(function (b, i) { return { b: b, i: i }; })
+      .sort(function (a, c) { return a.b.in3 - c.b.in3 || a.i - c.i; })
+      .map(function (x) { return x.b; });
+  }
+  function minimumBoxes(requiredUnits) {
+    var sorted = sortedBoxes();
+    var fits = sorted.filter(function (b) { return b.in3 >= requiredUnits; });
+    var out = { requiredUnits: requiredUnits, noFit: fits.length === 0, largest: sorted[sorted.length - 1], smallestVolume: null, smallestBoxes: [], perFamily: [], smaller: [] };
+    if (!fits.length) {
+      out.smaller = sorted.slice().reverse().map(function (b) { return { box: b, shortfall: requiredUnits - b.in3 }; });
+      FAMILIES.forEach(function (f) { out.perFamily.push({ family: f, box: null }); });
+      return out;
+    }
+    out.smallestVolume = fits[0].in3;
+    out.smallestBoxes = fits.filter(function (b) { return b.in3 === fits[0].in3; });
+    FAMILIES.forEach(function (f) {
+      var hit = null;
+      for (var i = 0; i < fits.length; i++) { if (fits[i].family === f.id) { hit = fits[i]; break; } }
+      out.perFamily.push({ family: f, box: hit });
+    });
+    out.smaller = sorted.filter(function (b) { return b.in3 < out.smallestVolume; }).reverse()
+      .map(function (b) { return { box: b, shortfall: requiredUnits - b.in3 }; });
+    return out;
+  }
+
+  /* ===================== result model ===================== */
+  function evaluate(m) {
+    var c = compute(m);
+    var out = { mode: m.mode, calc: c, status: c.status };
+    if (c.status !== 'ok') { out.message = c.message; return out; }
+    var R = c.totalUnits;
+    out.requiredUnits = R;
+    out.min = minimumBoxes(R);
+    var sortedCats = c.categories.slice().sort(function (a, b) { return b.units - a.units; });
+    out.contributors = sortedCats.slice(0, 3).map(function (x) { return { label: x.label, units: x.units, pct: percent(x.units, R) }; });
+    if (m.mode === 'check' && m.box) {
+      var cap = m.box.units + m.box.addOn;
+      var pass = R <= cap;
+      out.check = { boxLabel: m.box.label, boxUnits: m.box.units, addOnUnits: m.box.addOn, capacityUnits: cap, pass: pass, remainingUnits: pass ? cap - R : 0, shortfallUnits: pass ? 0 : R - cap, fillPct: percent(R, cap), suggestions: [] };
+      if (!pass) {
+        var s = out.check.suggestions;
+        if (!out.min.noFit) s.push({ type: 'box', boxes: out.min.smallestBoxes, volume: out.min.smallestVolume });
+        var best = null;
+        SIZES.forEach(function (sz) {
+          var n = c.insByTotal[sz];
+          if (n > 0) { var need = Math.ceil((R - cap) / allowance(sz)); if (need <= n && (!best || allowance(sz) > allowance(best.size))) best = { size: sz, count: need, saves: need * allowance(sz) }; }
+        });
+        if (best) s.push({ type: 'reduce', size: best.size, count: best.count, saves: best.saves });
+        s.push({ type: 'ring', extraUnits: R - cap });
+      }
+    }
+    return out;
+  }
+
+  return {
+    SCALE: SCALE, SIZES: SIZES, ALLOWANCE: ALLOWANCE, ALLOWANCE_CM3: ALLOWANCE_CM3, BOXES: BOXES, FAMILIES: FAMILIES,
+    CABLES: CABLES, CATEGORIES: CATEGORIES, REF: REF, LIMITS: LIMITS, HANDLING: HANDLING,
+    EGC_FIRST_GROUP: EGC_FIRST_GROUP, EGC_EXTRA_DIVISOR: EGC_EXTRA_DIVISOR, LOOP_MIN_INCHES: LOOP_MIN_INCHES,
+    BARRIER_UNMARKED_METAL: BARRIER_UNMARKED_METAL, BARRIER_UNMARKED_NONMETALLIC: BARRIER_UNMARKED_NONMETALLIC,
+    fmt: fmt, percent: percent, parseCount: parseCount, parseVolume: parseVolume, parseSize: parseSize,
+    normalize: normalize, compute: compute, minimumBoxes: minimumBoxes, evaluate: evaluate, findBox: findBox, findCable: findCable
+  };
+})();
+/* @@ENGINE_END@@ */
+
+/* ==========================================================================
+   UI: reads the form (raw strings), calls the engine, renders with safe DOM
+   APIs only (createElement / createElementNS / textContent), never HTML strings.
+   ========================================================================== */
+(function () {
+  'use strict';
+  var BF = BoxFill;
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var uid = 0;
+  var DEFAULTS = { cableType: '14/2', cableQty: '2', handling: 'terminate', yokeSize: '14', box: 'dev-3.5' };
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    if (attrs) for (var k in attrs) if (Object.prototype.hasOwnProperty.call(attrs, k)) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function svg(tag, attrs, text) {
+    var e = document.createElementNS(SVGNS, tag);
+    if (attrs) for (var k in attrs) if (Object.prototype.hasOwnProperty.call(attrs, k)) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+  function nextId(p) { uid += 1; return 'bf' + p + uid; }
+  function sizeOptions(select, selected) {
+    BF.SIZES.slice().reverse().forEach(function (s) {
+      var o = el('option', { value: String(s) }, '#' + s + ' AWG');
+      if (String(s) === String(selected)) o.selected = true;
+      select.appendChild(o);
+    });
+  }
+  function field(labelText, control, hint) {
+    var wrap = el('div', { class: 'field' });
+    var id = control.id || (control.id = nextId('f'));
+    var label = el('label', { for: id }, labelText);
+    if (hint) label.appendChild(el('span', { class: 'hint' }, ' ' + hint));
+    wrap.appendChild(label); wrap.appendChild(control);
+    return wrap;
+  }
+  function numInput(min, max, value, path) {
+    var i = el('input', { type: 'number', inputmode: 'numeric', min: String(min), max: String(max), step: '1', value: String(value), 'data-path': path });
+    return i;
+  }
+
+  /* ------------------------- row builders ------------------------- */
+  function rowShell(kind) {
+    var row = el('div', { class: 'bf-row', 'data-kind': kind });
+    var err = el('p', { class: 'field-error bf-err', role: 'alert' }); err.hidden = true; err.id = nextId('e');
+    row.appendChild(err);
+    return { row: row, err: err };
+  }
+  function removeButton(label) {
+    var b = el('button', { type: 'button', class: 'btn btn-ghost bf-remove', 'data-remove': '1', 'aria-label': label }, 'Remove');
+    return b;
+  }
+
+  function addCableRow(init) {
+    init = init || {};
+    var s = rowShell('cable'), row = s.row;
+    var type = el('select', { 'data-f': 'preset' });
+    BF.CABLES.forEach(function (c) { type.appendChild(el('option', { value: c.id }, c.label)); });
+    type.appendChild(el('option', { value: 'custom' }, 'Custom cable…'));
+    type.value = init.preset || DEFAULTS.cableType;
+    row.insertBefore(field('Cable', type), s.err);
+    var qty = numInput(0, BF.LIMITS.cableQty, init.qty != null ? init.qty : DEFAULTS.cableQty, '');
+    qty.setAttribute('data-f', 'qty');
+    row.insertBefore(field('How many', qty), s.err);
+    var h = el('select', { 'data-f': 'handling' });
+    [['terminate', 'Ends or spliced in box'], ['pass', 'Passes through, no splice'], ['loop', 'Unbroken loop, 12 in+']].forEach(function (o) { h.appendChild(el('option', { value: o[0] }, o[1])); });
+    h.value = init.handling || DEFAULTS.handling;
+    row.insertBefore(field('How it sits in the box', h), s.err);
+    row.insertBefore(removeButton('Remove this cable row'), s.err);
+    var custom = el('div', { class: 'bf-custom' }); custom.hidden = true;
+    var ins = numInput(1, BF.LIMITS.customInsulated, 2, ''); ins.setAttribute('data-f', 'insulated');
+    custom.appendChild(field('Insulated conductors', ins, '(not the ground)'));
+    var sz = el('select', { 'data-f': 'size' }); sizeOptions(sz, 12);
+    custom.appendChild(field('Conductor size', sz));
+    var eg = el('input', { type: 'checkbox', 'data-f': 'egc', style: 'width:20px;height:20px;accent-color:var(--brand);' }); eg.checked = true;
+    var egWrap = el('div', { class: 'field' });
+    var egl = el('label', { for: (eg.id = nextId('f')), style: 'display:flex;gap:8px;align-items:center;min-height:42px;' }); egl.appendChild(eg); egl.appendChild(document.createTextNode('Includes a ground'));
+    egWrap.appendChild(egl); custom.appendChild(egWrap);
+    var egs = el('select', { 'data-f': 'egcSize' }); sizeOptions(egs, 12);
+    custom.appendChild(field('Ground size', egs));
+    row.insertBefore(custom, s.err);
+    $('bfCableRows').appendChild(row);
+    syncCustom(row);
+    return row;
+  }
+  function syncCustom(row) {
+    var preset = row.querySelector('[data-f="preset"]').value;
+    var custom = row.querySelector('.bf-custom');
+    custom.hidden = preset !== 'custom';
+    var egcOn = row.querySelector('[data-f="egc"]').checked;
+    var egs = row.querySelector('[data-f="egcSize"]');
+    egs.disabled = !egcOn;
+  }
+  function addLooseRow(init) {
+    init = init || {};
+    var s = rowShell('loose'), row = s.row;
+    var kd = el('select', { 'data-f': 'kind' });
+    kd.appendChild(el('option', { value: 'cond' }, 'Insulated conductor'));
+    kd.appendChild(el('option', { value: 'egc' }, 'Equipment ground / bonding jumper'));
+    kd.value = init.kind || 'cond';
+    row.insertBefore(field('Type', kd), s.err);
+    var sz = el('select', { 'data-f': 'size' }); sizeOptions(sz, init.size || 12);
+    row.insertBefore(field('Size', sz), s.err);
+    var n = numInput(0, BF.LIMITS.looseCount, init.count != null ? init.count : 1, ''); n.setAttribute('data-f', 'count');
+    row.insertBefore(field('How many', n), s.err);
+    row.insertBefore(removeButton('Remove this loose-conductor row'), s.err);
+    $('bfLooseRows').appendChild(row);
+  }
+  function addYokeRow(init) {
+    init = init || {};
+    var s = rowShell('yoke'), row = s.row;
+    var sz = el('select', { 'data-f': 'size' }); sizeOptions(sz, init.size || DEFAULTS.yokeSize);
+    row.insertBefore(field('Largest conductor connected', sz), s.err);
+    var q = numInput(0, BF.LIMITS.yokeQty, init.qty != null ? init.qty : 1, ''); q.setAttribute('data-f', 'qty');
+    row.insertBefore(field('Yokes', q), s.err);
+    var g = el('select', { 'data-f': 'gangs' });
+    for (var i = 1; i <= BF.LIMITS.gangs; i++) g.appendChild(el('option', { value: String(i) }, i === 1 ? '1 (normal device)' : i + ' (wide device)'));
+    g.value = String(init.gangs || 1);
+    row.insertBefore(field('Gangs each yoke needs', g), s.err);
+    row.insertBefore(removeButton('Remove this device row'), s.err);
+    $('bfYokeRows').appendChild(row);
+  }
+  function addTermRow(init) {
+    init = init || {};
+    var s = rowShell('term'), row = s.row;
+    var n = numInput(0, BF.LIMITS.terminalCount, init.count != null ? init.count : 1, ''); n.setAttribute('data-f', 'count');
+    row.insertBefore(field('Terminal block assemblies', n), s.err);
+    var sz = el('select', { 'data-f': 'size' }); sizeOptions(sz, init.size || 12);
+    row.insertBefore(field('Largest conductor terminated', sz), s.err);
+    row.insertBefore(removeButton('Remove this terminal-block row'), s.err);
+    $('bfTermRows').appendChild(row);
+  }
+
+  function setupBoxSelect() {
+    var sel = $('bfBoxType');
+    BF.FAMILIES.forEach(function (f) {
+      var g = el('optgroup', { label: f.label });
+      BF.BOXES.forEach(function (b) {
+        if (b.family === f.id) g.appendChild(el('option', { value: b.id }, b.label + ' — ' + BF.fmt(b.in3) + ' in³'));
+      });
+      sel.appendChild(g);
+    });
+    sel.appendChild(el('option', { value: 'custom' }, 'Other box — marked volume'));
+    sel.value = DEFAULTS.box;
+  }
+
+  function resetRows() {
+    ['bfCableRows', 'bfLooseRows', 'bfYokeRows', 'bfTermRows'].forEach(function (id) { clear($(id)); });
+    addCableRow({}); addYokeRow({});
+    $('bfLooseWrap').open = false; $('bfTermWrap').open = false;
+  }
+
+  /* ------------------------- read form -> raw ------------------------- */
+  function rowValues(row) {
+    var o = {};
+    Array.prototype.forEach.call(row.querySelectorAll('[data-f]'), function (c) { o[c.getAttribute('data-f')] = c.type === 'checkbox' ? c.checked : c.value; });
+    return o;
+  }
+  function readRaw() {
+    var mode = document.querySelector('input[name="bfMode"]:checked').value;
+    return {
+      mode: mode,
+      cables: Array.prototype.map.call($('bfCableRows').children, rowValues),
+      loose: Array.prototype.map.call($('bfLooseRows').children, rowValues),
+      yokes: Array.prototype.map.call($('bfYokeRows').children, rowValues),
+      terminals: Array.prototype.map.call($('bfTermRows').children, rowValues),
+      clamp: $('bfClamp').checked, stud: $('bfStud').checked, hickey: $('bfHickey').checked,
+      box: { type: $('bfBoxType').value, custom: $('bfCustomVol').value, addon: $('bfAddOn').value }
+    };
+  }
+
+  /* ------------------------- validation display ------------------------- */
+  var PATH_MAP = { cables: 'bfCableRows', loose: 'bfLooseRows', yokes: 'bfYokeRows', terminals: 'bfTermRows' };
+  function clearErrors() {
+    Array.prototype.forEach.call($('bfInputs').querySelectorAll('[aria-invalid]'), function (c) { c.removeAttribute('aria-invalid'); c.removeAttribute('aria-describedby'); });
+    Array.prototype.forEach.call($('bfInputs').querySelectorAll('.bf-err'), function (e) { e.hidden = true; clear(e); });
+    Array.prototype.forEach.call($('bfInputs').querySelectorAll('.bf-boxerr'), function (e) { e.parentNode.removeChild(e); });
+  }
+  var FIELD_NAMES = { kind: 'Type', qty: 'How many', handling: 'How it sits in the box', preset: 'Cable', insulated: 'Insulated conductors', size: 'Conductor size', egcSize: 'Ground size', count: 'Count', gangs: 'Gangs' };
+  function showErrors(errors) {
+    clearErrors();
+    errors.forEach(function (e) {
+      var parts = e.path.split('.');
+      if (parts[0] === 'box') {
+        var target = parts[1] === 'type' ? $('bfBoxType') : parts[1] === 'custom' ? $('bfCustomVol') : $('bfAddOn');
+        var p = el('p', { class: 'field-error bf-boxerr', role: 'alert' }, e.message); p.id = nextId('e');
+        target.setAttribute('aria-invalid', 'true'); target.setAttribute('aria-describedby', p.id);
+        target.parentNode.parentNode.insertBefore(p, target.parentNode.nextSibling);
+        return;
+      }
+      var host = PATH_MAP[parts[0]] && $(PATH_MAP[parts[0]]);
+      if (!host) return;
+      var row = host.children[parseInt(parts[1], 10)];
+      if (!row) return;
+      var ctl = row.querySelector('[data-f="' + parts[2] + '"]');
+      var errEl = row.querySelector('.bf-err');
+      errEl.hidden = false; errEl.textContent = (FIELD_NAMES[parts[2]] || 'Value') + ': ' + e.message;
+      if (ctl) { ctl.setAttribute('aria-invalid', 'true'); ctl.setAttribute('aria-describedby', errEl.id); }
+    });
+  }
+
+  /* ------------------------- rendering ------------------------- */
+  var CAT_LABEL = {}; BF.CATEGORIES.forEach(function (c) { CAT_LABEL[c.id] = c; });
+  function f(u) { return BF.fmt(u); }
+  function pct(p) { return (Math.round(p * 10) / 10).toFixed(1) + '%'; }
+  function resultRow(k, v) { var r = el('div', { class: 'result-row' }); r.appendChild(el('span', { class: 'k' }, k)); r.appendChild(el('span', { class: 'v' }, v)); return r; }
+  function block(title) { var b = el('div', { class: 'bf-result-block' }); b.appendChild(el('h3', null, title)); return b; }
+
+  var lastAnnounce = '', announceTimer = null;
+  function announce(text) {
+    if (text === lastAnnounce) return;
+    lastAnnounce = text;
+    clearTimeout(announceTimer);
+    announceTimer = setTimeout(function () { $('bfAnnounce').textContent = text; }, 700);
+  }
+
+  function renderMessage(title, text) {
+    var box = $('bfResult'); clear(box);
+    var pill = el('div', { class: 'bf-pill info' }, title); box.appendChild(pill);
+    box.appendChild(el('p', { class: 'bf-summary' }, text));
+    var d = $('bfDetailBody'); clear(d); d.appendChild(el('p', { class: 'bf-empty' }, text));
+    announce(text);
+  }
+
+  function boxNames(boxes) { return boxes.map(function (b) { return b.label; }).join('; '); }
+
+  function renderResult(res) {
+    var box = $('bfResult'); clear(box);
+    var R = res.requiredUnits, announceText;
+    if (res.mode === 'check' && res.check) {
+      var c = res.check;
+      var pill = el('div', { class: 'bf-pill ' + (c.pass ? 'pass' : 'fail') }, c.pass ? '✓ PASS — the box is big enough' : '✕ TOO SMALL — the box is over capacity');
+      box.appendChild(pill);
+      var list = el('div', { class: 'bf-key', style: 'margin-top:14px;' });
+      list.appendChild(resultRow('Required volume', f(R) + ' in³'));
+      list.appendChild(resultRow('Box capacity', f(c.capacityUnits) + ' in³'));
+      list.appendChild(resultRow(c.pass ? 'Remaining' : 'Shortfall', f(c.pass ? c.remainingUnits : c.shortfallUnits) + ' in³'));
+      list.appendChild(resultRow('Fill', pct(c.fillPct)));
+      box.appendChild(list);
+      var meter = el('div', { class: 'bf-meter' + (c.pass ? '' : ' over'), 'aria-hidden': 'true' });
+      var bar = el('i'); bar.style.width = Math.min(100, c.fillPct) + '%'; meter.appendChild(bar); box.appendChild(meter);
+      var sum;
+      if (c.pass) {
+        sum = 'Required volume ' + f(R) + ' in³ fits in the ' + f(c.capacityUnits) + ' in³ box with ' + f(c.remainingUnits) + ' in³ to spare (' + pct(c.fillPct) + ' full).';
+      } else {
+        sum = 'Your calculated required volume exceeds the selected box capacity by ' + f(c.shortfallUnits) + ' in³ (' + f(R) + ' required against ' + f(c.capacityUnits) + ').';
+      }
+      box.appendChild(el('p', { class: 'bf-summary' }, sum));
+      var why = block('What drives the total');
+      var ul = el('ul');
+      res.contributors.forEach(function (x) { ul.appendChild(el('li', null, x.label + ': ' + f(x.units) + ' in³ (' + pct(x.pct) + ' of the total)')); });
+      why.appendChild(ul); box.appendChild(why);
+      if (!c.pass) {
+        var fx = block('Ways to fix it'); var fl = el('ul');
+        c.suggestions.forEach(function (s) {
+          if (s.type === 'box') fl.appendChild(el('li', null, 'Use a larger box. The smallest standard volume that fits is ' + f(s.volume) + ' in³: ' + boxNames(s.boxes) + '.'));
+          if (s.type === 'reduce') fl.appendChild(el('li', null, 'Or reduce the number of #' + s.size + ' conductors by at least ' + s.count + ' (each saves ' + f(BF.ALLOWANCE[s.size]) + ' in³), for example by moving a splice to a separate box.'));
+          if (s.type === 'ring') fl.appendChild(el('li', null, 'Or add an extension ring or deeper cover marked with at least ' + f(s.extraUnits) + ' in³ of extra volume (314.16(A)).'));
+        });
+        fx.appendChild(fl); box.appendChild(fx);
+      }
+      announceText = c.pass ? 'Pass. Required ' + f(R) + ' cubic inches, capacity ' + f(c.capacityUnits) + ', ' + f(c.remainingUnits) + ' remaining.'
+        : 'Too small. Required ' + f(R) + ' cubic inches exceeds capacity ' + f(c.capacityUnits) + ' by ' + f(c.shortfallUnits) + '.';
+    } else {
+      var mn = res.min;
+      if (mn.noFit) {
+        box.appendChild(el('div', { class: 'bf-pill fail' }, '✕ No standard box is large enough'));
+        box.appendChild(el('p', { class: 'bf-summary' }, 'The calculated required volume of ' + f(R) + ' in³ exceeds the largest standard box in Table 314.16(A) (' + f(mn.largest.in3) + ' in³). Use a box or ring marked with a volume of at least ' + f(R) + ' in³.'));
+        announceText = 'No standard box fits. Required ' + f(R) + ' cubic inches.';
+      } else {
+        box.appendChild(el('div', { class: 'bf-pill pass' }, '✓ Smallest standard volume that fits: ' + f(mn.smallestVolume) + ' in³'));
+        var l2 = el('div', { class: 'bf-key', style: 'margin-top:14px;' });
+        l2.appendChild(resultRow('Calculated requirement', f(R) + ' in³'));
+        l2.appendChild(resultRow('Smallest box capacity that fits', f(mn.smallestVolume) + ' in³'));
+        l2.appendChild(resultRow('Spare in that box', f(mn.smallestVolume - R) + ' in³'));
+        box.appendChild(l2);
+        box.appendChild(el('p', { class: 'bf-summary' }, 'Standard boxes with this volume: ' + boxNames(mn.smallestBoxes) + '. Boxes are not interchangeable, so see the smallest fit in each family below.'));
+        if (mn.smaller.length) {
+          var nx = mn.smaller[0];
+          box.appendChild(el('p', { class: 'bf-summary' }, 'The next smaller standard volume, ' + f(nx.box.in3) + ' in³ (' + nx.box.label + '), fails by ' + f(nx.shortfall) + ' in³.'));
+        }
+        announceText = 'Smallest standard box volume that fits is ' + f(mn.smallestVolume) + ' cubic inches for a requirement of ' + f(R) + '.';
+      }
+      var why2 = block('What drives the total'); var u2 = el('ul');
+      res.contributors.forEach(function (x) { u2.appendChild(el('li', null, x.label + ': ' + f(x.units) + ' in³ (' + pct(x.pct) + ' of the total)')); });
+      why2.appendChild(u2); box.appendChild(why2);
+    }
+    if (res.calc.warnings.length) {
+      var w = block('Check this'); var wl = el('ul');
+      res.calc.warnings.forEach(function (t) { wl.appendChild(el('li', null, t)); });
+      w.appendChild(wl); box.appendChild(w);
+    }
+    announce(announceText);
+  }
+
+  /* ---- cutaway SVG ---- */
+  var ICONS = {
+    conductors: 'M0 7 q3.5 -6 7 0 t7 0', loops: 'M2 7 a5 5 0 1 1 10 0 a5 5 0 1 1 -10 0', grounds: 'M7 0 V6 M1 6 H13 M3 9 H11 M5 12 H9',
+    clamp: 'M1 3 H13 M1 11 H13 M4 3 V11 M10 3 V11', support: 'M7 0 V10 M3 12 H11 M5 10 H9', devices: 'M2 1 H12 V13 H2 Z M5 5 H9 M5 9 H9', terminals: 'M3 4 h2 M9 4 h2 M3 10 h2 M9 10 h2'
+  };
+  var SHORT = { conductors: 'Conductors', loops: 'Loops ×2', grounds: 'Grounds', clamp: 'Clamps', support: 'Fittings', devices: 'Devices', terminals: 'Terminal blocks' };
+  var PATTERNS = {
+    conductors: { w: 6, h: 6, rot: 45, kind: 'line' }, loops: { w: 6, h: 6, kind: 'dot' }, grounds: { w: 6, h: 6, rot: 0, kind: 'line' },
+    clamp: { w: 6, h: 6, rot: 90, kind: 'line' }, support: { w: 6, h: 6, rot: 135, kind: 'line' }, devices: { w: 6, h: 6, rot: 45, kind: 'cross' }, terminals: { w: 8, h: 8, kind: 'dot' }
+  };
+
+  function drawCutaway(res, showCheck) {
+    var S = svg('svg', { viewBox: '0 0 360 356', role: 'img', 'aria-labelledby': 'bfSvgTitle bfSvgDesc' });
+    var title = svg('title', { id: 'bfSvgTitle' }, 'Box fill cutaway: how your conductors, grounds, fittings and devices fill the box');
+    var desc = svg('desc', { id: 'bfSvgDesc' });
+    S.appendChild(title); S.appendChild(desc);
+    var defs = svg('defs');
+    BF.CATEGORIES.forEach(function (c) {
+      var p = PATTERNS[c.id];
+      var pat = svg('pattern', { id: 'bfPat-' + c.id, width: String(p.w), height: String(p.h), patternUnits: 'userSpaceOnUse' });
+      if (p.kind === 'line') { pat.setAttribute('patternTransform', 'rotate(' + p.rot + ')'); pat.appendChild(svg('line', { x1: '0', y1: '0', x2: '0', y2: String(p.h), stroke: 'var(--bf-line)', 'stroke-width': '1.4' })); }
+      else if (p.kind === 'dot') { pat.appendChild(svg('circle', { cx: String(p.w / 2), cy: String(p.h / 2), r: '1.3', fill: 'var(--bf-line)' })); }
+      else { pat.setAttribute('patternTransform', 'rotate(45)'); pat.appendChild(svg('line', { x1: '0', y1: '0', x2: '0', y2: String(p.h), stroke: 'var(--bf-line)', 'stroke-width': '1.2' })); pat.appendChild(svg('line', { x1: '0', y1: '0', x2: String(p.w), y2: '0', stroke: 'var(--bf-line)', 'stroke-width': '1.2' })); }
+      defs.appendChild(pat);
+    });
+    var clip = svg('clipPath', { id: 'bfClipBox' }); clip.appendChild(svg('rect', { x: '42', y: '84', width: '276', height: '180' })); defs.appendChild(clip);
+    S.appendChild(defs);
+
+    var X = 42, W = 276, RIM = 84, H = 180, BOTTOM = RIM + H;
+    var cats = res ? res.calc.categories : [];
+    var R = res ? res.requiredUnits : 0;
+    var V = res && res.check ? res.check.capacityUnits : (res && res.min && !res.min.noFit ? res.min.smallestVolume : (res ? Math.max(R, 1) : 1));
+    var over = showCheck && res && res.check && !res.check.pass;
+    var strokeVar = over ? 'var(--warn-border)' : 'var(--text-muted)';
+    S.appendChild(svg('rect', { x: String(X), y: String(RIM), width: String(W), height: String(H), fill: 'var(--surface-alt)' }));
+    if (!res) {
+      S.appendChild(svg('rect', { x: String(X), y: String(RIM), width: String(W), height: String(H), fill: 'none', stroke: 'var(--text-muted)', 'stroke-width': '2', 'stroke-dasharray': '6 5' }));
+      var t = svg('text', { x: '180', y: '170', 'text-anchor': 'middle', style: 'font-size:16px;fill:var(--text-muted);' });
+      t.appendChild(svg('tspan', { x: '180', dy: '0' }, 'Add cables to see how'));
+      t.appendChild(svg('tspan', { x: '180', dy: '20' }, 'they fill the box.'));
+      S.appendChild(t);
+      desc.textContent = 'Empty box. Add cables, fittings or devices to see how they fill the box.';
+      return S;
+    }
+    var cum = 0, overUnits = Math.max(0, R - V);
+    var overPx = overUnits > 0 ? Math.max(16, Math.min(64, overUnits / V * H)) : 0;
+    var bands = svg('g', { 'clip-path': 'none' });
+    cats.forEach(function (c) {
+      var start = cum, end = cum + c.units; cum = end;
+      var g = svg('g', { class: 'bf-band', 'data-cat': c.id });
+      var inS = Math.min(start, V), inE = Math.min(end, V), labelY = null, labelH = 0;
+      if (inE > inS) {
+        var y1 = BOTTOM - inE / V * H, h1 = (inE - inS) / V * H;
+        g.appendChild(svg('rect', { x: String(X), y: y1.toFixed(2), width: String(W), height: h1.toFixed(2), fill: 'var(--bf-' + c.id + ')' }));
+        g.appendChild(svg('rect', { x: String(X), y: y1.toFixed(2), width: String(W), height: h1.toFixed(2), fill: 'url(#bfPat-' + c.id + ')' }));
+        g.appendChild(svg('line', { x1: String(X), x2: String(X + W), y1: y1.toFixed(2), y2: y1.toFixed(2), stroke: 'var(--surface)', 'stroke-width': '1.5' }));
+        labelY = y1 + h1 / 2; labelH = h1;
+      }
+      if (end > V) {
+        var oS = Math.max(start, V) - V, oE = end - V, k = overPx / overUnits;
+        var y2 = RIM - oE * k, h2 = (oE - oS) * k;
+        g.appendChild(svg('rect', { x: String(X), y: y2.toFixed(2), width: String(W), height: h2.toFixed(2), fill: 'var(--bf-' + c.id + ')', opacity: '0.85' }));
+        g.appendChild(svg('rect', { x: String(X), y: y2.toFixed(2), width: String(W), height: h2.toFixed(2), fill: 'url(#bfPat-' + c.id + ')' }));
+        g.appendChild(svg('line', { x1: String(X), x2: String(X + W), y1: y2.toFixed(2), y2: y2.toFixed(2), stroke: 'var(--surface)', 'stroke-width': '1.5' }));
+        if (labelY === null) { labelY = y2 + h2 / 2; labelH = h2; }
+      }
+      if (labelY !== null && labelH >= 20) {
+        var ic = svg('path', { d: ICONS[c.id], transform: 'translate(' + (X + 8) + ',' + (labelY - 7).toFixed(2) + ')', fill: 'none', stroke: 'var(--text)', 'stroke-width': '1.6', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', style: 'paint-order:stroke;' });
+        var bg = svg('rect', { x: String(X + 4), y: (labelY - 11).toFixed(2), width: '24', height: '22', rx: '4', fill: 'var(--surface)', opacity: '0.85' });
+        g.appendChild(bg); g.appendChild(ic);
+        var tx = svg('text', { x: String(X + 34), y: (labelY + 5).toFixed(2), style: 'font-size:16px;font-weight:700;fill:var(--text);paint-order:stroke;stroke:var(--surface);stroke-width:3.5px;stroke-linejoin:round;' }, SHORT[c.id] + ' ' + f(c.units));
+        g.appendChild(tx);
+      }
+      bands.appendChild(g);
+    });
+    S.appendChild(bands);
+    // box walls
+    S.appendChild(svg('path', { d: 'M' + X + ' ' + RIM + ' V' + BOTTOM + ' H' + (X + W) + ' V' + RIM, fill: 'none', stroke: strokeVar, 'stroke-width': '4', 'stroke-linejoin': 'round' }));
+    S.appendChild(svg('line', { x1: String(X - 6), x2: String(X + W + 6), y1: String(RIM), y2: String(RIM), stroke: strokeVar, 'stroke-width': '2.5', 'stroke-dasharray': over ? '8 5' : '0' }));
+    var capText = svg('text', { x: String(X + W), y: String(RIM - 6 - (over ? 0 : 0)), 'text-anchor': 'end', style: 'font-size:13px;font-weight:600;fill:var(--text-muted);' });
+    // texts
+    if (over) {
+      S.appendChild(svg('text', { x: String(X), y: '16', style: 'font-size:16px;font-weight:700;fill:var(--warn-text);' }, '+' + f(overUnits) + ' in³ over the rim'));
+    } else if (showCheck && res.check) {
+      var rem = svg('text', { x: '180', y: String(Math.max(RIM + 22, BOTTOM - R / V * H - 8)), 'text-anchor': 'middle', style: 'font-size:16px;font-weight:600;fill:var(--text-muted);' }, 'Remaining ' + f(res.check.remainingUnits) + ' in³');
+      if (R / V * H < H - 28) S.appendChild(rem);
+    }
+    S.appendChild(svg('text', { x: '180', y: '290', 'text-anchor': 'middle', style: 'font-size:16px;font-weight:700;fill:var(--text);' }, (showCheck && res.check ? 'Box capacity ' : 'Smallest standard volume ') + f(V) + ' in³'));
+    S.appendChild(svg('text', { x: '180', y: '312', 'text-anchor': 'middle', style: 'font-size:16px;font-weight:700;fill:var(--text);' }, 'Required ' + f(R) + ' in³' + (showCheck && res.check ? ' (' + pct(res.check.fillPct) + ' full)' : '')));
+    var verdict, vcolor = 'var(--text)';
+    if (showCheck && res.check) { verdict = res.check.pass ? '✓ PASS — ' + f(res.check.remainingUnits) + ' in³ spare' : '✕ TOO SMALL — ' + f(res.check.shortfallUnits) + ' in³ short'; if (!res.check.pass) vcolor = 'var(--warn-text)'; }
+    else if (res.min && res.min.noFit) { verdict = '✕ Above every standard box'; vcolor = 'var(--warn-text)'; }
+    else { verdict = '✓ Fits at ' + f(V) + ' in³'; }
+    S.appendChild(svg('text', { x: '180', y: '336', 'text-anchor': 'middle', style: 'font-size:17px;font-weight:700;fill:' + vcolor + ';' }, verdict));
+    desc.textContent = 'Box of ' + f(V) + ' cubic inches with ' + f(R) + ' cubic inches required. ' + cats.map(function (c) { return c.label + ' ' + f(c.units); }).join(', ') + '. ' +
+      (showCheck && res.check ? (res.check.pass ? 'It fits with ' + f(res.check.remainingUnits) + ' remaining.' : 'It is over capacity by ' + f(res.check.shortfallUnits) + '.') : '');
+    return S;
+  }
+
+  function renderDetail(res) {
+    var d = $('bfDetailBody'); clear(d);
+    var showCheck = res.mode === 'check' && !!res.check;
+    var grid = el('div', { class: 'bf-visual-grid' });
+    var fig = el('figure', { class: 'bf-figure', id: 'bfFigure' });
+    fig.appendChild(drawCutaway(res, showCheck));
+    fig.appendChild(el('figcaption', null, 'Each coloured band is one group of rules from the table below. Pattern and label identify it, not colour alone.'));
+    grid.appendChild(fig);
+    var legend = el('ul', { class: 'bf-legend', 'aria-label': 'Allowance groups' });
+    res.calc.categories.forEach(function (c) {
+      var li = el('li', { 'data-cat': c.id });
+      li.appendChild(el('span', { class: 'sw c-' + c.id, 'aria-hidden': 'true' }));
+      li.appendChild(el('span', { class: 'nm' }, c.label + ' · ' + c.rule));
+      li.appendChild(el('span', { class: 'vl' }, f(c.units) + ' in³'));
+      legend.appendChild(li);
+    });
+    grid.appendChild(legend);
+    d.appendChild(grid);
+
+    var wrap = el('div', { class: 'bf-table-wrap', tabindex: '0', role: 'region', 'aria-label': 'Calculation breakdown table, scrolls sideways on narrow screens' });
+    var table = el('table', { class: 'bf-table stack' });
+    table.appendChild(el('caption', null, 'Input → NEC rule → quantity → allowance → volume → running subtotal'));
+    var thead = el('thead'), hr = el('tr');
+    [['Input', ''], ['NEC rule', ''], ['Qty', 'n'], ['Size basis', ''], ['Each (in³)', 'n'], ['Multiplier', ''], ['Volume (in³)', 'n'], ['Subtotal (in³)', 'n']].forEach(function (h) {
+      hr.appendChild(el('th', { scope: 'col', class: h[1] }, h[0]));
+    });
+    thead.appendChild(hr); table.appendChild(thead);
+    var tb = el('tbody');
+    res.calc.lines.forEach(function (l) {
+      var tr = el('tr', { 'data-cat': l.cat, tabindex: '0' });
+      tr.appendChild(el('td', { 'data-label': 'Input' }, l.input));
+      var tdr = el('td', { 'data-label': 'NEC rule' }); tdr.appendChild(el('span', { class: 'bf-rule' }, l.rule)); tr.appendChild(tdr);
+      tr.appendChild(el('td', { class: 'n', 'data-label': 'Qty' }, l.qtyLabel));
+      tr.appendChild(el('td', { 'data-label': 'Size basis' }, l.basis));
+      tr.appendChild(el('td', { class: 'n', 'data-label': 'Each (in³)' }, f(l.eachUnits)));
+      tr.appendChild(el('td', { 'data-label': 'Multiplier' }, l.mult));
+      tr.appendChild(el('td', { class: 'n', 'data-label': 'Volume (in³)' }, f(l.volumeUnits)));
+      tr.appendChild(el('td', { class: 'n', 'data-label': 'Subtotal (in³)' }, f(l.subtotalUnits)));
+      tb.appendChild(tr);
+    });
+    table.appendChild(tb);
+    var tf = el('tfoot');
+    function foot(label, value, cls) { var tr = el('tr', cls ? { class: cls } : null); var th = el('th', { scope: 'row', colspan: '7' }, label); tr.appendChild(th); tr.appendChild(el('td', { class: 'n' }, value)); tf.appendChild(tr); }
+    foot('Total required volume (sum of the lines above)', f(res.requiredUnits));
+    if (showCheck) {
+      var c = res.check;
+      foot('Box capacity: ' + c.boxLabel + ' ' + f(c.boxUnits) + (c.addOnUnits ? ' + marked add-on ' + f(c.addOnUnits) : ''), f(c.capacityUnits));
+      foot(c.pass ? 'Remaining capacity (capacity − required)' : 'Shortfall (required − capacity)', f(c.pass ? c.remainingUnits : c.shortfallUnits));
+      foot('Result: ' + f(res.requiredUnits) + (c.pass ? ' ≤ ' : ' > ') + f(c.capacityUnits) + ' → ' + (c.pass ? 'PASS' : 'TOO SMALL'), pct(c.fillPct) + ' full', c.pass ? 'pass' : 'fail');
+    }
+    table.appendChild(tf);
+    wrap.appendChild(table); d.appendChild(wrap);
+    d.appendChild(el('p', { class: 'bf-notcounted' }, 'Not counted (no allowance): ' + res.calc.notCounted.join('; ') + '. Hover or focus a row to highlight its band.'));
+
+    if (res.mode === 'min') renderLadder(d, res);
+    wireHighlight(d);
+  }
+
+  function renderLadder(d, res) {
+    var mn = res.min;
+    var h = el('h3', { style: 'margin:22px 0 8px;font-size:1rem;' }, 'Minimum box: why smaller boxes fail');
+    d.appendChild(h);
+    d.appendChild(el('p', { class: 'bf-lede' }, 'Calculated requirement ' + f(res.requiredUnits) + ' in³. A box passes when its capacity is at least that. This table lists standard boxes from largest to smallest around the answer.'));
+    var wrap = el('div', { class: 'bf-table-wrap', tabindex: '0', role: 'region', 'aria-label': 'Box comparison table, scrolls sideways on narrow screens' });
+    var t = el('table', { class: 'bf-table stack', style: 'min-width:560px;' });
+    t.appendChild(el('caption', null, 'Standard boxes compared with the required volume'));
+    var hr = el('tr'); [['Box', ''], ['Capacity (in³)', 'n'], ['Against requirement', ''], ['Result', '']].forEach(function (x) { hr.appendChild(el('th', { scope: 'col', class: x[1] }, x[0])); });
+    var th = el('thead'); th.appendChild(hr); t.appendChild(th);
+    var tb = el('tbody');
+    var all = BF.BOXES.slice().sort(function (a, b) { return b.in3 - a.in3; });
+    if (!mn.noFit) {
+      var limit = mn.smallestVolume;
+      all.forEach(function (b) {
+        if (b.in3 >= limit && b.in3 > limit + 0) { /* larger boxes also pass; show only the nearest bigger volume for context below */ }
+      });
+    }
+    var shown = all.filter(function (b) { return mn.noFit ? true : (b.in3 <= mn.smallestVolume || false); });
+    shown.forEach(function (b) {
+      var ok = b.in3 >= res.requiredUnits;
+      var tr = el('tr');
+      tr.appendChild(el('td', { 'data-label': 'Box' }, b.label));
+      tr.appendChild(el('td', { class: 'n', 'data-label': 'Capacity (in³)' }, f(b.in3)));
+      var tdv = el('td', { 'data-label': 'Against requirement' });
+      var pctW = Math.min(100, Math.round(b.in3 * 100 / Math.max(res.requiredUnits, 1)));
+      var bar = el('span', { class: 'bf-bar' + (ok ? '' : ' fail'), 'aria-hidden': 'true' }); bar.style.width = Math.max(4, Math.round(pctW * 0.9)) + 'px';
+      tdv.appendChild(bar);
+      tdv.appendChild(document.createTextNode(' ' + (ok ? f(b.in3 - res.requiredUnits) + ' in³ spare' : f(res.requiredUnits - b.in3) + ' in³ short')));
+      tr.appendChild(tdv);
+      tr.appendChild(el('td', { 'data-label': 'Result' }, ok ? '✓ Fits' : '✕ Fails'));
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb); wrap.appendChild(t); d.appendChild(wrap);
+    if (!mn.noFit) {
+      d.appendChild(el('h3', { style: 'margin:22px 0 8px;font-size:1rem;' }, 'Smallest fit in each box family'));
+      var ul = el('ul');
+      mn.perFamily.forEach(function (p) {
+        ul.appendChild(el('li', null, p.family.label + ': ' + (p.box ? p.box.label + ' (' + f(p.box.in3) + ' in³)' : 'no standard box in this family is large enough')));
+      });
+      d.appendChild(ul);
+    }
+    d.appendChild(el('p', { class: 'bf-notcounted' }, 'The answer is a capacity, not a product. Boxes marked with a larger volume than the table can be used at their marked volume. Box depth (314.24) is a separate check.'));
+  }
+
+  function wireHighlight(root) {
+    function set(cat, on) {
+      Array.prototype.forEach.call(root.querySelectorAll('[data-cat]'), function (n) { n.classList.toggle('is-active', on && n.getAttribute('data-cat') === cat); });
+      var fig = $('bfFigure'); if (fig) fig.classList.toggle('has-active', on);
+    }
+    Array.prototype.forEach.call(root.querySelectorAll('[data-cat]'), function (n) {
+      var cat = n.getAttribute('data-cat');
+      n.addEventListener('mouseenter', function () { set(cat, true); });
+      n.addEventListener('mouseleave', function () { set(cat, false); });
+      n.addEventListener('focus', function () { set(cat, true); });
+      n.addEventListener('blur', function () { set(cat, false); });
+    });
+  }
+
+  /* ------------------------- main loop ------------------------- */
+  function syncMode() {
+    var min = document.querySelector('input[name="bfMode"]:checked').value === 'min';
+    $('bfBoxSection').hidden = min; $('bfMinNote').hidden = !min;
+    $('bfCustomRow').hidden = $('bfBoxType').value !== 'custom';
+  }
+
+  var REMOVE_LABELS = { bfCableRows: 'cable', bfLooseRows: 'loose-conductor', bfYokeRows: 'device', bfTermRows: 'terminal-block' };
+  function relabelRemoveButtons() {
+    Object.keys(REMOVE_LABELS).forEach(function (id) {
+      Array.prototype.forEach.call($(id).children, function (row, i) {
+        row.querySelector('[data-remove]').setAttribute('aria-label', 'Remove ' + REMOVE_LABELS[id] + ' row ' + (i + 1));
+      });
+    });
+  }
+
+  function recalc() {
+    syncMode();
+    relabelRemoveButtons();
+    var norm = BF.normalize(readRaw());
+    showErrors(norm.errors);
+    if (!norm.ok) {
+      renderMessage('Fix the highlighted fields', 'Some values need attention before the box can be calculated: ' + norm.errors.length + (norm.errors.length === 1 ? ' field is' : ' fields are') + ' highlighted in the form.');
+      return;
+    }
+    var res = BF.evaluate(norm.model);
+    if (res.status !== 'ok') { renderMessage('Needs input', res.message); return; }
+    renderResult(res);
+    renderDetail(res);
+  }
+  window.calculate = recalc;
+
+  function init() {
+    setupBoxSelect();
+    resetRows();
+    var panel = $('bfInputs');
+    panel.addEventListener('input', function (e) { if (e.target.matches('[data-f="preset"], [data-f="egc"]')) syncCustom(e.target.closest('.bf-row')); recalc(); });
+    panel.addEventListener('change', function (e) { if (e.target.matches('[data-f="preset"], [data-f="egc"]')) syncCustom(e.target.closest('.bf-row')); recalc(); });
+    panel.addEventListener('click', function (e) {
+      var rm = e.target.closest('[data-remove]');
+      if (rm) { var row = rm.closest('.bf-row'); var host = row.parentNode; host.removeChild(row); recalc(); return; }
+    });
+    $('bfAddCable').addEventListener('click', function () { if ($('bfCableRows').children.length < BF.LIMITS.cableRows) { addCableRow({ qty: 1 }); recalc(); } });
+    $('bfAddLoose').addEventListener('click', function () { if ($('bfLooseRows').children.length < BF.LIMITS.looseRows) { addLooseRow({}); recalc(); } });
+    $('bfAddYoke').addEventListener('click', function () { if ($('bfYokeRows').children.length < BF.LIMITS.yokeRows) { addYokeRow({}); recalc(); } });
+    $('bfAddTerm').addEventListener('click', function () { if ($('bfTermRows').children.length < BF.LIMITS.terminalRows) { addTermRow({}); recalc(); } });
+    // The shared Reset button (assets/calc-ux.js) restores static fields; rebuild the dynamic rows here.
+    document.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('.calc-reset')) {
+        resetRows();
+        $('bfCustomVol').value = ''; $('bfAddOn').value = '0'; $('bfBoxType').value = DEFAULTS.box;
+        $('bfClamp').checked = false; $('bfStud').checked = false; $('bfHickey').checked = false;
+        document.querySelector('input[name="bfMode"][value="check"]').checked = true;
+        recalc();
+      }
+    });
+    recalc();
+  }
+  init();
+})();
+</script>
+<script src="../assets/nav.js?v=20260925" defer></script>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/calc-ux.js?v=20260925-2" defer></script>
+</body>
+</html>

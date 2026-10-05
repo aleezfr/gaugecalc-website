@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+# Internal project files (not site content)
+Disallow: /docs/
+Disallow: /tests/
 
 Sitemap: https://gaugecalc.com/sitemap.xml

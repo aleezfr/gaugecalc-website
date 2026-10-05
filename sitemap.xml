@@ -61,6 +61,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://gaugecalc.com/tools/electrical-box-fill-calculator</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://gaugecalc.com/blog/</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
