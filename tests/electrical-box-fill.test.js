@@ -335,7 +335,7 @@ test('Subtotals accumulate line by line', () => {
 /* ---------- page checks ---------- */
 function decode(s) { return s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&'); }
 test('Page: title, description, canonical, robots, one H1', () => {
-  eq(/<title>([^<]*)<\/title>/.exec(html)[1], 'Electrical Box Fill Calculator (NEC 314.16, Free) — GaugeCalc');
+  eq(/<title>([^<]*)<\/title>/.exec(html)[1], 'Electrical Box Fill Calculator (NEC 314.16) — GaugeCalc');
   const d = /<meta name="description" content="([^"]*)"/.exec(html)[1]; assert.ok(d.length >= 90 && d.length <= 160);
   eq(/<link rel="canonical" href="([^"]*)"/.exec(html)[1], 'https://gaugecalc.com/tools/electrical-box-fill-calculator');
   assert.ok(!/name="robots"/.test(html));
