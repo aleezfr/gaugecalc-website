@@ -138,7 +138,7 @@
           <button type="submit" class="btn">Send feedback</button>
           <p class="hint" id="fb-fallback" style="margin-top:12px;">
             This opens your email app with the report pre-filled to
-            <a href="mailto:hello@gaugecalc.com">hello@gaugecalc.com</a> — nothing is sent automatically.
+            <a href="mailto:support@gaugecalc.com">support@gaugecalc.com</a> — nothing is sent automatically.
           </p>
         </form>
       </div>
@@ -219,7 +219,7 @@ document.getElementById('fb-form').addEventListener('submit', function(e){
   var body = 'Tool: ' + tool + '\nType: ' + type + '\n\n' + message +
     (email ? '\n\nReply to: ' + email : '');
 
-  window.location.href = 'mailto:hello@gaugecalc.com?subject=' + encodeURIComponent(subject) +
+  window.location.href = 'mailto:support@gaugecalc.com?subject=' + encodeURIComponent(subject) +
     '&body=' + encodeURIComponent(body);
 });
 </script>
