@@ -171,18 +171,21 @@
           </div>
           <div class="field">
             <label for="focalLength">Focal length (mm)</label>
-            <input type="number" id="focalLength" min="0.1" step="0.1" value="4">
+            <input type="number" id="focalLength" min="0.1" max="1000" step="0.1" value="4" aria-describedby="focalError">
           </div>
         </div>
+        <p class="field-error" id="focalError" role="alert" style="display:none;"></p>
 
         <div class="field-row" id="customSensorRow" style="display:none;">
           <div class="field">
             <label for="customSensorW">Sensor width (mm)</label>
-            <input type="number" id="customSensorW" min="0.1" step="0.01" value="4.8">
+            <input type="number" id="customSensorW" min="0.1" max="100" step="0.01" value="4.8" aria-describedby="sensorWError">
+            <p class="field-error" id="sensorWError" role="alert" style="display:none;"></p>
           </div>
           <div class="field">
             <label for="customSensorH">Sensor height (mm)</label>
-            <input type="number" id="customSensorH" min="0.1" step="0.01" value="3.6">
+            <input type="number" id="customSensorH" min="0.1" max="100" step="0.01" value="3.6" aria-describedby="sensorHError">
+            <p class="field-error" id="sensorHError" role="alert" style="display:none;"></p>
           </div>
         </div>
 
@@ -199,9 +202,10 @@
           </div>
           <div class="field" id="customResRow" style="display:none;">
             <label for="customRes">Horizontal pixels</label>
-            <input type="number" id="customRes" min="1" step="1" value="2592">
+            <input type="number" id="customRes" min="1" max="100000" step="1" value="2592" aria-describedby="resError">
           </div>
         </div>
+        <p class="field-error" id="resError" role="alert" style="display:none;"></p>
 
         <div class="field" style="margin-bottom:16px;">
           <label>Distance unit</label>
@@ -458,8 +462,19 @@ const distanceLabel = document.getElementById('distanceLabel');
 const distanceInput = document.getElementById('distance');
 const distanceError = document.getElementById('distError');
 
+const focalError = document.getElementById('focalError');
+const sensorWError = document.getElementById('sensorWError');
+const sensorHError = document.getElementById('sensorHError');
+const resError = document.getElementById('resError');
+
 const MIN_DISTANCE = 0.1;
 const MAX_DISTANCE = 10000;
+const MIN_FOCAL = 0.1;
+const MAX_FOCAL = 1000;
+const MIN_SENSOR = 0.1;
+const MAX_SENSOR = 100;
+const MIN_RES = 1;
+const MAX_RES = 100000;
 
 let unit = 'm';
 
@@ -492,11 +507,13 @@ function fmtNum(n, decimals = 2) {
   return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: decimals });
 }
 
+// Custom sensor dimensions and custom resolution are read (and validated) only while "Custom" is selected.
+// Invalid values come back as NaN; nothing is silently replaced with a default.
 function getSensorSize() {
   if (sensorFormatSelect.value === 'custom') {
     return {
-      w: Math.max(0.01, parseFloat(customSensorW.value) || 4.8),
-      h: Math.max(0.01, parseFloat(customSensorH.value) || 3.6)
+      w: readBounded(customSensorW, MIN_SENSOR, MAX_SENSOR, false),
+      h: readBounded(customSensorH, MIN_SENSOR, MAX_SENSOR, false)
     };
   }
   const [w, h] = sensorFormatSelect.value.split(',').map(Number);
@@ -505,7 +522,7 @@ function getSensorSize() {
 
 function getHorizontalPx() {
   if (resolutionSelect.value === 'custom') {
-    return Math.max(1, parseFloat(customRes.value) || 1920);
+    return readBounded(customRes, MIN_RES, MAX_RES, true);
   }
   return parseFloat(resolutionSelect.value);
 }
@@ -528,10 +545,38 @@ function readDistance() {
   return Number.isFinite(v) && v >= MIN_DISTANCE && v <= MAX_DISTANCE ? v : NaN;
 }
 
+// Same strict decimal check as the distance field, with a range and an optional whole-number requirement.
+function readBounded(input, min, max, wholeNumber) {
+  const raw = input.value.trim();
+  const v = DECIMAL_NUMBER.test(raw) ? Number(raw) : NaN;
+  return Number.isFinite(v) && v >= min && v <= max && (!wholeNumber || Number.isInteger(v)) ? v : NaN;
+}
+
+// Show/clear one field's error. The alert text is only rewritten when it actually changes.
+function setFieldError(input, errorEl, valid, message) {
+  const text = valid ? '' : message;
+  if (errorEl.textContent !== text) errorEl.textContent = text;
+  errorEl.style.display = valid ? 'none' : 'block';
+  if (valid) input.removeAttribute('aria-invalid');
+  else input.setAttribute('aria-invalid', 'true');
+}
+
 function calculate() {
   const sensor = getSensorSize();
-  const focalLength = Math.max(0.01, parseFloat(focalLengthInput.value) || 4);
+  const focalLength = readBounded(focalLengthInput, MIN_FOCAL, MAX_FOCAL, false);
   const horizontalPx = getHorizontalPx();
+  const focalValid = Number.isFinite(focalLength);
+  const sensorWValid = Number.isFinite(sensor.w);
+  const sensorHValid = Number.isFinite(sensor.h);
+  const resValid = Number.isFinite(horizontalPx);
+  setFieldError(focalLengthInput, focalError, focalValid,
+    'Enter a focal length between ' + MIN_FOCAL + ' and ' + fmtNum(MAX_FOCAL, 0) + ' mm.');
+  setFieldError(customSensorW, sensorWError, sensorWValid,
+    'Enter a sensor width between ' + MIN_SENSOR + ' and ' + fmtNum(MAX_SENSOR, 0) + ' mm.');
+  setFieldError(customSensorH, sensorHError, sensorHValid,
+    'Enter a sensor height between ' + MIN_SENSOR + ' and ' + fmtNum(MAX_SENSOR, 0) + ' mm.');
+  setFieldError(customRes, resError, resValid,
+    'Enter a whole number of horizontal pixels between ' + MIN_RES + ' and ' + fmtNum(MAX_RES, 0) + '.');
   const distanceRaw = readDistance();
   const distanceValid = Number.isFinite(distanceRaw);
   // Only touch the alert when its text actually changes, so a screen reader is not
@@ -559,21 +604,30 @@ function calculate() {
     return unit === 'ft' ? meters / 0.3048 : meters;
   };
 
-  document.getElementById('resultHfov').textContent = fmtNum(hfovDeg, 1);
-  document.getElementById('rVfov').textContent = fmtNum(vfovDeg, 1) + '°';
-  if (distanceValid) {
-    document.getElementById('rSceneWidth').textContent = fmtNum(sceneWidthDisplay, 1) + ' ' + unit;
-    document.getElementById('rDensity').textContent = fmtNum(densityPxPerM, 0) + ' px/m';
-    document.getElementById('rClassify').textContent = classify(densityPxPerM);
-  } else {
-    document.getElementById('rSceneWidth').textContent = '—';
-    document.getElementById('rDensity').textContent = '—';
-    document.getElementById('rClassify').textContent = 'Fix the highlighted distance above to see a result.';
-  }
-  document.getElementById('rMaxId').textContent = fmtNum(maxDist(250), 1) + ' ' + unit;
-  document.getElementById('rMaxRec').textContent = fmtNum(maxDist(125), 1) + ' ' + unit;
-  document.getElementById('rMaxObs').textContent = fmtNum(maxDist(63), 1) + ' ' + unit;
-  document.getElementById('rMaxDet').textContent = fmtNum(maxDist(25), 1) + ' ' + unit;
+  // An output is shown only when every input it depends on is valid; otherwise it reads "—".
+  //   HFOV: focal, sensor width        VFOV: focal, sensor height
+  //   scene width: HFOV inputs + distance     density/classification: scene width + resolution
+  //   max distances: HFOV inputs + resolution
+  const hfovShown = focalValid && sensorWValid;
+  const vfovShown = focalValid && sensorHValid;
+  const sceneShown = hfovShown && distanceValid;
+  const densityShown = sceneShown && resValid;
+  const maxShown = hfovShown && resValid;
+  const dash = '—';
+  const invalidCount = [focalValid, sensorWValid, sensorHValid, resValid, distanceValid].filter((ok) => !ok).length;
+  const classifyCaption = (invalidCount === 1 && !distanceValid)
+    ? 'Fix the highlighted distance above to see a result.'
+    : 'Fix the highlighted inputs above to see a result.';
+
+  document.getElementById('resultHfov').textContent = hfovShown ? fmtNum(hfovDeg, 1) : dash;
+  document.getElementById('rVfov').textContent = vfovShown ? fmtNum(vfovDeg, 1) + '°' : dash;
+  document.getElementById('rSceneWidth').textContent = sceneShown ? fmtNum(sceneWidthDisplay, 1) + ' ' + unit : dash;
+  document.getElementById('rDensity').textContent = densityShown ? fmtNum(densityPxPerM, 0) + ' px/m' : dash;
+  document.getElementById('rClassify').textContent = densityShown ? classify(densityPxPerM) : classifyCaption;
+  document.getElementById('rMaxId').textContent = maxShown ? fmtNum(maxDist(250), 1) + ' ' + unit : dash;
+  document.getElementById('rMaxRec').textContent = maxShown ? fmtNum(maxDist(125), 1) + ' ' + unit : dash;
+  document.getElementById('rMaxObs').textContent = maxShown ? fmtNum(maxDist(63), 1) + ' ' + unit : dash;
+  document.getElementById('rMaxDet').textContent = maxShown ? fmtNum(maxDist(25), 1) + ' ' + unit : dash;
 }
 
 calculate();
