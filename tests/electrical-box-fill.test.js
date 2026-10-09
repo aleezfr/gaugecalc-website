@@ -396,7 +396,7 @@ test('Page: internal links resolve', () => {
 test('Integration: sitemap, nav, homepage, protection of internal docs', () => {
   const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
   eq((sm.match(/electrical-box-fill-calculator/g) || []).length, 1);
-  eq((sm.match(/<loc>/g) || []).length, 23); // 21 + /about + /privacy-policy
+  eq((sm.match(/<loc>/g) || []).length, 22); // 21 + /about
   assert.ok(!/\.html<\/loc>/.test(sm));
   const nav = fs.readFileSync(path.join(ROOT, 'assets', 'nav.js'), 'utf8');
   eq((nav.match(/\/tools\/electrical-box-fill-calculator/g) || []).length, 1);
