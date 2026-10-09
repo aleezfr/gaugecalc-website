@@ -43,7 +43,7 @@
   "headline": "CCTV Camera Offline at Night? Voltage Drop Fix",
   "description": "Camera fine by day but offline after dark? How IR current causes voltage drop on long 12V runs, how to check it at the camera, and how to fix it.",
   "image": "https://gaugecalc.com/assets/og-image.jpg",
-  "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
+  "author": { "@type": "Person", "name": "Ali Zafar" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
   "datePublished": "2026-09-18",
   "dateModified": "2026-09-18",
@@ -142,27 +142,40 @@
         Free CCTV voltage drop calculator. Find the right wire gauge for your camera run before long cable
         pulls cause night time reboot loops.
       </p>
-      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Engineer Ali Zafar &middot; 10+ years field experience</p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Ali Zafar</p>
     </section>
 
     <article class="article" style="margin-top:8px;">
 
       <p>
-        This one took me embarrassingly long to figure out the first time it happened.
+        <strong>Illustrative worked example.</strong> The scenario below is a hypothetical, not a record of a
+        specific job. Its numbers can be reproduced in the
+        <a href="../tools/voltage-drop-calculator">Voltage Drop Calculator</a>.
       </p>
       <p>
-        Outdoor camera, decent install, ran fine all day. Every evening, without fail, it would drop offline.
-        Sometimes for a few seconds. Sometimes it would cycle a few times before settling. Customer was
-        convinced the camera was faulty. So was I, honestly. We swapped it. Same behavior on the replacement.
-        Tested the cable for continuity and it passed. Checked the connector, re-terminated it. No change.
+        Take an outdoor camera on a separate 12V supply that runs fine all day but drops offline every
+        evening, sometimes for a few seconds and sometimes cycling a few times before settling. Swapping the
+        camera doesn't help, the cable passes a continuity test, and re-terminating the connector changes
+        nothing. That combination points away from the camera and the connector and toward the voltage that
+        actually reaches the camera end under load.
       </p>
       <p>
-        What finally cracked it was checking voltage at the camera end instead of the source end, and doing
-        it specifically while the IR LEDs were active. At the switch or power supply, everything read a clean
-        12V. At the camera, during the day, it was 12V too. The second the IR array kicked on at dusk and
-        pulled more current than daytime operation, the voltage at the camera end sagged to somewhere around
-        9V. That run was pushing over 200 feet on wire that was fine for a short pull but way too thin once
-        current demand went up.
+        Assumptions: 12V DC supply, 22 AWG solid copper at 20&deg;C, a run of 200 ft one way (400 ft of
+        conductor in the loop, about 6.46 &Omega;), and a camera drawing 0.15A by day and 0.5A at night with
+        the IR LEDs on.
+      </p>
+      <table>
+        <thead><tr><th>Condition</th><th>Current</th><th>Voltage drop</th><th>Voltage at camera</th></tr></thead>
+        <tbody>
+          <tr><td>Daytime</td><td>0.15A</td><td>0.97V (8.1%)</td><td>about 11.0V</td></tr>
+          <tr><td>Night, IR on</td><td>0.5A</td><td>3.23V (26.9%)</td><td>about 8.8V</td></tr>
+        </tbody>
+      </table>
+      <p>
+        The supply still reads a clean 12V at its own terminals in both cases. If the camera needs roughly
+        10.8V (12V minus 10%) to run cleanly — an assumption for this example, so check the real camera's
+        datasheet — it would be fine by day and reset after dusk. Measuring the voltage at the camera end
+        with the IR active is how you would see it.
       </p>
 
       <h2>Why this only shows up at night</h2>
@@ -170,7 +183,7 @@
         Voltage drop isn't a fixed number. It scales with current. A camera doing daytime video draws
         relatively little. The same camera at night, with IR illuminators and sometimes a heater engaged, can
         draw noticeably more. Over a long, thin cable run, that extra current means extra drop, and if the
-        voltage at the camera end sags below what it needs to operate cleanly, you get exactly what we saw:
+        voltage at the camera end sags below what it needs to operate cleanly, you get exactly the pattern in the example:
         fine by day, unstable or stuck in a reboot loop after dark. It's one of the most misdiagnosed CCTV
         issues on site because the symptom points everywhere except the actual cause. People blame the
         camera, the DVR, the network, anything but the wire.
@@ -201,25 +214,25 @@
         lighter loads than a modern IR or PTZ camera actually pulls.
       </p>
       <p>
-        One trick that's saved me more than once on a run I couldn't easily repull: if you're running over
+        One option on a run that can't easily be repulled: if you're running over
         Cat5 or Cat6 and only using two pairs for power, paralleling the spare pairs for power delivery cuts
         your effective resistance roughly in half. It's not a permanent fix for a badly undersized run, but
         it's genuinely useful as a stopgap, or on a marginal run where a full repull isn't worth it for the
         distance involved.
       </p>
 
-      <h2>What I check now before I leave site</h2>
+      <h2>What to check before leaving site</h2>
       <p>
-        Any run past 100 feet, I don't assume the wire is fine just because it "worked" on the daytime
-        walkthrough. I check voltage at the camera end specifically with IR active, not just on a quick
-        daytime test. If it's sagging, I either upgrade the gauge, shorten the effective run, or use the
-        parallel pair trick as a stopgap until a proper repull.
+        On any long or thin run (as a rough rule of thumb, past 100 feet), don't assume the wire is fine
+        just because it "worked" on the daytime walkthrough. Check the voltage at the camera end
+        specifically with IR active, not just on a quick daytime test. If it's sagging, upgrade the gauge,
+        shorten the effective run, or use the parallel pair trick as a stopgap until a proper repull.
       </p>
       <p>
-        We built a free <a href="../tools/voltage-drop-calculator">Voltage Drop Calculator</a> for
-        exactly this, out of the same problem we kept running into on site. Put in your run length, wire
+        The free <a href="../tools/voltage-drop-calculator">Voltage Drop Calculator</a> is built for
+        exactly this. Put in your run length, wire
         gauge, and the camera's current draw, and it tells you what voltage is actually reaching the camera
-        before you find out the hard way at 6pm on install day.
+        before the camera is installed.
       </p>
       <p>
         Worth checking your camera's rated current draw against an
@@ -256,7 +269,7 @@
         for correct gauge on a new install.
       </p>
 
-      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.85rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin-top:24px;">By Engineer Ali Zafar &middot; 10+ years field experience</p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.85rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin-top:24px;">By Ali Zafar</p>
 
       <p style="margin-top:24px;"><a href="../feedback?tool=CCTV%20Voltage%20Drop%20Calculator%20Guide">Found something wrong on this page? Send feedback →</a></p>
 

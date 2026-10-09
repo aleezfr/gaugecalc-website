@@ -43,7 +43,7 @@
   "headline": "PoE Budget Calculator: The Camera Power Math That's Easy to Miss",
   "description": "Free PoE budget calculator for CCTV installers. Find out if your switch can actually power your cameras before they start rebooting after dark.",
   "image": "https://gaugecalc.com/assets/og-image.jpg",
-  "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
+  "author": { "@type": "Person", "name": "Ali Zafar" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
   "datePublished": "2026-09-18",
   "dateModified": "2026-09-23",
@@ -142,25 +142,26 @@
         A switch with plenty of ports can still run out of power long before it runs out of connections —
         and the symptom looks exactly like a network fault.
       </p>
-      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Engineer Ali Zafar &middot; 10+ years field experience in CCTV &amp; electrical installation</p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Ali Zafar</p>
     </section>
 
     <article class="article" style="margin-top:8px;">
 
       <p>
-        We had a job a while back. Eight PTZ cameras on a warehouse perimeter, all fed off one 24-port PoE
-        switch. Install went smooth, everything came up green on the NVR, client signed off, we packed up.
+        <strong>Illustrative worked example.</strong> The scenario below is a hypothetical, not a record of a
+        specific job. Its numbers can be reproduced in the PoE Budget Calculator.
       </p>
       <p>
-        Two nights later I got a call. Cameras going offline randomly, always after sunset, always back up
-        by morning. Classic "it's probably the network" complaint. So I did what everyone does first:
-        checked the cabling, checked the switch logs, checked for a bad patch cord. Nothing. Ports were up,
-        link lights were fine, no errors on the port counters.
+        Picture eight PTZ cameras on a warehouse perimeter, all fed from one 24-port PoE switch with a 250W
+        total PoE budget. Everything comes up green on the NVR at handover. A few nights later the complaint
+        arrives: cameras going offline at random after sunset and back up by morning. It looks like a network
+        fault, so the cabling, the switch logs and the patch cords get checked first, and nothing turns up.
+        Ports are up, link lights are fine, and there are no errors on the port counters.
       </p>
       <p>
-        It wasn't until I watched it happen live that the pattern clicked. The cameras didn't drop the
-        second it got dark. They dropped a few minutes after, right when the IR illuminators and heater
-        elements kicked in. That delay was the giveaway. It wasn't a network problem at all. It was power.
+        The clue in a case like this is the timing. Cameras that drop a few minutes after dark, rather than
+        the moment it gets dark, point to a load that switches on later, such as IR illuminators or heater
+        elements. That points to power rather than the network.
       </p>
 
       <h2>The port count on the box doesn't tell you what you think it does</h2>
@@ -173,9 +174,10 @@
         shows up in the port count on the box.
       </p>
       <p>
-        Our switch had a 250W total PoE budget. If each of the eight PTZ cameras was planned at 30W of
-        PSE-side PoE load — the 802.3at capability figure, not necessarily each camera's real full-load draw
-        — that's already 240W sitting against the budget in daylight.
+        In the example, the switch has a 250W total PoE budget. If each of the eight PTZ cameras is planned
+        at 30W of PSE-side PoE load — the 802.3at capability figure, not necessarily each camera's real
+        full-load draw — that's already 240W of planned load against the 250W budget, leaving 10W spare at
+        0% headroom. Only 8 of the 24 ports are in use, so the port count is not the limit; power is.
       </p>
       <p>
         Once the IR array and heaters kick in after dark, actual operating demand goes up across all eight
@@ -185,8 +187,8 @@
         depending on how it's built, rather than simply overloading.
       </p>
       <p>
-        On our job it looked like random ports dropping and cycling back. A different camera on the NVR log
-        each time. It looked like a network fault. It was power.
+        In a case like this it can look like random ports dropping and cycling back, with a different camera
+        in the NVR log each time. It looks like a network fault. It is power.
       </p>
 
       <h2>Know your PoE type, not just your port count</h2>
@@ -220,24 +222,26 @@
         handover.
       </p>
 
-      <h2>What I check now before I ever touch the switch</h2>
+      <h2>What to check before choosing a switch</h2>
       <p>
-        I stopped trusting the port count on the spec sheet. Before I spec a switch, I add up every camera's
-        planned PSE-side load — pulled from the datasheet where I can get it, not just the PoE type — then
+        Don't rely on the port count on the spec sheet. Before choosing a switch, add up every camera's
+        planned PSE-side load — taken from the datasheet where available, not just the PoE type — then
         leave headroom on top of that total. How much headroom is a planning choice, not an IEEE requirement;
-        I use 20% as a practical default, since night-mode current increases are exactly where a tight budget
-        gets eaten. If the total is anywhere near the switch's rated budget, I'm either moving up a switch
-        tier or splitting the run across two switches. Same logic applies if you're running battery backup
+        20% is a practical default, since night-mode current increases are exactly where a tight budget
+        gets eaten. In the example above, 8 &times; 30W = 240W, and at 20% headroom the planning load is
+        288W, which is 38W more than the 250W budget. If the total is anywhere near the switch's rated
+        budget, the options are a switch with a larger budget or splitting the cameras across two switches.
+        Same logic applies if you're running battery backup
         off the same panel — worth checking against the
         <a href="../tools/battery-backup-calculator">Battery Backup Calculator</a> so the backup side doesn't
         get caught out the same way.
       </p>
       <p>
-        It's a five-minute check before the install instead of a two-night troubleshooting job after it. We
+        It's a short check before the install instead of a troubleshooting job after it. We
         built a free <a href="../tools/poe-budget-calculator">PoE Budget Calculator</a> to do exactly this
-        math, so techs can catch it on the quote sheet instead of on a callback. Enter your camera count,
+        math, so it can be caught on the quote sheet instead of on a callback. Enter your camera count,
         planned wattage, and PoE standard, and it checks whether your switch's power budget actually covers
-        it — before you're back on a ladder at 9pm wondering why camera six keeps dropping. Once power's
+        it — before a camera starts dropping after handover. Once power's
         sorted, it's worth running the same camera list through the
         <a href="../tools/ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a> too, since an
         undersized uplink can cause a similar-looking "random drop" complaint for a completely different

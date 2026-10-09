@@ -43,7 +43,7 @@
   "headline": "Choosing the Right CCTV Lens: Coverage vs. Identification Distance",
   "description": "A working technician's guide to CCTV lens selection: why a wider field of view often means you can't identify anyone in it, and how to match focal length to the distance you need.",
   "image": "https://gaugecalc.com/assets/og-image.jpg",
-  "author": { "@type": "Person", "name": "Engineer Ali Zafar", "jobTitle": "Engineer" },
+  "author": { "@type": "Person", "name": "Ali Zafar" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
   "datePublished": "2026-09-14",
   "dateModified": "2026-09-14",
@@ -110,7 +110,7 @@
         The most common lens mistake isn't a wrong formula — it's picking a wide lens because it "covers more,"
         then finding out during an actual incident that nobody in the footage can be identified.
       </p>
-      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Engineer Ali Zafar &middot; 10+ years field experience in CCTV &amp; electrical installation</p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Ali Zafar</p>
     </section>
 
     <article class="article" style="margin-top:8px;">
@@ -134,23 +134,25 @@
         automatically from sensor size, focal length, resolution, and distance.
       </p>
 
-      <h2>Johnson's Criteria: the industry's own yardstick</h2>
+      <h2>DORI levels: the standard's own yardstick</h2>
       <p>
-        Every major manufacturer's own lens-selection tool (Axis, Bosch, Hikvision, Dahua) works off the same
-        three thresholds, because they come from established resolution-target research, not marketing:
+        IEC 62676-4 defines pixel-density levels known as DORI (Detection, Observation, Recognition,
+        Identification), and manufacturers such as Axis publish the same four thresholds. They come from a
+        published standard, not marketing:
       </p>
       <table>
         <thead><tr><th>Classification</th><th>Pixel density</th><th>What you can actually do with it</th></tr></thead>
         <tbody>
-          <tr><td>Identification</td><td>≥ 125 px/m</td><td>Confirm exactly who a person is, or read a plate</td></tr>
-          <tr><td>Recognition</td><td>≥ 63 px/m</td><td>Recognize someone you already know, or a vehicle type/color</td></tr>
+          <tr><td>Identification</td><td>≥ 250 px/m</td><td>Confirm exactly who a person is, or read a plate</td></tr>
+          <tr><td>Recognition</td><td>≥ 125 px/m</td><td>Recognize someone you already know, or a vehicle type/color</td></tr>
+          <tr><td>Observation</td><td>≥ 63 px/m</td><td>Follow what a person is doing and notice general details, but not recognize or identify them</td></tr>
           <tr><td>Detection</td><td>≥ 25 px/m</td><td>Notice that a person or vehicle is present at all</td></tr>
         </tbody>
       </table>
       <p>
         Below 25 px/m, the footage is only good for general scene awareness — motion happened, but you can't
         say who or what caused it. This is the gap that catches technicians most often: a camera spec sheet's
-        megapixel count says nothing about which of these three tiers you're actually getting at your specific
+        megapixel count says nothing about which of these four tiers you're actually getting at your specific
         install distance.
       </p>
 

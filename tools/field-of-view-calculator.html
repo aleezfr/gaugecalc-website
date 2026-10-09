@@ -42,7 +42,7 @@
   "@type": "SoftwareApplication",
   "name": "CCTV Field of View Calculator",
   "url": "https://gaugecalc.com/tools/field-of-view-calculator",
-  "description": "Calculates horizontal and vertical field of view, scene width at distance, and Johnson's Criteria pixel density (Detection/Recognition/Identification) from sensor size, focal length, resolution, and distance to subject.",
+  "description": "Calculates horizontal and vertical field of view, scene width at distance, and IEC 62676-4 (DORI) pixel density levels (Detection/Observation/Recognition/Identification) from sensor size, focal length, resolution, and distance to subject.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any (runs in browser)",
   "offers": {
@@ -93,7 +93,7 @@
       "name": "What pixel density do I actually need for identifiable footage?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Aim for identification grade, 125 pixels per meter or higher, at any point you need to identify a face or read a plate. Recognition and detection grade are fine for general monitoring but usually aren't detailed enough to confirm identity."
+        "text": "Under the IEC 62676-4 (DORI) levels, identification needs about 250 pixels per meter or more at any point where you need to identify a face or read a plate. Recognition (125 px/m), observation (63 px/m) and detection (25 px/m) are fine for general monitoring but usually aren't detailed enough to confirm identity."
       }
     }
   ]
@@ -140,14 +140,14 @@
   <div class="wrap wrap--sidebar">
     <div class="page-content">
     <p class="crumb"><a href="../">Home</a> / Camera Field of View Calculator</p>
-    <p class="hint" style="display:block; margin-bottom:4px;">By Engineer Ali Zafar</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar</p>
 
     <section class="hero" style="padding-block:26px 6px;">
       <h1>Camera Field of View Calculator</h1>
       <p class="lead">
         Work out a camera's horizontal field of view, the scene width at a given distance, and whether the
-        resulting pixel density is enough to identify a face or read a plate — using the same Johnson's
-        Criteria thresholds manufacturers publish on their own lens calculators.
+        resulting pixel density is enough to identify a face or read a plate — using the pixel-density levels
+        defined in IEC 62676-4 (Detection, Observation, Recognition, Identification), as published by Axis.
       </p>
     </section>
 
@@ -239,8 +239,9 @@
         </div>
 
         <div class="result-list" style="margin-top:14px;">
-          <div class="result-row"><span class="k">Max distance — Identification (125 px/m)</span><span class="v" id="rMaxId">—</span></div>
-          <div class="result-row"><span class="k">Max distance — Recognition (63 px/m)</span><span class="v" id="rMaxRec">—</span></div>
+          <div class="result-row"><span class="k">Max distance — Identification (250 px/m)</span><span class="v" id="rMaxId">—</span></div>
+          <div class="result-row"><span class="k">Max distance — Recognition (125 px/m)</span><span class="v" id="rMaxRec">—</span></div>
+          <div class="result-row"><span class="k">Max distance — Observation (63 px/m)</span><span class="v" id="rMaxObs">—</span></div>
           <div class="result-row"><span class="k">Max distance — Detection (25 px/m)</span><span class="v" id="rMaxDet">—</span></div>
         </div>
       </div>
@@ -278,27 +279,30 @@
           <tr><td>Horizontal field of view (HFOV)</td><td>2 × atan(4.8mm ÷ (2 × 4mm)) = 2 × atan(0.6) = 61.9°</td></tr>
           <tr><td>Scene width at 15m</td><td>2 × 15m × tan(61.9° ÷ 2) = 2 × 15m × 0.6 = 18 m</td></tr>
           <tr><td>Pixel density</td><td>2592px ÷ 18m = 144 px/m</td></tr>
-          <tr><td>Classification</td><td>144 px/m ≥ 125 px/m → Identification-grade</td></tr>
-          <tr><td>Max identification distance (125 px/m)</td><td>2592px ÷ (2 × 125 × 0.6) = 17.3 m</td></tr>
+          <tr><td>Classification</td><td>125 px/m ≤ 144 px/m &lt; 250 px/m → Recognition-grade</td></tr>
+          <tr><td>Max recognition distance (125 px/m)</td><td>2592px ÷ (2 × 125 × 0.6) = 17.3 m</td></tr>
+          <tr><td>Max identification distance (250 px/m)</td><td>2592px ÷ (2 × 250 × 0.6) = 8.6 m</td></tr>
         </tbody>
       </table>
       <p>
-        At 15m this setup is still identification-grade — sharp enough to confirm who or what is in frame.
-        Push the same camera out past about 17.3m and pixel density drops below the 125 px/m identification
-        threshold, even though the lens still "covers" that distance.
+        At 15m this setup is recognition-grade — enough to recognize a familiar person or vehicle, but short of
+        the 250 px/m needed to identify someone. To reach identification-grade, the subject would need to be
+        within about 8.6m of the camera; past about 17.3m the pixel density also drops below the 125 px/m
+        recognition threshold, even though the lens still "covers" that distance.
       </p>
 
-      <h2>Johnson's Criteria: what the pixel density actually means</h2>
+      <h2>DORI levels: what the pixel density actually means</h2>
       <p>
-        Johnson's Criteria is the standard used across the security industry — including by Axis, Bosch,
-        Hikvision, and Dahua's own lens calculators — to translate a raw pixel-density number into a real-world
-        capability. It defines three practical thresholds:
+        The DORI levels (Detection, Observation, Recognition, Identification) come from IEC 62676-4 and are
+        published by manufacturers such as Axis to translate a raw pixel-density number into a real-world
+        capability. They define four practical thresholds:
       </p>
       <table>
         <thead><tr><th>Classification</th><th>Pixel density</th><th>What it means in practice</th></tr></thead>
         <tbody>
-          <tr><td>Identification</td><td>≥ 125 px/m</td><td>Enough detail to confirm who a person is, or read a plate</td></tr>
-          <tr><td>Recognition</td><td>≥ 63 px/m</td><td>Enough to recognize a familiar face or vehicle type</td></tr>
+          <tr><td>Identification</td><td>≥ 250 px/m</td><td>Enough detail to confirm who a person is, or read a plate</td></tr>
+          <tr><td>Recognition</td><td>≥ 125 px/m</td><td>Enough to recognize a familiar face or vehicle type</td></tr>
+          <tr><td>Observation</td><td>≥ 63 px/m</td><td>Enough to follow what a person is doing and notice general details, not enough to recognize or identify them</td></tr>
           <tr><td>Detection</td><td>≥ 25 px/m</td><td>Enough to notice that a person or vehicle is present</td></tr>
         </tbody>
       </table>
@@ -338,9 +342,10 @@
       </p>
       <h3>What pixel density do I actually need for identifiable footage?</h3>
       <p>
-        Aim for identification grade, 125 pixels per meter or higher, at any point you need to identify a
-        face or read a plate. Recognition and detection grade are fine for general monitoring but usually
-        aren't detailed enough to confirm identity.
+        Under the IEC 62676-4 (DORI) levels, identification needs about 250 pixels per meter or more at any
+        point where you need to identify a face or read a plate. Recognition (125 px/m), observation (63 px/m)
+        and detection (25 px/m) are fine for general monitoring but usually aren't detailed enough to confirm
+        identity.
       </p>
 
       <h2>Related CCTV tools</h2>
@@ -501,8 +506,9 @@ function getHorizontalPx() {
 }
 
 function classify(density) {
-  if (density >= 125) return 'Identification-grade (can confirm who/what)';
-  if (density >= 63) return 'Recognition-grade (can recognize a known face/vehicle)';
+  if (density >= 250) return 'Identification-grade (can confirm who/what)';
+  if (density >= 125) return 'Recognition-grade (can recognize a known face/vehicle)';
+  if (density >= 63) return 'Observation-grade (can follow activity and general details)';
   if (density >= 25) return 'Detection-grade (can tell something is there)';
   return 'Below detection grade (general monitoring only)';
 }
@@ -534,8 +540,9 @@ function calculate() {
   document.getElementById('rSceneWidth').textContent = fmtNum(sceneWidthDisplay, 1) + ' ' + unit;
   document.getElementById('rDensity').textContent = fmtNum(densityPxPerM, 0) + ' px/m';
   document.getElementById('rClassify').textContent = classify(densityPxPerM);
-  document.getElementById('rMaxId').textContent = fmtNum(maxDist(125), 1) + ' ' + unit;
-  document.getElementById('rMaxRec').textContent = fmtNum(maxDist(63), 1) + ' ' + unit;
+  document.getElementById('rMaxId').textContent = fmtNum(maxDist(250), 1) + ' ' + unit;
+  document.getElementById('rMaxRec').textContent = fmtNum(maxDist(125), 1) + ' ' + unit;
+  document.getElementById('rMaxObs').textContent = fmtNum(maxDist(63), 1) + ' ' + unit;
   document.getElementById('rMaxDet').textContent = fmtNum(maxDist(25), 1) + ' ' + unit;
 }
 
