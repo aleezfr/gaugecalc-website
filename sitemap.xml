@@ -115,6 +115,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://gaugecalc.com/about</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://gaugecalc.com/contact</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>yearly</changefreq>

@@ -153,6 +153,7 @@
       <noscript>
         <a class="rail-btn" href="/">All Calculators</a>
         <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
         <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
         <a class="rail-btn" href="/contact">Contact</a>
         <a class="rail-btn" href="/feedback">Feedback</a>
@@ -462,7 +463,7 @@
           <div class="result-row"><span class="k">Load current</span><span class="v" id="rAmps">—</span></div>
           <div class="result-row"><span class="k">Raw Ah needed (before DoD)</span><span class="v" id="rRawAh">—</span></div>
           <div class="result-row"><span class="k">Load energy (before losses)</span><span class="v" id="rWh">—</span></div>
-          <div class="result-row"><span class="k">Usable capacity (after DoD)</span><span class="v" id="rUsable">—</span></div>
+          <div class="result-row"><span class="k">Usable Ah incl. losses (rated Ah × DoD)</span><span class="v" id="rUsable">—</span></div>
         </div>
 
         <div class="recommend-box">
@@ -656,6 +657,7 @@
 
         <nav class="footer-col" aria-label="Site">
           <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
           <a href="/contact">Contact</a>
           <a href="/feedback">Feedback</a>
           <a href="/privacy-policy">Privacy Policy</a>
@@ -1053,7 +1055,7 @@ sizingResult.addEventListener('blur', () => sizingResult.classList.remove('is-fo
 calculate();
 calculateSizing();
 </script>
-<script src="../assets/nav.js?v=20260925" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
 <script src="../assets/theme.js" defer></script>
 <script src="../assets/calc-ux.js?v=20260925-2" defer></script>
 </body>

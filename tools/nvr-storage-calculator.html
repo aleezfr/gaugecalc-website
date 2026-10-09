@@ -177,6 +177,7 @@
       <noscript>
         <a class="rail-btn" href="/">All Calculators</a>
         <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
         <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
         <a class="rail-btn" href="/contact">Contact</a>
         <a class="rail-btn" href="/feedback">Feedback</a>
@@ -364,6 +365,9 @@
           <tr><td>8MP (4K)</td><td>~12 Mbps</td><td>License plate capture, large open areas, retail</td></tr>
         </tbody>
       </table>
+      <div class="note-box">
+        <strong>Example values for planning only.</strong> These bitrates are rounded planning figures, not taken from a specific source. Check your camera's datasheet or measure its actual stream.
+      </div>
       <p>
         Lowering the frame rate reduces bitrate, but not in a straight line. As a planning approximation, this
         calculator scales bitrate between 30% and 100% of the 30fps figure, so 15fps is treated as about 65%
@@ -381,6 +385,13 @@
         scenes — real-world savings of 60–80% over H.264 are common, though this varies heavily with how much
         motion is actually in the frame. Treat the H.265+ figure here as a reasonable planning estimate, not a
         guarantee — a busy parking lot will use more than a quiet hallway even on the same codec.
+      </p>
+      <p>
+        <strong>Source note:</strong> the roughly 50% figure for H.265 matches what the ITU said when it announced
+        the standard, that HEVC "will need only half the bit rate of its predecessor" (<a href="https://www.itu.int/net/pressoffice/press_releases/2013/01.aspx" rel="noopener" target="_blank">ITU press release, 25 January 2013</a>).
+        That was a projection by the standards body, not a measurement of CCTV streams. The H.265+ and
+        smart-codec savings used on this page are planning estimates without a verified source, and they vary
+        heavily with the scene.
       </p>
 
       <h2>Continuous vs. motion-triggered recording</h2>
@@ -563,6 +574,7 @@
 
         <nav class="footer-col" aria-label="Site">
           <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
           <a href="/contact">Contact</a>
           <a href="/feedback">Feedback</a>
           <a href="/privacy-policy">Privacy Policy</a>
@@ -757,7 +769,7 @@ function calculate() {
 customRow.style.display = (resSelect.value === 'custom') ? 'grid' : 'none';
 calculate();
 </script>
-<script src="../assets/nav.js?v=20260925" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
 <script src="../assets/theme.js" defer></script>
 <script src="../assets/calc-ux.js?v=20260925-2" defer></script>
 </body>

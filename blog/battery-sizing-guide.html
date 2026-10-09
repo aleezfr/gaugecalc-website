@@ -7,7 +7,7 @@
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Battery Sizing Guide for Security Panels — GaugeCalc</title>
-<meta name="description" content="A working technician's guide to sizing backup batteries correctly: exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.">
+<meta name="description" content="A practical guide to sizing backup batteries correctly: exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.">
 <link rel="canonical" href="https://gaugecalc.com/blog/battery-sizing-guide">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -19,14 +19,14 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="GaugeCalc">
 <meta property="og:title" content="Battery Sizing Guide for Security Panels">
-<meta property="og:description" content="A working technician's guide to sizing backup batteries correctly: exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.">
+<meta property="og:description" content="A practical guide to sizing backup batteries correctly: exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.">
 <meta property="og:url" content="https://gaugecalc.com/blog/battery-sizing-guide">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Battery Sizing Guide for Security Panels">
-<meta name="twitter:description" content="A working technician's guide to sizing backup batteries correctly: exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.">
+<meta name="twitter:description" content="A practical guide to sizing backup batteries correctly: exact Ah calculation, series vs. parallel wiring, and why lithium usually wins now.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "How to Choose the Right Battery Size for a Security Panel",
-  "description": "A working technician's guide to sizing backup batteries correctly: exact Ah calculation, series vs parallel wiring, and why lithium is usually the better choice now.",
+  "description": "A practical guide to sizing backup batteries correctly: exact Ah calculation, series vs parallel wiring, and why lithium is usually the better choice now.",
   "image": "https://gaugecalc.com/assets/og-image.jpg",
   "author": { "@type": "Person", "name": "Ali Zafar" },
   "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
@@ -91,6 +91,7 @@
       <noscript>
         <a class="rail-btn" href="/">All Calculators</a>
         <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
         <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
         <a class="rail-btn" href="/contact">Contact</a>
         <a class="rail-btn" href="/feedback">Feedback</a>
@@ -110,7 +111,7 @@
         Written from the field, not a spec sheet: how to calculate the exact capacity you need, how to wire
         batteries together when one battery isn't enough, and why most new installs today should be lithium.
       </p>
-      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Ali Zafar</p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Ali Zafar &middot; Last updated: October 2026</p>
     </section>
 
     <article class="article" style="margin-top:8px;">
@@ -173,6 +174,21 @@
         possible, since extreme heat or cold has a bigger effect on lithium performance and long-term health
         than it does on lead-acid. Outside of that, it's a straightforward upgrade for backup power that gets
         cycled regularly.
+      </p>
+
+      <p>
+        <strong>Before swapping out lead-acid:</strong> check the existing charger, and the charging circuit of
+        the device the battery powers, against the lithium battery's datasheet. Canbat's manual notes that
+        flooded lead-acid charging algorithms are often set higher than LiFePO4 voltage requirements, which can
+        make the battery's built-in BMS disconnect, and Power-Sonic lists conditions (no desulfation mode, and
+        specific bulk and float voltages) for using a lead-acid charger with its lithium batteries. The BMS
+        protects the battery, but Canbat advises treating it as the last layer of defence rather than the first,
+        and a battery that has disconnected can read 0&nbsp;V, which some lead-acid chargers cannot recover.
+        Also check the datasheet's charging temperature limits: Canbat states that its standard LiFePO4
+        batteries can be charged between 0&nbsp;&deg;C and 45&nbsp;&deg;C and that the BMS stops charging
+        outside the limits, and limits differ by model. Sources:
+        <a href="https://canbat.com/downloads/Canbat-Lithium-Charging-Instructions.pdf" rel="noopener" target="_blank">Canbat lithium charging instructions (manufacturer PDF)</a>,
+        <a href="https://www.power-sonic.com/how-to-charge-lithium-iron-phosphate-lifepo4-batteries/" rel="noopener" target="_blank">Power-Sonic: how to charge LiFePO4 batteries</a>.
       </p>
 
       <h2>The bottom line</h2>
@@ -260,6 +276,7 @@
 
         <nav class="footer-col" aria-label="Site">
           <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
           <a href="/contact">Contact</a>
           <a href="/feedback">Feedback</a>
           <a href="/privacy-policy">Privacy Policy</a>
@@ -276,7 +293,7 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 </script>
-<script src="../assets/nav.js?v=20260925" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
 <script src="../assets/theme.js" defer></script>
 </body>
 </html>

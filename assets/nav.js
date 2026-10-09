@@ -47,6 +47,7 @@
       { title: 'CCTV Voltage Drop Calculator: Why Cameras Fail After Dark', label: 'Voltage Drop at Night', url: '/blog/cctv-voltage-drop-calculator-camera-offline-at-night' }
     ],
     site: [
+      { label: 'About', url: '/about' },
       { label: 'Privacy Policy', url: '/privacy-policy' },
       { label: 'Contact', url: '/contact' },
       { label: 'Feedback', url: '/feedback' }

@@ -9,6 +9,7 @@ No build step — plain HTML/CSS/JS served as static files.
 ```
 /
 ├── index.html            Home page
+├── about.html            About page
 ├── contact.html          Contact page
 ├── feedback.html         Feedback page
 ├── privacy-policy.html   Privacy policy

@@ -6,9 +6,9 @@
 <meta name="google-adsense-account" content="ca-pub-5945580588007634">
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback — GaugeCalc</title>
-<meta name="description" content="Report a calculation that looks wrong, or suggest a new calculator — tell us which tool and what you expected.">
-<link rel="canonical" href="https://gaugecalc.com/feedback">
+<title>About — GaugeCalc</title>
+<meta name="description" content="About GaugeCalc: free calculators and guides for CCTV, PoE and electrical installers, how the calculators work, and where their results stop being reliable.">
+<link rel="canonical" href="https://gaugecalc.com/about">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -17,15 +17,15 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GaugeCalc">
-<meta property="og:title" content="Feedback — GaugeCalc">
-<meta property="og:description" content="Report a calculation that looks wrong, or suggest a new calculator — tell us which tool and what you expected.">
-<meta property="og:url" content="https://gaugecalc.com/feedback">
+<meta property="og:title" content="About — GaugeCalc">
+<meta property="og:description" content="About GaugeCalc: free calculators and guides for CCTV, PoE and electrical installers, how the calculators work, and where their results stop being reliable.">
+<meta property="og:url" content="https://gaugecalc.com/about">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Feedback — GaugeCalc">
-<meta name="twitter:description" content="Report a calculation that looks wrong, or suggest a new calculator — tell us which tool and what you expected.">
+<meta name="twitter:title" content="About — GaugeCalc">
+<meta name="twitter:description" content="About GaugeCalc: free calculators and guides for CCTV, PoE and electrical installers, how the calculators work, and where their results stop being reliable.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
-    { "@type": "ListItem", "position": 2, "name": "Feedback", "item": "https://gaugecalc.com/feedback" }
+    { "@type": "ListItem", "position": 2, "name": "About", "item": "https://gaugecalc.com/about" }
   ]
 }
 </script>
@@ -85,66 +85,67 @@
 
   <main>
   <div class="wrap">
-    <p class="crumb"><a href="./">Home</a> / Feedback</p>
+    <p class="crumb"><a href="./">Home</a> / About</p>
 
     <section class="hero" style="padding-block:26px 6px;">
-      <span class="eyebrow">Help us fix it</span>
-      <h1>Report a calculator issue or suggest a tool</h1>
+      <span class="eyebrow">About</span>
+      <h1>About GaugeCalc</h1>
       <p class="lead">
-        Found a result that doesn't match what you see in the field? Want a calculator that doesn't exist yet?
-        Pick the tool below and tell us what happened — every report gets read by the person who built
-        this site, not a support queue.
+        GaugeCalc is a set of free calculators and guides for CCTV, PoE and electrical installers, built and
+        maintained by Ali Zafar.
       </p>
     </section>
 
-    <div class="calc-layout" style="grid-template-columns: 1fr; max-width: 640px;">
-      <div class="panel">
-        <form id="fb-form">
-          <div class="field" style="margin-bottom:14px;">
-            <label for="fb-tool">Which tool is this about?</label>
-            <select id="fb-tool">
-              <option value="General / site-wide">General / site-wide</option>
-              <option value="NVR Storage Calculator">NVR Storage Calculator</option>
-              <option value="IP Camera Bandwidth Calculator">IP Camera Bandwidth Calculator</option>
-              <option value="CCTV Storage Calculator">CCTV Storage Calculator</option>
-              <option value="Amp Hour Calculator">Amp Hour Calculator</option>
-              <option value="Battery Backup Calculator">Battery Backup Calculator</option>
-              <option value="Battery Amp Hour Calculator">Battery Amp Hour Calculator</option>
-              <option value="PoE Budget Calculator">PoE Budget Calculator</option>
-              <option value="New tool suggestion">New tool suggestion</option>
-            </select>
-          </div>
+    <article class="article" style="max-width:820px;">
+      <h2>What GaugeCalc is</h2>
+      <p>
+        The site collects the sizing arithmetic that comes up when planning a CCTV, PoE, backup-power or electrical
+        installation: NVR and CCTV storage, camera bandwidth, PoE budget, voltage drop, battery capacity and
+        backup, camera field of view, and electrical box fill. Each calculator page includes an explanation of
+        how its result is calculated and a worked example. The separate
+        <a href="/blog/">guides</a> explain the mistakes these calculations are meant to prevent.
+      </p>
 
-          <div class="field" style="margin-bottom:14px;">
-            <label for="fb-type">What kind of feedback?</label>
-            <select id="fb-type">
-              <option value="Wrong calculation / result">Wrong calculation / result</option>
-              <option value="Something looks broken">Something looks broken</option>
-              <option value="Suggestion / improvement">Suggestion / improvement</option>
-              <option value="New tool request">New tool request</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+      <h2>How the calculators work</h2>
+      <p>
+        The calculators apply standard formulas, for example amps = watts &divide; volts and amp-hours = amps
+        &times; hours. Each calculator page explains how its result is calculated, with a worked example, so you
+        can check the arithmetic yourself.
+      </p>
+      <p>
+        Some pages list the published sources they rely on at the bottom of the page. Where a table of example
+        values has no verified source, it is labelled as an example for planning only.
+      </p>
 
-          <div class="field" style="margin-bottom:14px;">
-            <label for="fb-message">What happened? <span class="hint">(inputs you used, what you expected vs. what you got)</span></label>
-            <textarea id="fb-message" placeholder="e.g. 8 cameras, 4MP, 15fps, H.265, 30 days — expected ~5.5TB, got a different number..." required></textarea>
-          </div>
+      <h2>What is tested</h2>
+      <p>
+        The repository contains automated tests, run with Node.js, for three things only:
+      </p>
+      <ul>
+        <li>the Electrical Box Fill Calculator's calculation engine (NEC 314.16 volume rules);</li>
+        <li>the Field of View Calculator's results and input validation;</li>
+        <li>the site's Content-Security-Policy header, which must match the scripts the pages contain.</li>
+      </ul>
+      <p>
+        The other calculators do not have automated tests. Their results come from the formulas shown on each
+        page, so check any critical result by hand or against the manufacturer's data.
+      </p>
 
-          <div class="field" style="margin-bottom:18px;">
-            <label for="fb-email">Your email <span class="hint">(optional — only if you want a reply)</span></label>
-            <input type="email" id="fb-email" placeholder="you@example.com">
-          </div>
+      <h2>Limits of the results</h2>
+      <ul>
+        <li>Results are estimates for planning, not a design or a code-compliance determination.</li>
+        <li>Check the numbers against the manufacturer's datasheet for the equipment you are installing.</li>
+        <li>Required values for safety and life-safety systems come from the applicable code and your local authority having jurisdiction, not from this site.</li>
+        <li>Real installations vary with temperature, cable length and quality, ageing and load changes that a simple calculator does not model.</li>
+      </ul>
 
-          <button type="submit" class="btn">Send feedback</button>
-          <p class="hint" id="fb-fallback" style="margin-top:12px;">
-            This opens your email app with the report pre-filled to
-            <a href="mailto:support@gaugecalc.com">support@gaugecalc.com</a> — nothing is sent automatically.
-          </p>
-        </form>
-      </div>
-    </div>
-
+      <h2>Report a mistake</h2>
+      <p>
+        If a result looks wrong, use the <a href="/feedback">feedback form</a> and include the calculator, the
+        values you entered and what you expected. For anything else, see the <a href="/contact">contact page</a>.
+        This site is maintained by one person, so replies can take a little time.
+      </p>
+    </article>
   </div>
 </main>
 </div>
@@ -195,36 +196,7 @@
   </div>
 </footer>
 
-<script>
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// Pre-select tool from ?tool= query param (e.g. feedback?tool=NVR%20Storage%20Calculator)
-(function(){
-  var params = new URLSearchParams(window.location.search);
-  var tool = params.get('tool');
-  if (tool) {
-    var select = document.getElementById('fb-tool');
-    for (var i = 0; i < select.options.length; i++) {
-      if (select.options[i].value === tool) { select.selectedIndex = i; break; }
-    }
-  }
-})();
-
-document.getElementById('fb-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  var tool = document.getElementById('fb-tool').value;
-  var type = document.getElementById('fb-type').value;
-  var message = document.getElementById('fb-message').value;
-  var email = document.getElementById('fb-email').value;
-
-  var subject = 'GaugeCalc feedback: ' + tool + ' — ' + type;
-  var body = 'Tool: ' + tool + '\nType: ' + type + '\n\n' + message +
-    (email ? '\n\nReply to: ' + email : '');
-
-  window.location.href = 'mailto:support@gaugecalc.com?subject=' + encodeURIComponent(subject) +
-    '&body=' + encodeURIComponent(body);
-});
-</script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 <script src="assets/nav.js?v=20261009" defer></script>
 <script src="assets/theme.js" defer></script>
 </body>

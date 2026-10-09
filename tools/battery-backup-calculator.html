@@ -153,6 +153,7 @@
       <noscript>
         <a class="rail-btn" href="/">All Calculators</a>
         <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
         <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
         <a class="rail-btn" href="/contact">Contact</a>
         <a class="rail-btn" href="/feedback">Feedback</a>
@@ -322,6 +323,9 @@
         A panel drawing 200mA at standby needs a 7Ah battery, not a 4.8Ah one — the alarm-stage draw and the
         20% aging allowance are what code-compliant sizing actually requires on top of the raw standby figure.
       </p>
+      <div class="note-box">
+        <strong>Example values for planning only.</strong> The 200 mA standby and 600 mA alarm currents in this example are illustrative. Use your panel's or device's datasheet for the real figures.
+      </div>
 
       <h2>Why the aging factor?</h2>
       <p>
@@ -342,6 +346,9 @@
           <tr><td>NVR / PoE switch backup</td><td>Site-dependent — often 1–4 hours</td><td>N/A (no separate alarm stage)</td></tr>
         </tbody>
       </table>
+      <div class="note-box">
+        <strong>Example values for planning only.</strong> These standby and alarm times are typical ranges, not a citation of a specific code or standard. The required times come from the applicable code and your authority having jurisdiction.
+      </div>
       <div class="warn-box">
         <strong>Always check your local code and AHJ requirements.</strong> This calculator uses the standard
         NFPA-style calculation method as a planning tool — the actual required standby/alarm times for a fire
@@ -476,6 +483,7 @@
 
         <nav class="footer-col" aria-label="Site">
           <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
           <a href="/contact">Contact</a>
           <a href="/feedback">Feedback</a>
           <a href="/privacy-policy">Privacy Policy</a>
@@ -535,7 +543,7 @@ function calculate() {
 
 calculate();
 </script>
-<script src="../assets/nav.js?v=20260925" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
 <script src="../assets/theme.js" defer></script>
 <script src="../assets/calc-ux.js?v=20260925-2" defer></script>
 </body>
