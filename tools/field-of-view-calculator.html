@@ -214,10 +214,11 @@
         <div class="field-row">
           <div class="field">
             <label for="distance" id="distanceLabel">Distance to subject (m)</label>
-            <input type="number" id="distance" min="0.1" step="0.1" value="15">
+            <input type="number" id="distance" min="0.1" max="10000" step="0.1" value="15" aria-describedby="distError">
           </div>
           <div></div>
         </div>
+        <p class="field-error" id="distError" role="alert" style="display:none;"></p>
       </div>
 
       <div class="panel result-panel">
@@ -455,6 +456,10 @@ const customRes = document.getElementById('customRes');
 const unitToggle = document.getElementById('unitToggle');
 const distanceLabel = document.getElementById('distanceLabel');
 const distanceInput = document.getElementById('distance');
+const distanceError = document.getElementById('distError');
+
+const MIN_DISTANCE = 0.1;
+const MAX_DISTANCE = 10000;
 
 let unit = 'm';
 
@@ -513,11 +518,30 @@ function classify(density) {
   return 'Below detection grade (general monitoring only)';
 }
 
+// Plain decimal notation with an optional sign and exponent (so 15, .5, 5., 1e1 pass; 0x10, 0b11, 1_0 do not).
+const DECIMAL_NUMBER = /^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/;
+
+// Distance in the selected unit, or NaN if empty, non-numeric, non-finite or outside MIN_DISTANCE..MAX_DISTANCE.
+function readDistance() {
+  const raw = distanceInput.value.trim();
+  const v = DECIMAL_NUMBER.test(raw) ? Number(raw) : NaN;
+  return Number.isFinite(v) && v >= MIN_DISTANCE && v <= MAX_DISTANCE ? v : NaN;
+}
+
 function calculate() {
   const sensor = getSensorSize();
   const focalLength = Math.max(0.01, parseFloat(focalLengthInput.value) || 4);
   const horizontalPx = getHorizontalPx();
-  const distanceRaw = Math.max(0.01, parseFloat(distanceInput.value) || 0.01);
+  const distanceRaw = readDistance();
+  const distanceValid = Number.isFinite(distanceRaw);
+  // Only touch the alert when its text actually changes, so a screen reader is not
+  // re-announced the same message on every invalid keystroke.
+  const distanceMessage = distanceValid ? '' :
+    'Enter a distance between ' + MIN_DISTANCE + ' and ' + fmtNum(MAX_DISTANCE, 0) + ' ' + unit + '.';
+  if (distanceError.textContent !== distanceMessage) distanceError.textContent = distanceMessage;
+  distanceError.style.display = distanceValid ? 'none' : 'block';
+  if (distanceValid) distanceInput.removeAttribute('aria-invalid');
+  else distanceInput.setAttribute('aria-invalid', 'true');
   const distanceM = unit === 'ft' ? distanceRaw * 0.3048 : distanceRaw;
 
   const hfovRad = 2 * Math.atan(sensor.w / (2 * focalLength));
@@ -537,9 +561,15 @@ function calculate() {
 
   document.getElementById('resultHfov').textContent = fmtNum(hfovDeg, 1);
   document.getElementById('rVfov').textContent = fmtNum(vfovDeg, 1) + '°';
-  document.getElementById('rSceneWidth').textContent = fmtNum(sceneWidthDisplay, 1) + ' ' + unit;
-  document.getElementById('rDensity').textContent = fmtNum(densityPxPerM, 0) + ' px/m';
-  document.getElementById('rClassify').textContent = classify(densityPxPerM);
+  if (distanceValid) {
+    document.getElementById('rSceneWidth').textContent = fmtNum(sceneWidthDisplay, 1) + ' ' + unit;
+    document.getElementById('rDensity').textContent = fmtNum(densityPxPerM, 0) + ' px/m';
+    document.getElementById('rClassify').textContent = classify(densityPxPerM);
+  } else {
+    document.getElementById('rSceneWidth').textContent = '—';
+    document.getElementById('rDensity').textContent = '—';
+    document.getElementById('rClassify').textContent = 'Fix the highlighted distance above to see a result.';
+  }
   document.getElementById('rMaxId').textContent = fmtNum(maxDist(250), 1) + ' ' + unit;
   document.getElementById('rMaxRec').textContent = fmtNum(maxDist(125), 1) + ' ' + unit;
   document.getElementById('rMaxObs').textContent = fmtNum(maxDist(63), 1) + ' ' + unit;
