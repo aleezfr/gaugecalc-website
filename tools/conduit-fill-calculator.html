@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conduit Fill Calculator (EMT, Free) — GaugeCalc</title>
+<meta name="description" content="Free conduit fill calculator: enter your wire sizes and counts and get the smallest EMT conduit trade size using NEC Chapter 9 fill limits (53%, 31%, 40%) and THHN wire areas.">
+<link rel="canonical" href="https://gaugecalc.com/tools/conduit-fill-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Conduit Fill Calculator (EMT, Free) — GaugeCalc">
+<meta property="og:description" content="Free conduit fill calculator: enter your wire sizes and counts and get the smallest EMT conduit trade size using NEC Chapter 9 fill limits (53%, 31%, 40%) and THHN wire areas.">
+<meta property="og:url" content="https://gaugecalc.com/tools/conduit-fill-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Conduit Fill Calculator (EMT, Free) — GaugeCalc">
+<meta name="twitter:description" content="Free conduit fill calculator: enter your wire sizes and counts and get the smallest EMT conduit trade size using NEC Chapter 9 fill limits (53%, 31%, 40%) and THHN wire areas.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20260923">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Conduit Fill Calculator",
+  "url": "https://gaugecalc.com/tools/conduit-fill-calculator",
+  "description": "Free conduit fill calculator: enter your wire sizes and counts and get the smallest EMT conduit trade size using NEC Chapter 9 fill limits (53%, 31%, 40%) and THHN wire areas.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Conduit Fill Calculator", "item": "https://gaugecalc.com/tools/conduit-fill-calculator" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is conduit fill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Conduit fill is the share of a conduit's inside area taken up by the wires in it. The NEC limits it so wires can be pulled without damage and can shed heat. The limit is 53% for one wire, 31% for two wires and 40% for three or more."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many #12 wires fit in 1/2 inch EMT?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nine THHN or THWN-2 #12 AWG conductors fit in 1/2 inch EMT at the 40% limit. A tenth pushes the fill over 40%, so 3/4 inch is needed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is the limit only 31% for two wires?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Two wires of similar size tend to wedge together in the conduit, which makes pulling harder than a mix of three or more. The NEC therefore uses a lower limit for exactly two conductors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this calculator work for other conduit types?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not yet. It covers EMT (electrical metallic tubing) only, because each conduit type has a different internal area. For PVC, rigid or flexible conduit, use the area from NEC Chapter 9 Table 4 for that type."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which wire insulation does it assume?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "THHN and THWN-2, the most common building wire. XHHW, RHW and other insulations have different areas, so a bundle of those can fill differently."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do grounding wires count?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every conductor inside the conduit counts toward fill, including equipment grounding conductors, so add them as wires of their own size."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / Conduit Fill Calculator</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar &middot; Last updated October 2026</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>Conduit Fill Calculator</h1>
+      <p class="lead">
+        Enter the wire sizes and how many of each you want to pull, and the calculator finds the smallest EMT
+        conduit trade size that stays within the NEC fill limit: 53% for one wire, 31% for two, and 40% for three or more.
+        It uses THHN/THWN-2 wire areas from NEC Chapter 9.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <form class="panel" id="cfForm" novalidate>
+        <h2>Conductors</h2>
+        <p class="hint" style="margin-bottom:10px;">Add every conductor in the conduit, including neutrals and equipment grounds. Leave unused rows at 0.</p>
+        <div id="cfRows"></div>
+      </form>
+
+      <div class="panel result-panel">
+        <p class="field-error" id="cfError" role="alert" style="display:none;"></p>
+        <div id="cfResults" aria-live="polite" role="status">
+          <h2>Smallest EMT conduit</h2>
+          <div class="result-hero">
+            <span class="value" id="cfSize">&mdash;</span>
+            <div class="caption" id="cfCaption">&mdash;</div>
+          </div>
+          <div class="result-list">
+            <div class="result-row"><span class="k">Total wire area</span><span class="v" id="cfTotal">&mdash;</span></div>
+            <div class="result-row"><span class="k">Fill limit used</span><span class="v" id="cfLimit">&mdash;</span></div>
+            <div class="result-row"><span class="k">Fill in this size</span><span class="v" id="cfFill">&mdash;</span></div>
+            <div class="result-row"><span class="k">Next size up</span><span class="v" id="cfNext">&mdash;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:8px;">
+      Based on NEC (NFPA 70) Chapter 9 Tables 1, 4 and 5 for EMT and THHN/THWN-2 conductors. Other conduit types and
+      wire insulations have different areas. Conduit bodies, bend limits, pull tension and derating are not checked.
+      This is a planning calculation, not a code compliance check; confirm against the code edition adopted for your job.
+    </div>
+
+    <article class="article">
+      <h2>How conduit fill is calculated</h2>
+      <p>
+        Every conduit has an inside cross-section area, and every wire has an outside area that includes its insulation.
+        Conduit fill is the total area of the wires divided by the conduit's area. The NEC caps that ratio so the wires
+        are not crushed when pulled and have room to shed heat. The calculator adds up the wire areas you enter, then
+        tests each EMT trade size from 1/2 inch up to 4 inch and returns the first one that passes.
+      </p>
+
+      <h2>The three fill limits</h2>
+      <table>
+        <thead><tr><th>Number of conductors</th><th>Maximum fill</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>53%</td></tr>
+          <tr><td>2</td><td>31%</td></tr>
+          <tr><td>3 or more</td><td>40%</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Most real pulls have three or more wires, so 40% is the number you will use most. Two wires of similar size
+        can jam together as they are pulled, which is why that case gets the lowest limit.
+      </p>
+
+      <h2>Wire areas used (THHN / THWN-2)</h2>
+      <table>
+        <thead><tr><th>Size (AWG)</th><th>Area (sq in)</th></tr></thead>
+        <tbody>
+          <tr><td>14</td><td>0.0097</td></tr>
+          <tr><td>12</td><td>0.0133</td></tr>
+          <tr><td>10</td><td>0.0211</td></tr>
+          <tr><td>8</td><td>0.0366</td></tr>
+          <tr><td>6</td><td>0.0507</td></tr>
+          <tr><td>4</td><td>0.0824</td></tr>
+          <tr><td>2</td><td>0.1158</td></tr>
+          <tr><td>1/0</td><td>0.1855</td></tr>
+          <tr><td>4/0</td><td>0.3237</td></tr>
+        </tbody>
+      </table>
+
+      <h2>EMT conduit areas</h2>
+      <table>
+        <thead><tr><th>Trade size</th><th>Total area (sq in)</th><th>40% area (sq in)</th></tr></thead>
+        <tbody>
+          <tr><td>1/2"</td><td>0.304</td><td>0.122</td></tr>
+          <tr><td>3/4"</td><td>0.533</td><td>0.213</td></tr>
+          <tr><td>1"</td><td>0.864</td><td>0.346</td></tr>
+          <tr><td>1-1/4"</td><td>1.496</td><td>0.598</td></tr>
+          <tr><td>1-1/2"</td><td>2.036</td><td>0.814</td></tr>
+          <tr><td>2"</td><td>3.356</td><td>1.342</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Worked examples</h2>
+      <h3>Example 1: nine #12 wires</h3>
+      <p>
+        Nine 12 AWG wires have a total area of 9 &times; 0.0133 = 0.1197 sq in. The 40% area of 1/2" EMT is 0.122 sq in,
+        so it passes at 39.4% fill. Add a tenth wire and the total rises to 0.133 sq in, which is over the limit, so you
+        move to 3/4".
+      </p>
+      <h3>Example 2: mixed sizes</h3>
+      <p>
+        Six #12 wires, one #12 ground and three #10 wires make seven #12 and three #10 in total:
+        7 &times; 0.0133 + 3 &times; 0.0211 = 0.1564 sq in. 1/2" EMT is too small (0.122). 3/4" has 0.213 sq in at 40%,
+        so it fits at about 29% fill.
+      </p>
+
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Forgetting to count the equipment grounding conductor.</li>
+        <li>Using a wire area for THHN when the real wire is a thicker insulation such as XHHW.</li>
+        <li>Applying the 40% limit to a two-wire pull, where 31% applies.</li>
+        <li>Choosing the exact minimum size when the run has many bends. Going up one trade size makes the pull easier.</li>
+        <li>Mixing up fill with ampacity: a conduit that is not overfilled can still need derating for many current-carrying wires.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What is conduit fill?</h3>
+      <p>Conduit fill is the share of a conduit's inside area taken up by the wires in it. The NEC limits it so wires can be pulled without damage and can shed heat. The limit is 53% for one wire, 31% for two wires and 40% for three or more.</p>
+      <h3>How many #12 wires fit in 1/2 inch EMT?</h3>
+      <p>Nine THHN or THWN-2 #12 AWG conductors fit in 1/2 inch EMT at the 40% limit. A tenth pushes the fill over 40%, so 3/4 inch is needed.</p>
+      <h3>Why is the limit only 31% for two wires?</h3>
+      <p>Two wires of similar size tend to wedge together in the conduit, which makes pulling harder than a mix of three or more. The NEC therefore uses a lower limit for exactly two conductors.</p>
+      <h3>Does this calculator work for other conduit types?</h3>
+      <p>Not yet. It covers EMT (electrical metallic tubing) only, because each conduit type has a different internal area. For PVC, rigid or flexible conduit, use the area from NEC Chapter 9 Table 4 for that type.</p>
+      <h3>Which wire insulation does it assume?</h3>
+      <p>THHN and THWN-2, the most common building wire. XHHW, RHW and other insulations have different areas, so a bundle of those can fill differently.</p>
+      <h3>Do grounding wires count?</h3>
+      <p>Yes. Every conductor inside the conduit counts toward fill, including equipment grounding conductors, so add them as wires of their own size.</p>
+
+      <h2>Related tools</h2>
+      <p>
+        Pick the wire size first with the <a href="wire-size-calculator">Wire Size Calculator</a>, check drop on long runs
+        with the <a href="voltage-drop-calculator">Voltage Drop Calculator</a>, and check enclosure space with the
+        <a href="electrical-box-fill-calculator">Electrical Box Fill Calculator</a>. For a plain-language walkthrough, read
+        <a href="../blog/conduit-fill-explained">Conduit Fill Explained</a>.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=Conduit%20Fill%20Calculator">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
+    </article>
+    </div>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and guides for CCTV, PoE, and electrical installers.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your equipment manufacturer's own datasheet.</span>
+  </div>
+</footer>
+
+<script src="../assets/conduit-fill.js?v=20261024" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/calc-ux.js?v=20260925-2" defer></script>
+</body>
+</html>

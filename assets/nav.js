@@ -22,7 +22,8 @@
       { slug: 'electrical-wiring', name: 'Electrical & Wiring', url: null, calculators: [
         { title: 'Voltage Drop Calculator', label: 'Voltage Drop', url: '/tools/voltage-drop-calculator' },
         { title: 'Electrical Box Fill Calculator', label: 'Box Fill', url: '/tools/electrical-box-fill-calculator' },
-        { title: 'Wire Size Calculator', label: 'Wire Size', url: '/tools/wire-size-calculator' }
+        { title: 'Wire Size Calculator', label: 'Wire Size', url: '/tools/wire-size-calculator' },
+        { title: 'Conduit Fill Calculator', label: 'Conduit Fill', url: '/tools/conduit-fill-calculator' }
       ] },
       { slug: 'fire-alarm-elv', name: 'Fire Alarm & ELV', url: null, calculators: [] },
       { slug: 'battery-ups', name: 'Battery & UPS', url: null, calculators: [
@@ -46,7 +47,8 @@
       { title: 'Choosing the Right CCTV Lens: Coverage vs. Identification Distance', label: 'Lens Selection Guide', url: '/blog/cctv-lens-selection-guide' },
       { title: 'PoE Budget Calculator: How Many Cameras Can Your Switch Run?', label: 'PoE Budget Math', url: '/blog/poe-budget-calculator-how-many-cameras' },
       { title: 'CCTV Voltage Drop Calculator: Why Cameras Fail After Dark', label: 'Voltage Drop at Night', url: '/blog/cctv-voltage-drop-calculator-camera-offline-at-night' },
-      { title: 'How to Choose the Right Wire Size (AWG) for Any Circuit', label: 'Choosing Wire Size', url: '/blog/how-to-choose-wire-size' }
+      { title: 'How to Choose the Right Wire Size (AWG) for Any Circuit', label: 'Choosing Wire Size', url: '/blog/how-to-choose-wire-size' },
+      { title: 'Conduit Fill Explained: How Many Wires Fit in a Conduit', label: 'Conduit Fill Explained', url: '/blog/conduit-fill-explained' }
     ],
     site: [
       { label: 'About', url: '/about' },
