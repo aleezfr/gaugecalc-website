@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wire Size Calculator (Free) — GaugeCalc</title>
+<meta name="description" content="Free wire size calculator: find the smallest copper or aluminum AWG for your load current using NEC Table 310.16 ampacity, with temperature and bundling derating and an optional voltage drop check.">
+<link rel="canonical" href="https://gaugecalc.com/tools/wire-size-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Wire Size Calculator (Free) — GaugeCalc">
+<meta property="og:description" content="Free wire size calculator: find the smallest copper or aluminum AWG for your load current using NEC Table 310.16 ampacity, with temperature and bundling derating and an optional voltage drop check.">
+<meta property="og:url" content="https://gaugecalc.com/tools/wire-size-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wire Size Calculator (Free) — GaugeCalc">
+<meta name="twitter:description" content="Free wire size calculator: find the smallest copper or aluminum AWG for your load current using NEC Table 310.16 ampacity, with temperature and bundling derating and an optional voltage drop check.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20260923">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Wire Size Calculator",
+  "url": "https://gaugecalc.com/tools/wire-size-calculator",
+  "description": "Free wire size calculator: find the smallest copper or aluminum AWG for your load current using NEC Table 310.16 ampacity, with temperature and bundling derating and an optional voltage drop check.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Wire Size Calculator", "item": "https://gaugecalc.com/tools/wire-size-calculator" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I choose the right wire size?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Work out the load current (multiply by 1.25 for continuous loads), then pick the smallest conductor whose derated ampacity is at least that value. Derating covers high ambient temperature and more than three current-carrying conductors in one raceway. Finally, check voltage drop on long runs and move up a size if it is too high."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between the 60°C, 75°C and 90°C columns?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They are the insulation temperature ratings in NEC Table 310.16. Most breakers and terminals are rated for 60°C or 75°C, so the 90°C column is normally used only as a starting value for derating, not for sizing the circuit on its own. If you are unsure, choose 75°C."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the calculator use 125% for continuous loads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A continuous load runs for three hours or more. The NEC requires the conductor and overcurrent device to be sized for 125% of that load, which is why the checkbox multiplies your current by 1.25."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this include voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, optionally. Enter the supply voltage and one-way length and the calculator checks the drop for the ampacity-based size, then steps up to a thicker size until the drop is within your limit. It uses DC resistance at 20°C for a two-wire run."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for aluminum wire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Aluminum has a lower ampacity than copper for the same size and no 14 AWG row, so the calculator starts at 12 AWG for aluminum."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this a substitute for the electrical code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is a planning aid based on NEC Table 310.16 for conductors in raceway or cable at 30°C ambient. Always confirm sizing against the code edition and local rules that apply to your job."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / Wire Size Calculator</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar &middot; Last updated October 2026</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>Wire Size Calculator</h1>
+      <p class="lead">
+        Find the smallest copper or aluminum wire (AWG) that safely carries your load. Enter the current or power,
+        choose the insulation rating, and the calculator applies the 125% continuous-load rule, ambient
+        temperature and bundling derating from NEC Table 310.16. Add the cable length to check voltage drop too.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <form class="panel" id="wsForm" novalidate>
+        <h2>Load</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="wsBasis">Load input</label>
+            <select id="wsBasis">
+              <option value="amps" selected>Current (A)</option>
+              <option value="watts">Power (W)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="wsLoad">Load</label>
+            <input type="number" id="wsLoad" min="0.1" step="0.1" value="20">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="wsVoltage">Supply voltage (V)</label>
+            <input type="number" id="wsVoltage" min="1" step="1" value="120">
+            <span class="hint" id="wsVoltageHint" style="display:none;">Used to turn watts into amps.</span>
+          </div>
+          <div class="field">
+            <label for="wsContinuous">Continuous load (3 hours or more)</label>
+            <label class="hint" style="display:flex; gap:8px; align-items:center;"><input type="checkbox" id="wsContinuous"> Apply 125% rule</label>
+          </div>
+        </div>
+
+        <h2 style="margin-top:18px;">Conductor and conditions</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="wsMaterial">Conductor material</label>
+            <select id="wsMaterial">
+              <option value="copper" selected>Copper</option>
+              <option value="aluminum">Aluminum</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="wsTemp">Insulation / terminal rating</label>
+            <select id="wsTemp">
+              <option value="0">60&deg;C</option>
+              <option value="1" selected>75&deg;C (most common)</option>
+              <option value="2">90&deg;C</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="wsAmbient">Ambient temperature (&deg;C)</label>
+            <input type="number" id="wsAmbient" min="-20" max="60" step="1" value="30">
+            <span class="hint">30&deg;C needs no correction.</span>
+          </div>
+          <div class="field">
+            <label for="wsConductors">Current-carrying conductors in the raceway</label>
+            <input type="number" id="wsConductors" min="1" max="100" step="1" value="3">
+            <span class="hint">More than 3 reduces ampacity.</span>
+          </div>
+        </div>
+
+        <h2 style="margin-top:18px;">Voltage drop check <span class="hint">optional</span></h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="wsLength">One-way cable length</label>
+            <input type="number" id="wsLength" min="0" step="1" value="0">
+            <span class="hint">Leave 0 to skip the check.</span>
+          </div>
+          <div class="field">
+            <label for="wsLenUnit">Unit</label>
+            <select id="wsLenUnit"><option value="ft" selected>Feet</option><option value="m">Meters</option></select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="wsMaxDrop">Allowable voltage drop (%)</label>
+            <input type="number" id="wsMaxDrop" min="0.1" max="100" step="0.5" value="3">
+          </div>
+        </div>
+      </form>
+
+      <div class="panel result-panel">
+        <p class="field-error" id="wsError" role="alert" style="display:none;"></p>
+        <div id="wsResults" aria-live="polite" role="status">
+          <h2>Recommended wire size</h2>
+          <div class="result-hero">
+            <span class="value" id="wsSize">&mdash;</span><span class="unit">AWG</span>
+            <div class="caption" id="wsSizeCaption">&mdash;</div>
+          </div>
+          <div class="result-list">
+            <div class="result-row"><span class="k">Required ampacity</span><span class="v" id="wsRequired">&mdash;</span></div>
+            <div class="result-row"><span class="k">Derating factor</span><span class="v" id="wsFactor">&mdash;</span></div>
+            <div class="result-row"><span class="k">Table ampacity</span><span class="v" id="wsBase">&mdash;</span></div>
+            <div class="result-row"><span class="k">Ampacity after derating</span><span class="v" id="wsDerated">&mdash;</span></div>
+            <div class="result-row" id="wsDropRow" style="display:none;"><span class="k">Voltage drop</span><span class="v" id="wsDrop">&mdash;</span></div>
+          </div>
+          <div class="recommend-box" id="wsNote" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:8px;">
+      Based on NEC (NFPA 70) Table 310.16 for insulated conductors in raceway, cable or earth at 30&deg;C ambient,
+      with ambient correction from Table 310.15(B)(1) and the bundling adjustment from 310.15(C)(1). Voltage drop uses
+      DC resistance at 20&deg;C for a two-wire run. This is a planning calculation, not a code compliance check;
+      confirm the result against the code edition, local rules and the equipment terminals that apply to your job.
+    </div>
+
+    <article class="article">
+      <h2>How to choose the right wire size</h2>
+      <p>
+        Wire is sized so that it never gets hotter than its insulation allows. The current a conductor can carry
+        without overheating is called its ampacity, and it depends on the metal, the size, the insulation temperature
+        rating, and the conditions it runs in. This calculator walks through that in the same order an installer would
+        on paper: find the load, add the continuous-load margin, apply derating, pick the size, then check voltage drop.
+      </p>
+
+      <h2>Step 1: Find the load current</h2>
+      <p>
+        If you know the current, enter it directly. If you only have power in watts, switch the input to watts and enter
+        the supply voltage; the calculator divides power by voltage. For motors, heaters and cameras with IR lights,
+        use the maximum running current from the nameplate or datasheet, not an idle figure.
+      </p>
+
+      <h2>Step 2: Continuous loads need 125%</h2>
+      <p>
+        A load that runs for three hours or more counts as continuous. The conductor and its overcurrent device must be
+        sized for 125% of that load. A 16 A continuous load therefore needs a conductor with at least 20 A of usable
+        ampacity. Tick the box and the calculator does the multiplication for you.
+      </p>
+
+      <h2>Step 3: Pick the temperature column</h2>
+      <p>
+        Table 310.16 lists three ratings: 60&deg;C, 75&deg;C and 90&deg;C. The conductor can only be used at the lowest
+        rating of anything it connects to. Most breakers and lugs are rated 60&deg;C or 75&deg;C, so 75&deg;C is the
+        safe default for most circuits. The 90&deg;C column is mainly useful as a starting value when you have heavy
+        derating, because the derating is applied to the higher number.
+      </p>
+      <table>
+        <thead><tr><th>Size (AWG)</th><th>Copper 60&deg;C</th><th>Copper 75&deg;C</th><th>Copper 90&deg;C</th></tr></thead>
+        <tbody>
+          <tr><td>14</td><td>15 A</td><td>20 A</td><td>25 A</td></tr>
+          <tr><td>12</td><td>20 A</td><td>25 A</td><td>30 A</td></tr>
+          <tr><td>10</td><td>30 A</td><td>35 A</td><td>40 A</td></tr>
+          <tr><td>8</td><td>40 A</td><td>50 A</td><td>55 A</td></tr>
+          <tr><td>6</td><td>55 A</td><td>65 A</td><td>75 A</td></tr>
+          <tr><td>4</td><td>70 A</td><td>85 A</td><td>95 A</td></tr>
+          <tr><td>2</td><td>95 A</td><td>115 A</td><td>130 A</td></tr>
+          <tr><td>1/0</td><td>125 A</td><td>150 A</td><td>170 A</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Step 4: Apply derating</h2>
+      <p>
+        Table 310.16 assumes a 30&deg;C ambient and no more than three current-carrying conductors sharing a raceway.
+        Hotter surroundings and crowded conduit both make it harder for a wire to shed heat, so its allowable current
+        goes down. The calculator multiplies the table value by an ambient factor and a bundling factor.
+      </p>
+      <table>
+        <thead><tr><th>Current-carrying conductors</th><th>Adjustment</th></tr></thead>
+        <tbody>
+          <tr><td>1 to 3</td><td>100%</td></tr>
+          <tr><td>4 to 6</td><td>80%</td></tr>
+          <tr><td>7 to 9</td><td>70%</td></tr>
+          <tr><td>10 to 20</td><td>50%</td></tr>
+          <tr><td>21 to 30</td><td>45%</td></tr>
+          <tr><td>31 to 40</td><td>40%</td></tr>
+          <tr><td>41 or more</td><td>35%</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Step 5: Small-conductor limit</h2>
+      <p>
+        Even when the table ampacity looks higher, the NEC caps overcurrent protection for the smallest sizes. Copper
+        14 AWG is limited to 15 A, 12 AWG to 20 A and 10 AWG to 30 A (aluminum 12 AWG to 15 A, 10 AWG to 25 A). The
+        calculator will not choose a size that breaks this rule, which is why a 20 A circuit lands on 12 AWG and not on
+        14 AWG even though 14 AWG has a 75&deg;C table value of 20 A.
+      </p>
+
+      <h2>Step 6: Check voltage drop on long runs</h2>
+      <p>
+        A wire that is safe for heat can still be too thin for a long run, because resistance grows with length and the
+        load ends up with less voltage. Many designers aim for about 3% on a branch circuit and 5% overall, but your
+        equipment datasheet or local rules come first. Enter the one-way length and the calculator steps up to a thicker
+        size until the drop is within your limit. For AC power factor, conduit effects, or three-phase work, use
+        the full <a href="voltage-drop-calculator">Voltage Drop Calculator</a>.
+      </p>
+
+      <h2>Worked examples</h2>
+      <h3>Example 1: 20 A circuit, copper, 75&deg;C</h3>
+      <p>
+        Load 20 A, not continuous, 30&deg;C, three conductors. Required ampacity is 20 A. 14 AWG has a 75&deg;C value of
+        20 A but is limited to 15 A of protection, so the result is 12 AWG (25 A table value).
+      </p>
+      <h3>Example 2: 20 A continuous, hot space, long run</h3>
+      <p>
+        Load 20 A continuous, 40&deg;C ambient, six conductors, 150 ft at 120 V, 3% allowed drop. Required is 25 A. The
+        derating factor is 0.88 &times; 0.80 = 0.70, so 8 AWG (50 A at 75&deg;C) gives about 35 A and passes on heat.
+        At 150 ft it drops more than 3%, so the calculator moves up to 6 AWG, which lands at about 2% drop.
+      </p>
+
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Forgetting the 125% rule on loads that run for hours, such as lighting, heaters and EV chargers.</li>
+        <li>Using the 90&deg;C column to size the circuit when the breaker or terminal is only rated 60&deg;C or 75&deg;C.</li>
+        <li>Counting only the circuit you are adding and ignoring other current-carrying conductors in the same conduit.</li>
+        <li>Using the round-trip length instead of the one-way length for voltage drop.</li>
+        <li>Ignoring a hot attic, roof run or sun-exposed conduit where the ambient is well above 30&deg;C.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How do I choose the right wire size?</h3>
+      <p>Work out the load current (multiply by 1.25 for continuous loads), then pick the smallest conductor whose derated ampacity is at least that value. Derating covers high ambient temperature and more than three current-carrying conductors in one raceway. Finally, check voltage drop on long runs and move up a size if it is too high.</p>
+      <h3>What is the difference between the 60°C, 75°C and 90°C columns?</h3>
+      <p>They are the insulation temperature ratings in NEC Table 310.16. Most breakers and terminals are rated for 60°C or 75°C, so the 90°C column is normally used only as a starting value for derating, not for sizing the circuit on its own. If you are unsure, choose 75°C.</p>
+      <h3>Why does the calculator use 125% for continuous loads?</h3>
+      <p>A continuous load runs for three hours or more. The NEC requires the conductor and overcurrent device to be sized for 125% of that load, which is why the checkbox multiplies your current by 1.25.</p>
+      <h3>Does this include voltage drop?</h3>
+      <p>Yes, optionally. Enter the supply voltage and one-way length and the calculator checks the drop for the ampacity-based size, then steps up to a thicker size until the drop is within your limit. It uses DC resistance at 20°C for a two-wire run.</p>
+      <h3>Can I use this for aluminum wire?</h3>
+      <p>Yes. Aluminum has a lower ampacity than copper for the same size and no 14 AWG row, so the calculator starts at 12 AWG for aluminum.</p>
+      <h3>Is this a substitute for the electrical code?</h3>
+      <p>No. It is a planning aid based on NEC Table 310.16 for conductors in raceway or cable at 30°C ambient. Always confirm sizing against the code edition and local rules that apply to your job.</p>
+
+      <h2>Related tools</h2>
+      <p>
+        After sizing the wire, run the full <a href="voltage-drop-calculator">Voltage Drop Calculator</a>, check
+        enclosure space with the <a href="electrical-box-fill-calculator">Electrical Box Fill Calculator</a>, or plan
+        low-voltage camera runs with the <a href="poe-budget-calculator">PoE Budget Calculator</a>. For a plain-language
+        walkthrough, read <a href="../blog/how-to-choose-wire-size">How to Choose the Right Wire Size</a>.
+      </p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=Wire%20Size%20Calculator">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
+    </article>
+    </div>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and guides for CCTV, PoE, and electrical installers.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your equipment manufacturer's own datasheet.</span>
+  </div>
+</footer>
+
+<script src="../assets/wire-size.js?v=20261024" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/calc-ux.js?v=20260925-2" defer></script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Choose the Right Wire Size (AWG) for Any Circuit — GaugeCalc</title>
+<meta name="description" content="A step-by-step guide to choosing wire size: load current, the 125% rule, temperature ratings, derating for heat and crowded conduit, and a voltage drop check.">
+<link rel="canonical" href="https://gaugecalc.com/blog/how-to-choose-wire-size">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="How to Choose the Right Wire Size (AWG) for Any Circuit">
+<meta property="og:description" content="A step-by-step guide to choosing wire size: load current, the 125% rule, temperature ratings, derating for heat and crowded conduit, and a voltage drop check.">
+<meta property="og:url" content="https://gaugecalc.com/blog/how-to-choose-wire-size">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Choose the Right Wire Size (AWG) for Any Circuit">
+<meta name="twitter:description" content="A step-by-step guide to choosing wire size: load current, the 125% rule, temperature ratings, derating for heat and crowded conduit, and a voltage drop check.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20260923">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Choose the Right Wire Size (AWG) for Any Circuit",
+  "description": "A step-by-step guide to choosing wire size: load current, the 125% rule, temperature ratings, derating for heat and crowded conduit, and a voltage drop check.",
+  "image": "https://gaugecalc.com/assets/og-image.jpg",
+  "author": { "@type": "Person", "name": "Ali Zafar" },
+  "publisher": { "@type": "Organization", "name": "GaugeCalc", "url": "https://gaugecalc.com/" },
+  "datePublished": "2026-10-24",
+  "dateModified": "2026-10-24",
+  "mainEntityOfPage": "https://gaugecalc.com/blog/how-to-choose-wire-size"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gaugecalc.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://gaugecalc.com/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "How to Choose the Right Wire Size (AWG) for Any Circuit", "item": "https://gaugecalc.com/blog/how-to-choose-wire-size" }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / <a href="./">Guides</a> / Choosing Wire Size</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <span class="eyebrow">Field guide · Electrical &amp; wiring</span>
+      <h1>How to Choose the Right Wire Size (AWG) for Any Circuit</h1>
+      <p class="lead">
+        Written for installers: how to go from a load in amps to a wire size you can defend, covering the 125% rule,
+        temperature ratings, derating and voltage drop, with two worked examples.
+      </p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Ali Zafar &middot; Last updated: October 2026</p>
+    </section>
+
+    <article class="article" style="margin-top:8px;">
+
+      <h2>Why wire size matters</h2>
+      <p>
+        Too-thin wire is the quiet cause of a lot of field problems. It can overheat inside a wall, trip a breaker
+        for no obvious reason, or starve a device of voltage so it works in the morning and fails at night. Choosing the
+        size is not hard, but it is a sequence of small checks, and skipping any one of them is how mistakes get in.
+        The <a href="../tools/wire-size-calculator">Wire Size Calculator</a> runs the whole sequence below, so use this
+        guide to understand each step and the calculator to get the number.
+      </p>
+
+      <h2>Ampacity in plain words</h2>
+      <p>
+        Ampacity is the most current a wire can carry continuously without its insulation getting too hot. A thicker
+        wire has less resistance, so it makes less heat for the same current and can carry more. It also depends on the
+        metal: copper carries more than aluminum of the same size. In AWG, remember that a smaller number means a
+        thicker wire, so 10 AWG is thicker than 14 AWG.
+      </p>
+      <p>
+        In the United States the reference is NEC Table 310.16. It gives one value per size for each insulation rating
+        (60&deg;C, 75&deg;C and 90&deg;C), assuming a 30&deg;C ambient and no more than three current-carrying conductors
+        in the raceway. Everything else in this guide is an adjustment to that starting value.
+      </p>
+
+      <h2>The six-step method</h2>
+      <h3>1. Find the real load</h3>
+      <p>
+        Use the maximum running current from the nameplate or datasheet. If you only know watts, divide by the supply
+        voltage. A camera with IR lights, a motor starting, or a heater all draw more than their idle figure, and the
+        wire has to handle the worst case.
+      </p>
+      <h3>2. Add 25% for continuous loads</h3>
+      <p>
+        If the load runs for three hours or more, multiply the current by 1.25. A 16 A continuous load is treated as
+        20 A when choosing the wire and the breaker. Lighting, space heaters, EV chargers and many pumps fall into this
+        group.
+      </p>
+      <h3>3. Choose the temperature column</h3>
+      <p>
+        A wire is only as good as the weakest part it connects to. If the breaker lugs are rated 75&deg;C, you size the
+        wire against the 75&deg;C column even if the insulation is rated 90&deg;C. When in doubt, use 75&deg;C.
+      </p>
+      <h3>4. Derate for heat and crowding</h3>
+      <p>
+        A wire in a hot attic or a conduit full of other loaded wires cannot lose heat as easily, so its allowable current
+        drops. Multiply the table value by the ambient correction and by the bundling factor.
+      </p>
+      <table>
+        <thead><tr><th>Situation</th><th>Typical effect</th></tr></thead>
+        <tbody>
+          <tr><td>Ambient 40&deg;C with 75&deg;C wire</td><td>Table value &times; 0.88</td></tr>
+          <tr><td>4 to 6 current-carrying conductors</td><td>Table value &times; 0.80</td></tr>
+          <tr><td>7 to 9 current-carrying conductors</td><td>Table value &times; 0.70</td></tr>
+          <tr><td>10 to 20 current-carrying conductors</td><td>Table value &times; 0.50</td></tr>
+        </tbody>
+      </table>
+      <h3>5. Respect the small-wire limit</h3>
+      <p>
+        The code limits protection on the smallest copper sizes to 15 A for 14 AWG, 20 A for 12 AWG and 30 A for
+        10 AWG. That is why 12 AWG, not 14 AWG, is the answer for a 20 A circuit even though the 75&deg;C table value
+        for 14 AWG looks high enough.
+      </p>
+      <h3>6. Check voltage drop</h3>
+      <p>
+        Even a wire that passes on heat can be too long for its size. Voltage drop is current times the loop resistance
+        of the run, and resistance grows with length. A common planning target is about 3% on a branch circuit, but the
+        equipment datasheet decides. If the drop is too high, go up one or two sizes until it passes.
+      </p>
+
+      <h2>Worked example: a long run in a hot space</h2>
+      <p>
+        A 20 A continuous load, 40&deg;C ambient, six current-carrying conductors in one conduit, 150 ft at 120 V,
+        copper at 75&deg;C, 3% allowed drop.
+      </p>
+      <ul>
+        <li>Required current: 20 A &times; 1.25 = 25 A.</li>
+        <li>Derating: 0.88 (heat) &times; 0.80 (six conductors) = 0.70.</li>
+        <li>8 AWG is 50 A at 75&deg;C, so 50 &times; 0.70 = 35 A, which is above 25 A. Heat passes.</li>
+        <li>At 150 ft, 8 AWG drops more than 3%, so move to 6 AWG, which comes out near 2%.</li>
+      </ul>
+      <p>
+        The answer is 6 AWG. Without the voltage drop step, an installer would have stopped at 8 AWG and left the load
+        short of voltage at the far end.
+      </p>
+
+      <h2>Mistakes to avoid</h2>
+      <ul>
+        <li>Sizing by breaker size alone and never looking at the actual load and conditions.</li>
+        <li>Using the 90&deg;C column to size a circuit that ends on 75&deg;C terminals.</li>
+        <li>Forgetting that neutral and grounding conductors are not always counted the same way in the bundling rule.</li>
+        <li>Using the round-trip length instead of the one-way length in a voltage drop formula.</li>
+        <li>Mixing up AWG and mm&sup2;: they are separate systems and should not be converted by eye.</li>
+      </ul>
+
+      <h2>Where this guide stops</h2>
+      <p>
+        This is a planning guide, not a code book. Motors, transformers, long continuous runs, high temperatures and
+        special locations have their own rules, and the edition of the code adopted in your area decides what is
+        allowed. Use the result as a check on your design, then confirm it against the rules that apply to the job.
+        For low-voltage camera runs, see <a href="cctv-voltage-drop-calculator-camera-offline-at-night">why cameras fail
+        after dark</a> and the <a href="../tools/voltage-drop-calculator">Voltage Drop Calculator</a>.
+      </p>
+
+      <div class="note-box">
+        <strong>Next step:</strong> put your numbers into the
+        <a href="../tools/wire-size-calculator">Wire Size Calculator</a> and compare the result with your own working.
+      </div>
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </aside>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and guides for CCTV, PoE, and electrical installers.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+          <a href="/blog/cctv-voltage-drop-calculator-camera-offline-at-night">Voltage Drop at Night</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Field guidance only — always confirm against your equipment's manual and local code.</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="../assets/nav.js?v=20261009" defer></script>
+<script src="../assets/theme.js" defer></script>
+</body>
+</html>
