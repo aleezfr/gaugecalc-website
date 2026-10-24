@@ -403,7 +403,7 @@ test('Integration: sitemap, nav, homepage, protection of internal docs', () => {
   const idx = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   assert.ok(idx.includes('tools/electrical-box-fill-calculator'));
   const ld = JSON.parse(/"@type": "ItemList"[\s\S]*?<\/script>/.test(idx) ? ('{' + /"@type": "ItemList"[\s\S]*?(?=<\/script>)/.exec(idx)[0]) : '{}');
-  eq(ld.itemListElement.length, 10);
+  eq(ld.itemListElement.length, 12);
   ld.itemListElement.forEach((e, i) => eq(e.position, i + 1));
   eq(ld.itemListElement.filter((e) => /electrical-box-fill-calculator$/.test(e.url)).length, 1);
   const hd = fs.readFileSync(path.join(ROOT, '_headers'), 'utf8');
