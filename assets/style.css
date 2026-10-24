@@ -80,7 +80,7 @@
     --border-strong: #33404b;
     --text: #edf3f7;
     --text-muted: #a7b6c2;
-    --text-faint: #76858f;
+    --text-faint: #8d9ca7;
 
     --brand: #4aa8ff;
     --brand-dark: #2f86e0;
@@ -116,7 +116,7 @@
   --border-strong: #33404b;
   --text: #edf3f7;
   --text-muted: #a7b6c2;
-  --text-faint: #76858f;
+  --text-faint: #8d9ca7;
 
   --brand: #4aa8ff;
   --brand-dark: #2f86e0;
@@ -171,6 +171,7 @@ img { max-width: 100%; }
 
 a { color: var(--brand-dark); text-decoration: none; transition: color var(--dur-fast) var(--ease); }
 a:hover { text-decoration: underline; text-underline-offset: 2px; }
+main p a:not(.btn), main li a:not(.btn), main td a:not(.btn), main dd a:not(.btn) { text-decoration: underline; text-underline-offset: 2px; }
 
 /* Accessible, visible focus ring everywhere — never remove, only restyle */
 :focus-visible {
