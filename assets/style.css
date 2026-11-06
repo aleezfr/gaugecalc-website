@@ -2032,3 +2032,31 @@ html.gc-search-open body { overflow: hidden; }
   :root:not([data-theme="light"]) .status-pill.ok { color: var(--brand); }
 }
 :root[data-theme="dark"] .status-pill.ok { color: var(--brand); }
+
+/* ---------- Network tools: binary view, RAID cards, app-only cards ---------- */
+.bits { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; line-height: 1.9; overflow-x: auto; }
+.bits-row { display: flex; align-items: center; gap: 0; white-space: nowrap; }
+.bits-label { display: inline-block; min-width: 4.6em; margin-right: 8px; color: var(--text-faint); font-size: 0.72rem; }
+.bit-net, .bit-host { display: inline-block; min-width: 0.62em; text-align: center; }
+.bit-net { color: var(--brand); font-weight: 700; }
+.bit-host { color: var(--text-faint); }
+.bit-dot { color: var(--text-faint); padding: 0 1px; }
+.raid-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 14px; }
+.raid-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; background: var(--surface); }
+.raid-card h3 { margin: 0 0 4px; font-size: 0.95rem; }
+.raid-card.is-off { opacity: 0.7; border-style: dashed; }
+.raid-big { font-family: "IBM Plex Mono", monospace; font-size: 1.25rem; font-weight: 700; margin: 0 0 6px; }
+.raid-bar { height: 6px; background: var(--surface-alt); border-radius: 3px; margin-bottom: 8px; overflow: hidden; }
+.raid-bar span { display: block; height: 100%; background: var(--brand); }
+.dns-data { word-break: break-all; text-align: right; }
+.app-cards { margin: 20px 0 8px; }
+.app-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.app-card { border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); padding: 12px 14px; background: var(--surface); }
+.app-card h3 { margin: 0 0 4px; font-size: 0.95rem; }
+.app-card p { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
+.calc-layout > .panel { min-width: 0; }
+.bits { max-width: 100%; }
+.bits-row { width: max-content; }
+#v6Results .result-row, #v4Results .result-row, #dnsResults .result-row { gap: 12px; }
+#v6Results .result-row .v, #v4Results .result-row .v { overflow-wrap: anywhere; text-align: right; min-width: 0; }
+#v6Network, #v4Network { overflow-wrap: anywhere; word-break: break-all; }

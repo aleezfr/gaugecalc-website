@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ports and Protocols for CCTV and IP Networks (RTSP, HTTP, NTP and More) — GaugeCalc</title>
+<meta name="description" content="A plain-language list of the standard ports and protocols you meet on IP camera networks: RTSP 554, HTTP 80, HTTPS 443, NTP 123, SNMP 161 and more, checked against the IANA registry.">
+<link rel="canonical" href="https://gaugecalc.com/blog/ports-and-protocols-for-cctv-networks">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="Ports and Protocols for CCTV and IP Networks">
+<meta property="og:description" content="A plain-language list of the standard ports and protocols you meet on IP camera networks: RTSP 554, HTTP 80, HTTPS 443, NTP 123, SNMP 161 and more, checked against the IANA registry.">
+<meta property="og:url" content="https://gaugecalc.com/blog/ports-and-protocols-for-cctv-networks">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ports and Protocols for CCTV and IP Networks">
+<meta name="twitter:description" content="A plain-language list of the standard ports and protocols you meet on IP camera networks: RTSP 554, HTTP 80, HTTPS 443, NTP 123, SNMP 161 and more, checked against the IANA registry.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20261106d">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Ports and Protocols for CCTV and IP Networks",
+  "description": "A plain-language list of the standard ports and protocols you meet on IP camera networks: RTSP 554, HTTP 80, HTTPS 443, NTP 123, SNMP 161 and more, checked against the IANA registry.",
+  "image": "https://gaugecalc.com/assets/og-image.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Ali Zafar"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  },
+  "datePublished": "2026-11-06",
+  "dateModified": "2026-11-06",
+  "mainEntityOfPage": "https://gaugecalc.com/blog/ports-and-protocols-for-cctv-networks"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://gaugecalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guides",
+      "item": "https://gaugecalc.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Ports and Protocols for CCTV and IP Networks",
+      "item": "https://gaugecalc.com/blog/ports-and-protocols-for-cctv-networks"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which port does RTSP use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RTSP uses port 554, and 8554 is the usual alternate. Plain RTSP does not encrypt the video."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which ports should I never open to the internet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Management ports such as Telnet (23), Remote Desktop (3389), SSH (22) and SNMP (161), unless you have a specific, protected reason. Use a VPN instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between port 80 and 443?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Port 80 is HTTP, with no encryption. Port 443 is HTTPS, which uses TLS. Use 443 for a camera or recorder web interface whenever the device supports it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do cameras need NTP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cameras and recorders need the same correct time so that their recordings and logs match."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do I find a camera maker's own ports?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the manual of the exact device. They are not in the IANA registry as camera ports."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / <a href="./">Guides</a> / Ports and Protocols</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <span class="eyebrow">Field guide · Networking &amp; PoE</span>
+      <h1>Ports and Protocols for CCTV and IP Networks</h1>
+      <p class="lead">
+        A reference list of the standard ports and protocols you meet when you plan or secure an IP camera network, with what each one does and whether it is encrypted. Port numbers and names were checked against the IANA registry.
+      </p>
+      <p class="byline" style="font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-faint);margin:2px 0 0;">By Ali Zafar &middot; Last updated: November 2026</p>
+    </section>
+
+    <article class="article" style="margin-top:8px;">
+      <h2>How to use this list</h2>
+      <p>Use it when you set up a firewall, open a port to a recorder, or work out why a camera cannot reach a server. The descriptions are in plain words; the service names are written as in the IANA Service Name and Transport Protocol Port Number Registry. Statements about encryption are protocol facts: plain RTSP, HTTP, Telnet, FTP, TFTP, SMTP and MQTT on its default port are not encrypted by the protocol.</p>
+      <div class="warn-box">Opening a port to the internet exposes the device behind it. Keep management ports (22, 23, 3389, 161) on the local network, and use HTTPS or a VPN for remote access.</div>
+
+      <h2>Video and discovery</h2>
+      <table>
+        <thead><tr><th>Port</th><th>Service</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>554</td><td>RTSP</td><td>Real Time Streaming Protocol: how players and recorders ask a camera for a live video stream. Plain RTSP does not encrypt the video.</td></tr>
+          <tr><td>8554</td><td>RTSP (alternate)</td><td>The alternate port for RTSP, used when 554 is taken or blocked.</td></tr>
+          <tr><td>3702</td><td>WS-Discovery</td><td>Web Services Discovery: lets ONVIF tools find cameras on the local network. Usually sent as UDP multicast.</td></tr>
+          <tr><td>1900</td><td>SSDP</td><td>Simple Service Discovery Protocol, used by UPnP to find devices. Keep it off the internet and switch UPnP off on cameras.</td></tr>
+          <tr><td>5353</td><td>mDNS</td><td>Multicast DNS: devices announce their names on the local network without a DNS server.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Web and remote access</h2>
+      <table>
+        <thead><tr><th>Port</th><th>Service</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>80</td><td>HTTP</td><td>Web pages without encryption. Many cameras and recorders use it for their web interface; logins and pictures can be read on the network.</td></tr>
+          <tr><td>443</td><td>HTTPS</td><td>Web pages over TLS. Use it for the camera web interface whenever the device supports it.</td></tr>
+          <tr><td>8080</td><td>HTTP (alternate)</td><td>The alternate port for HTTP, often used when port 80 is taken or blocked.</td></tr>
+          <tr><td>22</td><td>SSH</td><td>Secure Shell: an encrypted remote command line. Some devices offer it for support; switch it off if you do not use it.</td></tr>
+          <tr><td>23</td><td>Telnet</td><td>A remote command line with no encryption. Switch it off on cameras and recorders.</td></tr>
+          <tr><td>3389</td><td>RDP</td><td>Remote Desktop: the remote screen of a Windows PC, for example a PC that runs video software. Do not open it to the internet.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Network services</h2>
+      <table>
+        <thead><tr><th>Port</th><th>Service</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>53</td><td>DNS</td><td>Domain Name System: turns names into IP addresses. Cameras use it for a server name or a cloud address.</td></tr>
+          <tr><td>67</td><td>DHCP (server)</td><td>The DHCP server port: it hands out IP addresses to devices that ask. A camera set to automatic addressing gets its address this way.</td></tr>
+          <tr><td>68</td><td>DHCP (client)</td><td>The DHCP client port: where a device receives the answer from the DHCP server.</td></tr>
+          <tr><td>69</td><td>TFTP</td><td>Trivial File Transfer Protocol: simple file transfer with no encryption, sometimes used to load firmware. Keep it on the local network.</td></tr>
+          <tr><td>123</td><td>NTP</td><td>Network Time Protocol: sets the clock. Cameras and recorders need the same correct time so that their recordings match.</td></tr>
+          <tr><td>161</td><td>SNMP</td><td>Simple Network Management Protocol: lets a monitoring tool read the status of switches and other devices. Usually UDP.</td></tr>
+          <tr><td>162</td><td>SNMP trap</td><td>The port on which a monitoring server receives alerts that devices send by themselves (SNMP traps).</td></tr>
+          <tr><td>389</td><td>LDAP</td><td>Lightweight Directory Access Protocol: a central user directory, used by some recorders and software to sign users in against a company directory.</td></tr>
+          <tr><td>514</td><td>Syslog</td><td>Syslog over UDP: devices send their log messages to a log server.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Files and mail</h2>
+      <table>
+        <thead><tr><th>Port</th><th>Service</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>21</td><td>FTP</td><td>File Transfer Protocol: file transfer with no encryption. Some cameras upload pictures with it; the password is sent in clear text.</td></tr>
+          <tr><td>25</td><td>SMTP</td><td>Sending mail between servers. Some cameras use it for alarm e-mails; it is usually not encrypted.</td></tr>
+          <tr><td>587</td><td>Mail submission</td><td>Mail submission from a device or app to a mail server, usually with a login. The usual port for camera alarm e-mails.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Messaging and calls</h2>
+      <table>
+        <thead><tr><th>Port</th><th>Service</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>1883</td><td>MQTT</td><td>Message Queuing Telemetry Transport: small messages for smart-home and IoT systems. Not encrypted on this port.</td></tr>
+          <tr><td>8883</td><td>MQTT over TLS</td><td>MQTT over TLS: the encrypted version of MQTT.</td></tr>
+          <tr><td>5060</td><td>SIP</td><td>Session Initiation Protocol: starts and ends voice and video calls, for example for door stations and intercoms.</td></tr>
+          <tr><td>5061</td><td>SIP over TLS</td><td>SIP over TLS: the encrypted version of SIP.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>What is not listed, on purpose</h2>
+      <p>Manufacturers' own ports, such as the service ports of particular camera brands, are not in the IANA registry as camera ports, so they are not listed here. Use the manual of the exact device for those. Port 8443 is left out because IANA assigns it to another service, so it is not the registered web alternate, and 1935 because the registry text names a different product.</p>
+
+      <h2>Worked example</h2>
+      <p>A recorder will be viewed in a browser from another building. HTTPS on 443 carries the web interface with encryption, RTSP on 554 carries video to players (not encrypted), and NTP on 123 keeps the clocks right. Do not forward 23 or 3389 to the internet.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Which port does RTSP use?</h3>
+      <p>RTSP uses port 554, and 8554 is the usual alternate. Plain RTSP does not encrypt the video.</p>
+      <h3>Which ports should I never open to the internet?</h3>
+      <p>Management ports such as Telnet (23), Remote Desktop (3389), SSH (22) and SNMP (161), unless you have a specific, protected reason. Use a VPN instead.</p>
+      <h3>What is the difference between port 80 and 443?</h3>
+      <p>Port 80 is HTTP, with no encryption. Port 443 is HTTPS, which uses TLS. Use 443 for a camera or recorder web interface whenever the device supports it.</p>
+      <h3>Why do cameras need NTP?</h3>
+      <p>Cameras and recorders need the same correct time so that their recordings and logs match.</p>
+      <h3>Where do I find a camera maker's own ports?</h3>
+      <p>In the manual of the exact device. They are not in the IANA registry as camera ports.</p>
+
+      <div class="note-box">
+        <strong>Next step:</strong> plan the addresses with the <a href="../tools/ipv4-subnet-calculator">IPv4 Subnet Calculator</a> and check names with the <a href="../tools/dns-lookup">DNS Lookup</a>.
+      </div>
+    </article>
+    </div>
+
+    <aside class="ad-sidebar">
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+      <!-- AdSense placeholder disabled pending approval:
+<div class="ad-slot ad-slot--rect" role="complementary" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+      </div>
+-->
+    </aside>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and guides for CCTV, PoE, and electrical installers.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+          <a href="/blog/cctv-voltage-drop-calculator-camera-offline-at-night">Voltage Drop at Night</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Field guidance only — always confirm against your equipment's manual and local code.</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="../assets/nav.js?v=20261009" defer></script>
+<script src="../assets/theme.js" defer></script>
+</body>
+</html>

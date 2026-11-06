@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPv4 Subnet Calculator (Free, with Binary View) — GaugeCalc</title>
+<meta name="description" content="Free IPv4 subnet calculator: enter an address and prefix and get the network, mask, wildcard, broadcast, usable host range, host count, address type and a binary view of the network and host bits.">
+<link rel="canonical" href="https://gaugecalc.com/tools/ipv4-subnet-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="IPv4 Subnet Calculator (Free, with Binary View) — GaugeCalc">
+<meta property="og:description" content="Free IPv4 subnet calculator: enter an address and prefix and get the network, mask, wildcard, broadcast, usable host range, host count, address type and a binary view of the network and host bits.">
+<meta property="og:url" content="https://gaugecalc.com/tools/ipv4-subnet-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IPv4 Subnet Calculator (Free, with Binary View) — GaugeCalc">
+<meta name="twitter:description" content="Free IPv4 subnet calculator: enter an address and prefix and get the network, mask, wildcard, broadcast, usable host range, host count, address type and a binary view of the network and host bits.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20261106d">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "IPv4 Subnet Calculator",
+  "url": "https://gaugecalc.com/tools/ipv4-subnet-calculator",
+  "description": "Free IPv4 subnet calculator: enter an address and prefix and get the network, mask, wildcard, broadcast, usable host range, host count, address type and a binary view of the network and host bits.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://gaugecalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "IPv4 Subnet Calculator",
+      "item": "https://gaugecalc.com/tools/ipv4-subnet-calculator"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many usable hosts are in a /24?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A /24 has 256 addresses and 254 usable hosts, because the network address and the broadcast address cannot be assigned to devices."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a wildcard mask?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The wildcard mask is the subnet mask with every bit flipped. For 255.255.255.0 it is 0.0.0.255. Some routers and firewalls use it in access lists."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a /31 be used for a link between two devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, RFC 3021 allows a /31 with two usable addresses on a point-to-point link. Both devices must support it, otherwise use a /30."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is 192.168.1.10 a public or private address?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is private (RFC 1918). It is not routed on the internet, so devices behind a router can reuse it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my addresses sent anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The calculation runs in your browser. Nothing you type is sent to GaugeCalc or anyone else."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / IPv4 Subnet Calculator</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar &middot; Last updated November 2026</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>IPv4 Subnet Calculator</h1>
+      <p class="lead">
+        Enter an IPv4 address and a prefix length (like /24). You get the network address, subnet mask, wildcard, broadcast, the first and last usable host, the host count, what kind of address it is, and a bit-by-bit view that shows which bits are network and which are host. You can also split the network into smaller equal subnets.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <form class="panel" id="v4Form" novalidate>
+        <h2>IPv4 address</h2>
+        <div class="field"><label for="v4Address">IPv4 address</label><input type="text" id="v4Address" value="192.168.1.10" autocomplete="off" spellcheck="false" inputmode="decimal"><span class="hint"><strong>What it is:</strong> the address of one device in the network, four numbers from 0 to 255. <strong>How to choose:</strong> use the address printed in the camera, NVR or router settings. <strong>Example:</strong> 192.168.1.10.</span><p class="field-error" id="v4AddressError" role="alert" style="display:none;"></p></div>
+        <div class="field"><label for="v4Prefix">Prefix length (bits)</label><input type="number" id="v4Prefix" value="24" min="0" max="32" step="1" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> how many leading bits are the network (0 to 32). 24 is the same as mask 255.255.255.0. <strong>How to choose:</strong> a small office or camera VLAN is usually /24; a point-to-point link can use /30 or /31. <strong>Example:</strong> 24.</span><p class="field-error" id="v4PrefixError" role="alert" style="display:none;"></p></div>
+        <div class="field"><label for="v4Split">Split into subnets of prefix (optional)</label><input type="number" id="v4Split" value="" min="0" max="32" step="1" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> a longer prefix to cut this network into equal smaller subnets. <strong>How to choose:</strong> leave empty to skip; it must be longer than the prefix above and at most 32. <strong>Example:</strong> with 192.168.1.0/24, enter 26 to get four /26 subnets.</span></div>
+      </form>
+
+      <div class="panel result-panel">
+        <p class="field-error" id="v4Error" role="alert" style="display:none;"></p>
+        <div id="v4Results" aria-live="polite" role="status">
+          <h2>Subnet</h2>
+          <div class="result-hero">
+            <span class="value" id="v4Network">&mdash;</span>
+            <div class="caption" id="v4Caption">&mdash;</div>
+          </div>
+          <div class="result-list">
+            <div class="result-row"><span class="k">Subnet mask</span><span class="v" id="v4Mask">&mdash;</span></div>
+            <div class="result-row"><span class="k">Wildcard mask</span><span class="v" id="v4Wildcard">&mdash;</span></div>
+            <div class="result-row"><span class="k">Broadcast address</span><span class="v" id="v4Broadcast">&mdash;</span></div>
+            <div class="result-row"><span class="k">Usable host range</span><span class="v" id="v4Range">&mdash;</span></div>
+            <div class="result-row"><span class="k">Usable hosts</span><span class="v" id="v4Hosts">&mdash;</span></div>
+            <div class="result-row"><span class="k">Total addresses</span><span class="v" id="v4Total">&mdash;</span></div>
+            <div class="result-row"><span class="k">Address type</span><span class="v" id="v4Kind">&mdash;</span></div>
+          </div>
+          <h3 style="margin-top:16px;">Binary view</h3>
+          <div class="bits" id="v4Bits" aria-label="The 32 bits of the address, mask and network"></div>
+          <p class="hint"><span class="bit-net">1</span> network bits &nbsp; <span class="bit-host">0</span> host bits.</p>
+          <h3 style="margin-top:16px;">Subnets</h3>
+          <p class="hint" id="v4SplitNote"></p>
+          <div class="result-list" id="v4SplitList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:8px;">Planning tool. It cannot see your network, so it never checks whether an address is already in use. At most 64 subnets are listed when you split.</div>
+
+    <article class="article">
+      <h2>How the subnet maths works</h2>
+      <p>An IPv4 address is a 32-bit number. The mask has the first <em>prefix</em> bits set to 1. The network address is the address AND the mask. The broadcast address is the network address OR the wildcard (the mask with every bit flipped). Usable hosts are 2<sup>(32 &minus; prefix)</sup> minus 2, because the network and broadcast addresses cannot be given to a device.</p>
+      <h2>Special cases: /31 and /32</h2>
+      <p>A /31 has two addresses and both are usable on a point-to-point link (RFC 3021), as long as both ends support it. A /32 is a single host. For every other prefix the network and broadcast addresses are subtracted.</p>
+      <h2>Address types</h2>
+      <p>The type follows the IANA special-purpose registry: <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> and <code>192.168.0.0/16</code> are private (RFC 1918); <code>100.64.0.0/10</code> is shared carrier-grade NAT space (RFC 6598); <code>127.0.0.0/8</code> is loopback; <code>169.254.0.0/16</code> is link-local; <code>192.0.2.0/24</code>, <code>198.51.100.0/24</code> and <code>203.0.113.0/24</code> are for documentation (RFC 5737); <code>224.0.0.0/4</code> is multicast.</p>
+      <h2>Worked examples</h2>
+      <h3>192.168.1.10/24</h3>
+      <p>Mask 255.255.255.0, network 192.168.1.0, broadcast 192.168.1.255, usable hosts 192.168.1.1 to 192.168.1.254, which is 254 hosts.</p>
+      <h3>10.1.2.3/20</h3>
+      <p>Mask 255.255.240.0, network 10.1.0.0, broadcast 10.1.15.255, 4,094 usable hosts.</p>
+      <h2>Binary view</h2>
+      <p>For 192.168.1.10 the address in binary is <code>11000000.10101000.00000001.00001010</code>. With a /24 mask the first 24 bits are network bits and the last 8 are host bits; the view colours them differently so you can see where the boundary falls.</p>
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Putting a camera and its NVR in different subnets without a router between them.</li>
+        <li>Using an address that is the network or broadcast address of the subnet.</li>
+        <li>Leaving no spare room: size the subnet for the cameras you will add later, not only today.</li>
+      </ul>
+      <h2>Frequently asked questions</h2>
+      <h3>How many usable hosts are in a /24?</h3>
+      <p>A /24 has 256 addresses and 254 usable hosts, because the network address and the broadcast address cannot be assigned to devices.</p>
+      <h3>What is a wildcard mask?</h3>
+      <p>The wildcard mask is the subnet mask with every bit flipped. For 255.255.255.0 it is 0.0.0.255. Some routers and firewalls use it in access lists.</p>
+      <h3>Can a /31 be used for a link between two devices?</h3>
+      <p>Yes, RFC 3021 allows a /31 with two usable addresses on a point-to-point link. Both devices must support it, otherwise use a /30.</p>
+      <h3>Is 192.168.1.10 a public or private address?</h3>
+      <p>It is private (RFC 1918). It is not routed on the internet, so devices behind a router can reuse it.</p>
+      <h3>Are my addresses sent anywhere?</h3>
+      <p>No. The calculation runs in your browser. Nothing you type is sent to GaugeCalc or anyone else.</p>
+
+      <h2>Related tools</h2>
+      <p>For IPv6 use the <a href="ipv6-subnet-calculator">IPv6 Subnet Calculator</a>. To see how much network a camera system needs, use the <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a> and the <a href="poe-budget-calculator">PoE Budget Calculator</a>. Port numbers are in the <a href="../blog/ports-and-protocols-for-cctv-networks">Ports and Protocols guide</a>.</p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=IPv4%20Subnet%20Calculator">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
+    </article>
+    </div>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and guides for CCTV, PoE, and electrical installers.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your equipment manufacturer's own datasheet.</span>
+  </div>
+</footer>
+
+<script src="../assets/ipv4-subnet.js?v=20261106" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/calc-ux.js?v=20260925-2" defer></script>
+</body>
+</html>

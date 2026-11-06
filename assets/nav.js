@@ -17,7 +17,8 @@
         { title: 'CCTV Storage Calculator', label: 'CCTV Storage', url: '/tools/cctv-storage-calculator' },
         { title: 'NVR Storage Calculator', label: 'NVR Storage', url: '/tools/nvr-storage-calculator' },
         { title: 'IP Camera Bandwidth Calculator', label: 'IP Camera Bandwidth', url: '/tools/ip-camera-bandwidth-calculator' },
-        { title: 'Field of View Calculator', label: 'Field of View', url: '/tools/field-of-view-calculator' }
+        { title: 'Field of View Calculator', label: 'Field of View', url: '/tools/field-of-view-calculator' },
+        { title: 'RAID Calculator', label: 'RAID', url: '/tools/raid-calculator' }
       ] },
       { slug: 'electrical-wiring', name: 'Electrical & Wiring', url: null, calculators: [
         { title: 'Voltage Drop Calculator', label: 'Voltage Drop', url: '/tools/voltage-drop-calculator' },
@@ -34,7 +35,12 @@
       { slug: 'solar-dc-power', name: 'Solar & DC Power', url: null, calculators: [] },
       { slug: 'motors-industrial', name: 'Motors & Industrial', url: null, calculators: [] },
       { slug: 'networking-poe', name: 'Networking & PoE', url: null, calculators: [
-        { title: 'PoE Budget Calculator', label: 'PoE Budget', url: '/tools/poe-budget-calculator' }
+        { title: 'PoE Budget Calculator', label: 'PoE Budget', url: '/tools/poe-budget-calculator' },
+        { title: 'IPv4 Subnet Calculator', label: 'IPv4 Subnet', url: '/tools/ipv4-subnet-calculator' },
+        { title: 'IPv6 Subnet Calculator', label: 'IPv6 Subnet', url: '/tools/ipv6-subnet-calculator' },
+        { title: 'dBm to mW Converter', label: 'dBm / mW', url: '/tools/dbm-to-mw-converter' },
+        { title: 'EIRP Power Budget Calculator', label: 'EIRP Power Budget', url: '/tools/eirp-power-budget-calculator' },
+        { title: 'DNS Lookup', label: 'DNS Lookup', url: '/tools/dns-lookup' }
       ] },
       { slug: 'lighting', name: 'Lighting', url: null, calculators: [] }
     ],
@@ -48,7 +54,9 @@
       { title: 'PoE Budget Calculator: How Many Cameras Can Your Switch Run?', label: 'PoE Budget Math', url: '/blog/poe-budget-calculator-how-many-cameras' },
       { title: 'CCTV Voltage Drop Calculator: Why Cameras Fail After Dark', label: 'Voltage Drop at Night', url: '/blog/cctv-voltage-drop-calculator-camera-offline-at-night' },
       { title: 'How to Choose the Right Wire Size (AWG) for Any Circuit', label: 'Choosing Wire Size', url: '/blog/how-to-choose-wire-size' },
-      { title: 'Conduit Fill Explained: How Many Wires Fit in a Conduit', label: 'Conduit Fill Explained', url: '/blog/conduit-fill-explained' }
+      { title: 'Conduit Fill Explained: How Many Wires Fit in a Conduit', label: 'Conduit Fill Explained', url: '/blog/conduit-fill-explained' },
+      { title: 'First Login and Reset: What Happens the First Time You Power Up a Camera', label: 'First Login and Reset', url: '/blog/first-login-and-reset-cctv-cameras' },
+      { title: 'Ports and Protocols for CCTV and IP Networks', label: 'Ports and Protocols', url: '/blog/ports-and-protocols-for-cctv-networks' }
     ],
     site: [
       { label: 'About', url: '/about' },

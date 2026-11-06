@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EIRP Calculator (Radio Power Budget, Free) — GaugeCalc</title>
+<meta name="description" content="Free EIRP calculator: enter transmit power, cable and connector losses and antenna gain to get the power at the antenna and the EIRP in dBm and mW, with an optional limit check.">
+<link rel="canonical" href="https://gaugecalc.com/tools/eirp-power-budget-calculator">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="EIRP Calculator (Radio Power Budget, Free) — GaugeCalc">
+<meta property="og:description" content="Free EIRP calculator: enter transmit power, cable and connector losses and antenna gain to get the power at the antenna and the EIRP in dBm and mW, with an optional limit check.">
+<meta property="og:url" content="https://gaugecalc.com/tools/eirp-power-budget-calculator">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EIRP Calculator (Radio Power Budget, Free) — GaugeCalc">
+<meta name="twitter:description" content="Free EIRP calculator: enter transmit power, cable and connector losses and antenna gain to get the power at the antenna and the EIRP in dBm and mW, with an optional limit check.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20261106d">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "EIRP Power Budget Calculator",
+  "url": "https://gaugecalc.com/tools/eirp-power-budget-calculator",
+  "description": "Free EIRP calculator: enter transmit power, cable and connector losses and antenna gain to get the power at the antenna and the EIRP in dBm and mW, with an optional limit check.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://gaugecalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "EIRP Power Budget Calculator",
+      "item": "https://gaugecalc.com/tools/eirp-power-budget-calculator"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is EIRP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "EIRP is the equivalent isotropically radiated power: the transmit power, minus losses before the antenna, plus the antenna gain. It describes how strong the signal is in the antenna's main direction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate EIRP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Subtract the cable, connector and other losses from the transmit power in dBm, then add the antenna gain in dBi."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a longer cable lower the EIRP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Cable loss grows with length, so more cable means less power reaches the antenna and a lower EIRP."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a higher EIRP always better?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Rules in most countries cap the EIRP for each band, and going over it can be illegal and can cause interference."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this include the distance to the other radio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This is the transmit side only. Path loss over distance is a separate step in a link budget."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / EIRP Power Budget Calculator</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar &middot; Last updated November 2026</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>EIRP Power Budget Calculator</h1>
+      <p class="lead">
+        Enter the radio's transmit power, the losses between the radio and the antenna, and the antenna gain. The calculator shows the power that reaches the antenna and the EIRP that leaves it, in dBm and in mW. You can type a legal limit to be warned when you go over it. All losses and gains are your own datasheet figures; nothing is assumed.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <form class="panel" id="pbForm" novalidate>
+        <h2>Radio and antenna</h2>
+      <div class="field-row">
+        <div class="field"><label for="pbTx">Transmit power (dBm)</label><input type="number" id="pbTx" value="20" min="-60" max="60" step="any" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> the power the radio puts out, from its datasheet or settings. <strong>How to choose:</strong> use dBm; convert from mW with the <a href="dbm-to-mw-converter">dBm / mW converter</a>. <strong>Example:</strong> 20 dBm (100 mW).</span></div>
+        <div class="field"><label for="pbGain">Antenna gain (dBi)</label><input type="number" id="pbGain" value="15" min="-10" max="60" step="any" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> how much the antenna concentrates the signal, in dBi. <strong>How to choose:</strong> take it from the antenna datasheet. <strong>Example:</strong> 15 dBi.</span></div>
+      </div>
+        <h2>Losses between the radio and the antenna</h2>
+      <div class="field-row">
+        <div class="field"><label for="pbCable">Cable loss (dB per 100 m)</label><input type="number" id="pbCable" value="20" min="0" max="100" step="any" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> the attenuation of the cable per 100 m at the frequency you use. <strong>How to choose:</strong> read it from the cable datasheet; leave empty for no cable. <strong>Example:</strong> 20 dB per 100 m.</span></div>
+        <div class="field"><label for="pbLength">Cable length (m)</label><input type="number" id="pbLength" value="10" min="0" max="10000" step="any" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> the length of the cable from the radio to the antenna. <strong>How to choose:</strong> measure the real run, not the straight distance. <strong>Example:</strong> 10 m.</span></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="pbConnectors">Number of connectors</label><input type="number" id="pbConnectors" value="2" min="0" max="50" step="1" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> how many connectors the signal passes through. <strong>How to choose:</strong> count each plug-socket joint once. <strong>Example:</strong> 2.</span></div>
+        <div class="field"><label for="pbConnLoss">Loss per connector (dB)</label><input type="number" id="pbConnLoss" value="0.2" min="0" max="5" step="any" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> the loss of one connector, in dB. <strong>How to choose:</strong> use the connector datasheet; leave empty for none. <strong>Example:</strong> 0.2 dB.</span></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="pbOther">Other losses (dB)</label><input type="number" id="pbOther" value="1" min="0" max="60" step="any" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> any other loss, such as a lightning arrestor or a splitter. <strong>How to choose:</strong> add the datasheet values together; leave empty for none. <strong>Example:</strong> 1 dB.</span></div>
+        <div class="field"><label for="pbLimit">EIRP limit (dBm, optional)</label><input type="number" id="pbLimit" value="" min="-30" max="100" step="any" inputmode="decimal" ><span class="hint"><strong>What it is:</strong> the legal maximum EIRP for your band and country. <strong>How to choose:</strong> type the figure from your regulator; leave empty to skip the check. <strong>Example:</strong> 30 dBm.</span></div>
+      </div>
+      </form>
+
+      <div class="panel result-panel">
+        <p class="field-error" id="pbError" role="alert" style="display:none;"></p>
+        <div id="pbResults" aria-live="polite" role="status">
+          <h2>EIRP</h2>
+          <div class="result-hero">
+            <span class="value" id="pbEirp">&mdash;</span>
+            <div class="caption" id="pbEirpMw">&mdash;</div>
+          </div>
+          <p class="warn-box" id="pbOver" style="display:none;"></p>
+          <div class="result-list">
+            <div class="result-row"><span class="k">Transmit power</span><span class="v" id="pbTxOut">&mdash;</span></div>
+            <div class="result-row"><span class="k">Cable loss</span><span class="v" id="pbCableOut">&mdash;</span></div>
+            <div class="result-row"><span class="k">Connector loss</span><span class="v" id="pbConnOut">&mdash;</span></div>
+            <div class="result-row"><span class="k">Other losses</span><span class="v" id="pbOtherOut">&mdash;</span></div>
+            <div class="result-row"><span class="k">Total loss</span><span class="v" id="pbTotalOut">&mdash;</span></div>
+            <div class="result-row"><span class="k">Power at the antenna</span><span class="v" id="pbAntennaOut">&mdash;</span></div>
+            <div class="result-row"><span class="k">Antenna gain</span><span class="v" id="pbGainOut">&mdash;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:8px;">Free-space and other path loss are not included here; for a whole link use a link budget. The limit is the figure you type and is only compared, not looked up. Check the rules of your country before you transmit.</div>
+
+    <article class="article">
+      <h2>The formulas</h2>
+      <table>
+        <thead><tr><th>Step</th><th>Formula</th></tr></thead>
+        <tbody>
+          <tr><td>Cable loss</td><td>dB per 100 m &times; length in m / 100</td></tr>
+          <tr><td>Connector loss</td><td>number of connectors &times; dB per connector</td></tr>
+          <tr><td>Power at the antenna</td><td>Tx &minus; cable loss &minus; connector loss &minus; other loss</td></tr>
+          <tr><td>EIRP</td><td>power at the antenna + antenna gain (dBi)</td></tr>
+          <tr><td>EIRP in mW</td><td>10<sup>(EIRP in dBm / 10)</sup></td></tr>
+        </tbody>
+      </table>
+      <p>EIRP is the power a perfect omnidirectional antenna would need to radiate to give the same signal in the strongest direction of your antenna. Cable loss is taken as proportional to cable length.</p>
+      <h2>Worked example</h2>
+      <p>Transmit power 20 dBm, cable 20 dB per 100 m over 10 m (2 dB), two connectors at 0.2 dB (0.4 dB), 1 dB other loss, antenna gain 15 dBi. Total loss is 3.4 dB, so the power at the antenna is 16.6 dBm and the EIRP is 31.6 dBm, which is about 1445 mW.</p>
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Using the radio's maximum power when the radio is set lower.</li>
+        <li>Reading the cable loss at the wrong frequency. Loss grows with frequency.</li>
+        <li>Mixing dBi (antenna gain over an isotropic radiator) with dBd (over a dipole). This tool expects dBi.</li>
+        <li>Treating the EIRP limit as a limit on radio power. Many rules limit EIRP, so a higher-gain antenna can put you over.</li>
+      </ul>
+      <h2>Frequently asked questions</h2>
+      <h3>What is EIRP?</h3>
+      <p>EIRP is the equivalent isotropically radiated power: the transmit power, minus losses before the antenna, plus the antenna gain. It describes how strong the signal is in the antenna's main direction.</p>
+      <h3>How do I calculate EIRP?</h3>
+      <p>Subtract the cable, connector and other losses from the transmit power in dBm, then add the antenna gain in dBi.</p>
+      <h3>Does a longer cable lower the EIRP?</h3>
+      <p>Yes. Cable loss grows with length, so more cable means less power reaches the antenna and a lower EIRP.</p>
+      <h3>Is a higher EIRP always better?</h3>
+      <p>No. Rules in most countries cap the EIRP for each band, and going over it can be illegal and can cause interference.</p>
+      <h3>Does this include the distance to the other radio?</h3>
+      <p>No. This is the transmit side only. Path loss over distance is a separate step in a link budget.</p>
+
+      <h2>Related tools</h2>
+      <p>Convert levels with the <a href="dbm-to-mw-converter">dBm / mW converter</a>. For the cable side of a camera system, see the <a href="poe-budget-calculator">PoE Budget Calculator</a> and the <a href="cctv-voltage-drop-calculator">CCTV Voltage Drop Calculator</a>.</p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=EIRP%20Power%20Budget%20Calculator">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
+    </article>
+    </div>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and guides for CCTV, PoE, and electrical installers.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your equipment manufacturer's own datasheet.</span>
+  </div>
+</footer>
+
+<script src="../assets/eirp.js?v=20261106" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/calc-ux.js?v=20260925-2" defer></script>
+</body>
+</html>

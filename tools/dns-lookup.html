@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5945580588007634" crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5945580588007634">
+<script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNS Lookup (A, AAAA, MX, NS, TXT, CNAME) — GaugeCalc</title>
+<meta name="description" content="Free DNS lookup in your browser: look up A, AAAA, MX, NS, TXT and CNAME records for a domain through DNS over HTTPS. No account, no key.">
+<link rel="canonical" href="https://gaugecalc.com/tools/dns-lookup">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GaugeCalc">
+<meta property="og:title" content="DNS Lookup (A, AAAA, MX, NS, TXT, CNAME) — GaugeCalc">
+<meta property="og:description" content="Free DNS lookup in your browser: look up A, AAAA, MX, NS, TXT and CNAME records for a domain through DNS over HTTPS. No account, no key.">
+<meta property="og:url" content="https://gaugecalc.com/tools/dns-lookup">
+<meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DNS Lookup (A, AAAA, MX, NS, TXT, CNAME) — GaugeCalc">
+<meta name="twitter:description" content="Free DNS lookup in your browser: look up A, AAAA, MX, NS, TXT and CNAME records for a domain through DNS over HTTPS. No account, no key.">
+<meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media=&#39;all&#39;">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/style.css?v=20261106d">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "DNS Lookup",
+  "url": "https://gaugecalc.com/tools/dns-lookup",
+  "description": "Free DNS lookup in your browser: look up A, AAAA, MX, NS, TXT and CNAME records for a domain through DNS over HTTPS. No account, no key.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GaugeCalc",
+    "url": "https://gaugecalc.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://gaugecalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "DNS Lookup",
+      "item": "https://gaugecalc.com/tools/dns-lookup"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which servers receive the name I type?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cloudflare's public DNS (cloudflare-dns.com) and, only if that fails, Google Public DNS (dns.google). GaugeCalc itself does not receive or store the name."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is there no WHOIS here?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WHOIS needs a direct TCP connection to port 43, which a web page cannot open. The GaugeCalc mobile app has it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is there no ping or port test?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A browser cannot open raw TCP or UDP connections or scan your local network. Those tools are in the GaugeCalc app."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my lookup show an old address?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Public resolvers cache answers for the time to live (TTL) shown beside each record. A recent change can take that long to appear."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work for internal names?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It asks public resolvers, so it only sees public DNS names."
+      }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T2GSLY1JGK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T2GSLY1JGK');
+</script>
+</head>
+
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Main">
+    <div class="rail-top">
+      <a href="/" class="rail-brand">
+        <span class="rail-mark">G</span>GaugeCalc
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </span>
+    </button>
+    </div>
+    <div class="rail-body" id="gcNavBody">
+      <noscript>
+        <a class="rail-btn" href="/">All Calculators</a>
+        <a class="rail-btn" href="/blog/">All Guides</a>
+        <a class="rail-btn" href="/about">About</a>
+        <a class="rail-btn" href="/privacy-policy">Privacy Policy</a>
+        <a class="rail-btn" href="/contact">Contact</a>
+        <a class="rail-btn" href="/feedback">Feedback</a>
+      </noscript>
+    </div>
+  </nav>  </nav>
+
+  <main>
+  <div class="wrap wrap--sidebar">
+    <div class="page-content">
+    <p class="crumb"><a href="../">Home</a> / DNS Lookup</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar &middot; Last updated November 2026</p>
+
+    <section class="hero" style="padding-block:26px 6px;">
+      <h1>DNS Lookup</h1>
+      <p class="lead">
+        Type a domain name and choose a record type. The lookup runs in your browser through DNS over HTTPS, so there is nothing to install. Use it to check where a camera cloud name points, whether a mail domain has MX records, or what a domain's name servers are.
+      </p>
+    </section>
+
+    <div class="calc-layout">
+      <form class="panel" id="dnsForm" novalidate>
+        <h2>Domain</h2>
+        <div class="field"><label for="dnsName">Domain name</label><input type="text" id="dnsName" value="example.com" autocomplete="off" spellcheck="false" ><span class="hint"><strong>What it is:</strong> the name you want to look up, such as a domain or a camera's cloud address. <strong>How to choose:</strong> type letters, digits and hyphens with at least one dot; no http:// and no path. <strong>Example:</strong> example.com.</span></div>
+        <div class="field"><label for="dnsType">Record type</label><select id="dnsType"><option value="A" selected>A (IPv4 address)</option><option value="AAAA">AAAA (IPv6 address)</option><option value="MX">MX (mail servers)</option><option value="NS">NS (name servers)</option><option value="TXT">TXT (text records)</option><option value="CNAME">CNAME (alias)</option></select><span class="hint"><strong>What it is:</strong> which kind of record to ask for. <strong>How to choose:</strong> A and AAAA give the address, MX the mail servers, NS the servers that hold the zone, TXT text such as SPF, CNAME an alias to another name. <strong>Example:</strong> A.</span></div>
+        <p class="hint"><strong>Privacy:</strong> the name you type is sent over HTTPS to Cloudflare's public DNS (cloudflare-dns.com) and, only if that does not answer, to Google Public DNS (dns.google). GaugeCalc does not receive or store it. The lookup runs only when you press Calculate.</p>
+      </form>
+
+      <div class="panel result-panel">
+        <p class="field-error" id="dnsError" role="alert" style="display:none;"></p>
+        <div id="dnsResults" aria-live="polite" role="status">
+          <h2>Answer</h2>
+          <p id="dnsStatus" class="hint" style="display:block;font-size:.9rem;">&mdash;</p>
+          <div class="result-list" id="dnsRows"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:8px;">A public resolver answers from its cache, so a very recent change may not show yet. This is DNS only: it does not test whether a host is reachable.</div>
+    <section class="app-cards" aria-labelledby="appCardsTitle">
+      <h2 id="appCardsTitle">Network tests that need the GaugeCalc app</h2>
+      <p>A web page cannot open raw TCP or UDP connections or scan your local network, so these tools are not offered here. They are in the GaugeCalc mobile app.</p>
+      <div class="app-card-grid">
+        <div class="app-card"><h3>TCP ping</h3><p>Time to open a TCP connection to a host and port.</p></div>
+        <div class="app-card"><h3>Port test</h3><p>Check which ports accept a connection, with sets for cameras, web, mail, remote access, file sharing and databases.</p></div>
+        <div class="app-card"><h3>Find devices</h3><p>Find cameras and recorders on the local network.</p></div>
+        <div class="app-card"><h3>ONVIF check</h3><p>Ask a camera for its ONVIF device time.</p></div>
+        <div class="app-card"><h3>WHOIS</h3><p>Registry record of a domain (needs a direct TCP connection to port 43).</p></div>
+        <div class="app-card"><h3>Screen Ruler</h3><p>Measure on the phone's own screen, which needs the physical screen scale.</p></div>
+      </div>
+      <p class="hint" style="display:block;margin-top:8px;"><strong>Get the GaugeCalc app</strong> for these tools. They run only when you start them and nothing is stored.</p>
+    </section>
+    <article class="article">
+      <h2>What the record types mean</h2>
+      <table>
+        <thead><tr><th>Type</th><th>What it returns</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>The IPv4 address of a name</td></tr>
+          <tr><td>AAAA</td><td>The IPv6 address of a name</td></tr>
+          <tr><td>MX</td><td>The mail servers of a domain, each with a priority number (lower is tried first)</td></tr>
+          <tr><td>NS</td><td>The name servers that hold the domain's records</td></tr>
+          <tr><td>TXT</td><td>Text records, for example SPF and domain verification</td></tr>
+          <tr><td>CNAME</td><td>An alias that points one name to another</td></tr>
+        </tbody>
+      </table>
+      <h2>How this lookup works</h2>
+      <p>The page sends a DNS over HTTPS (DoH) request from your browser to a public resolver and shows the answer. It tries Cloudflare first and Google Public DNS only if Cloudflare cannot be reached. The result names the resolver that answered. There is no GaugeCalc server in the path, no account and no API key.</p>
+      <h2>Why a camera's cloud name matters</h2>
+      <p>Cameras and recorders that use a cloud name or an NTP server need working DNS. If a device cannot reach its server, a lookup of the same name from another network shows whether the name itself resolves.</p>
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Typing a full address such as <code>https://example.com/page</code>. Enter only the name.</li>
+        <li>Looking up a name that has only a CNAME and expecting TXT or MX on it.</li>
+        <li>Reading an empty answer as "the domain does not exist". The status line tells the two apart.</li>
+      </ul>
+      <h2>Frequently asked questions</h2>
+      <h3>Which servers receive the name I type?</h3>
+      <p>Cloudflare's public DNS (cloudflare-dns.com) and, only if that fails, Google Public DNS (dns.google). GaugeCalc itself does not receive or store the name.</p>
+      <h3>Why is there no WHOIS here?</h3>
+      <p>WHOIS needs a direct TCP connection to port 43, which a web page cannot open. The GaugeCalc mobile app has it.</p>
+      <h3>Why is there no ping or port test?</h3>
+      <p>A browser cannot open raw TCP or UDP connections or scan your local network. Those tools are in the GaugeCalc app.</p>
+      <h3>Why does my lookup show an old address?</h3>
+      <p>Public resolvers cache answers for the time to live (TTL) shown beside each record. A recent change can take that long to appear.</p>
+      <h3>Does it work for internal names?</h3>
+      <p>No. It asks public resolvers, so it only sees public DNS names.</p>
+
+      <h2>Related tools</h2>
+      <p>Subnet your network with the <a href="ipv4-subnet-calculator">IPv4</a> or <a href="ipv6-subnet-calculator">IPv6</a> Subnet Calculator. Port numbers are explained in the <a href="../blog/ports-and-protocols-for-cctv-networks">Ports and Protocols guide</a>.</p>
+
+      <p style="margin-top:24px;"><a href="../feedback?tool=DNS%20Lookup">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
+    </article>
+    </div>
+  </div>
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-col footer-brand">
+      <a href="/" class="footer-brand-link"><span class="rail-mark">G</span>GaugeCalc</a>
+      <p>Free calculators and guides for CCTV, PoE, and electrical installers.</p>
+    </div>
+
+    <div class="footer-cols" id="gcFooterCols">
+      <noscript>
+        <nav class="footer-col" aria-label="Calculators">
+          <p class="footer-heading">Calculators</p>
+          <a href="/">All Calculators</a>
+          <a href="/#cat-cctv-ip-camera">CCTV &amp; IP Camera</a>
+          <a href="/#cat-electrical-wiring">Electrical &amp; Wiring</a>
+          <a href="/#cat-battery-ups">Battery &amp; UPS</a>
+          <a href="/#cat-networking-poe">Networking &amp; PoE</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Guides">
+          <p class="footer-heading">Guides</p>
+          <a href="/blog/">All Guides</a>
+          <a href="/blog/nvr-storage-mistakes">NVR Storage Mistakes</a>
+          <a href="/blog/ip-camera-bandwidth-mistakes">IP Bandwidth Mistakes</a>
+          <a href="/blog/analog-vs-ip-cctv">Analog vs IP CCTV</a>
+          <a href="/blog/battery-sizing-guide">Battery Sizing Guide</a>
+          <a href="/blog/cctv-lens-selection-guide">Lens Selection Guide</a>
+          <a href="/blog/poe-budget-calculator-how-many-cameras">PoE Budget Math</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Site">
+          <p class="footer-heading">Site</p>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/feedback">Feedback</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </noscript>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="year"></span> GaugeCalc. Planning estimates only — always confirm against your equipment manufacturer's own datasheet.</span>
+  </div>
+</footer>
+
+<script src="../assets/dns-lookup.js?v=20261106" defer></script>
+<script src="../assets/nav.js?v=20261009" defer></script>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/calc-ux.js?v=20260925-2" defer></script>
+</body>
+</html>
