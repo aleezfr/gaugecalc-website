@@ -61,6 +61,7 @@
     site: [
       { label: 'About', url: '/about' },
       { label: 'Privacy Policy', url: '/privacy-policy' },
+      { label: 'App Privacy Policy', url: '/app-privacy-policy' },
       { label: 'Contact', url: '/contact' },
       { label: 'Feedback', url: '/feedback' }
     ]
