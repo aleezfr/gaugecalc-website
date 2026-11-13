@@ -10,6 +10,71 @@
 (function () {
   'use strict';
 
+  /* ---------- analytics (GA4) ---------- */
+
+  // Two events only, each with the same two parameters: calculator_id (this
+  // page's URL slug, or a fixed id for a second calculator on the same page)
+  // and category (its nav category slug). No input value, result or anything
+  // else the user typed is ever put into an event.
+  var calculatorId = (location.pathname.replace(/\/+$/, '').split('/').pop() || '').replace(/\.html$/, '');
+
+  // A page with a second calculator that calc-ux.js does not wire up (it owns
+  // its own Calculate button). Keyed by that calculator's result panel id.
+  var SECOND_CALCULATORS = { sizingResult: 'amp-hour-battery-sizing' };
+
+  // nav.js (loaded before this file) marks the current calculator's link and
+  // wraps it in its category accordion, so the category comes from the same
+  // data model as the sidebar and needs no second list here.
+  function calculatorCategory() {
+    var here = document.querySelector('.acc-link[aria-current="page"]');
+    var acc = here && here.closest ? here.closest('.acc[data-acc]') : null;
+    return (acc && acc.getAttribute('data-acc')) || 'uncategorized';
+  }
+
+  // True only when the event was really handed to gtag. gtag() just queues in
+  // dataLayer, so it is safe to call before gtag.js has finished loading.
+  function send(name, id) {
+    try {
+      if (!id || typeof window.gtag !== 'function') return false;
+      window.gtag('event', name, { calculator_id: id, category: calculatorCategory() });
+      return true;
+    } catch (e) { return false; /* analytics must never break a calculator */ }
+  }
+
+  // If gtag is not defined yet, try again shortly (up to about 10 seconds)
+  // instead of losing the event. Gives up quietly if it never appears.
+  function retry(attempt) {
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries++;
+      if (attempt() || tries >= 20) clearInterval(timer);
+    }, 500);
+  }
+
+  function track(name, id) {
+    if (send(name, id)) return;
+    retry(function () { return send(name, id); });
+  }
+
+  // calculator_open: once per page load, even if this file were included
+  // twice. The "sent" flag is set only after the event was really queued; the
+  // "pending" flag stops a second copy of this file from starting its own retry.
+  function trackOpen() {
+    if (window.__gcCalculatorOpenSent || window.__gcCalculatorOpenPending) return;
+    if (send('calculator_open', calculatorId)) { window.__gcCalculatorOpenSent = true; return; }
+    window.__gcCalculatorOpenPending = true;
+    retry(function () {
+      if (window.__gcCalculatorOpenSent) { window.__gcCalculatorOpenPending = false; return true; }
+      if (send('calculator_open', calculatorId)) {
+        window.__gcCalculatorOpenSent = true;
+        window.__gcCalculatorOpenPending = false;
+        return true;
+      }
+      return false;
+    });
+  }
+  trackOpen();
+
   var layout = document.querySelector('.calc-layout');
   var result = layout && layout.querySelector('.result-panel');
   var inputPanel = layout && layout.querySelector('.panel:not(.result-panel)');
@@ -78,6 +143,20 @@
     return null;
   }
 
+  // For analytics only (it changes nothing the user sees): a calculation did
+  // not succeed if a field is flagged invalid or a visible error message is
+  // showing. Some pages (wire size, conduit fill) show a .field-error message
+  // instead of setting aria-invalid.
+  function hasVisibleError(root) {
+    var flagged = root.querySelectorAll('[aria-invalid="true"], .field-error');
+    for (var i = 0; i < flagged.length; i++) {
+      var el = flagged[i];
+      if (el.classList.contains('field-error') && !(el.textContent || '').trim()) continue;
+      if (visible(el)) return true;
+    }
+    return false;
+  }
+
   function nameResult() {
     var heads = result.querySelectorAll('h2');
     for (var i = 0; i < heads.length; i++) {
@@ -130,6 +209,9 @@
     }
     revealResult();
     showResult();
+    // A page whose calculation finishes later (DNS lookup) reports success
+    // itself, see the 'gc:calculation-success' listener below.
+    if (!window.__gcAsyncCalculation && !hasVisibleError(layout)) track('calculation_complete', calculatorId);
     return true;
   }
 
@@ -181,6 +263,34 @@
   /* ---------- wiring ---------- */
 
   actions.querySelector('.calc-cta').addEventListener('click', calculateAndShow);
+
+  // Asynchronous calculation (DNS lookup): the page announces a finished,
+  // successful lookup. An invalid name, an unreachable resolver or a failed
+  // request never announces anything, so they are never counted.
+  // Registered once per page even if this file is loaded twice.
+  if (!window.__gcAsyncListener) {
+    window.__gcAsyncListener = true;
+    document.addEventListener('gc:calculation-success', function () {
+      track('calculation_complete', calculatorId);
+    });
+  }
+
+  // A second calculator on the same page (amp-hour page) keeps its own
+  // Calculate button and validation. This only listens: it counts a click as a
+  // calculation once the page's own handler (registered earlier, while the page
+  // was parsed) has run and left no visible invalid field and a shown result.
+  Array.prototype.slice.call(document.querySelectorAll('.calc-layout')).forEach(function (other) {
+    var panel = other.querySelector('.result-panel');
+    var id = panel && SECOND_CALCULATORS[panel.id];
+    var button = other.querySelector('.calc-cta');
+    if (!id || !button || other === layout || button.__gcTracked) return;
+    button.__gcTracked = true; // one listener even if this file is loaded twice
+    button.addEventListener('click', function () {
+      if (panel.classList.contains('is-pending')) return;
+      if (hasVisibleError(other)) return;
+      track('calculation_complete', id);
+    });
+  });
 
   // Recalculate is a navigation action, not Reset: it doesn't touch input
   // values, mode, or the displayed result — it just takes the user back to

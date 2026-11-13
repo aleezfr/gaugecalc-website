@@ -100,9 +100,15 @@
       $('dnsRows').innerHTML = res.answers.map(function (a) {
         return '<div class="result-row"><span class="k">' + esc(a.type) + ' <span class="hint">TTL ' + esc(a.ttl) + ' s</span></span><span class="v dns-data">' + esc(a.data) + '</span></div>';
       }).join('');
+      // Tells the analytics layer (calc-ux.js) that a valid lookup really
+      // finished with an answer from a resolver. Carries no data.
+      try { document.dispatchEvent(new Event('gc:calculation-success')); } catch (e) { /* never affects the lookup */ }
     }).catch(function () { busy = false; status.textContent = 'The lookup failed. Try again.'; });
   }
   window.calculate = run;
+  // This calculation finishes later, after the network answers, so calc-ux.js
+  // must wait for 'gc:calculation-success' instead of counting the click.
+  window.__gcAsyncCalculation = true;
   // Enter in the name field behaves like the Calculate button (which also reveals the result panel).
   form.addEventListener('submit', function (e) {
     e.preventDefault();
