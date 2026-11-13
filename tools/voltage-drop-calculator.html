@@ -6,8 +6,8 @@
 <meta name="google-adsense-account" content="ca-pub-5945580588007634">
 <script>(function(){try{var t=localStorage.getItem('gc-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voltage Drop Calculator (Free) — GaugeCalc</title>
-<meta name="description" content="Free DC and AC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs, single-phase or three-phase. AC uses NEC Chapter 9 Table 9 at 60 Hz.">
+<title>Voltage Drop Calculator: DC, AC, 3-Phase, mm² — GaugeCalc</title>
+<meta name="description" content="Free voltage drop calculator for DC, single-phase and three-phase circuits. Enter AWG for AC or AWG/mm² for DC, plus length and current.">
 <link rel="canonical" href="https://gaugecalc.com/tools/voltage-drop-calculator">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -18,15 +18,15 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GaugeCalc">
-<meta property="og:title" content="Voltage Drop Calculator (Free) — GaugeCalc">
-<meta property="og:description" content="Free DC and AC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs, single-phase or three-phase. AC uses NEC Chapter 9 Table 9 at 60 Hz.">
+<meta property="og:title" content="Voltage Drop Calculator: DC, AC, 3-Phase, mm² — GaugeCalc">
+<meta property="og:description" content="Free voltage drop calculator for DC, single-phase and three-phase circuits. Enter AWG for AC or AWG/mm² for DC, plus length and current.">
 <meta property="og:url" content="https://gaugecalc.com/tools/voltage-drop-calculator">
 <meta property="og:image" content="https://gaugecalc.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Voltage Drop Calculator (Free) — GaugeCalc">
-<meta name="twitter:description" content="Free DC and AC voltage drop calculator by AWG, mm² or custom conductor resistance. Check delivered voltage, drop percentage, maximum cable length and thinnest passing cable size for copper or aluminum runs, single-phase or three-phase. AC uses NEC Chapter 9 Table 9 at 60 Hz.">
+<meta name="twitter:title" content="Voltage Drop Calculator: DC, AC, 3-Phase, mm² — GaugeCalc">
+<meta name="twitter:description" content="Free voltage drop calculator for DC, single-phase and three-phase circuits. Enter AWG for AC or AWG/mm² for DC, plus length and current.">
 <meta name="twitter:image" content="https://gaugecalc.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,6 +134,38 @@
         "@type": "Answer",
         "text": "Yes. Switch the conductor system to \"Custom resistance\" and enter your cable's known resistance per unit length, choosing whether your figure is in ohms per 1000 feet or ohms per kilometer. This is useful when a cable's datasheet gives a resistance that differs from the standard AWG or mm² table."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate single-phase voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use AC Single Phase mode. The formula is V_drop = 2 × I × L × (R × PF + X × √(1−PF²)), where L is the one-way length and R and X are in ohms per unit length. For example, 30 A over 100 ft of 10 AWG copper in PVC conduit at a power factor of 0.9 on a 240 V supply drops about 6.61 V (2.8%), leaving about 233.39 V at the load."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate three-phase voltage drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use AC Three Phase mode and enter the line-to-line supply voltage. The formula is V_drop = √3 × I × L × (R × PF + X × √(1−PF²)). For example, 50 A over 150 ft of 6 AWG copper in steel conduit at a power factor of 0.9 on a 208 V supply drops about 6.09 V (2.9%), leaving about 201.91 V at the load."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this as a 240V voltage drop calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Choose AC Single Phase, enter 240 as the supply voltage, then the load current or power, one-way length, power factor, conduit type and AWG size. Any supply voltage from 0.1 V to 1000 V can be entered. AC mode uses 60 Hz NEC Table 9 data for 14 AWG through 4/0 (12 AWG through 4/0 for aluminum), so smaller or metric cable is not available there."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I calculate voltage drop for mm² cable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, in DC mode. Switch the conductor system to mm², choose copper or aluminum and a size, and enter the length in feet or meters. mm² sizes use their own resistance table (ohms per km at 20°C) and are not converted from AWG. AC mode is AWG-only, so a single-phase or three-phase run in mm² cable cannot be calculated here."
+      }
     }
   ]
 }
@@ -180,7 +212,7 @@
   <div class="wrap wrap--sidebar">
     <div class="page-content">
     <p class="crumb"><a href="../">Home</a> / Voltage Drop Calculator</p>
-    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar &middot; Last updated September 2026</p>
+    <p class="hint" style="display:block; margin-bottom:4px;">By Ali Zafar &middot; Last updated November 2026</p>
 
     <section class="hero" style="padding-block:26px 6px;">
       <h1>Voltage Drop Calculator</h1>
@@ -488,6 +520,15 @@
         <tbody id="mm2TableBody"></tbody>
       </table>
 
+      <h3>Voltage drop with mm&sup2; cable</h3>
+      <p>
+        For metric cable, switch the conductor system to mm&sup2;, pick copper or aluminum and a size, and set
+        the length unit to meters if that is how the run was measured. DC voltage drop, maximum cable length
+        and thinnest passing size all work with mm&sup2; sizes, using the resistance table in &Omega;/km shown
+        above. AC mode is AWG-only, so a single-phase or three-phase run in mm&sup2; cable is not calculated
+        here.
+      </p>
+
       <h2>AC voltage drop</h2>
       <p>
         AC Single Phase and AC Three Phase modes account for both conductor resistance (R) and inductive
@@ -507,6 +548,23 @@
         entered directly (0 &lt; PF &le; 1). This matches NEC Table 9's own Note 2 definition of effective
         impedance, Z_e = R&times;PF + X&times;sin(arccos(PF)), since sin(arccos(PF)) = &radic;(1&minus;PF&sup2;).
       </div>
+      <h3>Single-phase voltage drop (for example 240 V)</h3>
+      <p>
+        Choose <strong>AC Single Phase</strong> for a two-conductor single-phase circuit. Enter the supply
+        voltage (a 240&nbsp;V circuit is entered as 240), the load current or power, the one-way length, the
+        power factor, the conduit type and an AWG size. The calculator combines R and X into an effective
+        impedance, Z<sub>e</sub> = R &times; PF + X &times; &radic;(1&minus;PF&sup2;), and applies it to both
+        conductors with the factor of 2. The percentage is taken against the supply voltage you entered, and
+        any supply from 0.1&nbsp;V to 1000&nbsp;V can be entered.
+      </p>
+      <h3>Three-phase voltage drop (for example 208 V or 480 V)</h3>
+      <p>
+        Choose <strong>AC Three Phase</strong> for a balanced three-phase circuit and enter the
+        <strong>line-to-line</strong> voltage (208&nbsp;V or 480&nbsp;V, not the phase-to-neutral voltage). The
+        formula has the same Z<sub>e</sub>, but &radic;3 takes the place of the factor of 2, and the drop
+        percentage is calculated against the line-to-line voltage. The neutral conductor is not part of the
+        calculation.
+      </p>
       <p>
         <strong>Conduit matters for AC.</strong> Steel conduit is magnetic and raises reactance measurably
         compared to PVC or aluminum conduit, so this calculator requires you to pick a conduit type rather than
@@ -608,6 +666,31 @@
         </tbody>
       </table>
 
+      <h3>Example 3 &mdash; 240V single-phase circuit</h3>
+      <p>240V AC supply, 30A, 100 ft one-way run, 10 AWG copper in PVC conduit (R = 1.2, X = 0.05 &Omega;/1000 ft), power factor 0.9, 10% allowable drop.</p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Effective impedance Z<sub>e</sub></td><td>1.2 &times; 0.9 + 0.05 &times; &radic;(1 &minus; 0.9&sup2;) = 1.102 &Omega;/1000 ft</td></tr>
+          <tr><td>Voltage drop</td><td>2 &times; 30A &times; 100 ft &times; 1.102 / 1000 = 6.61 V</td></tr>
+          <tr><td>Voltage at load</td><td>240V &minus; 6.61V = 233.39 V</td></tr>
+          <tr><td>Drop percentage</td><td>6.61 / 240 &times; 100 = 2.8%</td></tr>
+          <tr><td>Status</td><td>PASS against the 10% allowable drop (minimum voltage not provided)</td></tr>
+        </tbody>
+      </table>
+      <h3>Example 4 &mdash; 208V three-phase circuit</h3>
+      <p>208V line-to-line supply, 50A, 150 ft one-way run, 6 AWG copper in steel conduit (R = 0.49, X = 0.064 &Omega;/1000 ft), power factor 0.9, 10% allowable drop.</p>
+      <table>
+        <thead><tr><th>Step</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Effective impedance Z<sub>e</sub></td><td>0.49 &times; 0.9 + 0.064 &times; &radic;(1 &minus; 0.9&sup2;) = 0.469 &Omega;/1000 ft</td></tr>
+          <tr><td>Voltage drop</td><td>&radic;3 &times; 50A &times; 150 ft &times; 0.469 / 1000 = 6.09 V</td></tr>
+          <tr><td>Voltage at load</td><td>208V &minus; 6.09V = 201.91 V</td></tr>
+          <tr><td>Drop percentage</td><td>6.09 / 208 &times; 100 = 2.9%</td></tr>
+          <tr><td>Status</td><td>PASS against the 10% allowable drop (minimum voltage not provided)</td></tr>
+        </tbody>
+      </table>
+
       <h2>Assumptions and limitations</h2>
       <ul>
         <li><strong>DC uses 20&deg;C; AC uses 75&deg;C.</strong> DC resistance values assume nominal conductor
@@ -663,6 +746,15 @@
       <h3>Can I enter a custom cable resistance instead of a wire size?</h3>
       <p>Yes. Switch the conductor system to "Custom resistance" and enter your cable's known resistance per unit length, choosing whether your figure is in ohms per 1000 feet or ohms per kilometer. This is useful when a cable's datasheet gives a resistance that differs from the standard AWG or mm&sup2; table.</p>
 
+      <h3>How do I calculate single-phase voltage drop?</h3>
+      <p>Use AC Single Phase mode. The formula is V_drop = 2 &times; I &times; L &times; (R &times; PF + X &times; &radic;(1&minus;PF&sup2;)), where L is the one-way length and R and X are in ohms per unit length. For example, 30 A over 100 ft of 10 AWG copper in PVC conduit at a power factor of 0.9 on a 240 V supply drops about 6.61 V (2.8%), leaving about 233.39 V at the load.</p>
+      <h3>How do I calculate three-phase voltage drop?</h3>
+      <p>Use AC Three Phase mode and enter the line-to-line supply voltage. The formula is V_drop = &radic;3 &times; I &times; L &times; (R &times; PF + X &times; &radic;(1&minus;PF&sup2;)). For example, 50 A over 150 ft of 6 AWG copper in steel conduit at a power factor of 0.9 on a 208 V supply drops about 6.09 V (2.9%), leaving about 201.91 V at the load.</p>
+      <h3>Can I use this as a 240V voltage drop calculator?</h3>
+      <p>Yes. Choose AC Single Phase, enter 240 as the supply voltage, then the load current or power, one-way length, power factor, conduit type and AWG size. Any supply voltage from 0.1 V to 1000 V can be entered. AC mode uses 60 Hz NEC Table 9 data for 14 AWG through 4/0 (12 AWG through 4/0 for aluminum), so smaller or metric cable is not available there.</p>
+      <h3>Can I calculate voltage drop for mm&sup2; cable?</h3>
+      <p>Yes, in DC mode. Switch the conductor system to mm&sup2;, choose copper or aluminum and a size, and enter the length in feet or meters. mm&sup2; sizes use their own resistance table (ohms per km at 20&deg;C) and are not converted from AWG. AC mode is AWG-only, so a single-phase or three-phase run in mm&sup2; cable cannot be calculated here.</p>
+
       <h2>Related tools</h2>
       <p>
         Running CCTV cameras over PoE instead of DC? Check switch headroom with the
@@ -670,7 +762,9 @@
         <a href="battery-backup-calculator">Battery Backup Calculator</a> or the
         <a href="amp-hour-calculator">Amp Hour Calculator</a>. Planning a full CCTV install? See the
         <a href="cctv-storage-calculator">CCTV Storage Calculator</a> and the
-        <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a>.
+        <a href="ip-camera-bandwidth-calculator">IP Camera Bandwidth Calculator</a>. Need the minimum wire size for the
+        load current instead of the voltage drop? Use the <a href="wire-size-calculator">Wire Size Calculator</a>, then
+        check the conductors you chose against the <a href="conduit-fill-calculator">Conduit Fill Calculator</a>.
       </p>
 
       <p style="margin-top:24px;"><a href="../feedback?tool=Voltage%20Drop%20Calculator">Found a wrong result on this calculator? Send feedback &rarr;</a></p>
