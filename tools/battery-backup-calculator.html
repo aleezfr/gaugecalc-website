@@ -182,22 +182,26 @@
         <div class="field-row">
           <div class="field">
             <label for="standbyMa">Standby current draw (mA)</label>
-            <input type="number" id="standbyMa" min="0" step="1" value="200">
+            <input type="number" id="standbyMa" min="0" step="1" value="200" aria-describedby="standbyMaError">
+            <p class="field-error" id="standbyMaError" role="alert" style="display:none;"></p>
           </div>
           <div class="field">
             <label for="standbyHours">Required standby time (hours)</label>
-            <input type="number" id="standbyHours" min="0" step="0.5" value="24">
+            <input type="number" id="standbyHours" min="0" step="0.5" value="24" aria-describedby="standbyHoursError">
+            <p class="field-error" id="standbyHoursError" role="alert" style="display:none;"></p>
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="alarmMa">Alarm / active current draw (mA) <span class="hint">sirens, relays, PTZ, etc.</span></label>
-            <input type="number" id="alarmMa" min="0" step="1" value="600">
+            <input type="number" id="alarmMa" min="0" step="1" value="600" aria-describedby="alarmMaError">
+            <p class="field-error" id="alarmMaError" role="alert" style="display:none;"></p>
           </div>
           <div class="field">
             <label for="alarmMinutes">Alarm duration (minutes)</label>
-            <input type="number" id="alarmMinutes" min="0" step="1" value="5">
+            <input type="number" id="alarmMinutes" min="0" step="1" value="5" aria-describedby="alarmMinutesError">
+            <p class="field-error" id="alarmMinutesError" role="alert" style="display:none;"></p>
           </div>
         </div>
 
@@ -211,7 +215,8 @@
           </div>
           <div class="field">
             <label for="agingFactor">Battery aging factor (%) <span class="hint">standard: 20%</span></label>
-            <input type="number" id="agingFactor" min="0" max="100" value="20">
+            <input type="number" id="agingFactor" min="0" max="100" value="20" aria-describedby="agingFactorError">
+            <p class="field-error" id="agingFactorError" role="alert" style="display:none;"></p>
           </div>
         </div>
       </div>
@@ -522,12 +527,41 @@ function nearestBattery(ah) {
   return Math.ceil(ah / 25) * 25 + ' Ah (or bank multiple batteries)';
 }
 
+// Blank stays NaN (Number('') would be 0), so an empty field is reported, never coerced.
+function readNumber(el) {
+  const raw = el.value.trim();
+  return raw === '' ? NaN : Number(raw);
+}
+
+// Returns the value if it is a finite number within [min, max]; otherwise flags the field and returns NaN.
+function checkField(input, min, max, msg) {
+  const err = document.getElementById(input.id + 'Error');
+  const v = readNumber(input);
+  if (!Number.isFinite(v) || v < min || v > max) {
+    err.textContent = msg;
+    err.style.display = 'block';
+    input.setAttribute('aria-invalid', 'true');
+    return NaN;
+  }
+  err.style.display = 'none';
+  err.textContent = '';
+  input.removeAttribute('aria-invalid');
+  return v;
+}
+
+function clearResults() {
+  ['resultAh', 'rStandby', 'rAlarm', 'rSubtotal', 'rBattery'].forEach(id => { document.getElementById(id).textContent = '—'; });
+}
+
 function calculate() {
-  const sMa = Math.max(0, parseFloat(standbyMa.value) || 0);
-  const sH = Math.max(0, parseFloat(standbyHours.value) || 0);
-  const aMa = Math.max(0, parseFloat(alarmMa.value) || 0);
-  const aMin = Math.max(0, parseFloat(alarmMinutes.value) || 0);
-  const aging = Math.max(0, parseFloat(agingFactor.value) || 0) / 100;
+  // Zero is a valid value for all five fields; blank, negative or non-numeric is not.
+  const sMa = checkField(standbyMa, 0, Infinity, 'Enter the standby current in mA (0 or more).');
+  const sH = checkField(standbyHours, 0, Infinity, 'Enter the standby time in hours (0 or more).');
+  const aMa = checkField(alarmMa, 0, Infinity, 'Enter the alarm current in mA (0 or more).');
+  const aMin = checkField(alarmMinutes, 0, Infinity, 'Enter the alarm duration in minutes (0 or more).');
+  const agingPct = checkField(agingFactor, 0, 100, 'Enter the aging factor as a percentage from 0 to 100.');
+  if ([sMa, sH, aMa, aMin, agingPct].some(Number.isNaN)) { clearResults(); return; }
+  const aging = agingPct / 100;
 
   const standbyAh = (sMa / 1000) * sH;
   const alarmAh = (aMa / 1000) * (aMin / 60);
